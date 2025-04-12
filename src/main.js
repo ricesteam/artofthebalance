@@ -1,6 +1,5 @@
 import { Start } from './scenes/Start.js';
 import GameScene from './scenes/GameScene.js';
-import { AABB } from './lib/yuka.js';
 
 const config = {
     type: Phaser.AUTO,
