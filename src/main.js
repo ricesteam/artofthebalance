@@ -10,7 +10,7 @@ const config = {
     height: 720,
     backgroundColor: '#000000',
     pixelArt: false,
-    scene: [Start, GameScene],
+    scene: [GameScene, Start],
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
