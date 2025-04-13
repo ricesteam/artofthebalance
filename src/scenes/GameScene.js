@@ -1,3 +1,5 @@
+import Matter from 'matter-js';
+
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -112,7 +114,7 @@ export default class GameScene extends Phaser.Scene {
         }
 
         if (this.cursors.up.isDown) {
-            this.player.setVelocityY(-5);
+           this.player.setVelocityY(-8);
         } else if (this.cursors.down.isDown) {
             this.player.setVelocityY(5);
         } else {
