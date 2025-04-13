@@ -22,40 +22,48 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Create the see-saw platform
-        this.platform = this.matter.add.image(400, 400, 'platform', null, {
-            isStatic: true,
-            inertia: 10000, // Adjust inertia to control rotation speed
+        this.platform = this.matter.add.image(400, 200, 'platform', null, {
+            //isStatic: true,
+            inertia: 10000,
+            shape: { type: 'rectangle', width: 400, height: 20 },
         });
         this.platform.setOrigin(0.5, 0.5);
-        this.platform.setSize(600, 20);
         //this.platform.setScale(2, 1);
 
         // Create an anchor point
-        this.anchor = this.matter.add.circle(400, 400, 5, { isStatic: true });
+        this.anchor = this.matter.add.circle(400, 200, 5, { isStatic: true });
 
         // Create a constraint to connect the platform to the anchor
-        this.constraint = this.matter.add.constraint(
+        this.constraint = this.matter.add.joint(
             this.platform,
             this.anchor,
-            0,
-            0.5,
+            100,
+            0.9,
             {
-                pointA: { x: 0, y: 0 },
-                pointB: { x: 0, y: 0 },
+                pointA: {
+                    x: 0,
+                    y: 0,
+                },
+                pointB: {
+                    x: 0,
+                    y: 0,
+                },
+                damping: 0,
+                angularStiffness: 0,
             }
         );
 
         // Example: Add some blocks on either side (for testing)
-        this.addBlock(250, 250, 'left');
-        this.addBlock(550, 250, 'right');
+        this.addBlock(250, 0, 'left');
+        this.addBlock(500, 0, 'right');
     }
 
     addBlock(x, y, side) {
         let block = this.matter.add.image(x, y, 'block');
         block.setBounce(0.5);
-        block.setFriction(0.01);
+        block.setFriction(0);
 
-        block.weight = 1; // Assign a weight to the block
+        block.weight = 200; // Assign a weight to the block
 
         this.blocks.push(block); // Add the block to the array
     }
@@ -78,7 +86,5 @@ export default class GameScene extends Phaser.Scene {
         //Matter.Body.applyTorque(this.platform.body, torque);
     }
 
-    update() {
-        //this.updatePlatformRotation();
-    }
+    update() {}
 }
