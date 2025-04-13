@@ -15,7 +15,7 @@ export default class GameScene extends Phaser.Scene {
         this.platformFriction = 0.001; // Friction when on the platform
         this.airFriction = 0.0001; // Friction when in the air
         this.isOnPlatform = false; // Flag to track if the player is on the platform
-        this.minSlideSpeed = 0.5; // Minimum speed for sliding
+        this.minSlideSpeed = 1; // Minimum speed for sliding
     }
 
     preload() {
@@ -143,11 +143,17 @@ export default class GameScene extends Phaser.Scene {
             if (Math.abs(this.player.body.velocity.x) > this.minSlideSpeed) {
                 if (this.player.body.velocity.x > 0) {
                     this.player.setVelocityX(
-                        Math.max(this.player.body.velocity.x - this.acceleration, 0)
+                        Math.max(
+                            this.player.body.velocity.x - this.acceleration,
+                            0
+                        )
                     );
                 } else if (this.player.body.velocity.x < 0) {
                     this.player.setVelocityX(
-                        Math.min(this.player.body.velocity.x + this.acceleration, 0)
+                        Math.min(
+                            this.player.body.velocity.x + this.acceleration,
+                            0
+                        )
                     );
                 }
             }
