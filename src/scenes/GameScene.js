@@ -1,5 +1,3 @@
-import Matter from 'matter-js';
-
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -25,20 +23,27 @@ export default class GameScene extends Phaser.Scene {
 
         // Create the see-saw platform
         this.platform = this.matter.add.image(400, 400, 'platform', null, {
-            isStatic: false,
+            isStatic: true,
             inertia: 10000, // Adjust inertia to control rotation speed
         });
         this.platform.setOrigin(0.5, 0.5);
-        this.platform.setScale(2, 1);
+        this.platform.setSize(400, 20);
+        //this.platform.setScale(2, 1);
 
         // Create an anchor point
         this.anchor = this.matter.add.circle(400, 400, 5, { isStatic: true });
 
         // Create a constraint to connect the platform to the anchor
-        this.constraint = this.matter.add.constraint(this.platform, this.anchor, 0, 0.5, {
-            pointA: { x: 0, y: 0 },
-            pointB: { x: 0, y: 0 },
-        });
+        this.constraint = this.matter.add.constraint(
+            this.platform,
+            this.anchor,
+            0,
+            0.5,
+            {
+                pointA: { x: 0, y: 0 },
+                pointB: { x: 0, y: 0 },
+            }
+        );
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
@@ -70,10 +75,10 @@ export default class GameScene extends Phaser.Scene {
         let weightDifference = this.leftWeight - this.rightWeight;
         let torque = weightDifference * 0.0001; // Adjust the multiplier to control sensitivity
 
-        Matter.Body.applyTorque(this.platform.body, torque);
+        //Matter.Body.applyTorque(this.platform.body, torque);
     }
 
     update() {
-        this.updatePlatformRotation();
+        //this.updatePlatformRotation();
     }
 }
