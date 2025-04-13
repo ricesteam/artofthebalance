@@ -161,12 +161,26 @@ export default class GameScene extends Phaser.Scene {
         this.isAttacking = true;
         this.lastAttackTime = this.time.now;
 
+        // Get the platform's angle in radians
+        const platformAngle = this.platform.rotation;
+
         // Calculate the attack area position
         const attackOffset = 20 * this.playerDirection; // Distance in front of the player
         const attackWidth = 30;
         const attackHeight = 20;
-        const attackX = this.player.x + attackOffset;
-        const attackY = this.player.y;
+        let attackX = this.player.x + attackOffset;
+        let attackY = this.player.y;
+
+        // Rotate the attack area position around the player
+        const rotatedPosition = Phaser.Math.RotateAround(
+            { x: attackX, y: attackY },
+            this.player.x,
+            this.player.y,
+            platformAngle
+        );
+
+        attackX = rotatedPosition.x;
+        attackY = rotatedPosition.y;
 
         // Create the attack area
         this.attackArea = this.matter.add.rectangle(
