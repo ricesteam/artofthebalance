@@ -27,12 +27,16 @@ export default class GameScene extends Phaser.Scene {
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
         this.addBlock(550, 250, 'right');
+
+        // Enable collision between blocks and platform
+        //this.physics.add.collider(this.blocks, this.platform);
     }
 
     addBlock(x, y, side) {
         let block = this.physics.add.image(x, y, 'block');
         block.setBounce(0.5);
-        //block.setCollideWorldBounds(true);
+        block.setCollideWorldBounds(true);
+        this.physics.add.collider(block, this.platform);
 
         if (side === 'left') {
             this.leftWeight++;
