@@ -19,10 +19,10 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Create the see-saw platform
-        this.platform = this.physics.add.staticImage(400, 300, 'platform');
-        this.platform.setScale(2, 1); // Increased scale
-        this.platform.body.setSize(400, 20); // Increased size to match scale
+        this.platform = this.physics.add.staticImage(400, 400, 'platform');
+        //this.platform.setScale(2, 1); // Increased scale
         this.platform.setOrigin(0.5, 0.5);
+        this.platform.body.setSize(400, 20); // Increased size to match scale
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
