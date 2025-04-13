@@ -31,6 +31,9 @@ export default class GameScene extends Phaser.Scene {
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
         this.addBlock(550, 250, 'right');
+
+        // Add a ground
+        this.matter.add.rectangle(400, 580, 800, 60, { isStatic: true });
     }
 
     addBlock(x, y, side) {
