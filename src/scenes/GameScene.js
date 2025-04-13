@@ -28,7 +28,6 @@ export default class GameScene extends Phaser.Scene {
             type: 'rectangle',
             width: 300, // Increased width
             height: 20,
-            ignoreGravity: true, // disable gravity for the platform
         });
         this.platform.setOrigin(0.5, 0.5);
 
@@ -36,7 +35,12 @@ export default class GameScene extends Phaser.Scene {
         this.anchor = this.matter.add.circle(400, 300, 5, { isStatic: true });
 
         // Create a constraint to connect the platform to the anchor
-        this.constraint = this.matter.add.constraint(this.platform, this.anchor, 0, 1);
+        this.constraint = this.matter.add.constraint(
+            this.platform,
+            this.anchor,
+            0,
+            1
+        );
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
