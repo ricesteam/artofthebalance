@@ -1,5 +1,3 @@
-import Matter from 'matter-js';
-
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -41,7 +39,7 @@ export default class GameScene extends Phaser.Scene {
         this.constraint = this.matter.add.joint(
             this.platform,
             this.anchor,
-            100,
+            0,
             0.9,
             {
                 pointA: { x: 0, y: 0 },
@@ -54,7 +52,7 @@ export default class GameScene extends Phaser.Scene {
         // Create the player
         this.player = this.matter.add.image(100, 100, 'player');
         this.player.setCircle(16);
-        this.player.setMass(50);
+        this.player.setMass(1);
         this.player.setFriction(0.02);
         this.player.setBounce(0.5);
 
