@@ -1,3 +1,5 @@
+import Matter from 'matter-js';
+
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -8,12 +10,15 @@ export default class GameScene extends Phaser.Scene {
         this.anchor = null;
         this.constraint = null;
         this.desiredAngle = 0;
+        this.player = null; // Player game object
+        this.cursors = null; // Keyboard input
     }
 
     preload() {
         // Load game assets here
         this.load.image('platform', 'assets/platform.png'); // Replace with your asset
         this.load.image('block', 'assets/block.png'); // Replace with your asset
+        this.load.image('player', 'assets/player.png'); // Replace with your asset
     }
 
     create() {
@@ -45,6 +50,16 @@ export default class GameScene extends Phaser.Scene {
                 angularStiffness: 0.1,
             }
         );
+
+        // Create the player
+        this.player = this.matter.add.image(100, 100, 'player');
+        this.player.setCircle(16);
+        this.player.setMass(50);
+        this.player.setFriction(0.02);
+        this.player.setBounce(0.5);
+
+        // Input keys
+        this.cursors = this.input.keyboard.createCursorKeys();
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 0, 'left');
@@ -88,5 +103,22 @@ export default class GameScene extends Phaser.Scene {
 
         // Damping to slow down the rotation
         this.platform.body.angularVelocity *= 0.95;
+
+        // Player movement
+        if (this.cursors.left.isDown) {
+            this.player.setVelocityX(-5);
+        } else if (this.cursors.right.isDown) {
+            this.player.setVelocityX(5);
+        } else {
+            this.player.setVelocityX(0);
+        }
+
+        if (this.cursors.up.isDown) {
+            this.player.setVelocityY(-5);
+        } else if (this.cursors.down.isDown) {
+            this.player.setVelocityY(5);
+        } else {
+            this.player.setVelocityY(0);
+        }
     }
 }
