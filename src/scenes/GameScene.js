@@ -32,7 +32,7 @@ export default class GameScene extends Phaser.Scene {
     addBlock(x, y, side) {
         let block = this.physics.add.image(x, y, 'block');
         block.setBounce(0.5);
-        block.setCollideWorldBounds(true);
+        //block.setCollideWorldBounds(true);
 
         if (side === 'left') {
             this.leftWeight++;
