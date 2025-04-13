@@ -26,7 +26,7 @@ export default class GameScene extends Phaser.Scene {
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
-        this.addBlock(550, 250, 'right');
+        //this.addBlock(550, 250, 'right');
 
         // Enable collision between blocks and platform
         //this.physics.add.collider(this.blocks, this.platform);
@@ -44,7 +44,7 @@ export default class GameScene extends Phaser.Scene {
             this.rightWeight++;
         }
 
-        this.updatePlatformRotation();
+        //this.updatePlatformRotation();
     }
 
     updatePlatformRotation() {
