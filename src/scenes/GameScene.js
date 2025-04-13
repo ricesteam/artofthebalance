@@ -83,13 +83,13 @@ export default class GameScene extends Phaser.Scene {
         let weightDifference = this.leftWeight - this.rightWeight;
         let torque = weightDifference * 0.0001; // Adjust the multiplier to control sensitivity
 
-        Matter.Body.applyTorque(this.platform.body, torque);
+        this.platform.applyTorque(this.platform.body, torque);
 
         // Limit the rotation angle
         let angle = this.platform.rotation;
         let maxRotation = Math.PI / 6; // Maximum rotation of 30 degrees (PI/6 radians)
         angle = Phaser.Math.Clamp(angle, -maxRotation, maxRotation);
-        Matter.Body.setAngle(this.platform.body, angle);
+        this.platform.setAngle(this.platform.body, angle);
     }
 
     update() {
