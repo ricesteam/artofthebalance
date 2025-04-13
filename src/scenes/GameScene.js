@@ -5,6 +5,8 @@ export default class GameScene extends Phaser.Scene {
         this.leftWeight = 0;
         this.rightWeight = 0;
         this.blocks = []; // Keep track of the blocks
+        this.anchor = null;
+        this.constraint = null;
     }
 
     preload() {
@@ -20,23 +22,31 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Create the see-saw platform
-        this.platform = this.physics.add.image(400, 400, 'platform');
+        this.platform = this.matter.add.image(400, 400, 'platform', null, {
+            isStatic: false,
+            inertia: 10000, // Adjust inertia to control rotation speed
+        });
         this.platform.setOrigin(0.5, 0.5);
-        this.platform.body.setSize(400, 20); // Increased size to match scale
-        this.platform.setImmovable(false); // Make it dynamic
-        this.platform.setGravityY(0); // Disable gravity
-        //this.platform.body.setAngularDamping(0.5); // Add some angular damping
+        this.platform.setScale(2, 1);
+
+        // Create an anchor point
+        this.anchor = this.matter.add.circle(400, 400, 5, { isStatic: true });
+
+        // Create a constraint to connect the platform to the anchor
+        this.constraint = this.matter.add.constraint(this.platform, this.anchor, 0, 0.5, {
+            pointA: { x: 0, y: 0 },
+            pointB: { x: 0, y: 0 },
+        });
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
-        this.addBlock(550, 550, 'right');
+        this.addBlock(550, 250, 'right');
     }
 
     addBlock(x, y, side) {
-        let block = this.physics.add.image(x, y, 'block');
+        let block = this.matter.add.image(x, y, 'block');
         block.setBounce(0.5);
-        block.setCollideWorldBounds(true);
-        this.physics.add.collider(block, this.platform);
+        block.setFriction(0.01);
 
         block.weight = 1; // Assign a weight to the block
 
@@ -56,14 +66,12 @@ export default class GameScene extends Phaser.Scene {
         });
 
         let weightDifference = this.leftWeight - this.rightWeight;
-        let angle = Phaser.Math.Clamp(weightDifference * 0.005, -0.1, 0.1); // Adjust the multiplier to control sensitivity
+        let torque = weightDifference * 0.0001; // Adjust the multiplier to control sensitivity
 
-        this.platform.body.angularVelocity = angle;
+        this.matter.body.applyTorque(this.platform.body, torque);
     }
 
     update() {
         this.updatePlatformRotation();
-        // Pin the platform's center
-        this.platform.y = 400;
     }
 }
