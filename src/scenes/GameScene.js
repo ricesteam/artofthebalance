@@ -29,17 +29,26 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Create the see-saw platform
-        this.platform = this.matter.add.image(width / 2, height / 2 - 50, 'platform', null, {
-            inertia: 10000,
-            shape: { type: 'rectangle', width: 400, height: 20 },
-        });
+        this.platform = this.matter.add.image(
+            width / 2,
+            height / 2 - 50,
+            'platform',
+            null,
+            {
+                inertia: 10000,
+                shape: { type: 'rectangle', width: 500, height: 20 },
+                friction: 0,
+            }
+        );
         this.platform.setOrigin(0.5, 0.5);
 
         // Create an anchor point
-        this.anchor = this.matter.add.circle(width / 2, height / 2 - 50, 5, { isStatic: true });
+        this.anchor = this.matter.add.circle(width / 2, height / 2 - 50, 5, {
+            isStatic: true,
+        });
 
         // Create a constraint to connect the platform to the anchor
-        this.constraint = this.matter.add.joint(
+        this.constraint = this.matter.add.constraint(
             this.platform,
             this.anchor,
             100,
@@ -47,15 +56,21 @@ export default class GameScene extends Phaser.Scene {
             {
                 pointA: { x: 0, y: 0 },
                 pointB: { x: 0, y: 0 },
-                damping: 0.5,
+                damping: 1,
                 angularStiffness: 1,
             }
         );
 
         // Create the static blocks to limit rotation
-        this.stopblock = this.matter.add.rectangle(width / 2, height / 2 + 100, 300, 50, {
-            isStatic: true,
-        });
+        this.stopblock = this.matter.add.rectangle(
+            width / 2,
+            height / 2 + 150,
+            300,
+            50,
+            {
+                isStatic: true,
+            }
+        );
 
         // Create the player
         this.player = this.matter.add.image(200, 100, 'player');
@@ -86,8 +101,6 @@ export default class GameScene extends Phaser.Scene {
             this.player.setVelocityX(-1);
         } else if (this.cursors.right.isDown) {
             this.player.setVelocityX(1);
-        } else {
-            //this.player.setVelocityX(0);
         }
     }
 }
