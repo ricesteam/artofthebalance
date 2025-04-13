@@ -11,8 +11,8 @@ export default class GameScene extends Phaser.Scene {
         this.player = null; // Player game object
         this.cursors = null; // Keyboard input
         this.acceleration = 0.1; // Acceleration value
-        this.maxSpeed = 5; // Maximum speed
-        this.platformFriction = 0.001; // Friction when on the platform
+        this.maxSpeed = 3; // Maximum speed
+        this.platformFriction = 0; // Friction when on the platform
         this.airFriction = 0.0001; // Friction when in the air
         this.isOnPlatform = false; // Flag to track if the player is on the platform
         this.minSlideSpeed = 1; // Minimum speed for sliding
@@ -37,19 +37,21 @@ export default class GameScene extends Phaser.Scene {
         // Create the see-saw platform
         this.platform = this.matter.add.image(
             width / 2,
-            height / 2 - 50,
+            height / 2,
             'platform',
             null,
             {
                 inertia: 10000,
                 shape: { type: 'rectangle', width: 500, height: 20 },
                 friction: 0,
+                ignoreGravity: true,
             }
         );
         this.platform.setOrigin(0.5, 0.5);
 
         // Create an anchor point
-        this.anchor = this.matter.add.circle(width / 2, height / 2 - 50, 5, {
+        this.anchor = this.matter.add.circle(width / 2, height / 2, 0, {
+            ignoreGravity: true,
             isStatic: true,
         });
 
@@ -57,12 +59,10 @@ export default class GameScene extends Phaser.Scene {
         this.constraint = this.matter.add.constraint(
             this.platform,
             this.anchor,
-            100,
+            0,
             1,
             {
-                pointA: { x: 0, y: 0 },
-                pointB: { x: 0, y: 0 },
-                damping: 1,
+                damping: 0.8,
                 angularStiffness: 1,
             }
         );
