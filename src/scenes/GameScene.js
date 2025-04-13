@@ -16,6 +16,10 @@ export default class GameScene extends Phaser.Scene {
         this.airFriction = 0.0001; // Friction when in the air
         this.isOnPlatform = false; // Flag to track if the player is on the platform
         this.minSlideSpeed = 1; // Minimum speed for sliding
+        this.attackKey = null; // Attack input key
+        this.isAttacking = false; // Flag to track if the player is attacking
+        this.attackCooldown = 500; // Cooldown period in milliseconds
+        this.lastAttackTime = 0; // Time of the last attack
     }
 
     preload() {
@@ -87,6 +91,7 @@ export default class GameScene extends Phaser.Scene {
 
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.attackKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 0, 'left');
@@ -113,6 +118,56 @@ export default class GameScene extends Phaser.Scene {
             this.player.setFriction(this.airFriction);
             this.isOnPlatform = false;
         }
+    }
+
+    attack() {
+        if (this.isAttacking || this.time.now - this.lastAttackTime < this.attackCooldown) {
+            return;
+        }
+
+        this.isAttacking = true;
+        this.lastAttackTime = this.time.now;
+
+        // Calculate the attack area position
+        const attackOffset = 20; // Distance in front of the player
+        const attackWidth = 30;
+        const attackHeight = 20;
+        const attackX = this.player.x + attackOffset;
+        const attackY = this.player.y;
+
+        // Create the attack area
+        const attackArea = this.matter.add.rectangle(attackX, attackY, attackWidth, attackHeight, {
+            isSensor: true, // Prevent collision response
+            isStatic: true, // Prevent it from moving
+        });
+
+        // Add a callback for when the attack area overlaps with another body
+        this.matter.world.on('collisionstart', (event) => {
+            event.pairs.forEach((pair) => {
+                if ((pair.bodyA === attackArea.body || pair.bodyB === attackArea.body) &&
+                    (pair.bodyA !== this.player.body && pair.bodyB !== this.player.body)) {
+                    // Check if the other body is an enemy or damageable object
+                    const otherBody = (pair.bodyA === attackArea.body) ? pair.bodyB : pair.bodyA;
+                    const otherGameObject = otherBody.gameObject;
+
+                    if (otherGameObject) {
+                        // Apply damage to the collided object
+                        console.log('Hit:', otherGameObject);
+                        // You can implement a health system and apply damage here
+                    }
+                }
+            });
+        });
+
+        // Destroy the attack area after a short delay
+        this.time.delayedCall(100, () => {
+            this.matter.world.remove(attackArea);
+            attackArea.destroy();
+            this.isAttacking = false;
+        });
+
+        // Play attack animation (if you have one)
+        // this.player.play('attack');
     }
 
     update() {
@@ -157,6 +212,11 @@ export default class GameScene extends Phaser.Scene {
                     );
                 }
             }
+        }
+
+        // Attack input
+        if (this.attackKey.isDown) {
+            this.attack();
         }
     }
 }
