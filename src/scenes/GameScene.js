@@ -20,20 +20,23 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create() {
+        const width = this.scale.width;
+        const height = this.scale.height;
+
         this.add.text(100, 50, 'See-Saw Game', {
             font: '32px Arial',
             fill: '#fff',
         });
 
         // Create the see-saw platform
-        this.platform = this.matter.add.image(400, 200, 'platform', null, {
+        this.platform = this.matter.add.image(width / 2, height / 2 - 50, 'platform', null, {
             inertia: 10000,
             shape: { type: 'rectangle', width: 400, height: 20 },
         });
         this.platform.setOrigin(0.5, 0.5);
 
         // Create an anchor point
-        this.anchor = this.matter.add.circle(400, 200, 5, { isStatic: true });
+        this.anchor = this.matter.add.circle(width / 2, height / 2 - 50, 5, { isStatic: true });
 
         // Create a constraint to connect the platform to the anchor
         this.constraint = this.matter.add.joint(
@@ -50,7 +53,7 @@ export default class GameScene extends Phaser.Scene {
         );
 
         // Create the static blocks to limit rotation
-        this.stopblock = this.matter.add.rectangle(390, 390, 300, 50, {
+        this.stopblock = this.matter.add.rectangle(width / 2, height / 2 + 100, 300, 50, {
             isStatic: true,
         });
 
