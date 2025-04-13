@@ -26,7 +26,7 @@ export default class GameScene extends Phaser.Scene {
         });
         this.platform.setBody({
             type: 'rectangle',
-            width: 200,
+            width: 300, // Increased width
             height: 20,
             ignoreGravity: true, // disable gravity for the platform
         });
