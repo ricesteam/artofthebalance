@@ -25,11 +25,11 @@ export default class GameScene extends Phaser.Scene {
         this.platform.body.setSize(400, 20); // Increased size to match scale
         this.platform.setImmovable(false); // Make it dynamic
         this.platform.setGravityY(0); // Disable gravity
-        this.platform.setAngularDamping(0.5); // Add some angular damping
+        this.platform.body.setAngularDamping(0.5); // Add some angular damping
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
-        this.addBlock(550, 250, 'right');
+        this.addBlock(550, 550, 'right');
     }
 
     addBlock(x, y, side) {
