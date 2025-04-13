@@ -4,6 +4,7 @@ export default class GameScene extends Phaser.Scene {
         this.platform = null;
         this.leftWeight = 0;
         this.rightWeight = 0;
+        this.blocks = []; // Keep track of the blocks
     }
 
     preload() {
@@ -20,16 +21,12 @@ export default class GameScene extends Phaser.Scene {
 
         // Create the see-saw platform
         this.platform = this.physics.add.staticImage(400, 400, 'platform');
-        //this.platform.setScale(2, 1); // Increased scale
         this.platform.setOrigin(0.5, 0.5);
         this.platform.body.setSize(400, 20); // Increased size to match scale
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
         //this.addBlock(550, 250, 'right');
-
-        // Enable collision between blocks and platform
-        //this.physics.add.collider(this.blocks, this.platform);
     }
 
     addBlock(x, y, side) {
@@ -38,16 +35,25 @@ export default class GameScene extends Phaser.Scene {
         block.setCollideWorldBounds(true);
         this.physics.add.collider(block, this.platform);
 
-        if (side === 'left') {
-            this.leftWeight++;
-        } else if (side === 'right') {
-            this.rightWeight++;
-        }
+        block.weight = 1; // Assign a weight to the block
 
-        //this.updatePlatformRotation();
+        this.blocks.push(block); // Add the block to the array
+
+        this.updatePlatformRotation();
     }
 
     updatePlatformRotation() {
+        this.leftWeight = 0;
+        this.rightWeight = 0;
+
+        this.blocks.forEach(block => {
+            if (block.x < this.platform.x) {
+                this.leftWeight += block.weight;
+            } else {
+                this.rightWeight += block.weight;
+            }
+        });
+
         let weightDifference = this.leftWeight - this.rightWeight;
         let angle = Phaser.Math.Clamp(weightDifference * 2, -30, 30); // Adjust the multiplier to control sensitivity
 
