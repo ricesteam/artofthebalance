@@ -1,3 +1,5 @@
+import Matter from 'matter-js';
+
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -83,13 +85,13 @@ export default class GameScene extends Phaser.Scene {
         let weightDifference = this.leftWeight - this.rightWeight;
         let torque = weightDifference * 0.0001; // Adjust the multiplier to control sensitivity
 
-        this.platform.applyTorque(this.platform.body, torque);
+        Matter.Body.applyTorque(this.platform.body, torque);
 
         // Limit the rotation angle
         let angle = this.platform.rotation;
         let maxRotation = Math.PI / 6; // Maximum rotation of 30 degrees (PI/6 radians)
         angle = Phaser.Math.Clamp(angle, -maxRotation, maxRotation);
-        this.platform.setAngle(this.platform.body, angle);
+        Matter.Body.setAngle(this.platform.body, angle);
     }
 
     update() {
