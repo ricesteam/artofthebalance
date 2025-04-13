@@ -16,9 +16,9 @@ const config = {
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     physics: {
-        default: 'matter',
-        matter: {
-            gravity: { y: 0.5 },
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 300 }, // Adjust gravity as needed
             debug: true,
         },
     },

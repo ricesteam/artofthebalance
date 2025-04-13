@@ -4,8 +4,6 @@ export default class GameScene extends Phaser.Scene {
         this.platform = null;
         this.leftWeight = 0;
         this.rightWeight = 0;
-        this.anchor = null; // Define anchor
-        this.constraint = null; // Define constraint
     }
 
     preload() {
@@ -21,44 +19,20 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Create the see-saw platform
-        this.platform = this.matter.add.image(400, 300, 'platform', null, {
-            isStatic: false, // Set to false initially
-        });
-        this.platform.setBody({
-            type: 'rectangle',
-            width: 300, // Increased width
-            height: 20,
-        });
+        this.platform = this.physics.add.staticImage(400, 300, 'platform');
+        this.platform.setScale(1.5, 1);
+        this.platform.body.setSize(300, 20);
         this.platform.setOrigin(0.5, 0.5);
-
-        // Create an anchor point
-        this.anchor = this.matter.add.circle(400, 300, 5, { isStatic: true });
-
-        // Create a constraint to connect the platform to the anchor
-        this.constraint = this.matter.add.constraint(
-            this.platform,
-            this.anchor,
-            0,
-            1
-        );
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
         this.addBlock(550, 250, 'right');
-
-        // Add a ground
-        this.matter.add.rectangle(400, 580, 800, 60, { isStatic: true });
     }
 
     addBlock(x, y, side) {
-        let block = this.matter.add.image(x, y, 'block');
-        block.setBody({
-            type: 'rectangle',
-            width: 30,
-            height: 30,
-            ignoreGravity: false,
-        });
+        let block = this.physics.add.image(x, y, 'block');
         block.setBounce(0.5);
+        block.setCollideWorldBounds(true);
 
         if (side === 'left') {
             this.leftWeight++;
@@ -73,14 +47,10 @@ export default class GameScene extends Phaser.Scene {
         let weightDifference = this.leftWeight - this.rightWeight;
         let angle = Phaser.Math.Clamp(weightDifference * 2, -30, 30); // Adjust the multiplier to control sensitivity
 
-        this.matter.body.setAngle(
-            this.platform.body,
-            Phaser.Math.DegToRad(angle)
-        );
+        this.platform.rotation = Phaser.Math.DegToRad(angle);
     }
 
     update() {
         // Main game loop logic here
-        // You might want to add more dynamic updates here, like checking for more object placements
     }
 }
