@@ -21,6 +21,7 @@ export default class GameScene extends Phaser.Scene {
         this.attackCooldown = 500; // Cooldown period in milliseconds
         this.lastAttackTime = 0; // Time of the last attack
         this.attackArea = null; // Store the attack area
+        this.playerDirection = 1; // 1 for right, -1 for left
     }
 
     preload() {
@@ -161,7 +162,7 @@ export default class GameScene extends Phaser.Scene {
         this.lastAttackTime = this.time.now;
 
         // Calculate the attack area position
-        const attackOffset = 20; // Distance in front of the player
+        const attackOffset = 20 * this.playerDirection; // Distance in front of the player
         const attackWidth = 30;
         const attackHeight = 20;
         const attackX = this.player.x + attackOffset;
@@ -206,6 +207,7 @@ export default class GameScene extends Phaser.Scene {
                     -this.maxSpeed
                 )
             );
+            this.playerDirection = -1;
         } else if (this.cursors.right.isDown) {
             this.player.setVelocityX(
                 Math.min(
@@ -213,6 +215,7 @@ export default class GameScene extends Phaser.Scene {
                     this.maxSpeed
                 )
             );
+            this.playerDirection = 1;
         } else {
             // Decelerate when no key is pressed
             if (Math.abs(this.player.body.velocity.x) > this.minSlideSpeed) {
