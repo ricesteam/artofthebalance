@@ -22,6 +22,7 @@ export default class GameScene extends Phaser.Scene {
         this.lastAttackTime = 0; // Time of the last attack
         this.attackArea = null; // Store the attack area
         this.playerDirection = 1; // 1 for right, -1 for left
+        this.attackPushback = 5; // Pushback force applied to blocks
     }
 
     preload() {
@@ -121,6 +122,15 @@ export default class GameScene extends Phaser.Scene {
                     if (otherGameObject) {
                         // Apply damage to the collided object
                         console.log('Hit:', otherGameObject);
+
+                        // Check if the other object is a block
+                        if (this.blocks.includes(otherGameObject)) {
+                            // Apply pushback to the block
+                            const pushbackDirection = new Phaser.Math.Vector2(this.playerDirection, 0);
+                            pushbackDirection.rotate(this.platform.rotation); // Rotate the pushback direction with the platform
+                            pushbackDirection.scale(this.attackPushback);
+                            otherBody.applyForce(pushbackDirection);
+                        }
                         // You can implement a health system and apply damage here
                     }
                 }
