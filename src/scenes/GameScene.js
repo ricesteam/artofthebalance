@@ -10,8 +10,8 @@ export default class GameScene extends Phaser.Scene {
         this.desiredAngle = 0;
         this.player = null; // Player game object
         this.cursors = null; // Keyboard input
-        this.acceleration = 0.01; // Acceleration value
-        this.maxSpeed = 3; // Maximum speed
+        this.acceleration = 0.1; // Acceleration value
+        this.maxSpeed = 5; // Maximum speed
     }
 
     preload() {
@@ -100,15 +100,29 @@ export default class GameScene extends Phaser.Scene {
     update() {
         // Player movement
         if (this.cursors.left.isDown) {
-            this.player.setVelocityX(Math.max(this.player.body.velocity.x - this.acceleration, -this.maxSpeed));
+            this.player.setVelocityX(
+                Math.max(
+                    this.player.body.velocity.x - this.acceleration,
+                    -this.maxSpeed
+                )
+            );
         } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(Math.min(this.player.body.velocity.x + this.acceleration, this.maxSpeed));
+            this.player.setVelocityX(
+                Math.min(
+                    this.player.body.velocity.x + this.acceleration,
+                    this.maxSpeed
+                )
+            );
         } else {
             // Decelerate when no key is pressed
             if (this.player.body.velocity.x > 0) {
-                this.player.setVelocityX(Math.max(this.player.body.velocity.x - this.acceleration, 0));
+                this.player.setVelocityX(
+                    Math.max(this.player.body.velocity.x - this.acceleration, 0)
+                );
             } else if (this.player.body.velocity.x < 0) {
-                this.player.setVelocityX(Math.min(this.player.body.velocity.x + this.acceleration, 0));
+                this.player.setVelocityX(
+                    Math.min(this.player.body.velocity.x + this.acceleration, 0)
+                );
             }
         }
     }
