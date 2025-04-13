@@ -39,25 +39,25 @@ export default class GameScene extends Phaser.Scene {
         this.constraint = this.matter.add.joint(
             this.platform,
             this.anchor,
+            100,
             1,
-            0.2,
             {
                 pointA: { x: 0, y: 0 },
                 pointB: { x: 0, y: 0 },
                 damping: 0.5,
-                angularStiffness: 0.1,
+                angularStiffness: 1,
             }
         );
 
         // Create the static blocks to limit rotation
-        this.stopblock = this.matter.add.rectangle(390, 290, 300, 50, {
+        this.stopblock = this.matter.add.rectangle(390, 390, 300, 50, {
             isStatic: true,
         });
 
         // Create the player
         this.player = this.matter.add.image(200, 100, 'player');
         this.player.setCircle(16);
-        this.player.setMass(0.1); // Reduced mass
+        this.player.setMass(1); // Reduced mass
         this.player.setFriction(0.001); // Reduced friction
         this.player.setBounce(0.5);
 
@@ -73,20 +73,18 @@ export default class GameScene extends Phaser.Scene {
         let block = this.matter.add.image(x, y, 'block');
         block.setBounce(0.5);
         block.setFriction(0);
-
         block.setMass(1);
-
         this.blocks.push(block); // Add the block to the array
     }
 
     update() {
         // Player movement
         if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-5);
+            this.player.setVelocityX(-1);
         } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(5);
+            this.player.setVelocityX(1);
         } else {
-            this.player.setVelocityX(0);
+            //this.player.setVelocityX(0);
         }
     }
 }
