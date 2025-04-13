@@ -19,7 +19,9 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Create the see-saw platform
-        this.platform = this.matter.add.image(400, 300, 'platform', null, { isStatic: true });
+        this.platform = this.matter.add.image(400, 300, 'platform', null, {
+            isStatic: true,
+        });
         this.platform.setBody({
             type: 'rectangle',
             width: 200,
@@ -43,6 +45,7 @@ export default class GameScene extends Phaser.Scene {
             type: 'rectangle',
             width: 30,
             height: 30,
+            ignoreGravity: true,
         });
         block.setBounce(0.5);
 
@@ -59,7 +62,10 @@ export default class GameScene extends Phaser.Scene {
         let weightDifference = this.leftWeight - this.rightWeight;
         let angle = Phaser.Math.Clamp(weightDifference * 2, -30, 30); // Adjust the multiplier to control sensitivity
 
-        this.matter.body.setAngle(this.platform.body, Phaser.Math.DegToRad(angle));
+        this.matter.body.setAngle(
+            this.platform.body,
+            Phaser.Math.DegToRad(angle)
+        );
     }
 
     update() {
