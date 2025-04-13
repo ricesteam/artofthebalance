@@ -57,8 +57,8 @@ export default class GameScene extends Phaser.Scene {
         // Create the player
         this.player = this.matter.add.image(200, 100, 'player');
         this.player.setCircle(16);
-        this.player.setMass(10);
-        this.player.setFriction(0);
+        this.player.setMass(0.1); // Reduced mass
+        this.player.setFriction(0.001); // Reduced friction
         this.player.setBounce(0.5);
 
         // Input keys
