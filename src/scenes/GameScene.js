@@ -1,5 +1,3 @@
-import Matter from 'matter-js';
-
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -41,7 +39,7 @@ export default class GameScene extends Phaser.Scene {
         this.constraint = this.matter.add.joint(
             this.platform,
             this.anchor,
-            1,
+            10,
             0.2,
             {
                 pointA: { x: 0, y: 0 },
@@ -76,38 +74,7 @@ export default class GameScene extends Phaser.Scene {
         this.blocks.push(block); // Add the block to the array
     }
 
-    updatePlatformRotation() {
-        this.leftWeight = 0;
-        this.rightWeight = 0;
-
-        this.blocks.forEach((block) => {
-            if (block.x < this.platform.x) {
-                this.leftWeight += block.weight;
-            } else {
-                this.rightWeight += block.weight;
-            }
-        });
-
-        let weightDifference = this.leftWeight - this.rightWeight;
-        this.desiredAngle = weightDifference * 0.001; // Adjust the multiplier to control sensitivity
-
-        // Limit the rotation angle
-        let maxRotation = Math.PI / 6; // Maximum rotation of 30 degrees (PI/6 radians)
-        this.desiredAngle = Phaser.Math.Clamp(this.desiredAngle, -maxRotation, maxRotation);
-    }
-
     update() {
-        this.updatePlatformRotation();
-
-        // Calculate the angle difference
-        let angleDifference = this.desiredAngle - this.platform.rotation;
-
-        // Apply a spring-like force to adjust the angular velocity
-        this.platform.body.angularVelocity = angleDifference * 0.1;
-
-        // Damping to slow down the rotation
-        this.platform.body.angularVelocity *= 0.95;
-
         // Player movement
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-5);
