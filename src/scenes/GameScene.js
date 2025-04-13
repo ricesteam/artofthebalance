@@ -20,6 +20,7 @@ export default class GameScene extends Phaser.Scene {
         this.isAttacking = false; // Flag to track if the player is attacking
         this.attackCooldown = 500; // Cooldown period in milliseconds
         this.lastAttackTime = 0; // Time of the last attack
+        this.attackArea = null; // Store the attack area
     }
 
     preload() {
@@ -136,7 +137,7 @@ export default class GameScene extends Phaser.Scene {
         const attackY = this.player.y;
 
         // Create the attack area
-        const attackArea = this.matter.add.rectangle(attackX, attackY, attackWidth, attackHeight, {
+        this.attackArea = this.matter.add.rectangle(attackX, attackY, attackWidth, attackHeight, {
             isSensor: true, // Prevent collision response
             isStatic: true, // Prevent it from moving
         });
@@ -144,10 +145,10 @@ export default class GameScene extends Phaser.Scene {
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {
             event.pairs.forEach((pair) => {
-                if ((pair.bodyA === attackArea.body || pair.bodyB === attackArea.body) &&
+                if ((pair.bodyA === this.attackArea.body || pair.bodyB === this.attackArea.body) &&
                     (pair.bodyA !== this.player.body && pair.bodyB !== this.player.body)) {
                     // Check if the other body is an enemy or damageable object
-                    const otherBody = (pair.bodyA === attackArea.body) ? pair.bodyB : pair.bodyA;
+                    const otherBody = (pair.bodyA === this.attackArea.body) ? pair.bodyB : pair.bodyA;
                     const otherGameObject = otherBody.gameObject;
 
                     if (otherGameObject) {
@@ -161,8 +162,8 @@ export default class GameScene extends Phaser.Scene {
 
         // Destroy the attack area after a short delay
         this.time.delayedCall(100, () => {
-            this.matter.world.remove(attackArea);
-            attackArea.destroy();
+            this.matter.world.remove(this.attackArea);
+            this.attackArea = null;
             this.isAttacking = false;
         });
 
