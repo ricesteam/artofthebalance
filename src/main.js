@@ -15,6 +15,13 @@ const config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
+    physics: {
+        default: 'matter',
+        matter: {
+            gravity: { y: 0.5 },
+            debug: true,
+        },
+    },
 };
 
 new Phaser.Game(config);
