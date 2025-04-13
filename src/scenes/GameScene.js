@@ -7,6 +7,7 @@ export default class GameScene extends Phaser.Scene {
         this.blocks = []; // Keep track of the blocks
         this.anchor = null;
         this.constraint = null;
+        this.desiredAngle = 0;
     }
 
     preload() {
@@ -23,12 +24,10 @@ export default class GameScene extends Phaser.Scene {
 
         // Create the see-saw platform
         this.platform = this.matter.add.image(400, 200, 'platform', null, {
-            //isStatic: true,
             inertia: 10000,
             shape: { type: 'rectangle', width: 400, height: 20 },
         });
         this.platform.setOrigin(0.5, 0.5);
-        //this.platform.setScale(2, 1);
 
         // Create an anchor point
         this.anchor = this.matter.add.circle(400, 200, 5, { isStatic: true });
@@ -40,16 +39,10 @@ export default class GameScene extends Phaser.Scene {
             100,
             0.9,
             {
-                pointA: {
-                    x: 0,
-                    y: 0,
-                },
-                pointB: {
-                    x: 0,
-                    y: 0,
-                },
-                damping: 0,
-                angularStiffness: 0,
+                pointA: { x: 0, y: 0 },
+                pointB: { x: 0, y: 0 },
+                damping: 0.5,
+                angularStiffness: 0.1,
             }
         );
 
@@ -81,18 +74,19 @@ export default class GameScene extends Phaser.Scene {
         });
 
         let weightDifference = this.leftWeight - this.rightWeight;
-        let torque = weightDifference * 0.0001; // Adjust the multiplier to control sensitivity
-
-        Matter.Body.applyTorque(this.platform.body, torque);
-
-        // Limit the rotation angle
-        let angle = this.platform.rotation;
-        let maxRotation = Math.PI / 6; // Maximum rotation of 30 degrees (PI/6 radians)
-        angle = Phaser.Math.Clamp(angle, -maxRotation, maxRotation);
-        Matter.Body.setAngle(this.platform.body, angle);
+        this.desiredAngle = weightDifference * 0.001; // Adjust the multiplier to control sensitivity
     }
 
     update() {
         this.updatePlatformRotation();
+
+        // Calculate the angle difference
+        let angleDifference = this.desiredAngle - this.platform.rotation;
+
+        // Apply a spring-like force to adjust the angular velocity
+        this.platform.body.angularVelocity = angleDifference * 0.1;
+
+        // Damping to slow down the rotation
+        this.platform.body.angularVelocity *= 0.95;
     }
 }
