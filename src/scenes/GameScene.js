@@ -97,6 +97,24 @@ export default class GameScene extends Phaser.Scene {
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 0, 'left');
         this.addBlock(500, 0, 'right');
+
+        // Add a callback for when the attack area overlaps with another body
+        this.matter.world.on('collisionstart', (event) => {
+            event.pairs.forEach((pair) => {
+                if (this.attackArea && (pair.bodyA === this.attackArea.body || pair.bodyB === this.attackArea.body) &&
+                    (pair.bodyA !== this.player.body && pair.bodyB !== this.player.body)) {
+                    // Check if the other body is an enemy or damageable object
+                    const otherBody = (pair.bodyA === this.attackArea.body) ? pair.bodyB : pair.bodyA;
+                    const otherGameObject = otherBody.gameObject;
+
+                    if (otherGameObject) {
+                        // Apply damage to the collided object
+                        console.log('Hit:', otherGameObject);
+                        // You can implement a health system and apply damage here
+                    }
+                }
+            });
+        });
     }
 
     addBlock(x, y, side) {
@@ -140,24 +158,6 @@ export default class GameScene extends Phaser.Scene {
         this.attackArea = this.matter.add.rectangle(attackX, attackY, attackWidth, attackHeight, {
             isSensor: true, // Prevent collision response
             isStatic: true, // Prevent it from moving
-        });
-
-        // Add a callback for when the attack area overlaps with another body
-        this.matter.world.on('collisionstart', (event) => {
-            event.pairs.forEach((pair) => {
-                if ((pair.bodyA === this.attackArea.body || pair.bodyB === this.attackArea.body) &&
-                    (pair.bodyA !== this.player.body && pair.bodyB !== this.player.body)) {
-                    // Check if the other body is an enemy or damageable object
-                    const otherBody = (pair.bodyA === this.attackArea.body) ? pair.bodyB : pair.bodyA;
-                    const otherGameObject = otherBody.gameObject;
-
-                    if (otherGameObject) {
-                        // Apply damage to the collided object
-                        console.log('Hit:', otherGameObject);
-                        // You can implement a health system and apply damage here
-                    }
-                }
-            });
         });
 
         // Destroy the attack area after a short delay
