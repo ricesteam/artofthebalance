@@ -1,5 +1,3 @@
-import Matter from 'matter-js';
-
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -41,8 +39,8 @@ export default class GameScene extends Phaser.Scene {
         this.constraint = this.matter.add.joint(
             this.platform,
             this.anchor,
-            0,
-            0.9,
+            1,
+            0.2,
             {
                 pointA: { x: 0, y: 0 },
                 pointB: { x: 0, y: 0 },
@@ -93,7 +91,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     update() {
-        this.updatePlatformRotation();
+        //this.updatePlatformRotation();
 
         // Calculate the angle difference
         let angleDifference = this.desiredAngle - this.platform.rotation;
@@ -111,14 +109,6 @@ export default class GameScene extends Phaser.Scene {
             this.player.setVelocityX(5);
         } else {
             this.player.setVelocityX(0);
-        }
-
-        if (this.cursors.up.isDown) {
-           this.player.setVelocityY(-8);
-        } else if (this.cursors.down.isDown) {
-            this.player.setVelocityY(5);
-        } else {
-            this.player.setVelocityY(0);
         }
     }
 }
