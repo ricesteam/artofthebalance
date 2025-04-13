@@ -56,7 +56,7 @@ export default class GameScene extends Phaser.Scene {
         block.setBounce(0.5);
         block.setFriction(0);
 
-        block.weight = 200; // Assign a weight to the block
+        block.setMass(1);
 
         this.blocks.push(block); // Add the block to the array
     }
