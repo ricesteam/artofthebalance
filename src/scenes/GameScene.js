@@ -68,7 +68,7 @@ export default class GameScene extends Phaser.Scene {
         let weightDifference = this.leftWeight - this.rightWeight;
         let torque = weightDifference * 0.0001; // Adjust the multiplier to control sensitivity
 
-        this.matter.body.applyTorque(this.platform.body, torque);
+        Matter.Body.applyTorque(this.platform.body, torque);
     }
 
     update() {
