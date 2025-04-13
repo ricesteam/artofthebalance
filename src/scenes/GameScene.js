@@ -20,13 +20,16 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Create the see-saw platform
-        this.platform = this.physics.add.staticImage(400, 400, 'platform');
+        this.platform = this.physics.add.image(400, 400, 'platform');
         this.platform.setOrigin(0.5, 0.5);
         this.platform.body.setSize(400, 20); // Increased size to match scale
+        this.platform.setImmovable(false); // Make it dynamic
+        this.platform.setGravityY(0); // Disable gravity
+        this.platform.setAngularDamping(0.5); // Add some angular damping
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
-        //this.addBlock(550, 250, 'right');
+        this.addBlock(550, 250, 'right');
     }
 
     addBlock(x, y, side) {
@@ -38,8 +41,6 @@ export default class GameScene extends Phaser.Scene {
         block.weight = 1; // Assign a weight to the block
 
         this.blocks.push(block); // Add the block to the array
-
-        this.updatePlatformRotation();
     }
 
     updatePlatformRotation() {
@@ -55,12 +56,12 @@ export default class GameScene extends Phaser.Scene {
         });
 
         let weightDifference = this.leftWeight - this.rightWeight;
-        let angle = Phaser.Math.Clamp(weightDifference * 2, -30, 30); // Adjust the multiplier to control sensitivity
+        let angle = Phaser.Math.Clamp(weightDifference * 0.005, -0.1, 0.1); // Adjust the multiplier to control sensitivity
 
-        this.platform.rotation = Phaser.Math.DegToRad(angle);
+        this.platform.body.angularVelocity = angle;
     }
 
     update() {
-        // Main game loop logic here
+        this.updatePlatformRotation();
     }
 }
