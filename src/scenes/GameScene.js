@@ -12,6 +12,9 @@ export default class GameScene extends Phaser.Scene {
         this.cursors = null; // Keyboard input
         this.acceleration = 0.1; // Acceleration value
         this.maxSpeed = 5; // Maximum speed
+        this.platformFriction = 0.001; // Friction when on the platform
+        this.airFriction = 0.0001; // Friction when in the air
+        this.isOnPlatform = false; // Flag to track if the player is on the platform
     }
 
     preload() {
@@ -78,7 +81,7 @@ export default class GameScene extends Phaser.Scene {
         this.player = this.matter.add.image(200, 100, 'player');
         this.player.setCircle(16);
         this.player.setMass(1); // Reduced mass
-        this.player.setFriction(0.001); // Reduced friction
+        this.player.setFriction(this.airFriction); // Start with air friction
         this.player.setBounce(0.5);
 
         // Input keys
@@ -97,7 +100,28 @@ export default class GameScene extends Phaser.Scene {
         this.blocks.push(block); // Add the block to the array
     }
 
+    setOnPlatform() {
+        if (!this.isOnPlatform) {
+            this.player.setFriction(this.platformFriction);
+            this.isOnPlatform = true;
+        }
+    }
+
+    setOffPlatform() {
+        if (this.isOnPlatform) {
+            this.player.setFriction(this.airFriction);
+            this.isOnPlatform = false;
+        }
+    }
+
     update() {
+        // Check if the player is on the platform (basic check, improve as needed)
+        if (this.player.y > 200) {
+            this.setOnPlatform();
+        } else {
+            this.setOffPlatform();
+        }
+
         // Player movement
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(
