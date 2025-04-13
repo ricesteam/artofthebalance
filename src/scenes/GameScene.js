@@ -25,6 +25,7 @@ export default class GameScene extends Phaser.Scene {
             width: 200,
             height: 20,
             isStatic: true, // Add this line
+            ignoreGravity: true, // disable gravity for the platform
         });
         this.platform.setOrigin(0.5, 0.5);
 
