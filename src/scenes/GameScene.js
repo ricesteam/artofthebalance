@@ -27,7 +27,7 @@ export default class GameScene extends Phaser.Scene {
             inertia: 10000, // Adjust inertia to control rotation speed
         });
         this.platform.setOrigin(0.5, 0.5);
-        this.platform.setSize(400, 20);
+        this.platform.setSize(600, 20);
         //this.platform.setScale(2, 1);
 
         // Create an anchor point
