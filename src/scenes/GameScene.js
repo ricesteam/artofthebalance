@@ -92,7 +92,9 @@ export default class GameScene extends Phaser.Scene {
 
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.attackKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
+        this.attackKey = this.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.Z
+        );
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 0, 'left');
@@ -101,10 +103,18 @@ export default class GameScene extends Phaser.Scene {
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {
             event.pairs.forEach((pair) => {
-                if (this.attackArea && (pair.bodyA === this.attackArea.body || pair.bodyB === this.attackArea.body) &&
-                    (pair.bodyA !== this.player.body && pair.bodyB !== this.player.body)) {
+                if (
+                    this.attackArea &&
+                    (pair.bodyA === this.attackArea.body ||
+                        pair.bodyB === this.attackArea.body) &&
+                    pair.bodyA !== this.player.body &&
+                    pair.bodyB !== this.player.body
+                ) {
                     // Check if the other body is an enemy or damageable object
-                    const otherBody = (pair.bodyA === this.attackArea.body) ? pair.bodyB : pair.bodyA;
+                    const otherBody =
+                        pair.bodyA === this.attackArea.body
+                            ? pair.bodyB
+                            : pair.bodyA;
                     const otherGameObject = otherBody.gameObject;
 
                     if (otherGameObject) {
@@ -140,7 +150,10 @@ export default class GameScene extends Phaser.Scene {
     }
 
     attack() {
-        if (this.isAttacking || this.time.now - this.lastAttackTime < this.attackCooldown) {
+        if (
+            this.isAttacking ||
+            this.time.now - this.lastAttackTime < this.attackCooldown
+        ) {
             return;
         }
 
@@ -155,10 +168,16 @@ export default class GameScene extends Phaser.Scene {
         const attackY = this.player.y;
 
         // Create the attack area
-        this.attackArea = this.matter.add.rectangle(attackX, attackY, attackWidth, attackHeight, {
-            isSensor: true, // Prevent collision response
-            isStatic: true, // Prevent it from moving
-        });
+        this.attackArea = this.matter.add.rectangle(
+            attackX,
+            attackY,
+            attackWidth,
+            attackHeight,
+            {
+                isSensor: true, // Prevent collision response
+                isStatic: true, // Prevent it from moving
+            }
+        );
 
         // Destroy the attack area after a short delay
         this.time.delayedCall(100, () => {
@@ -172,12 +191,12 @@ export default class GameScene extends Phaser.Scene {
     }
 
     update() {
-        // Check if the player is on the platform (basic check, improve as needed)
-        if (this.player.y > 200) {
-            this.setOnPlatform();
-        } else {
-            this.setOffPlatform();
-        }
+        // // Check if the player is on the platform (basic check, improve as needed)
+        // if (this.player.y > 200) {
+        //     this.setOnPlatform();
+        // } else {
+        //     this.setOffPlatform();
+        // }
 
         // Player movement
         if (this.cursors.left.isDown) {
