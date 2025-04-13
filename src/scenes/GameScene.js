@@ -49,6 +49,10 @@ export default class GameScene extends Phaser.Scene {
             }
         );
 
+        // Create the static blocks to limit rotation
+        this.leftStop = this.matter.add.rectangle(210, 250, 20, 50, { isStatic: true });
+        this.rightStop = this.matter.add.rectangle(590, 250, 20, 50, { isStatic: true });
+
         // Create the player
         this.player = this.matter.add.image(100, 100, 'player');
         this.player.setCircle(16);
