@@ -4,6 +4,8 @@ export default class GameScene extends Phaser.Scene {
         this.platform = null;
         this.leftWeight = 0;
         this.rightWeight = 0;
+        this.anchor = null; // Define anchor
+        this.constraint = null; // Define constraint
     }
 
     preload() {
@@ -20,16 +22,21 @@ export default class GameScene extends Phaser.Scene {
 
         // Create the see-saw platform
         this.platform = this.matter.add.image(400, 300, 'platform', null, {
-            isStatic: true,
+            isStatic: false, // Set to false initially
         });
         this.platform.setBody({
             type: 'rectangle',
             width: 200,
             height: 20,
-            isStatic: true, // Add this line
             ignoreGravity: true, // disable gravity for the platform
         });
         this.platform.setOrigin(0.5, 0.5);
+
+        // Create an anchor point
+        this.anchor = this.matter.add.circle(400, 300, 5, { isStatic: true });
+
+        // Create a constraint to connect the platform to the anchor
+        this.constraint = this.matter.add.constraint(this.platform, this.anchor, 0, 1);
 
         // Example: Add some blocks on either side (for testing)
         this.addBlock(250, 250, 'left');
@@ -45,7 +52,7 @@ export default class GameScene extends Phaser.Scene {
             type: 'rectangle',
             width: 30,
             height: 30,
-            ignoreGravity: true,
+            ignoreGravity: false,
         });
         block.setBounce(0.5);
 
