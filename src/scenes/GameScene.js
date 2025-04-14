@@ -14,7 +14,7 @@ export default class GameScene extends Phaser.Scene {
         this.cursors = null; // Keyboard input
         this.acceleration = 0.1; // Acceleration value
         this.maxSpeed = 3; // Maximum speed
-        this.platformFriction = 0; // Friction when on the platform
+        this.platformFriction = 0.1; // Friction when on the platform
         this.airFriction = 0.0001; // Friction when in the air
         this.isOnPlatform = false; // Flag to track if the player is on the platform
         this.minSlideSpeed = 1; // Minimum speed for sliding
@@ -47,11 +47,6 @@ export default class GameScene extends Phaser.Scene {
         const width = this.scale.width;
         const height = this.scale.height;
 
-        this.add.text(100, 50, 'See-Saw Game', {
-            font: '32px Arial',
-            fill: '#fff',
-        });
-
         // Create the see-saw platform
         this.platform = this.matter.add.image(
             width / 2,
@@ -61,7 +56,7 @@ export default class GameScene extends Phaser.Scene {
             {
                 inertia: 10000,
                 shape: { type: 'rectangle', width: 500, height: 20 },
-                friction: 0,
+                friction: this.platformFriction,
                 frictionStatic: 0,
                 ignoreGravity: true,
             }
@@ -156,13 +151,6 @@ export default class GameScene extends Phaser.Scene {
                 }
             });
         });
-    }
-
-    setOnPlatform() {
-        if (!this.isOnPlatform) {
-            this.player.setFriction(this.platformFriction);
-            this.isOnPlatform = true;
-        }
     }
 
     setOffPlatform() {
@@ -282,7 +270,7 @@ export default class GameScene extends Phaser.Scene {
 
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
-            if (block.y > this.scale.height) {
+            if (block.y > this.scale.height + 200) {
                 this.matter.world.remove(block); // Remove from Matter world
                 this.blocks.splice(index, 1); // Remove from the blocks array
             }
