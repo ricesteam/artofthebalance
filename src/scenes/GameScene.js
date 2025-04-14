@@ -25,6 +25,7 @@ export default class GameScene extends Phaser.Scene {
         this.attackArea = null; // Store the attack area
         this.playerDirection = 1; // 1 for right, -1 for left
         this.attackPushback = 5; // Pushback force applied to blocks
+        this.attackSpeed = 10; // Speed of the attack
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -184,27 +185,13 @@ export default class GameScene extends Phaser.Scene {
         // Get the platform's angle in radians
         const platformAngle = this.platform.rotation;
 
-        // Get the player's current velocity
-        const playerVelocityX = this.player.body.velocity.x;
-        const playerVelocityY = this.player.body.velocity.y;
-
-        // Calculate the attack area position
-        const attackOffset = 40 * this.playerDirection; // Distance in front of the player
+        // Attack area dimensions
         const attackWidth = 50;
         const attackHeight = 20;
-        let attackX = this.player.x + attackOffset + playerVelocityX * 0.5; // Apply some velocity to the attack area
-        let attackY = this.player.y + playerVelocityY * 0.5;
 
-        // Rotate the attack area position around the player
-        const rotatedPosition = Phaser.Math.RotateAround(
-            { x: attackX, y: attackY },
-            this.player.x,
-            this.player.y,
-            platformAngle
-        );
-
-        attackX = rotatedPosition.x;
-        attackY = rotatedPosition.y;
+        // Initial position: player's center
+        const attackX = this.player.x;
+        const attackY = this.player.y;
 
         // Create the attack area
         this.attackArea = this.matter.add.rectangle(
@@ -220,15 +207,30 @@ export default class GameScene extends Phaser.Scene {
             }
         );
 
+        // Calculate velocity based on player direction and attack speed
+        let velocityX = this.attackSpeed * this.playerDirection;
+        let velocityY = 0;
+
+        // Rotate the velocity vector by the platform angle
+        const rotatedVelocity = Phaser.Math.RotateAround(
+            { x: velocityX, y: velocityY },
+            0,
+            0,
+            platformAngle
+        );
+
+        velocityX = rotatedVelocity.x;
+        velocityY = rotatedVelocity.y;
+
+        // Apply the velocity to the attack area
+        this.attackArea.body.setVelocity(velocityX, velocityY);
+
         // Destroy the attack area after a short delay
-        this.time.delayedCall(100, () => {
+        this.time.delayedCall(50, () => {
             this.matter.world.remove(this.attackArea);
             this.attackArea = null;
             this.isAttacking = false;
         });
-
-        // Play attack animation (if you have one)
-        // this.player.play('attack');
     }
 
     update() {
