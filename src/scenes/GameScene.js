@@ -26,6 +26,7 @@ export default class GameScene extends Phaser.Scene {
         this.playerDirection = 1; // 1 for right, -1 for left
         this.attackPushback = 5; // Pushback force applied to blocks
         this.attackSpeed = 10; // Speed of the attack
+        this.attackRadius = 25; // Radius of the attack circle
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -185,20 +186,15 @@ export default class GameScene extends Phaser.Scene {
         // Get the platform's angle in radians
         const platformAngle = this.platform.rotation;
 
-        // Attack area dimensions
-        const attackWidth = 50;
-        const attackHeight = 20;
-
         // Initial position: player's center
         const attackX = this.player.x;
         const attackY = this.player.y;
 
-        // Create the attack area
-        this.attackArea = this.matter.add.rectangle(
+        // Create the attack area as a circle
+        this.attackArea = this.matter.add.circle(
             attackX,
             attackY,
-            attackWidth,
-            attackHeight,
+            this.attackRadius,
             {
                 collisionFilter: {
                     category: this.CATEGORY_ATTACK,
