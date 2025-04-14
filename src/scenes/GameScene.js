@@ -51,6 +51,7 @@ export default class GameScene extends Phaser.Scene {
                 inertia: 10000,
                 shape: { type: 'rectangle', width: 500, height: 20 },
                 friction: 0,
+                frictionStatic: 0,
                 ignoreGravity: true,
             }
         );
@@ -126,7 +127,10 @@ export default class GameScene extends Phaser.Scene {
                         // Check if the other object is a block
                         if (this.blocks.includes(otherGameObject)) {
                             // Apply pushback to the block
-                            const pushbackDirection = new Phaser.Math.Vector2(this.playerDirection, 0);
+                            const pushbackDirection = new Phaser.Math.Vector2(
+                                this.playerDirection,
+                                0
+                            );
                             pushbackDirection.rotate(this.platform.rotation); // Rotate the pushback direction with the platform
                             pushbackDirection.scale(this.attackPushback);
                             otherBody.applyForce(pushbackDirection);
