@@ -1,3 +1,5 @@
+import Spawner from '../Spawner.js';
+
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -28,6 +30,8 @@ export default class GameScene extends Phaser.Scene {
         this.CATEGORY_PLAYER = 0x0001;
         this.CATEGORY_BLOCK = 0x0002;
         this.CATEGORY_ATTACK = 0x0004;
+
+        this.spawner = null; // Spawner instance
     }
 
     preload() {
@@ -106,9 +110,12 @@ export default class GameScene extends Phaser.Scene {
             Phaser.Input.Keyboard.KeyCodes.Z
         );
 
+        // Initialize the spawner
+        this.spawner = new Spawner(this);
+
         // Example: Add some blocks on either side (for testing)
-        this.addBlock(250, 0, 'left');
-        this.addBlock(500, 0, 'right');
+        this.spawner.addBlock(250, 0, 'left');
+        this.spawner.addBlock(500, 0, 'right');
 
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {
@@ -147,15 +154,6 @@ export default class GameScene extends Phaser.Scene {
                 }
             });
         });
-    }
-
-    addBlock(x, y, side) {
-        let block = this.matter.add.image(x, y, 'block');
-        block.setBounce(0.5);
-        block.setFriction(0);
-        block.setMass(1);
-        block.setCollisionCategory(this.CATEGORY_BLOCK);
-        this.blocks.push(block); // Add the block to the array
     }
 
     setOnPlatform() {
