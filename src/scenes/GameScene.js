@@ -223,7 +223,7 @@ export default class GameScene extends Phaser.Scene {
         velocityY = rotatedVelocity.y;
 
         // Apply the velocity to the attack area
-        this.attackArea.body.setVelocity(velocityX, velocityY);
+        this.matter.setVelocity(this.attackArea, velocityX, velocityY);
 
         // Destroy the attack area after a short delay
         this.time.delayedCall(50, () => {
