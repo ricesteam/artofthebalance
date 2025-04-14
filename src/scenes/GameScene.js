@@ -190,8 +190,8 @@ export default class GameScene extends Phaser.Scene {
 
         // Calculate the attack area position
         const attackOffset = 40 * this.playerDirection; // Distance in front of the player
-        const attackWidth = 40;
-        const attackHeight = 30;
+        const attackWidth = 50;
+        const attackHeight = 20;
         let attackX = this.player.x + attackOffset + playerVelocityX * 0.5; // Apply some velocity to the attack area
         let attackY = this.player.y + playerVelocityY * 0.5;
 
@@ -217,8 +217,6 @@ export default class GameScene extends Phaser.Scene {
                     category: this.CATEGORY_ATTACK,
                     mask: this.CATEGORY_BLOCK, // Only collide with blocks
                 },
-                //isSensor: true, // Prevent collision response
-                //isStatic: true, // Prevent it from moving
             }
         );
 
