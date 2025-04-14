@@ -83,6 +83,7 @@ export default class GameScene extends Phaser.Scene {
             50,
             {
                 isStatic: true,
+                ignoreGravity: true,
             }
         );
 
