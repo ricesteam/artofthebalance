@@ -26,7 +26,7 @@ export default class GameScene extends Phaser.Scene {
         this.playerDirection = 1; // 1 for right, -1 for left
         this.attackPushback = 5; // Pushback force applied to blocks
         this.attackSpeed = 10; // Speed of the attack
-        this.attackRadius = 25; // Radius of the attack circle
+        this.attackRadius = 15; // Radius of the attack circle
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
