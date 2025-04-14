@@ -23,7 +23,8 @@ export default class GameScene extends Phaser.Scene {
         this.maxSpeed = 3; // Maximum speed
         this.minSlideSpeed = 1; // Minimum speed for sliding
         this.platform = null;
-        this.platformFriction = 0.1; // Friction when on the platform
+        this.platformFriction = 0.01; // Friction when on the platform
+        this.platformFrictionStatic = 0; // Friction when on the platform
         this.player = null; // Player game object
         this.playerDirection = 1; // 1 for right, -1 for left
         this.rightWeight = 0;
@@ -56,7 +57,7 @@ export default class GameScene extends Phaser.Scene {
                 inertia: 10000,
                 shape: { type: 'rectangle', width: 500, height: 20 },
                 friction: this.platformFriction,
-                frictionStatic: 0,
+                frictionStatic: this.platformFrictionStatic,
                 ignoreGravity: true,
             }
         );
@@ -100,8 +101,9 @@ export default class GameScene extends Phaser.Scene {
         // Create the player
         this.player = this.matter.add.image(200, 100, 'player');
         this.player.setCircle(16);
-        this.player.setMass(1); // Reduced mass
-        this.player.setFriction(this.airFriction); // Start with air friction
+        this.player.setMass(0.1);
+        this.player.setFriction(0);
+        this.player.setFrictionStatic(0);
         this.player.setBounce(0.5);
         this.player.setCollisionCategory(this.CATEGORY_PLAYER);
 
