@@ -3,37 +3,36 @@ import Spawner from '../Spawner.js';
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
-        this.platform = null;
-        this.leftWeight = 0;
-        this.rightWeight = 0;
-        this.blocks = []; // Keep track of the blocks
-        this.anchor = null;
-        this.constraint = null;
-        this.desiredAngle = 0;
-        this.player = null; // Player game object
-        this.cursors = null; // Keyboard input
         this.acceleration = 0.1; // Acceleration value
-        this.maxSpeed = 3; // Maximum speed
-        this.platformFriction = 0.1; // Friction when on the platform
         this.airFriction = 0.0001; // Friction when in the air
-        this.isOnPlatform = false; // Flag to track if the player is on the platform
-        this.minSlideSpeed = 1; // Minimum speed for sliding
-        this.attackKey = null; // Attack input key
-        this.isAttacking = false; // Flag to track if the player is attacking
-        this.attackCooldown = 500; // Cooldown period in milliseconds
-        this.lastAttackTime = 0; // Time of the last attack
+        this.anchor = null;
         this.attackArea = null; // Store the attack area
-        this.playerDirection = 1; // 1 for right, -1 for left
+        this.attackCooldown = 500; // Cooldown period in milliseconds
+        this.attackKey = null; // Attack input key
         this.attackPushback = 5; // Pushback force applied to blocks
-        this.attackSpeed = 10; // Speed of the attack
         this.attackRadius = 15; // Radius of the attack circle
+        this.attackSpeed = 10; // Speed of the attack
+        this.blocks = []; // Keep track of the blocks
+        this.constraint = null;
+        this.cursors = null; // Keyboard input
+        this.desiredAngle = 0;
+        this.isAttacking = false; // Flag to track if the player is attacking
+        this.isOnPlatform = false; // Flag to track if the player is on the platform
+        this.lastAttackTime = 0; // Time of the last attack
+        this.leftWeight = 0;
+        this.maxSpeed = 3; // Maximum speed
+        this.minSlideSpeed = 1; // Minimum speed for sliding
+        this.platform = null;
+        this.platformFriction = 0.1; // Friction when on the platform
+        this.player = null; // Player game object
+        this.playerDirection = 1; // 1 for right, -1 for left
+        this.rightWeight = 0;
+        this.spawner = null; // Spawner instance
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
         this.CATEGORY_BLOCK = 0x0002;
         this.CATEGORY_ATTACK = 0x0004;
-
-        this.spawner = null; // Spawner instance
     }
 
     preload() {
