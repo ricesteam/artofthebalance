@@ -69,7 +69,7 @@ export default class GameScene extends Phaser.Scene {
             ignoreGravity: this.anchorIgnoreGravity,
             isStatic: true,
         });
-        this.anchor.setIgnoreGravity(this.anchorIgnoreGravity);
+        this.anchor.ignoreGravity = this.anchorIgnoreGravity;
 
         this.platformLocation = 0;
         this.platformStiffness = 1;
