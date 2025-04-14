@@ -207,8 +207,8 @@ export default class GameScene extends Phaser.Scene {
             attackWidth,
             attackHeight,
             {
-                isSensor: true, // Prevent collision response
-                isStatic: true, // Prevent it from moving
+                //isSensor: true, // Prevent collision response
+                //isStatic: true, // Prevent it from moving
             }
         );
 
