@@ -64,17 +64,22 @@ export default class GameScene extends Phaser.Scene {
         this.platform.setOrigin(0.5, 0.5);
 
         // Create an anchor point
+        this.anchorIgnoreGravity = true;
         this.anchor = this.matter.add.circle(width / 2, height / 2, 0, {
-            ignoreGravity: true,
+            ignoreGravity: this.anchorIgnoreGravity,
             isStatic: true,
         });
+        this.anchor.setIgnoreGravity(this.anchorIgnoreGravity);
+
+        this.platformLocation = 0;
+        this.platformStiffness = 1;
 
         // Create a constraint to connect the platform to the anchor
         this.constraint = this.matter.add.constraint(
             this.platform,
             this.anchor,
-            0,
-            1,
+            this.platformLocation,
+            this.platformStiffness,
             {
                 damping: 0.8,
                 angularStiffness: 1,
