@@ -23,6 +23,11 @@ export default class GameScene extends Phaser.Scene {
         this.attackArea = null; // Store the attack area
         this.playerDirection = 1; // 1 for right, -1 for left
         this.attackPushback = 5; // Pushback force applied to blocks
+
+        // Collision categories
+        this.CATEGORY_PLAYER = 0x0001;
+        this.CATEGORY_BLOCK = 0x0002;
+        this.CATEGORY_ATTACK = 0x0004;
     }
 
     preload() {
@@ -93,6 +98,7 @@ export default class GameScene extends Phaser.Scene {
         this.player.setMass(1); // Reduced mass
         this.player.setFriction(this.airFriction); // Start with air friction
         this.player.setBounce(0.5);
+        this.player.setCollisionCategory(this.CATEGORY_PLAYER);
 
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -148,6 +154,7 @@ export default class GameScene extends Phaser.Scene {
         block.setBounce(0.5);
         block.setFriction(0);
         block.setMass(1);
+        block.setCollisionCategory(this.CATEGORY_BLOCK);
         this.blocks.push(block); // Add the block to the array
     }
 
@@ -208,6 +215,10 @@ export default class GameScene extends Phaser.Scene {
             attackWidth,
             attackHeight,
             {
+                collisionFilter: {
+                    category: this.CATEGORY_ATTACK,
+                    mask: this.CATEGORY_BLOCK, // Only collide with blocks
+                },
                 //isSensor: true, // Prevent collision response
                 //isStatic: true, // Prevent it from moving
             }
