@@ -279,5 +279,13 @@ export default class GameScene extends Phaser.Scene {
         if (this.attackKey.isDown) {
             this.attack();
         }
+
+        // Remove blocks that have fallen off-screen
+        this.blocks.forEach((block, index) => {
+            if (block.y > this.scale.height) {
+                this.matter.world.remove(block); // Remove from Matter world
+                this.blocks.splice(index, 1); // Remove from the blocks array
+            }
+        });
     }
 }
