@@ -26,6 +26,7 @@ export default class GameScene extends Phaser.Scene {
         this.platformFriction = 0.01; // Friction when on the platform
         this.platformFrictionStatic = 0; // Friction when on the platform
         this.player = null; // Player game object
+        this.playerMass = 0.4;
         this.playerDirection = 1; // 1 for right, -1 for left
         this.rightWeight = 0;
         this.spawner = null; // Spawner instance
@@ -55,7 +56,7 @@ export default class GameScene extends Phaser.Scene {
             null,
             {
                 inertia: 10000,
-                shape: { type: 'rectangle', width: 500, height: 20 },
+                shape: { type: 'rectangle', width: 700, height: 20 },
                 friction: this.platformFriction,
                 frictionStatic: this.platformFrictionStatic,
                 ignoreGravity: true,
@@ -101,10 +102,11 @@ export default class GameScene extends Phaser.Scene {
         // Create the player
         this.player = this.matter.add.image(200, 100, 'player');
         this.player.setCircle(16);
-        this.player.setMass(0.1);
+        this.player.setMass(this.playerMass);
         this.player.setFriction(0);
         this.player.setFrictionStatic(0);
         this.player.setBounce(0.5);
+        this.player.setFixedRotation();
         this.player.setCollisionCategory(this.CATEGORY_PLAYER);
 
         // Input keys
