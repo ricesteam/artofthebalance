@@ -1,5 +1,6 @@
 import Spawner from '../Spawner.js';
 import Player from '../Player.js';
+import Enemy from '../Enemy.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -17,6 +18,7 @@ export default class GameScene extends Phaser.Scene {
         this.player = null; // Player game object
         this.rightWeight = 0;
         this.spawner = null; // Spawner instance
+        this.enemies = []; // Array to hold enemies
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -109,6 +111,10 @@ export default class GameScene extends Phaser.Scene {
         this.spawner.addBlock(250, 0, 'left');
         this.spawner.addBlock(500, 0, 'right');
 
+        // Create some enemies
+        this.enemies.push(new Enemy(this, 400, 100));
+        this.enemies.push(new Enemy(this, 600, 100));
+
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {
             event.pairs.forEach((pair) => {
@@ -157,6 +163,11 @@ export default class GameScene extends Phaser.Scene {
 
     update() {
         this.player.update(this.cursors);
+
+        // Update enemies
+        this.enemies.forEach(enemy => {
+            enemy.update();
+        });
 
         // Attack input
         if (this.attackKey.isDown) {
