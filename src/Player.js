@@ -9,6 +9,7 @@ export default class Player {
         this.playerDirection = 1;
         this.attackSpeed = 15;
         this.attackRadius = 15;
+        this.attackPushback = 25; // Increased attack pushback
         this.attackCooldown = 500;
         this.isAttacking = false;
         this.lastAttackTime = 0;
