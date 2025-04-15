@@ -7,6 +7,7 @@ export default class Enemy {
         this.enemyDirection = -1; // Start moving left
         this.range = 150; // Distance the enemy will walk in each direction
         this.startPosition = x; // Initial x position
+        this.hp = 3; // Initial health points
 
         this.enemy = this.scene.matter.add.sprite(x, y, 'player', 0); // Reusing player sprite for now
         this.enemy.setRectangle(16, 32);
@@ -53,5 +54,17 @@ export default class Enemy {
 
         // Rotate the enemy to be perpendicular to the platform
         this.enemy.rotation = this.scene.platform.rotation;
+    }
+
+    takeDamage(damage) {
+        this.hp -= damage;
+        if (this.hp <= 0) {
+            this.die();
+        }
+    }
+
+    die() {
+        // Handle enemy death (e.g., remove from scene, play death animation)
+        this.enemy.destroy();
     }
 }

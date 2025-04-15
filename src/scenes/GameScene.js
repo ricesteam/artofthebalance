@@ -148,6 +148,9 @@ export default class GameScene extends Phaser.Scene {
                             otherBody.applyForce(pushbackDirection);
                         }
                         // You can implement a health system and apply damage here
+                        if (otherGameObject instanceof Enemy) {
+                            otherGameObject.takeDamage(1); // Deal 1 damage to the enemy
+                        }
                     }
                 }
             });
