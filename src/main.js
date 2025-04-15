@@ -9,7 +9,7 @@ const config = {
     width: 853,
     height: 480,
     backgroundColor: '#222222',
-    pixelArt: false,
+    pixelArt: true,
     scene: [GameScene],
     scale: {
         mode: Phaser.Scale.FIT,
