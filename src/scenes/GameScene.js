@@ -36,6 +36,9 @@ export default class GameScene extends Phaser.Scene {
         const width = this.scale.width;
         const height = this.scale.height;
 
+        // Add the background image
+        this.add.image(0, 0, 'background').setOrigin(0, 0);
+
         // Create the see-saw platform
         this.platform = this.matter.add.image(
             width / 2,
