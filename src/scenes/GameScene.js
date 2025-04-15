@@ -117,18 +117,20 @@ export default class GameScene extends Phaser.Scene {
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {
             event.pairs.forEach((pair) => {
+                const { bodyA, bodyB } = pair;
+
                 if (
                     this.player.attackArea &&
-                    (pair.bodyA === this.player.attackArea.body ||
-                        pair.bodyB === this.player.attackArea.body) &&
-                    pair.bodyA !== this.player.player.body &&
-                    pair.bodyB !== this.player.player.body
+                    (bodyA === this.player.attackArea.body ||
+                        bodyB === this.player.attackArea.body) &&
+                    bodyA !== this.player.player.body &&
+                    bodyB !== this.player.player.body
                 ) {
                     // Check if the other body is an enemy or damageable object
                     const otherBody =
-                        pair.bodyA === this.player.attackArea.body
-                            ? pair.bodyB
-                            : pair.bodyA;
+                        bodyA === this.player.attackArea.body
+                            ? bodyB
+                            : bodyA;
                     const otherGameObject = otherBody.gameObject;
 
                     if (otherGameObject) {
