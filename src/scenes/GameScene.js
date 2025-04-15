@@ -29,6 +29,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('platform', 'assets/platform.png'); // Replace with your asset
         this.load.image('block', 'assets/block.png'); // Replace with your asset
         this.load.image('player', 'assets/player.png'); // Replace with your asset
+        this.load.image('background', 'assets/background.png'); // Replace with your asset
     }
 
     create() {
