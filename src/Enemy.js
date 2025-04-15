@@ -50,5 +50,8 @@ export default class Enemy {
         }
 
         this.enemy.setVelocityX(this.enemyDirection * this.maxSpeed);
+
+        // Rotate the enemy to be perpendicular to the platform
+        this.enemy.rotation = this.scene.platform.rotation;
     }
 }
