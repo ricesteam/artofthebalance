@@ -42,6 +42,9 @@ export default class GameScene extends Phaser.Scene {
         const width = this.scale.width;
         const height = this.scale.height;
 
+        // Clear existing blocks and enemies
+        this.clearScene();
+
         // Add the background image
         //this.add.image(0, 0, 'background').setOrigin(0, 0);
 
@@ -156,6 +159,26 @@ export default class GameScene extends Phaser.Scene {
         this.input.keyboard.on('keydown-R', () => {
             this.scene.restart();
         });
+    }
+
+    clearScene() {
+        // Clear existing blocks
+        this.blocks.forEach(block => {
+            this.matter.world.remove(block);
+        });
+        this.blocks = [];
+
+        // Clear existing enemies
+        this.enemies.forEach(enemy => {
+            enemy.enemy.destroy();
+        });
+        this.enemies = [];
+
+        // Destroy existing player
+        if (this.player && this.player.player) {
+            this.player.player.destroy();
+            this.player = null;
+        }
     }
 
     setOffPlatform() {
