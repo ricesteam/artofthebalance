@@ -26,10 +26,13 @@ export default class GameScene extends Phaser.Scene {
 
     preload() {
         // Load game assets here
-        this.load.image('platform', 'assets/platform.png'); // Replace with your asset
-        this.load.image('block', 'assets/block.png'); // Replace with your asset
-        this.load.spritesheet('player', 'assets/trump_animations.png', { frameWidth: 32, frameHeight: 32 }); // Replace with your asset
-        this.load.image('background', 'assets/background.png'); // Replace with your asset
+        this.load.image('platform', 'assets/platform.png');
+        this.load.image('block', 'assets/block.png');
+        this.load.spritesheet('player', 'assets/trump_animations.png', {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+        this.load.image('background', 'assets/background.png');
     }
 
     create() {
@@ -37,7 +40,7 @@ export default class GameScene extends Phaser.Scene {
         const height = this.scale.height;
 
         // Add the background image
-        this.add.image(0, 0, 'background').setOrigin(0, 0);
+        //this.add.image(0, 0, 'background').setOrigin(0, 0);
 
         // Create the see-saw platform
         this.platform = this.matter.add.image(
