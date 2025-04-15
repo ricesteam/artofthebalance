@@ -14,7 +14,7 @@ export default class Player {
         this.isAttacking = false;
         this.lastAttackTime = 0;
 
-        this.player = this.scene.matter.add.image(x, y, 'player');
+        this.player = this.scene.matter.add.sprite(x, y, 'player', 0);
         this.player.setCircle(16);
         this.player.setMass(this.playerMass);
         this.player.setFriction(0);
@@ -24,6 +24,22 @@ export default class Player {
         this.player.setCollisionCategory(this.scene.CATEGORY_PLAYER);
 
         this.attackArea = null;
+
+        // Create animations
+        this.scene.anims.create({
+            key: 'walk',
+            frames: this.scene.anims.generateFrameNumbers('player', { start: 0, end: 7 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.scene.anims.create({
+            key: 'stand',
+            frames: [{ key: 'player', frame: 8 }],
+            frameRate: 20
+        });
+
+        this.player.anims.play('stand');
     }
 
     attack() {
@@ -93,6 +109,8 @@ export default class Player {
                 )
             );
             this.playerDirection = -1;
+            this.player.anims.play('walk', true);
+            this.player.flipX = true; // Flip the sprite for left movement
         } else if (cursors.right.isDown) {
             this.player.setVelocityX(
                 Math.min(
@@ -101,6 +119,8 @@ export default class Player {
                 )
             );
             this.playerDirection = 1;
+            this.player.anims.play('walk', true);
+            this.player.flipX = false; // Do not flip the sprite for right movement
         } else {
             // Decelerate when no key is pressed
             if (Math.abs(this.player.body.velocity.x) > this.minSlideSpeed) {
@@ -120,6 +140,7 @@ export default class Player {
                     );
                 }
             }
+            this.player.anims.play('stand');
         }
     }
 }
