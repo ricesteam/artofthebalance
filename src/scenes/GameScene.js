@@ -24,6 +24,7 @@ export default class GameScene extends Phaser.Scene {
         this.CATEGORY_PLAYER = 0x0001;
         this.CATEGORY_BLOCK = 0x0002;
         this.CATEGORY_ATTACK = 0x0004;
+        this.CATEGORY_ENEMY = 0x0008; // New category for enemies
     }
 
     preload() {

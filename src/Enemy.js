@@ -16,7 +16,9 @@ export default class Enemy {
         this.enemy.setFrictionStatic(0);
         this.enemy.setBounce(0.5);
         this.enemy.setFixedRotation();
-        this.enemy.setCollisionCategory(this.scene.CATEGORY_BLOCK); // Enemies are blocks for now
+        this.enemy.setCollisionCategory(this.scene.CATEGORY_ENEMY); // Set enemy collision category
+        this.enemy.setCollisionGroup(-1); // Ensure enemies don't collide with each other
+        this.enemy.setCollidesWith([this.scene.CATEGORY_BLOCK, this.scene.CATEGORY_PLAYER, this.scene.CATEGORY_ATTACK]); // Collide with blocks, player, and attack
         this.enemy.setScale(2);
 
         // Create animations (reusing player animations for now)
