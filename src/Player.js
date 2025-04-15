@@ -15,7 +15,7 @@ export default class Player {
         this.lastAttackTime = 0;
 
         this.player = this.scene.matter.add.sprite(x, y, 'player', 0);
-        this.player.setCircle(16);
+        this.player.setRectangle(16, 32);
         this.player.setMass(this.playerMass);
         this.player.setFriction(0);
         this.player.setFrictionStatic(0);
@@ -29,15 +29,18 @@ export default class Player {
         // Create animations
         this.scene.anims.create({
             key: 'walk',
-            frames: this.scene.anims.generateFrameNumbers('player', { start: 0, end: 7 }),
+            frames: this.scene.anims.generateFrameNumbers('player', {
+                start: 0,
+                end: 7,
+            }),
             frameRate: 10,
-            repeat: -1
+            repeat: -1,
         });
 
         this.scene.anims.create({
             key: 'stand',
             frames: [{ key: 'player', frame: 8 }],
-            frameRate: 20
+            frameRate: 20,
         });
 
         this.player.anims.play('stand');
@@ -143,5 +146,8 @@ export default class Player {
             }
             this.player.anims.play('stand');
         }
+
+        // Rotate the player to be perpendicular to the platform
+        this.player.rotation = this.scene.platform.rotation;
     }
 }
