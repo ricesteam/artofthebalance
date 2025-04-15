@@ -40,10 +40,10 @@ export default class Enemy {
         // Basic back and forth movement
         if (this.enemy.x < 100) {
             this.enemyDirection = 1;
-            this.enemy.flipX = true; //Corrected flip
+            this.enemy.flipX = false; //Corrected flip
         } else if (this.enemy.x > this.scene.scale.width - 100) {
             this.enemyDirection = -1;
-            this.enemy.flipX = false; //Corrected flip
+            this.enemy.flipX = true; //Corrected flip
         }
 
         this.enemy.setVelocityX(this.enemyDirection * this.maxSpeed);
