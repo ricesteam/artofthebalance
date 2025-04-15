@@ -29,8 +29,8 @@ export default class Enemy {
         this.scene.anims.create({
             key: 'enemyWalk',
             frames: this.scene.anims.generateFrameNumbers('maga', {
-                start: 2,
-                end: 9,
+                start: 1,
+                end: 8,
             }),
             frameRate: 10,
             repeat: -1,
@@ -38,7 +38,7 @@ export default class Enemy {
 
         this.scene.anims.create({
             key: 'enemyStand',
-            frames: [{ key: 'player', frame: 8 }],
+            frames: [{ key: 'maga', frame: 8 }],
             frameRate: 20,
         });
 

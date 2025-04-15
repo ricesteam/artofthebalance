@@ -35,6 +35,10 @@ export default class GameScene extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 64,
         });
+        this.load.spritesheet('maga', 'assets/maga.png', {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
         this.load.image('background', 'assets/background.png');
     }
 
@@ -133,7 +137,11 @@ export default class GameScene extends Phaser.Scene {
                     let otherGameObject = otherBody.gameObject;
                     if (otherGameObject) {
                         // Check if player and its body are valid before applying force
-                        if (this.player && this.player.player && this.player.player.body) {
+                        if (
+                            this.player &&
+                            this.player.player &&
+                            this.player.player.body
+                        ) {
                             const pushbackDirection = new Phaser.Math.Vector2(
                                 this.player.playerDirection,
                                 0
@@ -163,13 +171,13 @@ export default class GameScene extends Phaser.Scene {
 
     clearScene() {
         // Clear existing blocks
-        this.blocks.forEach(block => {
+        this.blocks.forEach((block) => {
             this.matter.world.remove(block);
         });
         this.blocks = [];
 
         // Clear existing enemies
-        this.enemies.forEach(enemy => {
+        this.enemies.forEach((enemy) => {
             enemy.enemy.destroy();
         });
         this.enemies = [];
