@@ -28,9 +28,9 @@ export default class Enemy {
         // Create animations (reusing player animations for now)
         this.scene.anims.create({
             key: 'enemyWalk',
-            frames: this.scene.anims.generateFrameNumbers('player', {
-                start: 0,
-                end: 7,
+            frames: this.scene.anims.generateFrameNumbers('maga', {
+                start: 2,
+                end: 9,
             }),
             frameRate: 10,
             repeat: -1,
