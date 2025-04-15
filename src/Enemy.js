@@ -1,7 +1,7 @@
 export default class Enemy {
     constructor(scene, x, y) {
         this.scene = scene;
-        this.enemyMass = 0.1;
+        this.enemyMass = 0.5;
         this.acceleration = 0.05;
         this.maxSpeed = 2;
         this.enemyDirection = -1; // Start moving left
@@ -12,13 +12,17 @@ export default class Enemy {
         this.enemy = this.scene.matter.add.sprite(x, y, 'player', 0); // Reusing player sprite for now
         this.enemy.setRectangle(16, 32);
         this.enemy.setMass(this.enemyMass);
-        this.enemy.setFriction(0);
-        this.enemy.setFrictionStatic(0);
+        this.enemy.setFriction(0.1);
+        this.enemy.setFrictionStatic(0.1);
         this.enemy.setBounce(0.5);
         this.enemy.setFixedRotation();
         this.enemy.setCollisionCategory(this.scene.CATEGORY_ENEMY); // Set enemy collision category
         this.enemy.setCollisionGroup(-1); // Ensure enemies don't collide with each other
-        this.enemy.setCollidesWith([this.scene.CATEGORY_BLOCK, this.scene.CATEGORY_PLAYER, this.scene.CATEGORY_ATTACK]); // Collide with blocks, player, and attack
+        this.enemy.setCollidesWith([
+            this.scene.CATEGORY_BLOCK,
+            this.scene.CATEGORY_PLAYER,
+            this.scene.CATEGORY_ATTACK,
+        ]); // Collide with blocks, player, and attack
         this.enemy.setScale(2);
 
         // Create animations (reusing player animations for now)

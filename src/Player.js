@@ -7,9 +7,8 @@ export default class Player {
         this.minSlideSpeed = 1;
         this.airFriction = 0.0001;
         this.playerDirection = 1;
-        this.attackSpeed = 10;
+        this.attackSpeed = 15;
         this.attackRadius = 15;
-        this.attackPushback = 5;
         this.attackCooldown = 500;
         this.isAttacking = false;
         this.lastAttackTime = 0;
@@ -72,7 +71,7 @@ export default class Player {
             {
                 collisionFilter: {
                     category: this.scene.CATEGORY_ATTACK,
-                    mask: this.scene.CATEGORY_BLOCK, // Only collide with blocks
+                    mask: this.scene.CATEGORY_BLOCK | this.scene.CATEGORY_ENEMY,
                 },
             }
         );
