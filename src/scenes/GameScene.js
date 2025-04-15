@@ -121,8 +121,8 @@ export default class GameScene extends Phaser.Scene {
                 let bodyB = pair.bodyB;
 
                 if (
-                    bodyA === this.player.attackArea ||
-                    bodyB === this.player.attackArea
+                    bodyA === this.player.attackArea?.body ||
+                    bodyB === this.player.attackArea?.body
                 ) {
                     // Determine which body is the other object
                     let otherBody =
@@ -147,6 +147,11 @@ export default class GameScene extends Phaser.Scene {
                     }
                 }
             });
+        });
+
+        // Restart the game on 'R' key press
+        this.input.keyboard.on('keydown-R', () => {
+            this.scene.restart();
         });
     }
 
