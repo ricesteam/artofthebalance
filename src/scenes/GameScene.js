@@ -53,7 +53,7 @@ export default class GameScene extends Phaser.Scene {
                 shape: { type: 'rectangle', width: 700, height: 20 },
                 friction: this.platformFriction,
                 frictionStatic: this.platformFrictionStatic,
-                ignoreGravity: true,
+                restitution: 0.8,
             }
         );
         this.platform.setOrigin(0.5, 0.5);
@@ -61,13 +61,13 @@ export default class GameScene extends Phaser.Scene {
         // Create an anchor point
         this.anchorIgnoreGravity = true;
         this.anchor = this.matter.add.circle(width / 2, height / 2, 0, {
-            ignoreGravity: this.anchorIgnoreGravity,
+            ignoreGravity: false,
             isStatic: true,
         });
-        this.anchor.ignoreGravity = this.anchorIgnoreGravity;
+        //this.anchor.ignoreGravity = this.anchorIgnoreGravity;
 
         this.platformLocation = 0;
-        this.platformStiffness = 1;
+        this.platformStiffness = 0.2;
 
         // Create a constraint to connect the platform to the anchor
         this.constraint = this.matter.add.constraint(
