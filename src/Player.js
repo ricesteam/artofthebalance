@@ -22,6 +22,7 @@ export default class Player {
         this.player.setBounce(0.5);
         this.player.setFixedRotation();
         this.player.setCollisionCategory(this.scene.CATEGORY_PLAYER);
+        this.player.setScale(2); // Double the scale of the player sprite
 
         this.attackArea = null;
 
