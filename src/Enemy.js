@@ -5,6 +5,8 @@ export default class Enemy {
         this.acceleration = 0.05;
         this.maxSpeed = 2;
         this.enemyDirection = -1; // Start moving left
+        this.range = 150; // Distance the enemy will walk in each direction
+        this.startPosition = x; // Initial x position
 
         this.enemy = this.scene.matter.add.sprite(x, y, 'player', 0); // Reusing player sprite for now
         this.enemy.setRectangle(16, 32);
@@ -34,16 +36,17 @@ export default class Enemy {
         });
 
         this.enemy.anims.play('enemyWalk');
+        this.enemy.flipX = true;
     }
 
     update() {
         // Basic back and forth movement
-        if (this.enemy.x < 100) {
+        if (this.enemy.x < this.startPosition - this.range) {
             this.enemyDirection = 1;
-            this.enemy.flipX = false; //Corrected flip
-        } else if (this.enemy.x > this.scene.scale.width - 100) {
+            this.enemy.flipX = false;
+        } else if (this.enemy.x > this.startPosition + this.range) {
             this.enemyDirection = -1;
-            this.enemy.flipX = true; //Corrected flip
+            this.enemy.flipX = true;
         }
 
         this.enemy.setVelocityX(this.enemyDirection * this.maxSpeed);
