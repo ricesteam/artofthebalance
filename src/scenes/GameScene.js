@@ -129,16 +129,19 @@ export default class GameScene extends Phaser.Scene {
                         bodyA === this.player.attackArea?.body ? bodyB : bodyA;
                     let otherGameObject = otherBody.gameObject;
                     if (otherGameObject) {
-                        const pushbackDirection = new Phaser.Math.Vector2(
-                            this.player.playerDirection,
-                            0
-                        );
-                        pushbackDirection.rotate(this.platform.rotation);
-                        pushbackDirection.scale(this.player.attackPushback);
-                        otherGameObject.applyForce(
-                            this.player.player.body.position,
-                            pushbackDirection
-                        );
+                        // Check if player and its body are valid before applying force
+                        if (this.player && this.player.player && this.player.player.body) {
+                            const pushbackDirection = new Phaser.Math.Vector2(
+                                this.player.playerDirection,
+                                0
+                            );
+                            pushbackDirection.rotate(this.platform.rotation);
+                            pushbackDirection.scale(this.player.attackPushback);
+                            otherGameObject.applyForce(
+                                this.player.player.body.position,
+                                pushbackDirection
+                            );
+                        }
 
                         // Check if the other object is an enemy
                         if (otherGameObject instanceof Enemy) {
