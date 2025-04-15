@@ -115,40 +115,34 @@ export default class GameScene extends Phaser.Scene {
         this.enemies.push(new Enemy(this, 600, 100));
 
         // Add a callback for when the attack area overlaps with another body
-        this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
+        this.matter.world.on('collisionstart', (event) => {
             event.pairs.forEach((pair) => {
-                const { bodyA, bodyB } = pair;
+                let bodyA = pair.bodyA;
+                let bodyB = pair.bodyB;
 
                 if (
-                    this.player.attackArea &&
-                    (bodyA === this.player.attackArea.body ||
-                        bodyB === this.player.attackArea.body) &&
-                    bodyA !== this.player.player.body &&
-                    bodyB !== this.player.player.body
+                    bodyA === this.player.attackArea ||
+                    bodyB === this.player.attackArea
                 ) {
-                    // Check if the other body is an enemy or damageable object
-                    const otherBody =
-                        bodyA === this.player.attackArea.body ? bodyB : bodyA;
-                    const otherGameObject = otherBody.gameObject;
-
+                    // Determine which body is the other object
+                    let otherBody =
+                        bodyA === this.player.attackArea?.body ? bodyB : bodyA;
+                    let otherGameObject = otherBody.gameObject;
                     if (otherGameObject) {
-                        // Apply damage to the collided object
-                        console.log('Hit:', otherGameObject);
+                        const pushbackDirection = new Phaser.Math.Vector2(
+                            this.player.playerDirection,
+                            0
+                        );
+                        pushbackDirection.rotate(this.platform.rotation);
+                        pushbackDirection.scale(this.player.attackPushback);
+                        otherGameObject.applyForce(
+                            this.player.player.body.position,
+                            pushbackDirection
+                        );
 
-                        // Check if the other object is a block
-                        if (this.blocks.includes(otherGameObject)) {
-                            // Apply pushback to the block
-                            const pushbackDirection = new Phaser.Math.Vector2(
-                                this.player.playerDirection,
-                                0
-                            );
-                            pushbackDirection.rotate(this.platform.rotation); // Rotate the pushback direction with the platform
-                            pushbackDirection.scale(this.player.attackPushback);
-                            otherBody.applyForce(pushbackDirection);
-                        }
-                        // You can implement a health system and apply damage here
+                        // Check if the other object is an enemy
                         if (otherGameObject instanceof Enemy) {
-                            otherGameObject.takeDamage(1); // Deal 1 damage to the enemy
+                            otherGameObject.takeDamage(1);
                         }
                     }
                 }
