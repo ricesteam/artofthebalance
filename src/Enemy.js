@@ -7,7 +7,7 @@ export default class Enemy {
         this.enemyDirection = -1; // Start moving left
 
         this.enemy = this.scene.matter.add.sprite(x, y, 'player', 0); // Reusing player sprite for now
-        this.enemy.setCircle(16);
+        this.enemy.setRectangle(16, 32);
         this.enemy.setMass(this.enemyMass);
         this.enemy.setFriction(0);
         this.enemy.setFrictionStatic(0);
@@ -19,15 +19,18 @@ export default class Enemy {
         // Create animations (reusing player animations for now)
         this.scene.anims.create({
             key: 'enemyWalk',
-            frames: this.scene.anims.generateFrameNumbers('player', { start: 0, end: 7 }),
+            frames: this.scene.anims.generateFrameNumbers('player', {
+                start: 0,
+                end: 7,
+            }),
             frameRate: 10,
-            repeat: -1
+            repeat: -1,
         });
 
         this.scene.anims.create({
             key: 'enemyStand',
             frames: [{ key: 'player', frame: 8 }],
-            frameRate: 20
+            frameRate: 20,
         });
 
         this.enemy.anims.play('enemyWalk');
