@@ -46,7 +46,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         });
 
         this.scene.anims.create({
-            key: 'enemyStand',
+            key: 'enemyIdle',
             frames: [{ key: 'maga', frame: 8 }],
             frameRate: 20,
         });
@@ -58,7 +58,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     startIdling() {
         this.isIdle = true;
         this.setVelocityX(0);
-        this.anims.play('enemyStand');
+        this.anims.play('enemyIdle');
 
         // Set a timer for how long to idle
         this.idleTimer = this.scene.time.addEvent({
