@@ -2,8 +2,7 @@ import { Scene } from 'phaser';
 import { Player } from '../Player';
 import { Spawner } from '../Spawner';
 
-export class GameScene extends Scene
-{
+export class GameScene extends Scene {
     constructor() {
         super({ key: 'GameScene' });
         this.anchor = null;
@@ -119,11 +118,7 @@ export class GameScene extends Scene
                     let otherGameObject = otherBody.gameObject;
                     if (otherGameObject) {
                         // Check if player and its body are valid before applying force
-                        if (
-                            this.player &&
-                            this.player.player &&
-                            this.player.player.body
-                        ) {
+                        if (this.player) {
                             const pushbackDirection = new Phaser.Math.Vector2(
                                 this.player.playerDirection,
                                 0
@@ -131,7 +126,7 @@ export class GameScene extends Scene
                             pushbackDirection.rotate(this.platform.rotation);
                             pushbackDirection.scale(this.player.attackPushback);
                             otherGameObject.applyForce(
-                                this.player.player.body.position,
+                                this.player.body.position,
                                 pushbackDirection
                             );
                         }
@@ -194,7 +189,7 @@ export class GameScene extends Scene
 
         // Attack input
         if (this.attackKey.isDown) {
-            this.player.attack();            
+            this.player.attack();
         }
 
         // Remove blocks that have fallen off-screen

@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
 export class Player extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -8,6 +8,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         scene.add.existing(this);
 
         this.scene = scene;
+        this.world = scene.matter.world;
         this.playerMass = 0.5;
         this.acceleration = 0.001;
         this.maxSpeed = 3;
@@ -16,8 +17,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.playerDirection = 1;
         this.attackSpeed = 15;
         this.attackRadius = 15;
-        this.attackPushback = 25; // Increased attack pushback
-        this.attackCooldown = 500;
+        this.attackPushback = 5; // Increased attack pushback
+        this.attackCooldown = 300;
         this.isAttacking = false;
         this.lastAttackTime = 0;
 
@@ -137,7 +138,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
 
         // Cap the velocity
-        const velocityX = Phaser.Math.Clamp(this.body.velocity.x, -this.maxSpeed, this.maxSpeed);
+        const velocityX = Phaser.Math.Clamp(
+            this.body.velocity.x,
+            -this.maxSpeed,
+            this.maxSpeed
+        );
         this.setVelocityX(velocityX);
 
         // Rotate the player to be perpendicular to the platform

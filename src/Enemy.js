@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
 export class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -70,6 +70,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     }
 
     stopIdling() {
+        if (!this.active) return;
         this.isIdle = false;
         this.anims.play('enemyWalk');
     }

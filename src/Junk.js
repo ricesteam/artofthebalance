@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
 export class Junk extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -16,7 +16,7 @@ export class Junk extends Phaser.Physics.Matter.Sprite {
     }
 
     takeDamage(damage) {
-        const newMass = Math.max(0.1, this.body.mass - damage);
-        this.setMass(newMass);
+        //const newMass = Math.max(0.1, this.body.mass - damage);
+        //this.setMass(newMass);
     }
 }
