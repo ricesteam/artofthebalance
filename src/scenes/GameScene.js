@@ -194,7 +194,7 @@ export class GameScene extends Scene
 
         // Attack input
         if (this.attackKey.isDown) {
-            this.player.attack();
+            this.player.attack();            
         }
 
         // Remove blocks that have fallen off-screen

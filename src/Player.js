@@ -8,11 +8,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         scene.add.existing(this);
 
         this.scene = scene;
-        this.playerMass = 0.4;
-        this.acceleration = 0.1;
+        this.playerMass = 0.5;
+        this.acceleration = 0.001;
         this.maxSpeed = 3;
         this.minSlideSpeed = 1;
-        this.airFriction = 0.0001;
+        //this.airFriction = 0.0001;
         this.playerDirection = 1;
         this.attackSpeed = 15;
         this.attackRadius = 15;
@@ -23,8 +23,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.setRectangle(16, 32);
         this.setMass(this.playerMass);
-        this.setFriction(0);
-        this.setFrictionStatic(0);
+        this.setFriction(1);
+        this.setFrictionStatic(0.1);
         this.setBounce(0.5);
         this.setFixedRotation();
         this.setCollisionCategory(this.scene.CATEGORY_PLAYER);
@@ -67,8 +67,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         const platformAngle = this.scene.platform.rotation;
 
         // Initial position: player's center
-        const attackX = this.body.x;
-        const attackY = this.body.y;
+        const attackX = this.body.position.x;
+        const attackY = this.body.position.y;
 
         // Create the attack area as a circle
         this.attackArea = this.scene.matter.add.circle(
