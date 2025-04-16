@@ -7,6 +7,6 @@ export default class Junk extends Phaser.Physics.Matter.Sprite {
         this.setFriction(0.01);
         this.setMass(2);
         this.setCollisionCategory(scene.CATEGORY_BLOCK);
-        scene.blocks.push(this); // Add the block to the array
+        // scene.blocks.push(this); // Add the block to the array - REMOVED
     }
 }
