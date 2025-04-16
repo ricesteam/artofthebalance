@@ -8,6 +8,8 @@ export default class Enemy {
         this.range = 150; // Distance the enemy will walk in each direction
         this.startPosition = x; // Initial x position
         this.hp = 3; // Initial health points
+        this.isIdle = false; // New state: is the enemy idling?
+        this.idleTimer = null; // Timer for idling
 
         this.enemy = this.scene.matter.add.sprite(x, y, 'player', 0); // Reusing player sprite for now
         this.enemy.setRectangle(16, 32);
@@ -46,7 +48,30 @@ export default class Enemy {
         this.enemy.flipX = true;
     }
 
+    startIdling() {
+        this.isIdle = true;
+        this.enemy.setVelocityX(0);
+        this.enemy.anims.play('enemyStand');
+
+        // Set a timer for how long to idle
+        this.idleTimer = this.scene.time.addEvent({
+            delay: Phaser.Math.Between(1000, 3000), // Idle for 1-3 seconds
+            callback: this.stopIdling,
+            callbackScope: this,
+            loop: false,
+        });
+    }
+
+    stopIdling() {
+        this.isIdle = false;
+        this.enemy.anims.play('enemyWalk');
+    }
+
     update() {
+        if (this.isIdle) {
+            return; // Do nothing if idling
+        }
+
         // Basic back and forth movement
         if (this.enemy.x < this.startPosition - this.range) {
             this.enemyDirection = 1;
@@ -60,6 +85,11 @@ export default class Enemy {
 
         // Rotate the enemy to be perpendicular to the platform
         this.enemy.rotation = this.scene.platform.rotation;
+
+        // Randomly start idling
+        if (Phaser.Math.Between(0, 200) === 0) {
+            this.startIdling();
+        }
     }
 
     takeDamage(damage) {
