@@ -158,6 +158,11 @@ export default class GameScene extends Phaser.Scene {
                         if (otherGameObject instanceof Enemy) {
                             otherGameObject.takeDamage(1);
                         }
+
+                        // Check if the other object is a block
+                        if (otherGameObject instanceof Junk) {
+                            otherGameObject.takeDamage(0.2); // Reduce block mass
+                        }
                     }
                 }
             });
