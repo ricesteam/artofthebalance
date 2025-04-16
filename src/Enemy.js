@@ -1,6 +1,8 @@
 export default class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
-        super(scene.matter.world, x, y, 'maga', 0);
+        super(scene.matter.world, x, y, 'maga', 0, {
+            label: 'maga',
+        });
         scene.add.existing(this);
 
         this.scene = scene;
@@ -14,7 +16,6 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         this.isIdle = false; // New state: is the enemy idling?
         this.idleTimer = null; // Timer for idling
 
-        this.name = 'maga';
         this.setRectangle(16, 32);
         this.setMass(this.enemyMass);
         this.setFriction(0.5);
@@ -29,6 +30,7 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_ATTACK,
         ]); // Collide with blocks, player, and attack
         this.setScale(2);
+        this.name = 'maga';
 
         // Create animations (reusing player animations for now)
         this.scene.anims.create({
