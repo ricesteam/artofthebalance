@@ -64,6 +64,8 @@ export default class Enemy {
 
     takeDamage(damage) {
         this.hp -= damage;
+        this.enemyMass = Math.max(0, this.enemyMass - damage / 2); // Reduce mass
+        this.enemy.setMass(this.enemyMass);
         if (this.hp <= 0) {
             this.die();
         }
