@@ -21,6 +21,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.attackCooldown = 300;
         this.isAttacking = false;
         this.lastAttackTime = 0;
+        this.isGrounded = false; // Track if the player is on the ground
 
         this.setRectangle(16, 32);
         this.setMass(this.playerMass);
@@ -34,6 +35,30 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.attackArea = null;
 
         this.anims.play('stand');
+
+        // Listen for collision events to determine if the player is on the ground
+        this.scene.matter.world.on('collisionstart', this.handleCollision, this);
+        this.scene.matter.world.on('collisionend', this.handleEndCollision, this);
+    }
+
+    handleCollision(event) {
+        event.pairs.forEach(pair => {
+            if ((pair.bodyA === this.body || pair.bodyB === this.body) &&
+                (pair.bodyA.collisionFilter.category === this.scene.CATEGORY_BLOCK ||
+                 pair.bodyB.collisionFilter.category === this.scene.CATEGORY_BLOCK)) {
+                this.isGrounded = true;
+            }
+        });
+    }
+
+    handleEndCollision(event) {
+        event.pairs.forEach(pair => {
+            if ((pair.bodyA === this.body || pair.bodyB === this.body) &&
+                (pair.bodyA.collisionFilter.category === this.scene.CATEGORY_BLOCK ||
+                 pair.bodyB.collisionFilter.category === this.scene.CATEGORY_BLOCK)) {
+                this.isGrounded = false;
+            }
+        });
     }
 
     attack() {
@@ -118,6 +143,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 this.setVelocityX(0);
             }
             this.anims.play('stand');
+        }
+
+        // Jumping
+        if (cursors.up.isDown && this.isGrounded) {
+            this.setVelocityY(-5); // Apply an upward velocity for the jump
         }
 
         // Cap the velocity
