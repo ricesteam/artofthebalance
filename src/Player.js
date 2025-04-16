@@ -22,6 +22,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.isAttacking = false;
         this.lastAttackTime = 0;
         this.isGrounded = false; // Track if the player is on the ground
+        this.jumpForce = -0.012; // Upward jump force
 
         this.setRectangle(16, 32);
         this.setMass(this.playerMass);
@@ -147,7 +148,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         // Jumping
         if (cursors.space.isDown && this.isGrounded) {
-            this.setVelocityY(-5); // Apply an upward velocity for the jump
+            this.applyForce({ x: 0, y: this.jumpForce }); // Apply upward force for the jump
         }
 
         // Cap the velocity
