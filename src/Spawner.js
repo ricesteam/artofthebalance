@@ -1,7 +1,7 @@
-import Junk from './Junk.js';
-import Enemy from './Enemy.js';
+import { Junk } from './Junk';
+import { Enemy } from './Enemy';
 
-export default class Spawner {
+export class Spawner {
     constructor(scene) {
         this.scene = scene;
         this.spawnArea = {

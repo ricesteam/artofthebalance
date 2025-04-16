@@ -1,4 +1,6 @@
-export default class Junk extends Phaser.Physics.Matter.Sprite {
+import Phaser from "phaser";
+
+export class Junk extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'block', 0, {
             label: 'junk',

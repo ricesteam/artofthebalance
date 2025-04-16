@@ -1,8 +1,9 @@
-import Spawner from '../Spawner.js';
-import Player from '../Player.js';
-import Enemy from '../Enemy.js';
+import { Scene } from 'phaser';
+import { Player } from '../Player';
+import { Spawner } from '../Spawner';
 
-export default class GameScene extends Phaser.Scene {
+export class GameScene extends Scene
+{
     constructor() {
         super({ key: 'GameScene' });
         this.anchor = null;
@@ -25,21 +26,6 @@ export default class GameScene extends Phaser.Scene {
         this.CATEGORY_BLOCK = 0x0002;
         this.CATEGORY_ATTACK = 0x0004;
         this.CATEGORY_ENEMY = 0x0008; // New category for enemies
-    }
-
-    preload() {
-        // Load game assets here
-        this.load.image('platform', 'assets/platform.png');
-        this.load.image('block', 'assets/block.png');
-        this.load.spritesheet('player', 'assets/trump_animations.png', {
-            frameWidth: 64,
-            frameHeight: 64,
-        });
-        this.load.spritesheet('maga', 'assets/maga.png', {
-            frameWidth: 64,
-            frameHeight: 64,
-        });
-        this.load.image('background', 'assets/background.png');
     }
 
     create() {

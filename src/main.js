@@ -1,6 +1,11 @@
-import { Start } from './scenes/Start.js';
-import GameScene from './scenes/GameScene.js';
+import { Boot } from './scenes/Boot';
+import { GameScene } from './scenes/GameScene';
+import { GameOver } from './scenes/GameOver';
+import { MainMenu } from './scenes/MainMenu';
+import { Preloader } from './scenes/Preloader';
 
+//  Find out more information about the Game Config at:
+//  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config = {
     type: Phaser.AUTO,
     title: 'Overlord Rising',
@@ -10,7 +15,6 @@ const config = {
     height: 480,
     backgroundColor: '#222222',
     pixelArt: true,
-    scene: [GameScene],
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -22,6 +26,12 @@ const config = {
             debug: true,
         },
     },
+    scene: [
+        Boot,
+        Preloader,        
+        GameScene,
+        GameOver
+    ]
 };
 
-new Phaser.Game(config);
+export default new Phaser.Game(config);

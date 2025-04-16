@@ -1,4 +1,6 @@
-export default class Enemy extends Phaser.Physics.Matter.Sprite {
+import Phaser from "phaser";
+
+export class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'maga', 0, {
             label: 'maga',

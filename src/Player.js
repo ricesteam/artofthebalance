@@ -1,5 +1,12 @@
-export default class Player {
+import Phaser from "phaser";
+
+export class Player extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
+        super(scene.matter.world, x, y, 'player', 0, {
+            label: 'player',
+        });
+        scene.add.existing(this);
+
         this.scene = scene;
         this.playerMass = 0.4;
         this.acceleration = 0.1;
@@ -14,15 +21,14 @@ export default class Player {
         this.isAttacking = false;
         this.lastAttackTime = 0;
 
-        this.player = this.scene.matter.add.sprite(x, y, 'player', 0);
-        this.player.setRectangle(16, 32);
-        this.player.setMass(this.playerMass);
-        this.player.setFriction(0);
-        this.player.setFrictionStatic(0);
-        this.player.setBounce(0.5);
-        this.player.setFixedRotation();
-        this.player.setCollisionCategory(this.scene.CATEGORY_PLAYER);
-        this.player.setScale(2); // Double the scale of the player sprite
+        this.setRectangle(16, 32);
+        this.setMass(this.playerMass);
+        this.setFriction(0);
+        this.setFrictionStatic(0);
+        this.setBounce(0.5);
+        this.setFixedRotation();
+        this.setCollisionCategory(this.scene.CATEGORY_PLAYER);
+        this.setScale(2); // Double the scale of the player sprite
 
         this.attackArea = null;
 
@@ -43,7 +49,7 @@ export default class Player {
             frameRate: 20,
         });
 
-        this.player.anims.play('stand');
+        this.anims.play('stand');
     }
 
     attack() {
@@ -61,8 +67,8 @@ export default class Player {
         const platformAngle = this.scene.platform.rotation;
 
         // Initial position: player's center
-        const attackX = this.player.x;
-        const attackY = this.player.y;
+        const attackX = this.body.x;
+        const attackY = this.body.y;
 
         // Create the attack area as a circle
         this.attackArea = this.scene.matter.add.circle(
@@ -107,48 +113,48 @@ export default class Player {
     update(cursors) {
         // Player movement
         if (cursors.left.isDown) {
-            this.player.setVelocityX(
+            this.setVelocityX(
                 Math.max(
-                    this.player.body.velocity.x - this.acceleration,
+                    this.body.velocity.x - this.acceleration,
                     -this.maxSpeed
                 )
             );
             this.playerDirection = -1;
-            this.player.anims.play('walk', true);
-            this.player.flipX = true; // Flip the sprite for left movement
+            this.anims.play('walk', true);
+            this.flipX = true; // Flip the sprite for left movement
         } else if (cursors.right.isDown) {
-            this.player.setVelocityX(
+            this.setVelocityX(
                 Math.min(
-                    this.player.body.velocity.x + this.acceleration,
+                    this.body.velocity.x + this.acceleration,
                     this.maxSpeed
                 )
             );
             this.playerDirection = 1;
-            this.player.anims.play('walk', true);
-            this.player.flipX = false; // Do not flip the sprite for right movement
+            this.anims.play('walk', true);
+            this.flipX = false; // Do not flip the sprite for right movement
         } else {
             // Decelerate when no key is pressed
-            if (Math.abs(this.player.body.velocity.x) > this.minSlideSpeed) {
-                if (this.player.body.velocity.x > 0) {
-                    this.player.setVelocityX(
+            if (Math.abs(this.body.velocity.x) > this.minSlideSpeed) {
+                if (this.body.velocity.x > 0) {
+                    this.setVelocityX(
                         Math.max(
-                            this.player.body.velocity.x - this.acceleration,
+                            this.body.velocity.x - this.acceleration,
                             0
                         )
                     );
-                } else if (this.player.body.velocity.x < 0) {
-                    this.player.setVelocityX(
+                } else if (this.body.velocity.x < 0) {
+                    this.setVelocityX(
                         Math.min(
-                            this.player.body.velocity.x + this.acceleration,
+                            this.body.velocity.x + this.acceleration,
                             0
                         )
                     );
                 }
             }
-            this.player.anims.play('stand');
+            this.anims.play('stand');
         }
 
         // Rotate the player to be perpendicular to the platform
-        this.player.rotation = this.scene.platform.rotation;
+        this.rotation = this.scene.platform.rotation;
     }
 }
