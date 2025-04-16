@@ -117,9 +117,9 @@ export default class GameScene extends Phaser.Scene {
         //this.spawner.addBlock(250, 0, 'left');
         //this.spawner.addBlock(500, 0, 'right');
 
-        // Create some enemies
-        this.enemies.push(new Enemy(this, 400, 100));
-        this.enemies.push(new Enemy(this, 600, 100));
+        // Create some enemies - REMOVED
+        //this.enemies.push(new Enemy(this, 400, 100));
+        //this.enemies.push(new Enemy(this, 600, 100));
 
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {

@@ -1,4 +1,5 @@
 import Junk from './Junk.js';
+import Enemy from './Enemy.js';
 
 export default class Spawner {
     constructor(scene) {
@@ -16,6 +17,14 @@ export default class Spawner {
             callbackScope: this,
             loop: true,
         });
+
+        // Add a timer to spawn enemies periodically
+        this.scene.time.addEvent({
+            delay: 5000, // Spawn an enemy every 5 seconds
+            callback: this.addEnemy,
+            callbackScope: this,
+            loop: true,
+        });
     }
 
     addBlock() {
@@ -23,5 +32,12 @@ export default class Spawner {
         let y = this.spawnArea.y;
         const block = new Junk(this.scene, x, y);
         this.scene.blocks.push(block);
+    }
+
+    addEnemy() {
+        let x = this.spawnArea.x + Math.random() * this.spawnArea.width; // Random X position within spawn area
+        let y = this.spawnArea.y;
+        const enemy = new Enemy(this.scene, x, y);
+        this.scene.enemies.push(enemy);
     }
 }
