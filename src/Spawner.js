@@ -9,8 +9,6 @@ export default class Spawner {
             width: scene.scale.width * 0.6,
         };
 
-        this.junk = new Junk(scene);
-
         // Add a timer to spawn blocks periodically
         this.scene.time.addEvent({
             delay: 2000, // Spawn a block every 2 seconds
@@ -23,6 +21,6 @@ export default class Spawner {
     addBlock() {
         let x = this.spawnArea.x + Math.random() * this.spawnArea.width; // Random X position within spawn area
         let y = this.spawnArea.y;
-        this.junk.addBlock(x, y);
+        new Junk(this.scene, x, y);
     }
 }

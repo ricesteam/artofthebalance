@@ -1,7 +1,6 @@
 import Spawner from '../Spawner.js';
 import Player from '../Player.js';
 import Enemy from '../Enemy.js';
-import Junk from '../Junk.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -20,7 +19,6 @@ export default class GameScene extends Phaser.Scene {
         this.rightWeight = 0;
         this.spawner = null; // Spawner instance
         this.enemies = []; // Array to hold enemies
-        this.junk = null; // Junk instance
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -114,7 +112,6 @@ export default class GameScene extends Phaser.Scene {
 
         // Initialize the spawner
         this.spawner = new Spawner(this);
-        this.junk = new Junk(this);
 
         // Example: Add some blocks on either side (for testing)
         //this.spawner.addBlock(250, 0, 'left');
@@ -176,6 +173,7 @@ export default class GameScene extends Phaser.Scene {
         // Clear existing blocks
         this.blocks.forEach((block) => {
             this.matter.world.remove(block);
+            block.destroy(); // Also destroy the block
         });
         this.blocks = [];
 
@@ -217,6 +215,7 @@ export default class GameScene extends Phaser.Scene {
             if (block.y > this.scale.height + 200) {
                 this.matter.world.remove(block); // Remove from Matter world
                 this.blocks.splice(index, 1); // Remove from the blocks array
+                block.destroy(); // Destroy the block
             }
         });
     }
