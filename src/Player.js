@@ -113,22 +113,12 @@ export class Player extends Phaser.Physics.Matter.Sprite {
     update(cursors) {
         // Player movement
         if (cursors.left.isDown) {
-            this.setVelocityX(
-                Math.max(
-                    this.body.velocity.x - this.acceleration,
-                    -this.maxSpeed
-                )
-            );
+            this.applyForce({ x: -this.acceleration, y: 0 });
             this.playerDirection = -1;
             this.anims.play('walk', true);
             this.flipX = true; // Flip the sprite for left movement
         } else if (cursors.right.isDown) {
-            this.setVelocityX(
-                Math.min(
-                    this.body.velocity.x + this.acceleration,
-                    this.maxSpeed
-                )
-            );
+            this.applyForce({ x: this.acceleration, y: 0 });
             this.playerDirection = 1;
             this.anims.play('walk', true);
             this.flipX = false; // Do not flip the sprite for right movement
@@ -136,25 +126,19 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             // Decelerate when no key is pressed
             if (Math.abs(this.body.velocity.x) > this.minSlideSpeed) {
                 if (this.body.velocity.x > 0) {
-                    this.setVelocityX(
-                        Math.max(
-                            this.body.velocity.x - this.acceleration,
-                            0
-                        )
-                    );
+                    this.applyForce({ x: -this.acceleration, y: 0 });
                 } else if (this.body.velocity.x < 0) {
-                    this.setVelocityX(
-                        Math.min(
-                            this.body.velocity.x + this.acceleration,
-                            0
-                        )
-                    );
+                    this.applyForce({ x: this.acceleration, y: 0 });
                 }
             } else {
                 this.setVelocityX(0);
             }
             this.anims.play('stand');
         }
+
+        // Cap the velocity
+        const velocityX = Phaser.Math.Clamp(this.body.velocity.x, -this.maxSpeed, this.maxSpeed);
+        this.setVelocityX(velocityX);
 
         // Rotate the player to be perpendicular to the platform
         this.rotation = this.scene.platform.rotation;
