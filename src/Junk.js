@@ -1,6 +1,8 @@
 export default class Junk extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
-        super(scene.matter.world, x, y, 'block');
+        super(scene.matter.world, x, y, 'block', 0, {
+            label: 'junk',
+        });
         scene.add.existing(this);
 
         this.setBounce(0.5);

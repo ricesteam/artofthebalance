@@ -38,6 +38,7 @@ export default class Spawner {
         let x = this.spawnArea.x + Math.random() * this.spawnArea.width; // Random X position within spawn area
         let y = this.spawnArea.y;
         const enemy = new Enemy(this.scene, x, y);
+        console.log(enemy.enemy.name);
         this.scene.enemies.push(enemy);
     }
 }

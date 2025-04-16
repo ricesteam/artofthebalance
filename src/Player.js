@@ -70,6 +70,7 @@ export default class Player {
             attackY,
             this.attackRadius,
             {
+                label: 'attack1',
                 collisionFilter: {
                     category: this.scene.CATEGORY_ATTACK,
                     mask: this.scene.CATEGORY_BLOCK | this.scene.CATEGORY_ENEMY,

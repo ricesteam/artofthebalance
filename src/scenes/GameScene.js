@@ -124,16 +124,12 @@ export default class GameScene extends Phaser.Scene {
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {
             event.pairs.forEach((pair) => {
-                let bodyA = pair.bodyA;
-                let bodyB = pair.bodyB;
+                const { bodyA, bodyB } = pair;
 
-                if (
-                    bodyA === this.player.attackArea?.body ||
-                    bodyB === this.player.attackArea?.body
-                ) {
+                if (bodyA.label === 'attack1' || bodyB.label === 'attack1') {
                     // Determine which body is the other object
                     let otherBody =
-                        bodyA === this.player.attackArea?.body ? bodyB : bodyA;
+                        (bodyA === bodyA.label) === 'attack1' ? bodyB : bodyA;
                     let otherGameObject = otherBody.gameObject;
                     if (otherGameObject) {
                         // Check if player and its body are valid before applying force
@@ -155,12 +151,12 @@ export default class GameScene extends Phaser.Scene {
                         }
 
                         // Check if the other object is an enemy
-                        if (otherGameObject instanceof Enemy) {
+                        if (otherGameObject.name === 'maga') {
                             otherGameObject.takeDamage(1);
                         }
 
                         // Check if the other object is a block
-                        if (otherGameObject instanceof Junk) {
+                        if (otherBody.label === 'junk') {
                             otherGameObject.takeDamage(0.2); // Reduce block mass
                         }
                     }

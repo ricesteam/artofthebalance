@@ -1,9 +1,9 @@
 export default class Enemy {
     constructor(scene, x, y) {
         this.scene = scene;
-        this.enemyMass = 0.5;
+        this.enemyMass = 1;
         this.acceleration = 0.05;
-        this.maxSpeed = 2;
+        this.maxSpeed = 1.5;
         this.enemyDirection = -1; // Start moving left
         this.range = 150; // Distance the enemy will walk in each direction
         this.startPosition = x; // Initial x position
@@ -11,11 +11,12 @@ export default class Enemy {
         this.isIdle = false; // New state: is the enemy idling?
         this.idleTimer = null; // Timer for idling
 
-        this.enemy = this.scene.matter.add.sprite(x, y, 'player', 0); // Reusing player sprite for now
+        this.enemy = this.scene.matter.add.sprite(x, y, 'maga', 0);
+        this.enemy.name = 'maga';
         this.enemy.setRectangle(16, 32);
         this.enemy.setMass(this.enemyMass);
-        this.enemy.setFriction(0.1);
-        this.enemy.setFrictionStatic(0.1);
+        this.enemy.setFriction(0.5);
+        this.enemy.setFrictionStatic(0.5);
         this.enemy.setBounce(0.5);
         this.enemy.setFixedRotation();
         this.enemy.setCollisionCategory(this.scene.CATEGORY_ENEMY); // Set enemy collision category
@@ -68,6 +69,9 @@ export default class Enemy {
     }
 
     update() {
+        // Rotate the enemy to be perpendicular to the platform
+        this.enemy.rotation = this.scene.platform.rotation;
+
         if (this.isIdle) {
             return; // Do nothing if idling
         }
@@ -82,9 +86,6 @@ export default class Enemy {
         }
 
         this.enemy.setVelocityX(this.enemyDirection * this.maxSpeed);
-
-        // Rotate the enemy to be perpendicular to the platform
-        this.enemy.rotation = this.scene.platform.rotation;
 
         // Randomly start idling
         if (Phaser.Math.Between(0, 200) === 0) {
