@@ -150,6 +150,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                         )
                     );
                 }
+            } else {
+                this.setVelocityX(0);
             }
             this.anims.play('stand');
         }
