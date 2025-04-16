@@ -180,7 +180,7 @@ export default class GameScene extends Phaser.Scene {
 
         // Clear existing enemies
         this.enemies.forEach((enemy) => {
-            enemy.enemy.destroy();
+            enemy.destroy();
         });
         this.enemies = [];
 

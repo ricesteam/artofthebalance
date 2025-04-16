@@ -1,5 +1,8 @@
-export default class Enemy {
+export default class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
+        super(scene.matter.world, x, y, 'maga', 0);
+        scene.add.existing(this);
+
         this.scene = scene;
         this.enemyMass = 1;
         this.acceleration = 0.05;
@@ -11,22 +14,21 @@ export default class Enemy {
         this.isIdle = false; // New state: is the enemy idling?
         this.idleTimer = null; // Timer for idling
 
-        this.enemy = this.scene.matter.add.sprite(x, y, 'maga', 0);
-        this.enemy.name = 'maga';
-        this.enemy.setRectangle(16, 32);
-        this.enemy.setMass(this.enemyMass);
-        this.enemy.setFriction(0.5);
-        this.enemy.setFrictionStatic(0.5);
-        this.enemy.setBounce(0.5);
-        this.enemy.setFixedRotation();
-        this.enemy.setCollisionCategory(this.scene.CATEGORY_ENEMY); // Set enemy collision category
-        this.enemy.setCollisionGroup(-1); // Ensure enemies don't collide with each other
-        this.enemy.setCollidesWith([
+        this.name = 'maga';
+        this.setRectangle(16, 32);
+        this.setMass(this.enemyMass);
+        this.setFriction(0.5);
+        this.setFrictionStatic(0.5);
+        this.setBounce(0.5);
+        this.setFixedRotation();
+        this.setCollisionCategory(this.scene.CATEGORY_ENEMY); // Set enemy collision category
+        this.setCollisionGroup(-1); // Ensure enemies don't collide with each other
+        this.setCollidesWith([
             this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_PLAYER,
             this.scene.CATEGORY_ATTACK,
         ]); // Collide with blocks, player, and attack
-        this.enemy.setScale(2);
+        this.setScale(2);
 
         // Create animations (reusing player animations for now)
         this.scene.anims.create({
@@ -45,14 +47,14 @@ export default class Enemy {
             frameRate: 20,
         });
 
-        this.enemy.anims.play('enemyWalk');
-        this.enemy.flipX = true;
+        this.anims.play('enemyWalk');
+        this.flipX = true;
     }
 
     startIdling() {
         this.isIdle = true;
-        this.enemy.setVelocityX(0);
-        this.enemy.anims.play('enemyStand');
+        this.setVelocityX(0);
+        this.anims.play('enemyStand');
 
         // Set a timer for how long to idle
         this.idleTimer = this.scene.time.addEvent({
@@ -65,27 +67,27 @@ export default class Enemy {
 
     stopIdling() {
         this.isIdle = false;
-        this.enemy.anims.play('enemyWalk');
+        this.anims.play('enemyWalk');
     }
 
     update() {
         // Rotate the enemy to be perpendicular to the platform
-        this.enemy.rotation = this.scene.platform.rotation;
+        this.rotation = this.scene.platform.rotation;
 
         if (this.isIdle) {
             return; // Do nothing if idling
         }
 
         // Basic back and forth movement
-        if (this.enemy.x < this.startPosition - this.range) {
+        if (this.x < this.startPosition - this.range) {
             this.enemyDirection = 1;
-            this.enemy.flipX = false;
-        } else if (this.enemy.x > this.startPosition + this.range) {
+            this.flipX = false;
+        } else if (this.x > this.startPosition + this.range) {
             this.enemyDirection = -1;
-            this.enemy.flipX = true;
+            this.flipX = true;
         }
 
-        this.enemy.setVelocityX(this.enemyDirection * this.maxSpeed);
+        this.setVelocityX(this.enemyDirection * this.maxSpeed);
 
         // Randomly start idling
         if (Phaser.Math.Between(0, 200) === 0) {
@@ -96,7 +98,7 @@ export default class Enemy {
     takeDamage(damage) {
         this.hp -= damage;
         this.enemyMass = Math.max(0, this.enemyMass - damage / 2); // Reduce mass
-        this.enemy.setMass(this.enemyMass);
+        this.setMass(this.enemyMass);
         if (this.hp <= 0) {
             this.die();
         }
@@ -104,6 +106,6 @@ export default class Enemy {
 
     die() {
         // Handle enemy death (e.g., remove from scene, play death animation)
-        this.enemy.destroy();
+        this.destroy();
     }
 }
