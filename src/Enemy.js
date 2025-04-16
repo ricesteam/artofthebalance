@@ -73,6 +73,8 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
+        if (!this.active) return;
+
         // Rotate the enemy to be perpendicular to the platform
         this.rotation = this.scene.platform.rotation;
 
@@ -99,8 +101,8 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
 
     takeDamage(damage) {
         this.hp -= damage;
-        this.enemyMass = Math.max(0, this.enemyMass - damage / 2); // Reduce mass
-        this.setMass(this.enemyMass);
+        //const newMass = Math.max(0.1, this.body.mass - damage);
+        //this.setMass(this.enemyMass);
         if (this.hp <= 0) {
             this.die();
         }

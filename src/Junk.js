@@ -14,7 +14,7 @@ export default class Junk extends Phaser.Physics.Matter.Sprite {
     }
 
     takeDamage(damage) {
-        const newMass = this.body.mass - damage;
+        const newMass = Math.max(0.1, this.body.mass - damage);
         this.setMass(newMass);
     }
 }
