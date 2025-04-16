@@ -146,7 +146,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
 
         // Jumping
-        if (cursors.up.isDown && this.isGrounded) {
+        if (cursors.space.isDown && this.isGrounded) {
             this.setVelocityY(-5); // Apply an upward velocity for the jump
         }
 

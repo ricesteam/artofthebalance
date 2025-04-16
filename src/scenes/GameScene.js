@@ -124,6 +124,7 @@ export class GameScene extends Scene {
 
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.cursors.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.attackKey = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.Z
         );
