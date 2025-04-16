@@ -33,23 +33,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.attackArea = null;
 
-        // Create animations
-        this.scene.anims.create({
-            key: 'walk',
-            frames: this.scene.anims.generateFrameNumbers('player', {
-                start: 0,
-                end: 7,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-
-        this.scene.anims.create({
-            key: 'stand',
-            frames: [{ key: 'player', frame: 8 }],
-            frameRate: 20,
-        });
-
         this.anims.play('stand');
     }
 

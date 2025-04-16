@@ -34,23 +34,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.setScale(2);
         this.name = 'maga';
 
-        // Create animations (reusing player animations for now)
-        this.scene.anims.create({
-            key: 'enemyWalk',
-            frames: this.scene.anims.generateFrameNumbers('maga', {
-                start: 1,
-                end: 8,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-
-        this.scene.anims.create({
-            key: 'enemyIdle',
-            frames: [{ key: 'maga', frame: 8 }],
-            frameRate: 20,
-        });
-
         this.anims.play('enemyWalk');
         this.flipX = true;
     }
