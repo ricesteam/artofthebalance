@@ -3,30 +3,33 @@ import { Scene } from 'phaser';
 export class MainMenu extends Scene {
     constructor() {
         super('MainMenu');
-        this.cloudScrollSpeed = 0.1; // Adjust the scroll speed as needed
-        this.cloudTileScaleX = 1;
-        this.cloudTileScaleY = 1;
     }
 
     create() {
         const width = this.scale.width;
         const height = this.scale.height;
 
-        this.clouds = this.add.tileSprite(0, 0, width, height, 'clouds');
-        this.clouds.setOrigin(0, 0);
-        this.clouds.setTint(0xeeeeee);
-        this.clouds.tileScaleX = this.cloudTileScaleX;
-        this.clouds.tileScaleY = this.cloudTileScaleY;
+        const clouds = this.add
+            .image(0, 0, 'clouds3')
+            .setOrigin(0, 0)
+            .setTint(0xeeeeee);
+        clouds.setScale(width / clouds.width, height / clouds.height);
 
         this.add.image(width / 2, height / 2, 'titlescreen');
+
+        // this.add
+        //     .text(width / 2, height / 2 + 100, 'Main Menu', {
+        //         fontFamily: 'Arial Black',
+        //         fontSize: 38,
+        //         color: '#ffffff',
+        //         stroke: '#000000',
+        //         strokeThickness: 8,
+        //         align: 'center',
+        //     })
+        //     .setOrigin(0.5);
 
         this.input.once('pointerdown', () => {
             this.scene.start('GameScene');
         });
-    }
-
-    update() {
-        // Scroll the clouds horizontally
-        this.clouds.tilePositionX += this.cloudScrollSpeed;
     }
 }
