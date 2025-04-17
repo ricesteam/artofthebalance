@@ -21,6 +21,7 @@ export class GameScene extends Scene {
         this.enemies = []; // Array to hold enemies
         this.scrollSpeedX = 0.5; // Background horizontal scroll speed
         this.scrollSpeedY = 0.2; // Background vertical scroll speed
+        this.baldScale = 0.5; // Scale of the bald image
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -47,7 +48,8 @@ export class GameScene extends Scene {
 
         // Add the 'bald' image at the bottom center of the screen
         this.baldImage = this.add.image(width / 2, height, 'bald')
-            .setOrigin(0.5, 1); // Center the image horizontally, bottom vertically
+            .setOrigin(0.5, 1) // Center the image horizontally, bottom vertically
+            .setScale(this.baldScale); // Scale the image
 
         const fx = this.bg.preFX.addPixelate(2);
         this.bg.preFX.addDisplacement('distort', -0.5, -0.5);
