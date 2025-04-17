@@ -13,7 +13,7 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
 
         this.lifespan = 500; // Lifespan of the explosion in milliseconds
         this.explosionRadius = 64; // Radius of the explosion
-        this.delay = 250
+        this.delay = 250;
 
         // Create a graphic for the explosion (e.g., a circle)
         this.explosionGraphic = scene.add.graphics();
@@ -52,6 +52,7 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
+        // include the delay so it doesn't act on it until the bomb explodes ai!
         if (!this.active) return;
 
         const categoriesToCheck = [
