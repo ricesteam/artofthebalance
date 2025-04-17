@@ -80,11 +80,11 @@ export class GameScene extends Scene {
         this.platform = this.matter.add.image(
             width / 2,
             height / 2,
-            'platform',
+            'plank',
             null,
             {
                 inertia: 10000,
-                shape: { type: 'rectangle', width: 700, height: 20 },
+                shape: { type: 'rectangle', width: 700, height: 15 },
                 friction: this.platformFriction,
                 frictionStatic: this.platformFrictionStatic,
                 restitution: 0.8,
