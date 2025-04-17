@@ -26,7 +26,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.setRectangle(16, 32);
         this.setMass(this.playerMass);
-        this.setFriction(1);
+        this.setFriction(0.1);
         this.setFrictionStatic(0.1);
         this.setBounce(0.5);
         this.setFixedRotation();
@@ -160,16 +160,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.anims.play('walk', true);
             this.flipX = false; // Do not flip the sprite for right movement
         } else {
-            // Decelerate when no key is pressed
-            if (Math.abs(this.body.velocity.x) > this.minSlideSpeed) {
-                if (this.body.velocity.x > 0) {
-                    this.applyForce({ x: -this.acceleration, y: 0 });
-                } else if (this.body.velocity.x < 0) {
-                    this.applyForce({ x: this.acceleration, y: 0 });
-                }
-            } else {
-                this.setVelocityX(0);
-            }
             this.anims.play('stand');
         }
 

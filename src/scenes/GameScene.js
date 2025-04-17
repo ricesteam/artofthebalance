@@ -98,6 +98,7 @@ export class GameScene extends Scene {
             }
         );
         this.platform.setOrigin(0.5, 0.5);
+        this.platform.setCollisionCategory(this.CATEGORY_PLATFORM);
 
         // Create an anchor point
         this.anchor = this.matter.add.circle(width / 2, height / 2 + 50, 0, {
