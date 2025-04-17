@@ -3,8 +3,11 @@ import Phaser from 'phaser';
 export class Explosion extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'explosion', 0, {
-            isSensor: true,
-            isStatic: true,
+            //isSensor: true,
+            //isStatic: true,
+            collisionFilter: {
+                mask: scene.CATEGORY_PLATFORM,
+            },
         });
         this.scene = scene;
         this.world = scene.matter.world;
@@ -26,6 +29,7 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
         this.constraints = [];
         this.victims = [];
 
+        // change this to tween from 0 to the explosionRadius ai!
         // Add a tween to scale the graphic
         scene.tweens.add({
             targets: this.explosionGraphic,
