@@ -19,6 +19,7 @@ export class GameScene extends Scene {
         this.rightWeight = 0;
         this.spawner = null; // Spawner instance
         this.enemies = []; // Array to hold enemies
+        this.scrollSpeed = 0.5; // Background scroll speed
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -36,13 +37,11 @@ export class GameScene extends Scene {
         this.clearScene();
 
         // Add the background image
-        const bg = this.add.image(0, 0, 'background2').setOrigin(0, 0);
-        const scaleX = width / bg.width;
-        const scaleY = height / bg.height;
-        const scale = Math.max(scaleX, scaleY);
-        bg.setScale(scale).setScrollFactor(1);
+        this.bg = this.add.tileSprite(0, 0, width, height, 'background2');
+        this.bg.setOrigin(0, 0);
+        this.bg.setScrollFactor(0);
 
-        const fx = bg.preFX.addDisplacement('distort', -0.3, -0.3);
+        const fx = this.bg.preFX.addDisplacement('distort', -0.3, -0.3);
         this.tweens.add({
             targets: fx,
             x: 0.3,
@@ -239,6 +238,9 @@ export class GameScene extends Scene {
         if (this.attackKey.isDown) {
             this.player.attack();
         }
+
+        // Scroll the background
+        this.bg.tilePositionX += this.scrollSpeed;
 
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
