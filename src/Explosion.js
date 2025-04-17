@@ -6,12 +6,11 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
             isSensor: true,
             isStatic: true,
         });
-
-        scene.add.existing(this);
-
         this.scene = scene;
         this.world = scene.matter.world;
         this.matter = scene.matter;
+        scene.add.existing(this);
+
         this.lifespan = 500; // Lifespan of the explosion in milliseconds
         this.explosionRadius = 64; // Radius of the explosion
 
@@ -21,6 +20,8 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
         this.explosionGraphic.fillCircle(0, 0, this.explosionRadius); // Circle at the center of the sprite
         this.explosionGraphic.x = x;
         this.explosionGraphic.y = y;
+
+        this.constraints = [];
 
         // Add a tween to scale the graphic
         scene.tweens.add({
@@ -32,7 +33,6 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
             ease: 'Linear',
             onComplete: () => {
                 this.explosionGraphic.destroy();
-                this.destroy();
             },
         });
 
@@ -48,6 +48,8 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
+        if (!this.active) return;
+
         const categoriesToCheck = [
             this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_ENEMY,
@@ -70,36 +72,32 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
                 body.position.y
             );
 
-            // if (distance < this.blackholeRadius) {
-            //     if (
-            //         this.victims.length < this.maxCapacity &&
-            //         !this.victims.includes(body)
-            //     ) {
-            //         this.victims.push(body);
-            //         body.gameObject.setSensor(true);
-            //         body.gameObject.setIgnoreGravity(true);
-            //         this.constraints.push(
-            //             this.matter.add.constraint(
-            //                 this,
-            //                 body,
-            //                 Phaser.Math.FloatBetween(1, 50),
-            //                 0.01
-            //             )
-            //         );
+            if (distance < this.explosionRadius) {
+                // this doesn't work well; i want the other body to fly away from the radius' tangent. ai!
 
-            //         if (
-            //             body.collisionFilter.category ===
-            //                 this.scene.CATEGORY_ENEMY &&
-            //             body.gameObject.ignorePlatformRotation !== undefined
-            //         ) {
-            //             body.gameObject.ignorePlatformRotation = true;
-            //         }
-            //     }
-            // }
+                body.gameObject.applyForce({
+                    x: Phaser.Math.FloatBetween(-0.01, 0.01),
+                    y: Phaser.Math.FloatBetween(-0.01, -0.01),
+                });
+
+                if (
+                    body.collisionFilter.category ===
+                        this.scene.CATEGORY_ENEMY &&
+                    body.gameObject.ignorePlatformRotation !== undefined
+                ) {
+                    body.gameObject.ignorePlatformRotation = true;
+                }
+            }
         });
     }
 
     destroy() {
+        this.constraints.forEach((constraint) => {
+            this.matter.world.removeConstraint(constraint);
+        });
+
+        const id = this.scene.explosions.indexOf(this);
+        this.scene.explosions.splice(id, 1);
         super.destroy();
     }
 }
