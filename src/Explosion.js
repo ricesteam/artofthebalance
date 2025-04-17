@@ -22,6 +22,7 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
         this.explosionGraphic.y = y;
 
         this.constraints = [];
+        this.victims = [];
 
         // Add a tween to scale the graphic
         scene.tweens.add({
@@ -57,7 +58,8 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
         const filteredBodies = this.world.getAllBodies().filter((body) => {
             return (
                 categoriesToCheck.includes(body.collisionFilter.category) &&
-                !body.isSensor
+                !body.isSensor &&
+                this.victims.indexOf(body) === -1
             );
         });
 
@@ -73,6 +75,8 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
             );
 
             if (distance < this.explosionRadius) {
+                this.victims.push(body);
+
                 // Calculate the angle from the explosion to the body
                 const angle = Phaser.Math.Angle.Between(
                     this.x,
@@ -81,8 +85,8 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
                     body.position.y
                 );
 
-                // Calculate the force components based on the angle
-                const forceMagnitude = 0.02; // Adjust the force magnitude as needed
+                // Calculate the force based on a proportion of the body's mass ai!
+                const forceMagnitude = 0.2; // Adjust the force magnitude as needed
                 const forceX = Math.cos(angle) * forceMagnitude;
                 const forceY = Math.sin(angle) * forceMagnitude;
 
@@ -101,6 +105,15 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
     }
 
     destroy() {
+        this.victims.forEach((body) => {
+            if (
+                body.collisionFilter.category === this.scene.CATEGORY_ENEMY &&
+                body.gameObject.ignorePlatformRotation !== undefined
+            ) {
+                body.gameObject.ignorePlatformRotation = false;
+            }
+        });
+
         this.constraints.forEach((constraint) => {
             this.matter.world.removeConstraint(constraint);
         });
