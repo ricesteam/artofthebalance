@@ -14,6 +14,8 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
         this.matter = scene.matter;
         this.lifespan = 500; // Lifespan of the explosion in milliseconds
 
+        //give the explosion a radius ai!
+
         // Create a graphic for the explosion (e.g., a circle)
         this.explosionGraphic = scene.add.graphics();
         this.explosionGraphic.fillStyle(0xff6600, 0.8); // Orange color
@@ -44,6 +46,58 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
             [],
             this
         );
+    }
+
+    update() {
+        const categoriesToCheck = [
+            this.scene.CATEGORY_BLOCK,
+            this.scene.CATEGORY_ENEMY,
+        ];
+        const filteredBodies = this.world.getAllBodies().filter((body) => {
+            return (
+                categoriesToCheck.includes(body.collisionFilter.category) &&
+                !body.isSensor
+            );
+        });
+
+        // Apply gravitational force to all bodies within the blackhole's radius
+        filteredBodies.forEach((body) => {
+            if (body === this.body || body.label === 'player') return; // Skip the blackhole itself
+
+            const distance = Phaser.Math.Distance.Between(
+                this.x,
+                this.y,
+                body.position.x,
+                body.position.y
+            );
+
+            // if (distance < this.blackholeRadius) {
+            //     if (
+            //         this.victims.length < this.maxCapacity &&
+            //         !this.victims.includes(body)
+            //     ) {
+            //         this.victims.push(body);
+            //         body.gameObject.setSensor(true);
+            //         body.gameObject.setIgnoreGravity(true);
+            //         this.constraints.push(
+            //             this.matter.add.constraint(
+            //                 this,
+            //                 body,
+            //                 Phaser.Math.FloatBetween(1, 50),
+            //                 0.01
+            //             )
+            //         );
+
+            //         if (
+            //             body.collisionFilter.category ===
+            //                 this.scene.CATEGORY_ENEMY &&
+            //             body.gameObject.ignorePlatformRotation !== undefined
+            //         ) {
+            //             body.gameObject.ignorePlatformRotation = true;
+            //         }
+            //     }
+            // }
+        });
     }
 
     destroy() {
