@@ -13,6 +13,7 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
 
         this.lifespan = 500; // Lifespan of the explosion in milliseconds
         this.explosionRadius = 64; // Radius of the explosion
+        this.delay = 250
 
         // Create a graphic for the explosion (e.g., a circle)
         this.explosionGraphic = scene.add.graphics();
@@ -20,20 +21,20 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
         this.explosionGraphic.fillCircle(0, 0, this.explosionRadius); // Circle at the center of the sprite
         this.explosionGraphic.x = x;
         this.explosionGraphic.y = y;
+        this.explosionGraphic.alpha = 0;
 
         this.constraints = [];
         this.victims = [];
-
-        // add a delayed explosion ai!
 
         // Add a tween to scale the graphic
         scene.tweens.add({
             targets: this.explosionGraphic,
             scaleX: 2,
             scaleY: 2,
-            alpha: 0,
+            alpha: 0.8,
             duration: this.lifespan,
             ease: 'Linear',
+            delay: this.delay,
             onComplete: () => {
                 this.explosionGraphic.destroy();
             },
@@ -41,7 +42,7 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
 
         // Destroy the explosion after its lifespan
         scene.time.delayedCall(
-            this.lifespan,
+            this.lifespan + this.delay,
             () => {
                 this.destroy();
             },
