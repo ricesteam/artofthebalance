@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 import { Player } from '../Player';
 import { Spawner } from '../Spawner';
+import { Blackhole } from '../Blackhole';
 
 export class GameScene extends Scene {
     constructor() {
@@ -236,6 +237,11 @@ export class GameScene extends Scene {
                     }
                 }
             });
+        });
+
+        // Create blackhole where I click
+        this.input.on('pointerdown', (pointer) => {
+            const blackhole = new Blackhole(this, pointer.x, pointer.y);
         });
 
         // Restart the game on 'R' key press
