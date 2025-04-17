@@ -19,7 +19,8 @@ export class GameScene extends Scene {
         this.rightWeight = 0;
         this.spawner = null; // Spawner instance
         this.enemies = []; // Array to hold enemies
-        this.scrollSpeed = 0.5; // Background scroll speed
+        this.scrollSpeedX = 0.5; // Background horizontal scroll speed
+        this.scrollSpeedY = 0.2; // Background vertical scroll speed
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -240,7 +241,8 @@ export class GameScene extends Scene {
         }
 
         // Scroll the background
-        this.bg.tilePositionX += this.scrollSpeed;
+        this.bg.tilePositionX += this.scrollSpeedX;
+        this.bg.tilePositionY += this.scrollSpeedY;
 
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
