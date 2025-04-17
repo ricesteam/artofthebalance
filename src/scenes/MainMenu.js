@@ -42,11 +42,13 @@ export class MainMenu extends Scene {
             },
         });
 
-        this.add.text(width / 2, height - 50, 'Press Tax to Begin', {
-            fontFamily: 'retro',
-            fontSize: '32px',
-            color: '#ffffff'
-        }).setOrigin(0.5);
+        this.add
+            .text(width / 2, height - 150, 'Press Tax to Begin', {
+                fontFamily: 'retro',
+                fontSize: '32px',
+                color: '#ffffff',
+            })
+            .setOrigin(0.5);
 
         this.input.once('pointerdown', () => {
             this.scene.start('GameScene');
