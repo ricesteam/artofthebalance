@@ -37,6 +37,17 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
         this.anims.play('enemyWalk');
         this.flipX = true;
+
+        var outlineconfig = {
+            thickness: 2,
+            outlineColor: 0xae2334,
+            quality: 0.1,
+            name: 'rexOutlinePostFx',
+        };
+
+        this.outlinePipeline = scene.plugins
+            .get('rexOutlinePipeline')
+            .add(this.body.gameObject, outlineconfig);
     }
 
     startIdling() {

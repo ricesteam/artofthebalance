@@ -48,6 +48,17 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.handleEndCollision,
             this
         );
+
+        var outlineconfig = {
+            thickness: 2,
+            outlineColor: 0xd5e04b,
+            quality: 0.1,
+            name: 'rexOutlinePostFx',
+        };
+
+        this.outlinePipeline = scene.plugins
+            .get('rexOutlinePipeline')
+            .add(this.body.gameObject, outlineconfig);
     }
 
     handleCollision(event) {

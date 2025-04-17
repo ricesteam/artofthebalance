@@ -3,6 +3,7 @@ import { GameScene } from './scenes/GameScene';
 import { GameOver } from './scenes/GameOver';
 import { MainMenu } from './scenes/MainMenu';
 import { Preloader } from './scenes/Preloader';
+import OutlinePipelinePlugin from 'phaser3-rex-plugins/plugins/outlinepipeline-plugin.js';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -27,6 +28,16 @@ const config = {
         },
     },
     scene: [Boot, Preloader, MainMenu, GameScene, GameOver],
+    plugins: {
+        global: [
+            {
+                key: 'rexOutlinePipeline',
+                plugin: OutlinePipelinePlugin,
+                start: true,
+            },
+            // ...
+        ],
+    },
 };
 
 export default new Phaser.Game(config);
