@@ -38,7 +38,7 @@ export class GameScene extends Scene {
         // Clear existing blocks and enemies
         this.clearScene();
 
-        this.add.image(0, 0, 'background2').setOrigin(0, 0);
+        //this.add.image(0, 0, 'background2').setOrigin(0, 0);
 
         // Add the background image
         this.bg = this.add.tileSprite(0, 0, width, height, 'background2');
@@ -47,7 +47,8 @@ export class GameScene extends Scene {
         this.bg.setTint(0xdddddd); // Tint the background to make it darker
 
         // Add the 'bald' image at the bottom center of the screen
-        this.baldImage = this.add.image(width / 2, height, 'bald')
+        this.baldImage = this.add
+            .image(width / 2, height + 5, 'bald')
             .setOrigin(0.5, 1) // Center the image horizontally, bottom vertically
             .setScale(this.baldScale); // Scale the image
 
