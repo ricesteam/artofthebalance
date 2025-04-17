@@ -208,6 +208,10 @@ export class GameScene extends Scene {
         this.input.keyboard.on('keydown-R', () => {
             this.scene.restart();
         });
+
+        // Add the 'bald' image at the bottom center of the screen
+        this.baldImage = this.add.image(width / 2, height, 'bald')
+            .setOrigin(0.5, 1); // Center the image horizontally, bottom vertically
     }
 
     clearScene() {
