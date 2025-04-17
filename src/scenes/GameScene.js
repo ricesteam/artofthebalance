@@ -77,14 +77,16 @@ export class GameScene extends Scene {
         });
 
         // Create the see-saw platform
-        this.platform = this.matter.add.image(
+        this.platform = this.matter.add.tileSprite(
             width / 2,
             height / 2,
+            700,
+            20,
             'plank',
             null,
             {
+                isStatic: false,
                 inertia: 10000,
-                shape: { type: 'rectangle', width: 700, height: 15 },
                 friction: this.platformFriction,
                 frictionStatic: this.platformFrictionStatic,
                 restitution: 0.8,
