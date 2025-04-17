@@ -86,7 +86,7 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
                 );
 
                 // Calculate the force based on a proportion of the body's mass
-                const forceMagnitude = body.mass * 0.005; // Adjust the force magnitude as needed
+                const forceMagnitude = body.mass * 0.05; // Adjust the force magnitude as needed
                 const forceX = Math.cos(angle) * forceMagnitude;
                 const forceY = Math.sin(angle) * forceMagnitude;
 

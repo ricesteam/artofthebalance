@@ -7,23 +7,22 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             isStatic: true,
             ignoreGravity: true,
         });
+        this.scene = scene;
+        this.world = scene.matter.world;
+        this.matter = scene.matter;
         scene.add.existing(this);
 
-        this.scene = scene;
         this.blackholeRadius = 100; // Adjust the radius of the blackhole's pull
         this.gravitationalConstant = 0.0005; // Adjust the strength of gravity
         this.timeAlive = 2000; // Time in milliseconds before the blackhole is destroyed
         this.maxCapacity = 3;
-        this.victims = []; // Initialize the list to store AI targets
+        this.victims = [];
         this.constraints = [];
 
         this.setCircle(this.blackholeRadius); // Set the collision shape to a circle
         this.setSensor(true); // Make it a sensor so it doesn't collide physically
         this.setIgnoreGravity(true);
         this.setStatic(true);
-
-        this.world = scene.matter.world;
-        this.matter = scene.matter;
 
         // Set a timer to destroy the blackhole after timeAlive
         this.scene.time.delayedCall(

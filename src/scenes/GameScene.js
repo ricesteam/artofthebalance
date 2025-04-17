@@ -180,6 +180,26 @@ export class GameScene extends Scene {
         // Initialize the spawner
         this.spawner = new Spawner(this);
 
+        this.handleCollisions();
+
+        // Create blackhole where I click
+        this.input.on('pointerdown', (pointer) => {
+            //const blackhole = new Blackhole(this, pointer.x, pointer.y);
+            //this.blackholes.push(blackhole);
+            const explosion = new Explosion(this, pointer.x, pointer.y);
+            this.explosions.push(explosion);
+        });
+
+        // Restart the game on 'R' key press
+        this.input.keyboard.on('keydown-R', () => {
+            this.scene.restart();
+        });
+
+        // slow down time but only for matter objects
+        //this.matter.world.engine.timing.timeScale = 0.1;
+    }
+
+    handleCollisions() {
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {
             event.pairs.forEach((pair) => {
@@ -239,19 +259,6 @@ export class GameScene extends Scene {
                 }
             });
         });
-
-        // Create blackhole where I click
-        this.input.on('pointerdown', (pointer) => {
-            //const blackhole = new Blackhole(this, pointer.x, pointer.y);
-            //this.blackholes.push(blackhole);
-            const explosion = new Explosion(this, pointer.x, pointer.y);
-            this.explosions.push(explosion);
-        });
-
-        // Restart the game on 'R' key press
-        this.input.keyboard.on('keydown-R', () => {
-            this.scene.restart();
-        });
     }
 
     clearScene() {
@@ -285,6 +292,10 @@ export class GameScene extends Scene {
 
         this.blackholes.forEach((blackhole) => {
             blackhole.update();
+        });
+
+        this.explosions.forEach((explosion) => {
+            explosion.update();
         });
 
         // Attack input
