@@ -36,7 +36,17 @@ export class GameScene extends Scene {
         this.clearScene();
 
         // Add the background image
-        //this.add.image(0, 0, 'background').setOrigin(0, 0);
+        const bg = this.add.image(0, 0, 'background2');
+        const fx = bg.preFX.addDisplacement('distort', -0.3, -0.3);
+        this.tweens.add({
+            targets: fx,
+            x: 0.03,
+            y: 0.03,
+            yoyo: true,
+            loop: -1,
+            duration: 2000,
+            ease: 'sine.inout',
+        });
 
         // Create the see-saw platform
         this.platform = this.matter.add.image(
