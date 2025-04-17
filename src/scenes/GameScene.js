@@ -55,8 +55,8 @@ export class GameScene extends Scene {
         // Add a wobbly tween effect to the bald image
         this.tweens.add({
             targets: this.baldImage,
-            y: height - 5, // Move slightly up and down
-            rotation: 0.05, // Rotate slightly
+            y: height + 5, // Move slightly up and down
+            rotation: 0.5, // Rotate slightly
             duration: 1500, // Duration of the tween
             yoyo: true, // Make it go back and forth
             repeat: -1, // Repeat infinitely
