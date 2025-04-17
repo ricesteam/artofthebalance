@@ -9,7 +9,9 @@ export class MainMenu extends Scene {
         const width = this.scale.width;
         const height = this.scale.height;
 
-        this.add.image(width / 2, height / 2, 'clouds');
+        const clouds = this.add.image(0, 0, 'clouds').setOrigin(0, 0);
+        clouds.setScale(width / clouds.width, height / clouds.height);
+
         this.add.image(width / 2, height / 2, 'titlescreen');
 
         // this.add
