@@ -43,7 +43,7 @@ export class GameScene extends Scene {
         this.bg = this.add.tileSprite(0, 0, width, height, 'background2');
         this.bg.setOrigin(0, 0);
         this.bg.setScrollFactor(0);
-        this.bg.setTint(0x333333); // Tint the background to make it darker
+        this.bg.setTint(0xdddddd); // Tint the background to make it darker
 
         const fx = this.bg.preFX.addPixelate(2);
         this.bg.preFX.addDisplacement('distort', -0.5, -0.5);
