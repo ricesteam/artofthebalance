@@ -60,6 +60,8 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
 
             if (distance < this.blackholeRadius) {
                 console.log(body.label);
+
+                //store a max (3) of the first objects in a list AI!
             }
         });
     }
