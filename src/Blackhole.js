@@ -32,9 +32,6 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             [],
             this
         );
-
-        // Apply a continuous spin to the blackhole
-        this.setAngularVelocity(0.02);
     }
 
     destroyBlackhole() {
@@ -81,6 +78,7 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
                         this.matter.add.constraint(this, body, 50, 0.2)
                     );
                     this.victims.push(body);
+                    // apply some upward force to the body ai!
                 }
             }
         });
