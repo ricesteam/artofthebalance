@@ -36,7 +36,12 @@ export class GameScene extends Scene {
         this.clearScene();
 
         // Add the background image
-        const bg = this.add.image(0, 0, 'background2');
+        const bg = this.add.image(0, 0, 'background2').setOrigin(0, 0);
+        const scaleX = width / bg.width;
+        const scaleY = height / bg.height;
+        const scale = Math.max(scaleX, scaleY);
+        bg.setScale(scale).setScrollFactor(0);
+
         const fx = bg.preFX.addDisplacement('distort', -0.3, -0.3);
         this.tweens.add({
             targets: fx,
