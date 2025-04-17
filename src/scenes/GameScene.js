@@ -48,7 +48,7 @@ export class GameScene extends Scene {
 
         // Add the 'bald' image at the bottom center of the screen
         this.baldImage = this.add
-            .image(width / 2, height + 5, 'bald')
+            .image(width / 2, height + 40, 'bald')
             .setOrigin(0.5, 1) // Center the image horizontally, bottom vertically
             .setScale(this.baldScale); // Scale the image
 
@@ -56,7 +56,7 @@ export class GameScene extends Scene {
         this.tweens.add({
             targets: this.baldImage,
             //x: () => Phaser.Math.FloatBetween(width / 2 - 10, width / 2 + 10), // Move slightly up and down
-            y: () => Phaser.Math.FloatBetween(height + 5, height + 15), // Move slightly up and down
+            y: () => Phaser.Math.FloatBetween(height + 60, height + 30), // Move slightly up and down
             rotation: () => Phaser.Math.FloatBetween(-0.06, 0.06), // Rotate slightly
             duration: 1500, // Duration of the tween
             yoyo: true, // Make it go back and forth
@@ -77,16 +77,14 @@ export class GameScene extends Scene {
         });
 
         // Create the see-saw platform
-        this.platform = this.matter.add.tileSprite(
+        this.platform = this.matter.add.image(
             width / 2,
             height / 2,
-            700,
-            20,
             'plank',
             null,
             {
-                isStatic: false,
                 inertia: 10000,
+                shape: { type: 'rectangle', width: 700, height: 15 },
                 friction: this.platformFriction,
                 frictionStatic: this.platformFrictionStatic,
                 restitution: 0.8,

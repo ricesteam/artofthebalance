@@ -40,6 +40,7 @@ export class Preloader extends Scene {
         this.load.image('background2', 'background2.png');
         this.load.image('distort', 'noiseTexture.png');
         this.load.image('bald', 'bald.png');
+        this.load.image('plank', 'plank.png');
     }
 
     create() {
