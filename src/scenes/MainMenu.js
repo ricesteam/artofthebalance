@@ -20,16 +20,6 @@ export class MainMenu extends Scene {
         const flag = this.add.image(width / 2 + 25, 45, 'flag');
         flag.setScale(0.25, 0.25);
 
-        this.tweens.add({
-            targets: flag,
-            scaleX: 0.3,
-            scaleY: 0.3,
-            duration: 1500,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
-
         const title = this.add.image(width / 2, height / 2 - 130, 'title');
         this.tweens.add({
             targets: title,
@@ -52,13 +42,23 @@ export class MainMenu extends Scene {
             },
         });
 
-        this.add
+        const start = this.add
             .text(width / 2, height - 150, 'Press Tax to Begin', {
                 fontFamily: 'retro',
                 fontSize: '32px',
                 color: '#ffffff',
             })
             .setOrigin(0.5);
+
+        this.tweens.add({
+            targets: start,
+            scaleX: 1.1,
+            scaleY: 1.1,
+            duration: 2000,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut',
+        });
 
         this.input.once('pointerdown', () => {
             this.scene.start('GameScene');

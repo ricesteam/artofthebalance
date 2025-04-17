@@ -27,7 +27,6 @@ export class Preloader extends Scene {
         this.load.setPath('assets');
         this.load.image('logo', 'logo.png');
         // Load game assets here
-        this.load.image('platform', 'platform.png');
         this.load.image('block', 'block.png');
         this.load.spritesheet('player', 'trump_animations.png', {
             frameWidth: 64,
@@ -46,6 +45,8 @@ export class Preloader extends Scene {
         this.load.image('clouds', 'clouds.png');
         this.load.image('clouds3', 'clouds3.png');
         this.load.image('flag', 'flag.png');
+
+        this.load.font('retro', 'Expire.otf');
     }
 
     create() {
