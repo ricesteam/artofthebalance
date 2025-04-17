@@ -20,6 +20,16 @@ export class MainMenu extends Scene {
         const flag = this.add.image(width / 2 + 25, 45, 'flag');
         flag.setScale(0.25, 0.25);
 
+        this.tweens.add({
+            targets: flag,
+            scaleX: 0.3,
+            scaleY: 0.3,
+            duration: 1500,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
+        });
+
         const title = this.add.image(width / 2, height / 2 - 130, 'title');
         this.tweens.add({
             targets: title,
