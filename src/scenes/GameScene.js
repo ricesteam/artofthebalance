@@ -41,16 +41,16 @@ export class GameScene extends Scene {
         this.bg.setOrigin(0, 0);
         this.bg.setScrollFactor(0);
 
-        const fx = this.bg.preFX.addDisplacement('distort', -0.3, -0.3);
-        this.tweens.add({
-            targets: fx,
-            x: 0.3,
-            y: 0.3,
-            yoyo: true,
-            loop: -1,
-            duration: 2000,
-            ease: 'sine.in',
-        });
+        // const fx = this.bg.preFX.addDisplacement('distort', -0.3, -0.3);
+        // this.tweens.add({
+        //     targets: fx,
+        //     x: 0.3,
+        //     y: 0.3,
+        //     yoyo: true,
+        //     loop: -1,
+        //     duration: 2000,
+        //     ease: 'sine.in',
+        // });
 
         // Create the see-saw platform
         this.platform = this.matter.add.image(
