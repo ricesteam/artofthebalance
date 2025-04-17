@@ -220,6 +220,21 @@ export class GameScene extends Scene {
                         }
                     }
                 }
+
+                // Bounce objects off the player if they land on top
+                if ((bodyA === this.player.body || bodyB === this.player.body) &&
+                    (bodyA.label === 'junk' || bodyB.label === 'junk' || bodyA.label === 'maga' || bodyB.label === 'maga')) {
+                    let otherBody = (bodyA === this.player.body) ? bodyB : bodyA;
+                    let otherGameObject = otherBody.gameObject;
+
+                    if (otherGameObject) {
+                        // Check if the object is above the player
+                        if (otherGameObject.y < this.player.y) {
+                            // Apply an upward force to the other object
+                            otherGameObject.applyForce({ x: 0, y: -0.05 }); // Adjust force as needed
+                        }
+                    }
+                }
             });
         });
 
