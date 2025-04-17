@@ -13,13 +13,12 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
         this.world = scene.matter.world;
         this.matter = scene.matter;
         this.lifespan = 500; // Lifespan of the explosion in milliseconds
-
-        //give the explosion a radius ai!
+        this.explosionRadius = 64; // Radius of the explosion
 
         // Create a graphic for the explosion (e.g., a circle)
         this.explosionGraphic = scene.add.graphics();
         this.explosionGraphic.fillStyle(0xff6600, 0.8); // Orange color
-        this.explosionGraphic.fillCircle(0, 0, 32); // Circle at the center of the sprite
+        this.explosionGraphic.fillCircle(0, 0, this.explosionRadius); // Circle at the center of the sprite
         this.explosionGraphic.x = x;
         this.explosionGraphic.y = y;
 
