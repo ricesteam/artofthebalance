@@ -12,14 +12,18 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.scene = scene;
         this.blackholeRadius = 100; // Adjust the radius of the blackhole's pull
         this.gravitationalConstant = 0.0005; // Adjust the strength of gravity
-        this.timeAlive = 1000; // Time in milliseconds before the blackhole is destroyed
-        this.aiTargets = []; // Initialize the list to store AI targets
+        this.timeAlive = 2000; // Time in milliseconds before the blackhole is destroyed
+        this.maxCapacity = 3;
+        this.victims = []; // Initialize the list to store AI targets
+        this.constraints = [];
 
         this.setCircle(this.blackholeRadius); // Set the collision shape to a circle
         this.setSensor(true); // Make it a sensor so it doesn't collide physically
         this.setIgnoreGravity(true);
+        this.setStatic(true);
 
         this.world = scene.matter.world;
+        this.matter = scene.matter;
 
         // Set a timer to destroy the blackhole after timeAlive
         this.scene.time.delayedCall(
@@ -31,12 +35,28 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
     }
 
     destroyBlackhole() {
+        this.constraints.forEach((constraint) => {
+            this.matter.world.removeConstraint(constraint);
+        });
+
         const id = this.scene.blackholes.indexOf(this);
         this.scene.blackholes.splice(id, 1);
         this.destroy();
     }
 
     update() {
+        // fix this: i want to add some spinning effect to the blackhole ai!
+        this.scene.tweens.add({
+            targets: this.body.rotation,
+            rotation: () => Phaser.Math.FloatBetween(-90, 90), // Rotate slightly
+            duration: 1500, // Duration of the tween
+            yoyo: true, // Make it go back and forth
+            repeat: -1, // Repeat infinitely
+            ease: 'quart.inout',
+        });
+
+        if (this.victims.length >= this.maxCapacity) return;
+
         const categoriesToCheck = [
             this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_ENEMY,
@@ -60,8 +80,14 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             );
 
             if (distance < this.blackholeRadius) {
-                if (this.aiTargets.length < 3 && !this.aiTargets.includes(body)) {
-                    this.aiTargets.push(body);
+                if (
+                    this.victims.length < this.maxCapacity &&
+                    !this.victims.includes(body)
+                ) {
+                    this.constraints.push(
+                        this.matter.add.constraint(this, body, 50, 0.2)
+                    );
+                    this.victims.push(body);
                 }
             }
         });
