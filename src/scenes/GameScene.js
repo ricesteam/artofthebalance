@@ -20,6 +20,7 @@ export class GameScene extends Scene {
         this.rightWeight = 0;
         this.spawner = null; // Spawner instance
         this.enemies = []; // Array to hold enemies
+        this.blackholes = [];
         this.scrollSpeedX = 0.5; // Background horizontal scroll speed
         this.scrollSpeedY = 0.2; // Background vertical scroll speed
         this.baldScale = 0.5; // Scale of the bald image
@@ -177,14 +178,6 @@ export class GameScene extends Scene {
         // Initialize the spawner
         this.spawner = new Spawner(this);
 
-        // Example: Add some blocks on either side (for testing)
-        //this.spawner.addBlock(250, 0, 'left');
-        //this.spawner.addBlock(500, 0, 'right');
-
-        // Create some enemies - REMOVED
-        //this.enemies.push(new Enemy(this, 400, 100));
-        //this.enemies.push(new Enemy(this, 600, 100));
-
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {
             event.pairs.forEach((pair) => {
@@ -223,9 +216,15 @@ export class GameScene extends Scene {
                 }
 
                 // Bounce objects off the player if they land on top
-                if ((bodyA === this.player.body || bodyB === this.player.body) &&
-                    (bodyA.label === 'junk' || bodyB.label === 'junk' || bodyA.label === 'maga' || bodyB.label === 'maga')) {
-                    let otherBody = (bodyA === this.player.body) ? bodyB : bodyA;
+                if (
+                    (bodyA === this.player.body ||
+                        bodyB === this.player.body) &&
+                    (bodyA.label === 'junk' ||
+                        bodyB.label === 'junk' ||
+                        bodyA.label === 'maga' ||
+                        bodyB.label === 'maga')
+                ) {
+                    let otherBody = bodyA === this.player.body ? bodyB : bodyA;
                     let otherGameObject = otherBody.gameObject;
 
                     if (otherGameObject) {
@@ -242,6 +241,7 @@ export class GameScene extends Scene {
         // Create blackhole where I click
         this.input.on('pointerdown', (pointer) => {
             const blackhole = new Blackhole(this, pointer.x, pointer.y);
+            this.blackholes.push(blackhole);
         });
 
         // Restart the game on 'R' key press
@@ -277,6 +277,10 @@ export class GameScene extends Scene {
         // Update enemies
         this.enemies.forEach((enemy) => {
             enemy.update();
+        });
+
+        this.blackholes.forEach((blackhole) => {
+            blackhole.update();
         });
 
         // Attack input

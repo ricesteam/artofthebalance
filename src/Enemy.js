@@ -4,6 +4,11 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'maga', 0, {
             label: 'maga',
+            shape: {
+                type: 'rectangle',
+                width: 16,
+                height: 32,
+            },
         });
         scene.add.existing(this);
 
@@ -18,7 +23,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.isIdle = false; // New state: is the enemy idling?
         this.idleTimer = null; // Timer for idling
 
-        this.setRectangle(16, 32);
         this.setMass(this.enemyMass);
         this.setFriction(0.5);
         this.setFrictionStatic(0.5);

@@ -4,7 +4,8 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'blackhole', 0, {
             label: 'blackhole',
-            isStatic: true, // Blackholes don't move
+            isStatic: true,
+            ignoreGravity: true,
         });
         scene.add.existing(this);
 
@@ -14,14 +15,28 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
 
         this.setCircle(this.blackholeRadius); // Set the collision shape to a circle
         this.setSensor(true); // Make it a sensor so it doesn't collide physically
+        this.setIgnoreGravity(true);
+
+        this.world = scene.matter.world;
     }
 
     update() {
-        // Apply gravitational force to all bodies within the blackhole's radius
-        this.scene.matter.world.forEach((body) => {
-            if (body === this.body) return; // Skip the blackhole itself
+        const categoriesToCheck = [
+            this.scene.CATEGORY_BLOCK,
+            this.scene.CATEGORY_ENEMY,
+        ];
+        const filteredBodies = this.world.getAllBodies().filter((body) => {
+            return (
+                categoriesToCheck.includes(body.collisionFilter.category) &&
+                !body.isSensor
+            );
+        });
 
-            const distance = Phaser.Math.Distance(
+        // Apply gravitational force to all bodies within the blackhole's radius
+        filteredBodies.forEach((body) => {
+            if (body === this.body || body.label === 'player') return; // Skip the blackhole itself
+
+            const distance = Phaser.Math.Distance.Between(
                 this.x,
                 this.y,
                 body.position.x,
@@ -29,11 +44,11 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             );
 
             if (distance < this.blackholeRadius) {
+                console.log(body.label);
+
                 // Calculate the gravitational force
                 const force =
-                    this.gravitationalConstant *
-                    this.body.mass *
-                    body.mass /
+                    (this.gravitationalConstant * this.body.mass * body.mass) /
                     (distance * distance);
 
                 // Calculate the angle towards the blackhole
