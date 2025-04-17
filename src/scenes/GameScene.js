@@ -45,6 +45,10 @@ export class GameScene extends Scene {
         this.bg.setScrollFactor(0);
         this.bg.setTint(0xdddddd); // Tint the background to make it darker
 
+        // Add the 'bald' image at the bottom center of the screen
+        this.baldImage = this.add.image(width / 2, height, 'bald')
+            .setOrigin(0.5, 1); // Center the image horizontally, bottom vertically
+
         const fx = this.bg.preFX.addPixelate(2);
         this.bg.preFX.addDisplacement('distort', -0.5, -0.5);
 
@@ -208,10 +212,6 @@ export class GameScene extends Scene {
         this.input.keyboard.on('keydown-R', () => {
             this.scene.restart();
         });
-
-        // Add the 'bald' image at the bottom center of the screen
-        this.baldImage = this.add.image(width / 2, height, 'bald')
-            .setOrigin(0.5, 1); // Center the image horizontally, bottom vertically
     }
 
     clearScene() {
