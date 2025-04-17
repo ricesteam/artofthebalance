@@ -13,6 +13,7 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.blackholeRadius = 100; // Adjust the radius of the blackhole's pull
         this.gravitationalConstant = 0.0005; // Adjust the strength of gravity
         this.timeAlive = 1000; // Time in milliseconds before the blackhole is destroyed
+        this.aiTargets = []; // Initialize the list to store AI targets
 
         this.setCircle(this.blackholeRadius); // Set the collision shape to a circle
         this.setSensor(true); // Make it a sensor so it doesn't collide physically
@@ -59,9 +60,9 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             );
 
             if (distance < this.blackholeRadius) {
-                console.log(body.label);
-
-                //store a max (3) of the first objects in a list AI!
+                if (this.aiTargets.length < 3 && !this.aiTargets.includes(body)) {
+                    this.aiTargets.push(body);
+                }
             }
         });
     }
