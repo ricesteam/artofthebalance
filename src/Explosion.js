@@ -73,12 +73,21 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
             );
 
             if (distance < this.explosionRadius) {
-                // this doesn't work well; i want the other body to fly away from the radius' tangent. ai!
+                // Calculate the angle from the explosion to the body
+                const angle = Phaser.Math.Angle.Between(
+                    this.x,
+                    this.y,
+                    body.position.x,
+                    body.position.y
+                );
 
-                body.gameObject.applyForce({
-                    x: Phaser.Math.FloatBetween(-0.01, 0.01),
-                    y: Phaser.Math.FloatBetween(-0.01, -0.01),
-                });
+                // Calculate the force components based on the angle
+                const forceMagnitude = 0.02; // Adjust the force magnitude as needed
+                const forceX = Math.cos(angle) * forceMagnitude;
+                const forceY = Math.sin(angle) * forceMagnitude;
+
+                // Apply the force to the body
+                body.gameObject.applyForce({ x: forceX, y: forceY });
 
                 if (
                     body.collisionFilter.category ===
