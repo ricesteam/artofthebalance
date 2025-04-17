@@ -38,7 +38,7 @@ export class GameScene extends Scene {
         // Clear existing blocks and enemies
         this.clearScene();
 
-        //this.add.image(0, 0, 'background2').setOrigin(0, 0);
+        this.add.image(0, 0, 'background2').setOrigin(0, 0);
 
         // Add the background image
         this.bg = this.add.tileSprite(0, 0, width, height, 'background2');
@@ -51,6 +51,17 @@ export class GameScene extends Scene {
             .image(width / 2, height + 5, 'bald')
             .setOrigin(0.5, 1) // Center the image horizontally, bottom vertically
             .setScale(this.baldScale); // Scale the image
+
+        // Add a wobbly tween effect to the bald image
+        this.tweens.add({
+            targets: this.baldImage,
+            y: height - 5, // Move slightly up and down
+            rotation: 0.05, // Rotate slightly
+            duration: 1500, // Duration of the tween
+            yoyo: true, // Make it go back and forth
+            repeat: -1, // Repeat infinitely
+            ease: 'Sine.easeInOut', // Use a smooth easing function
+        });
 
         const fx = this.bg.preFX.addPixelate(2);
         this.bg.preFX.addDisplacement('distort', -0.5, -0.5);
