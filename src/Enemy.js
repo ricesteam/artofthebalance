@@ -103,15 +103,14 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
     takeDamage(damage) {
         this.hp -= damage;
-        //const newMass = Math.max(0.1, this.body.mass - damage);
-        //this.setMass(this.enemyMass);
         if (this.hp <= 0) {
             this.die();
         }
     }
 
     die() {
-        // Handle enemy death (e.g., remove from scene, play death animation)
+        const id = this.scene.enemies.indexOf(this);
+        this.scene.enemies.splice(id, 1);
         this.destroy();
     }
 }

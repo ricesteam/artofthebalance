@@ -12,12 +12,27 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.scene = scene;
         this.blackholeRadius = 100; // Adjust the radius of the blackhole's pull
         this.gravitationalConstant = 0.0005; // Adjust the strength of gravity
+        this.timeAlive = 1000; // Time in milliseconds before the blackhole is destroyed
 
         this.setCircle(this.blackholeRadius); // Set the collision shape to a circle
         this.setSensor(true); // Make it a sensor so it doesn't collide physically
         this.setIgnoreGravity(true);
 
         this.world = scene.matter.world;
+
+        // Set a timer to destroy the blackhole after timeAlive
+        this.scene.time.delayedCall(
+            this.timeAlive,
+            this.destroyBlackhole,
+            [],
+            this
+        );
+    }
+
+    destroyBlackhole() {
+        const id = this.scene.blackholes.indexOf(this);
+        this.scene.blackholes.splice(id, 1);
+        this.destroy();
     }
 
     update() {
@@ -45,23 +60,6 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
 
             if (distance < this.blackholeRadius) {
                 console.log(body.label);
-
-                // Calculate the gravitational force
-                const force =
-                    (this.gravitationalConstant * this.body.mass * body.mass) /
-                    (distance * distance);
-
-                // Calculate the angle towards the blackhole
-                const angle = Phaser.Math.Angle.Between(
-                    body.position.x,
-                    body.position.y,
-                    this.x,
-                    this.y
-                );
-
-                // Apply the force towards the blackhole
-                body.force.x += Math.cos(angle) * force;
-                body.force.y += Math.sin(angle) * force;
             }
         });
     }
