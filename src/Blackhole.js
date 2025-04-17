@@ -32,6 +32,9 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             [],
             this
         );
+
+        // Apply a continuous spin to the blackhole
+        this.setAngularVelocity(0.02);
     }
 
     destroyBlackhole() {
@@ -45,16 +48,6 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
-        // fix this: i want to add some spinning effect to the blackhole ai!
-        this.scene.tweens.add({
-            targets: this.body.rotation,
-            rotation: () => Phaser.Math.FloatBetween(-90, 90), // Rotate slightly
-            duration: 1500, // Duration of the tween
-            yoyo: true, // Make it go back and forth
-            repeat: -1, // Repeat infinitely
-            ease: 'quart.inout',
-        });
-
         if (this.victims.length >= this.maxCapacity) return;
 
         const categoriesToCheck = [
