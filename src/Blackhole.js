@@ -35,6 +35,11 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
     }
 
     destroyBlackhole() {
+        this.victims.forEach((body) => {
+            //body.gameObject.setSensor(true);
+            body.gameObject.setIgnoreGravity(false);
+        });
+
         this.constraints.forEach((constraint) => {
             this.matter.world.removeConstraint(constraint);
         });
@@ -45,6 +50,16 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
+        this.victims.forEach((body) => {
+            if (!body || !body.gameObject) return;
+
+            body.gameObject.applyForce({
+                x: Phaser.Math.FloatBetween(-0.01, 0.01),
+                y: Phaser.Math.FloatBetween(-0.01, 0.01),
+            });
+            body.gameObject.setAngularVelocity(0.1);
+        });
+
         if (this.victims.length >= this.maxCapacity) return;
 
         const categoriesToCheck = [
@@ -74,11 +89,17 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
                     this.victims.length < this.maxCapacity &&
                     !this.victims.includes(body)
                 ) {
-                    this.constraints.push(
-                        this.matter.add.constraint(this, body, 50, 0.2)
-                    );
                     this.victims.push(body);
-                    body.force.y = -0.01;
+                    //body.gameObject.setSensor(false);
+                    body.gameObject.setIgnoreGravity(true);
+                    this.constraints.push(
+                        this.matter.add.constraint(
+                            this,
+                            body,
+                            Phaser.Math.FloatBetween(1, 20),
+                            0.01
+                        )
+                    );
                 }
             }
         });
