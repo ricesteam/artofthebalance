@@ -56,7 +56,7 @@ export class GameScene extends Scene {
         this.tweens.add({
             targets: this.baldImage,
             //x: () => Phaser.Math.FloatBetween(width / 2 - 10, width / 2 + 10), // Move slightly up and down
-            y: () => Phaser.Math.FloatBetween(height + 60, height + 30), // Move slightly up and down
+            y: () => Phaser.Math.FloatBetween(height + 80, height + 30), // Move slightly up and down
             rotation: () => Phaser.Math.FloatBetween(-0.06, 0.06), // Rotate slightly
             duration: 1500, // Duration of the tween
             yoyo: true, // Make it go back and forth
