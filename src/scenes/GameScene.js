@@ -100,7 +100,7 @@ export class GameScene extends Scene {
         this.stopblock = this.matter.add.rectangle(
             width / 2,
             height / 2 + 150,
-            300,
+            250,
             50,
             {
                 isStatic: true,

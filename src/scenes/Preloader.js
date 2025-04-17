@@ -37,7 +37,6 @@ export class Preloader extends Scene {
             frameWidth: 64,
             frameHeight: 64,
         });
-        this.load.image('background', 'background.png');
         this.load.image('background2', 'background2.png');
         this.load.image('distort', 'noiseTexture.png');
     }
