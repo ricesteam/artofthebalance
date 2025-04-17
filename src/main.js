@@ -26,12 +26,7 @@ const config = {
             debug: true,
         },
     },
-    scene: [
-        Boot,
-        Preloader,        
-        GameScene,
-        GameOver
-    ]
+    scene: [Boot, Preloader, MainMenu, GameScene, GameOver],
 };
 
 export default new Phaser.Game(config);

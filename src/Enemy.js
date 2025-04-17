@@ -63,7 +63,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         if (!this.active) return;
 
         // Rotate the enemy to be perpendicular to the platform
-        this.rotation = this.scene.platform.rotation;
+        //this.rotation = this.scene.platform.rotation;
 
         if (this.isIdle) {
             return; // Do nothing if idling

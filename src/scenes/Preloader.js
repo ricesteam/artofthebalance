@@ -41,6 +41,11 @@ export class Preloader extends Scene {
         this.load.image('distort', 'noiseTexture.png');
         this.load.image('bald', 'bald.png');
         this.load.image('plank', 'plank.png');
+        this.load.image('title', 'title.png');
+        this.load.image('castle', 'neo-whitehouse.png');
+        this.load.image('clouds', 'clouds.png');
+        this.load.image('clouds3', 'clouds3.png');
+        this.load.image('flag', 'flag.png');
     }
 
     create() {
@@ -48,6 +53,6 @@ export class Preloader extends Scene {
         //  For example, you can define global animations here, so we can use them in other scenes.
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        this.scene.start('GameScene');
+        this.scene.start('MainMenu');
     }
 }
