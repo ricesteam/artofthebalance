@@ -24,6 +24,8 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
         this.constraints = [];
         this.victims = [];
 
+        // add a delayed explosion ai!
+
         // Add a tween to scale the graphic
         scene.tweens.add({
             targets: this.explosionGraphic,
@@ -86,7 +88,7 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
                 );
 
                 // Calculate the force based on a proportion of the body's mass
-                const forceMagnitude = body.mass * 0.05; // Adjust the force magnitude as needed
+                const forceMagnitude = body.mass * 0.05;
                 const forceX = Math.cos(angle) * forceMagnitude;
                 const forceY = Math.sin(angle) * forceMagnitude;
 
