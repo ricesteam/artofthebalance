@@ -38,25 +38,41 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.anims.play('stand');
 
         // Listen for collision events to determine if the player is on the ground
-        this.scene.matter.world.on('collisionstart', this.handleCollision, this);
-        this.scene.matter.world.on('collisionend', this.handleEndCollision, this);
+        this.scene.matter.world.on(
+            'collisionstart',
+            this.handleCollision,
+            this
+        );
+        this.scene.matter.world.on(
+            'collisionend',
+            this.handleEndCollision,
+            this
+        );
     }
 
     handleCollision(event) {
-        event.pairs.forEach(pair => {
-            if ((pair.bodyA === this.body || pair.bodyB === this.body) &&
-                (pair.bodyA.collisionFilter.category === this.scene.CATEGORY_BLOCK ||
-                 pair.bodyB.collisionFilter.category === this.scene.CATEGORY_BLOCK)) {
+        event.pairs.forEach((pair) => {
+            if (
+                (pair.bodyA === this.body || pair.bodyB === this.body) &&
+                (pair.bodyA.collisionFilter.category ===
+                    this.scene.CATEGORY_PLATFORM ||
+                    pair.bodyB.collisionFilter.category ===
+                        this.scene.CATEGORY_PLATFORM)
+            ) {
                 this.isGrounded = true;
             }
         });
     }
 
     handleEndCollision(event) {
-        event.pairs.forEach(pair => {
-            if ((pair.bodyA === this.body || pair.bodyB === this.body) &&
-                (pair.bodyA.collisionFilter.category === this.scene.CATEGORY_BLOCK ||
-                 pair.bodyB.collisionFilter.category === this.scene.CATEGORY_BLOCK)) {
+        event.pairs.forEach((pair) => {
+            if (
+                (pair.bodyA === this.body || pair.bodyB === this.body) &&
+                (pair.bodyA.collisionFilter.category ===
+                    this.scene.CATEGORY_PLATFORM ||
+                    pair.bodyB.collisionFilter.category ===
+                        this.scene.CATEGORY_PLATFORM)
+            ) {
                 this.isGrounded = false;
             }
         });

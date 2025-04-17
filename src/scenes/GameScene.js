@@ -25,6 +25,7 @@ export class GameScene extends Scene {
         this.CATEGORY_BLOCK = 0x0002;
         this.CATEGORY_ATTACK = 0x0004;
         this.CATEGORY_ENEMY = 0x0008; // New category for enemies
+        this.CATEGORY_PLATFORM = 0x0016;
     }
 
     create() {
@@ -49,6 +50,9 @@ export class GameScene extends Scene {
                 friction: this.platformFriction,
                 frictionStatic: this.platformFrictionStatic,
                 restitution: 0.8,
+                collisionFilter: {
+                    category: this.CATEGORY_PLATFORM,
+                },
             }
         );
         this.platform.setOrigin(0.5, 0.5);
@@ -124,7 +128,9 @@ export class GameScene extends Scene {
 
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.cursors.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.cursors.space = this.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.SPACE
+        );
         this.attackKey = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.Z
         );
@@ -203,13 +209,6 @@ export class GameScene extends Scene {
         if (this.player && this.player.player) {
             this.player.player.destroy();
             this.player = null;
-        }
-    }
-
-    setOffPlatform() {
-        if (this.isOnPlatform) {
-            this.player.setFriction(this.airFriction);
-            this.isOnPlatform = false;
         }
     }
 
