@@ -36,8 +36,14 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
 
     destroyBlackhole() {
         this.victims.forEach((body) => {
-            //body.gameObject.setSensor(true);
+            body.gameObject.setSensor(false);
             body.gameObject.setIgnoreGravity(false);
+            if (
+                body.collisionFilter.category === this.scene.CATEGORY_ENEMY &&
+                body.gameObject.ignorePlatformRotation !== undefined
+            ) {
+                body.gameObject.ignorePlatformRotation = false;
+            }
         });
 
         this.constraints.forEach((constraint) => {
@@ -46,7 +52,7 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
 
         const id = this.scene.blackholes.indexOf(this);
         this.scene.blackholes.splice(id, 1);
-        this.destroy();
+        super.destroy();
     }
 
     update() {
@@ -57,7 +63,9 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
                 x: Phaser.Math.FloatBetween(-0.01, 0.01),
                 y: Phaser.Math.FloatBetween(-0.01, 0.01),
             });
-            body.gameObject.setAngularVelocity(0.1);
+            body.gameObject.setAngularVelocity(
+                Phaser.Math.FloatBetween(0.1, 0.2)
+            );
         });
 
         if (this.victims.length >= this.maxCapacity) return;
@@ -90,16 +98,24 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
                     !this.victims.includes(body)
                 ) {
                     this.victims.push(body);
-                    //body.gameObject.setSensor(false);
+                    body.gameObject.setSensor(true);
                     body.gameObject.setIgnoreGravity(true);
                     this.constraints.push(
                         this.matter.add.constraint(
                             this,
                             body,
-                            Phaser.Math.FloatBetween(1, 20),
+                            Phaser.Math.FloatBetween(1, 50),
                             0.01
                         )
                     );
+
+                    if (
+                        body.collisionFilter.category ===
+                            this.scene.CATEGORY_ENEMY &&
+                        body.gameObject.ignorePlatformRotation !== undefined
+                    ) {
+                        body.gameObject.ignorePlatformRotation = true;
+                    }
                 }
             }
         });

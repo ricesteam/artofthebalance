@@ -10,6 +10,8 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
         scene.add.existing(this);
 
         this.scene = scene;
+        this.world = scene.matter.world;
+        this.matter = scene.matter;
         this.lifespan = 500; // Lifespan of the explosion in milliseconds
 
         // Create a graphic for the explosion (e.g., a circle)
@@ -30,13 +32,18 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
             onComplete: () => {
                 this.explosionGraphic.destroy();
                 this.destroy();
-            }
+            },
         });
 
         // Destroy the explosion after its lifespan
-        scene.time.delayedCall(this.lifespan, () => {
-            this.destroy();
-        }, [], this);
+        scene.time.delayedCall(
+            this.lifespan,
+            () => {
+                this.destroy();
+            },
+            [],
+            this
+        );
     }
 
     destroy() {

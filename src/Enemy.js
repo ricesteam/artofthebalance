@@ -22,12 +22,13 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.hp = 3; // Initial health points
         this.isIdle = false; // New state: is the enemy idling?
         this.idleTimer = null; // Timer for idling
+        this.ignorePlatformRotation = false;
 
         this.setMass(this.enemyMass);
         this.setFriction(0.5);
         this.setFrictionStatic(0.5);
-        this.setBounce(0.5);
         this.setFixedRotation();
+        this.setBounce(0.5);
         this.setCollisionCategory(this.scene.CATEGORY_ENEMY); // Set enemy collision category
         this.setCollisionGroup(-1); // Ensure enemies don't collide with each other
         this.setCollidesWith([
@@ -77,8 +78,8 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     update() {
         if (!this.active) return;
 
-        // Rotate the enemy to be perpendicular to the platform
-        this.rotation = this.scene.platform.rotation;
+        if (!this.ignorePlatformRotation)
+            this.rotation = this.scene.platform.rotation;
 
         if (this.isIdle) {
             return; // Do nothing if idling
@@ -111,6 +112,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     die() {
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
-        this.destroy();
+        super.destroy();
     }
 }
