@@ -49,12 +49,12 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
             [],
             this
         );
+
+        // Call explode after the delay
+        scene.time.delayedCall(this.delay, this.explode, [], this);
     }
 
-    update() {
-        // include the delay so it doesn't act on it until the bomb explodes ai!
-        if (!this.active) return;
-
+    explode() {
         const categoriesToCheck = [
             this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_ENEMY,
@@ -106,6 +106,10 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
                 }
             }
         });
+    }
+
+    update() {
+        // No longer needed
     }
 
     destroy() {
