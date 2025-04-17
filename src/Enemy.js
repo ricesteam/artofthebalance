@@ -32,6 +32,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_ATTACK,
         ]); // Collide with blocks, player, and attack
         this.setScale(2);
+        this.setRotation(0);
         this.name = 'maga';
 
         this.anims.play('enemyWalk');
