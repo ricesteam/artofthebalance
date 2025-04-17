@@ -40,17 +40,17 @@ export class GameScene extends Scene {
         const scaleX = width / bg.width;
         const scaleY = height / bg.height;
         const scale = Math.max(scaleX, scaleY);
-        bg.setScale(scale).setScrollFactor(0);
+        bg.setScale(scale).setScrollFactor(1);
 
         const fx = bg.preFX.addDisplacement('distort', -0.3, -0.3);
         this.tweens.add({
             targets: fx,
-            x: 0.03,
-            y: 0.03,
+            x: 0.3,
+            y: 0.3,
             yoyo: true,
             loop: -1,
             duration: 2000,
-            ease: 'sine.inout',
+            ease: 'sine.in',
         });
 
         // Create the see-saw platform
@@ -73,7 +73,7 @@ export class GameScene extends Scene {
         this.platform.setOrigin(0.5, 0.5);
 
         // Create an anchor point
-        this.anchor = this.matter.add.circle(width / 2, height / 2, 0, {
+        this.anchor = this.matter.add.circle(width / 2, height / 2 + 50, 0, {
             ignoreGravity: false,
             isStatic: true,
         });
