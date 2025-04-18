@@ -83,7 +83,7 @@ export class GameScene extends Scene {
         // Create the see-saw platform
         this.platform = this.matter.add.image(
             width / 2,
-            height / 2,
+            height / 2 + 50,
             'plank',
             null,
             {
@@ -95,6 +95,7 @@ export class GameScene extends Scene {
                 collisionFilter: {
                     category: this.CATEGORY_PLATFORM,
                 },
+                //isStatic: true,
             }
         );
         this.platform.setOrigin(0.5, 0.5);
@@ -207,7 +208,7 @@ export class GameScene extends Scene {
             key: 'lawyerWalk',
             frames: this.anims.generateFrameNumbers('lawyer', {
                 start: 1,
-                end: 8,
+                end: 7,
             }),
             frameRate: 10,
             repeat: -1,
@@ -217,6 +218,15 @@ export class GameScene extends Scene {
             key: 'lawyerIdle',
             frames: [{ key: 'lawyer', frame: 0 }],
             frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'lawyerJump',
+            frames: this.anims.generateFrameNumbers('lawyer', {
+                start: 8,
+                end: 11,
+            }),
+            frameRate: 5,
         });
     }
 
@@ -336,5 +346,7 @@ export class GameScene extends Scene {
                 block.destroy(); // Destroy the block
             }
         });
+
+        // remove enemies that have fallen off-screen ai!
     }
 }
