@@ -50,6 +50,7 @@ export class GameScene extends Scene {
         this.bg.setScrollFactor(0);
         this.bg.setTint(0xdddddd); // Tint the background to make it darker
 
+        // move this stuff and anything related to to bald to the Head class ai!
         // Add the 'bald' image at the bottom center of the screen
         this.baldImage = this.add
             .image(width / 2, height + 40, 'bald')
