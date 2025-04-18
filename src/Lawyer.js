@@ -31,6 +31,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
         this.isInAir = true;
+        this.groundThreshold = 0.1; // Threshold for considering the enemy on the ground
 
         this.setMass(this.enemyMass);
         this.setFriction(1);
@@ -106,8 +107,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             this.startIdling();
         }
 
-        // make this check a threashold because the body velocity.y may not be 0 even tho she is on something ai!
-        if (this.body.velocity.y === 0) {
+        if (Math.abs(this.body.velocity.y) < this.groundThreshold) {
             this.isInAir = false;
         } else {
             this.isInAir = true;
