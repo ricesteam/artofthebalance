@@ -1,7 +1,5 @@
 import Phaser from 'phaser';
 
-// The player can have at most 2 slottable attacks. First it needs a simple inventory system ai!
-
 export class Player extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'player', 0, {
@@ -61,6 +59,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.outlinePipeline = scene.plugins
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
+
+        // Simple inventory for slottable attacks
+        this.inventory = [null, null]; // Array to hold up to 2 attack objects
     }
 
     handleCollision(event) {
@@ -90,6 +91,59 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             }
         });
     }
+
+    // Method to add an attack to the inventory
+    addAttack(attack) {
+        if (this.inventory[0] === null) {
+            this.inventory[0] = attack;
+            console.log('Attack added to slot 1:', attack.name);
+        } else if (this.inventory[1] === null) {
+            this.inventory[1] = attack;
+            console.log('Attack added to slot 2:', attack.name);
+        } else {
+            console.log('Inventory is full. Cannot add', attack.name);
+        }
+    }
+
+    // Method to remove an attack from the inventory by index (0 or 1)
+    removeAttack(index) {
+        if (index >= 0 && index < this.inventory.length) {
+            const removedAttack = this.inventory[index];
+            if (removedAttack) {
+                this.inventory[index] = null;
+                console.log('Attack removed from slot', index + 1 + ':', removedAttack.name);
+            } else {
+                console.log('Slot', index + 1, 'is already empty.');
+            }
+        } else {
+            console.log('Invalid inventory slot index:', index);
+        }
+    }
+
+    // Method to use an attack from the inventory by index (0 or 1)
+    useAttack(index) {
+        if (index >= 0 && index < this.inventory.length) {
+            const attack = this.inventory[index];
+            if (attack) {
+                // Check if the attack has a cooldown and if it's ready
+                if (attack.lastUsedTime === undefined) {
+                    attack.lastUsedTime = 0; // Initialize if not present
+                }
+
+                if (this.scene.time.now - attack.lastUsedTime >= attack.cooldown) {
+                    attack.use(this); // Pass the player instance to the attack's use method
+                    attack.lastUsedTime = this.scene.time.now; // Update last used time
+                } else {
+                    console.log(attack.name, 'is on cooldown.');
+                }
+            } else {
+                console.log('No attack in slot', index + 1);
+            }
+        } else {
+            console.log('Invalid inventory slot index:', index);
+        }
+    }
+
 
     attack() {
         if (
