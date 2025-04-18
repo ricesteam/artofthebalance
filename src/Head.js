@@ -81,26 +81,24 @@ export class Head extends Phaser.GameObjects.Container {
     }
 
     update() {
-        // refactor this: the eyes do not follow the mouse pointer, but this.scene.player or pass it the player reference in the update method ai!
-        // Get the pointer position relative to the head container
-        const pointer = this.scene.input.activePointer;
-        const localPointerX = pointer.x - this.x;
-        const localPointerY = pointer.y - this.y;
+        // Get the player position relative to the head container
+        const playerX = this.scene.player.x - this.x;
+        const playerY = this.scene.player.y - this.y;
 
-        // Calculate the angle from the head's center to the pointer
+        // Calculate the angle from the head's center to the player
         const angle = Phaser.Math.Angle.Between(
             0,
             0,
-            localPointerX,
-            localPointerY
+            playerX,
+            playerY
         );
 
-        // Calculate the distance from the head's center to the pointer
+        // Calculate the distance from the head's center to the player
         const distance = Phaser.Math.Distance.Between(
             0,
             0,
-            localPointerX,
-            localPointerY
+            playerX,
+            playerY
         );
 
         // Clamp the distance to the iris boundary radius
