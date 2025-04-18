@@ -139,7 +139,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Stop moving horizontally
         this.setVelocityX(0);
 
-        // Make the enemy jump over the player ai!
+        // Make the enemy jump over the player
         if (this.isOnPlatform) {
             this.applyForce({ x: 0, y: this.jumpForce });
         }
