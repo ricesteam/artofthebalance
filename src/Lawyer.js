@@ -97,7 +97,10 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
-        if (!this.active) return;
+        if (!this.active) {
+            console.log('active is false');
+            return;
+        }
 
         //if (!this.ignorePlatformRotation)
         this.rotation = this.scene.platform.rotation;
@@ -125,7 +128,12 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         });
     }
 
-    idleState() {}
+    idleState() {
+        // Stay idle until the timer transitions to seek
+        if (Phaser.Math.Between(0, 200) === 0) {
+            this.stateMachine.transition('seek');
+        }
+    }
 
     enterSeek() {
         if (!this.active) return;
@@ -134,7 +142,6 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
     seekState() {
         if (!this.player) this.findPlayer();
-        if (this.isInAir) return;
 
         const distanceToPlayer = Phaser.Math.Distance.Between(
             this.x,
@@ -176,12 +183,12 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
                 x: (position.x - (gameObject.width + 10)) * this.enemyDirection,
                 y: position.y + gameObject.height,
             },
-            { x: this.enemyDirection * 0.06, y: -0.09 }
+            { x: this.enemyDirection * 0.06, y: -0.1 }
         );
 
         // Transition back to seek after a short delay (adjust as needed)
         this.scene.time.addEvent({
-            delay: 2000, // Attack duration
+            delay: 1000, // Attack duration
             callback: () => {
                 this.isAttacking = false;
                 this.stateMachine.transition('seek');
