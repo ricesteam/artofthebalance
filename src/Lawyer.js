@@ -30,6 +30,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.attackRange = 50; // Distance to start attacking
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
+        this.jumpForce = -0.2; // The force of the jump
 
         this.setMass(this.enemyMass);
         this.setFriction(0.5);
@@ -129,10 +130,13 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.setVelocityX(this.enemyDirection * this.maxSpeed);
     }
 
-    // attacking consist of jumping of the player ai!
     attack() {
-        // Implement attack logic here (e.g., play attack animation, deal damage to player)
-        this.setVelocityX(0); // Stop moving while attacking
+        // Stop moving horizontally
+        this.setVelocityX(0);
+
+        // Make the enemy jump
+        this.applyForce({ x: 0, y: this.jumpForce });
+
         console.log('Attacking player!');
         // You might want to add a timer to control the attack rate
     }
