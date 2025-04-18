@@ -12,27 +12,27 @@ export class Head extends Phaser.GameObjects.Container {
         this.baldImage = scene.add.image(0, 0, 'bald', 0);
         this.add(this.baldImage);
 
-        this.baldImage.setScale(0.5).setOrigin(0.5, 1);
+        this.baldImage.setScale(0.5); //.setOrigin(0.5, 1);
         this.name = 'head';
 
         // Add a wobbly tween effect to the bald image (targeting the container)
-        this.scene.tweens.add({
-            targets: this,
-            y: () =>
-                Phaser.Math.FloatBetween(
-                    this.scene.scale.height + 80,
-                    this.scene.scale.height + 30
-                ), // Move slightly up and down
-            rotation: () => Phaser.Math.FloatBetween(-0.06, 0.06), // Rotate slightly
-            duration: 1500, // Duration of the tween
-            yoyo: true, // Make it go back and forth
-            repeat: -1, // Repeat infinitely
-            ease: 'quart.inout',
-        });
+        // this.scene.tweens.add({
+        //     targets: this,
+        //     y: () =>
+        //         Phaser.Math.FloatBetween(
+        //             this.scene.scale.height + 80,
+        //             this.scene.scale.height + 30
+        //         ), // Move slightly up and down
+        //     rotation: () => Phaser.Math.FloatBetween(-0.06, 0.06), // Rotate slightly
+        //     duration: 1500, // Duration of the tween
+        //     yoyo: true, // Make it go back and forth
+        //     repeat: -1, // Repeat infinitely
+        //     ease: 'quart.inout',
+        // });
 
-        // add both left and right eye lid images here
-        this.leftEyeLid = scene.add.image(-20, -40, 'eyelid', 0); // Adjust position as needed
-        this.rightEyeLid = scene.add.image(20, -40, 'eyelid', 0); // Adjust position as needed
+        // I want the eyelids visibility to be on/off so it appears as he's blinking ai!
+        this.leftEyeLid = scene.add.image(0, 0, 'lefteyelid', 0); // Adjust position as needed
+        this.rightEyeLid = scene.add.image(0, 0, 'righteyelid', 0); // Adjust position as needed
         this.add(this.leftEyeLid);
         this.add(this.rightEyeLid);
 
