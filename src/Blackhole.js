@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 
+// create a BlackholeAttack class that uses this class ai!
+
 export class Blackhole extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'blackhole', 0, {
