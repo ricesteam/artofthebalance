@@ -50,9 +50,14 @@ export class Preloader extends Scene {
         this.load.image('flag', 'flag.png');
 
         // big head
-        this.load.image('bald', 'bald.png');
+        this.load.spritesheet('head', 'head.png', {
+            frameWidth: 1024,
+            frameHeight: 1024,
+        });
         this.load.image('lefteyelid', 'lefteyelid.png');
         this.load.image('righteyelid', 'righteyelid.png');
+        this.load.image('leftiris', 'leftiris.png');
+        this.load.image('rightiris', 'rightiris.png');
 
         this.load.font('retro', 'Expire.otf');
     }
