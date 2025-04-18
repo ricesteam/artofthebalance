@@ -27,11 +27,12 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.idleTimer = null; // Timer for idling
         this.ignorePlatformRotation = false;
         this.player = null; // Reference to the player
-        this.attackRange = 100; // Distance to start attacking
+        this.attackRange = 120; // Distance to start attacking
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
         this.isInAir = true;
-        this.groundThreshold = 0.1; // Threshold for considering the enemy on the ground
+        this.groundThreshold = 0.01; // Threshold for considering the enemy on the ground
+        this.isAttacking = false;
 
         this.setMass(this.enemyMass);
         this.setFriction(1);
@@ -74,16 +75,28 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     update() {
         if (!this.active) return;
 
-        if (!this.ignorePlatformRotation)
-            this.rotation = this.scene.platform.rotation;
-
         if (!this.player) {
             this.findPlayer();
             return;
         }
 
+        if (!this.ignorePlatformRotation && !this.isAttacking)
+            this.rotation = this.scene.platform.rotation;
+
         if (this.isIdle) {
             return; // Do nothing if idling
+        }
+
+        if (!this.isInAir) {
+            if (Math.abs(this.body.velocity.x) < this.groundThreshold) {
+                this.anims.play('lawyerIdle');
+            } else {
+                if (
+                    this.anims.currentAnim &&
+                    this.anims.currentAnim.key !== 'lawyerWalk'
+                )
+                    this.anims.play('lawyerWalk');
+            }
         }
 
         // Check distance to player
@@ -98,23 +111,23 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             // Attack the player
             this.attack();
         } else {
-            // Seek the player
-            this.seek();
-        }
-
-        // Randomly start idling
-        if (Phaser.Math.Between(0, 200) === 0) {
-            this.startIdling();
+            if (Phaser.Math.Between(0, 200) === 0) this.startIdling();
+            else this.seek();
         }
 
         if (Math.abs(this.body.velocity.y) < this.groundThreshold) {
             this.isInAir = false;
+            this.setVelocityY(0);
+            this.setAngularVelocity(0);
         } else {
             this.isInAir = true;
         }
     }
 
     seek() {
+        if (!this.ignorePlatformRotation)
+            this.rotation = this.scene.platform.rotation;
+
         if (!this.player) return;
         if (this.isInAir) return;
 
@@ -125,15 +138,15 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             this.enemyDirection = 1;
             this.flipX = false;
         }
-
         this.setVelocityX(this.enemyDirection * this.maxSpeed);
     }
 
     attack() {
         // Stop moving horizontally
-        this.setVelocityX(0);
+        if (!this.isInAir) this.setVelocityX(0);
 
         if (!this.isInAir) {
+            this.anims.play('lawyerJump');
             // Apply force from the bottom of the sprite
             const gameObject = this.body.gameObject;
             const position = this.body.position;
@@ -142,10 +155,11 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
                     x:
                         (position.x - (gameObject.width + 10)) *
                         this.enemyDirection,
-                    y: position.y + (gameObject.height + 10),
+                    y: position.y + gameObject.height,
                 },
-                { x: this.enemyDirection * 0.1, y: -0.04 }
+                { x: this.enemyDirection * 0.05, y: -0.035 }
             );
+            this.setAngularVelocity(0.2 * this.enemyDirection);
         }
 
         console.log('Attacking player!');
@@ -182,6 +196,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.setVelocityX(0);
         this.anims.play('lawyerIdle');
 
+        if (!this.ignorePlatformRotation)
+            this.rotation = this.scene.platform.rotation;
+
         // Set a timer for how long to idle
         this.idleTimer = this.scene.time.addEvent({
             delay: Phaser.Math.Between(1000, 3000), // Idle for 1-3 seconds
@@ -194,6 +211,5 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     stopIdling() {
         if (!this.active) return;
         this.isIdle = false;
-        this.anims.play('lawyerWalk');
     }
 }
