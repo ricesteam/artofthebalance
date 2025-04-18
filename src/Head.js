@@ -37,18 +37,16 @@ export class Head extends Phaser.GameObjects.Container {
         this.rightEyeLid.setVisible(false);
         this.add(this.leftEyeLid);
         this.add(this.rightEyeLid);
-
         this.leftEyeLid.setScale(0.5);
         this.rightEyeLid.setScale(0.5);
 
-        this.leftIris = scene.add.image(-15, -10, 'iris', 0); // Adjust position as needed
-        this.rightIris = scene.add.image(15, -10, 'iris', 0); // Adjust position as needed
+        // I want the iris to follow the player, but also cap it so it doesn't leave the eyesockets ai!
+        this.leftIris = scene.add.image(0, 0, 'leftiris', 0); // Adjust position as needed
+        this.rightIris = scene.add.image(0, 0, 'rightiris', 0); // Adjust position as needed
         this.add(this.leftIris);
         this.add(this.rightIris);
-
         this.leftIris.setScale(0.5);
         this.rightIris.setScale(0.5);
-
 
         // Start blinking timer
         this.startBlinking();
