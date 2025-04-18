@@ -26,7 +26,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.hp = 3; // Initial health points
         this.ignorePlatformRotation = false;
         this.player = null; // Reference to the player
-        this.attackRange = 120; // Distance to start attacking
+        this.attackRange = 100; // Distance to start attacking
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
         this.isInAir = true;
@@ -188,13 +188,13 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
                 x: (position.x - (gameObject.width + 10)) * this.enemyDirection,
                 y: position.y + gameObject.height,
             },
-            { x: this.enemyDirection * 0.05, y: -0.09 }
+            { x: this.enemyDirection * 0.06, y: -0.09 }
         );
         this.setAngularVelocity(0.2 * this.enemyDirection);
 
         // Transition back to seek after a short delay (adjust as needed)
         this.scene.time.addEvent({
-            delay: 1000, // Attack duration
+            delay: 2000, // Attack duration
             callback: () => {
                 this.isAttacking = false;
                 this.stateMachine.transition('seek');
