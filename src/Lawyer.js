@@ -26,6 +26,10 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.isIdle = false; // New state: is the enemy idling?
         this.idleTimer = null; // Timer for idling
         this.ignorePlatformRotation = false;
+        this.player = null; // Reference to the player
+        this.attackRange = 50; // Distance to start attacking
+        this.backingOff = false; // Flag to indicate if the enemy is backing off
+        this.backingOffDistance = 75; // Distance to back off to
 
         this.setMass(this.enemyMass);
         this.setFriction(0.5);
@@ -55,6 +59,13 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.outlinePipeline = scene.plugins
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
+
+        // Find the player
+        this.findPlayer();
+    }
+
+    findPlayer() {
+        this.player = this.scene.player;
     }
 
     update() {
@@ -63,26 +74,75 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         if (!this.ignorePlatformRotation)
             this.rotation = this.scene.platform.rotation;
 
+        if (!this.player) {
+            this.findPlayer();
+            return;
+        }
+
         if (this.isIdle) {
             return; // Do nothing if idling
         }
 
-        // refactor: need some basic ai logic, like seeking the player, then attack the player, then backing off ai!
-        // Basic back and forth movement
-        if (this.x < this.startPosition - this.range) {
-            this.enemyDirection = 1;
-            this.flipX = false;
-        } else if (this.x > this.startPosition + this.range) {
-            this.enemyDirection = -1;
-            this.flipX = true;
-        }
+        // Check distance to player
+        const distanceToPlayer = Phaser.Math.Distance.Between(
+            this.x,
+            this.y,
+            this.player.x,
+            this.player.y
+        );
 
-        this.setVelocityX(this.enemyDirection * this.maxSpeed);
+        if (distanceToPlayer <= this.attackRange) {
+            // Attack the player
+            this.attack();
+        } else if (this.backingOff && distanceToPlayer > this.backingOffDistance) {
+            // Stop backing off
+            this.backingOff = false;
+            this.setVelocityX(0);
+        } else if (distanceToPlayer < this.backingOffDistance) {
+            // Back off from the player
+            this.backOff();
+        } else {
+            // Seek the player
+            this.seek();
+        }
 
         // Randomly start idling
         if (Phaser.Math.Between(0, 200) === 0) {
             this.startIdling();
         }
+    }
+
+    seek() {
+        if (!this.player) return;
+
+        if (this.player.x < this.x) {
+            this.enemyDirection = -1;
+            this.flipX = true;
+        } else {
+            this.enemyDirection = 1;
+            this.flipX = false;
+        }
+
+        this.setVelocityX(this.enemyDirection * this.maxSpeed);
+    }
+
+    attack() {
+        // Implement attack logic here (e.g., play attack animation, deal damage to player)
+        this.setVelocityX(0); // Stop moving while attacking
+        console.log('Attacking player!');
+        // You might want to add a timer to control the attack rate
+    }
+
+    backOff() {
+        this.backingOff = true;
+        if (this.player.x < this.x) {
+            this.enemyDirection = 1; // Move right to back off
+            this.flipX = false;
+        } else {
+            this.enemyDirection = -1; // Move left to back off
+            this.flipX = true;
+        }
+        this.setVelocityX(this.enemyDirection * this.maxSpeed);
     }
 
     takeDamage(damage) {
