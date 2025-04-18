@@ -30,14 +30,43 @@ export class Head extends Phaser.GameObjects.Container {
         //     ease: 'quart.inout',
         // });
 
-        // I want the eyelids visibility to be on/off so it appears as he's blinking ai!
-        this.leftEyeLid = scene.add.image(0, 0, 'lefteyelid', 0); // Adjust position as needed
-        this.rightEyeLid = scene.add.image(0, 0, 'righteyelid', 0); // Adjust position as needed
+        // I want the eyelids visibility to be on/off so it appears as he's blinking
+        this.leftEyeLid = scene.add.image(-20, -40, 'eyelid', 0); // Adjust position as needed
+        this.rightEyeLid = scene.add.image(20, -40, 'eyelid', 0); // Adjust position as needed
         this.add(this.leftEyeLid);
         this.add(this.rightEyeLid);
 
         this.leftEyeLid.setScale(0.5);
         this.rightEyeLid.setScale(0.5);
+
+        // Start blinking timer
+        this.startBlinking();
+    }
+
+    startBlinking() {
+        // Set a timer for random blinking
+        this.scene.time.addEvent({
+            delay: Phaser.Math.Between(2000, 5000), // Blink every 2-5 seconds
+            callback: this.blink,
+            callbackScope: this,
+            loop: true,
+        });
+    }
+
+    blink() {
+        // Make eyelids visible for a short duration
+        this.leftEyeLid.setVisible(true);
+        this.rightEyeLid.setVisible(true);
+
+        this.scene.time.addEvent({
+            delay: 100, // Eyelids visible for 100ms
+            callback: () => {
+                this.leftEyeLid.setVisible(false);
+                this.rightEyeLid.setVisible(false);
+            },
+            callbackScope: this,
+            loop: false,
+        });
     }
 
     update() {
