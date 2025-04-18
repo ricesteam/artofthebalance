@@ -40,8 +40,8 @@ export class Head extends Phaser.GameObjects.Container {
         this.leftEyeLid.setScale(0.5);
         this.rightEyeLid.setScale(0.5);
 
-        this.leftIris = scene.add.image(-15, -10, 'iris', 0); // Adjust position as needed
-        this.rightIris = scene.add.image(15, -10, 'iris', 0); // Adjust position as needed
+        this.leftIris = scene.add.image(0, 0, 'leftiris', 0); // Adjust position as needed
+        this.rightIris = scene.add.image(0, 0, 'rightiris', 0); // Adjust position as needed
         this.add(this.leftIris);
         this.add(this.rightIris);
         this.leftIris.setScale(0.5);
@@ -81,16 +81,27 @@ export class Head extends Phaser.GameObjects.Container {
     }
 
     update() {
+        // refactor this: the eyes do not follow the mouse pointer, but this.scene.player or pass it the player reference in the update method ai!
         // Get the pointer position relative to the head container
         const pointer = this.scene.input.activePointer;
         const localPointerX = pointer.x - this.x;
         const localPointerY = pointer.y - this.y;
 
         // Calculate the angle from the head's center to the pointer
-        const angle = Phaser.Math.Angle.Between(0, 0, localPointerX, localPointerY);
+        const angle = Phaser.Math.Angle.Between(
+            0,
+            0,
+            localPointerX,
+            localPointerY
+        );
 
         // Calculate the distance from the head's center to the pointer
-        const distance = Phaser.Math.Distance.Between(0, 0, localPointerX, localPointerY);
+        const distance = Phaser.Math.Distance.Between(
+            0,
+            0,
+            localPointerX,
+            localPointerY
+        );
 
         // Clamp the distance to the iris boundary radius
         const clampedDistance = Math.min(distance, this.irisBoundary.radius);
