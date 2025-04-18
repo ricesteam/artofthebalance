@@ -30,6 +30,16 @@ export class Head extends Phaser.GameObjects.Container {
             ease: 'quart.inout',
         });
 
+        this.leftIris = scene.add.image(0, 0, 'leftiris', 0); // Adjust position as needed
+        this.rightIris = scene.add.image(0, 0, 'rightiris', 0); // Adjust position as needed
+        this.add(this.leftIris);
+        this.add(this.rightIris);
+        this.leftIris.setScale(0.5);
+        this.rightIris.setScale(0.5);
+
+        // Define the boundary for iris movement relative to the head container's center
+        this.irisBoundary = new Phaser.Geom.Circle(0, 0, 6); // Adjust the radius as needed
+
         // I want the eyelids visibility to be on/off so it appears as he's blinking
         this.leftEyeLid = scene.add.image(0, 0, 'lefteyelid', 0); // Adjust position as needed
         this.rightEyeLid = scene.add.image(0, 0, 'righteyelid', 0); // Adjust position as needed
@@ -39,16 +49,6 @@ export class Head extends Phaser.GameObjects.Container {
         this.add(this.rightEyeLid);
         this.leftEyeLid.setScale(0.5);
         this.rightEyeLid.setScale(0.5);
-
-        this.leftIris = scene.add.image(0, 0, 'leftiris', 0); // Adjust position as needed
-        this.rightIris = scene.add.image(0, 0, 'rightiris', 0); // Adjust position as needed
-        this.add(this.leftIris);
-        this.add(this.rightIris);
-        this.leftIris.setScale(0.5);
-        this.rightIris.setScale(0.5);
-
-        // Define the boundary for iris movement relative to the head container's center
-        this.irisBoundary = new Phaser.Geom.Circle(0, 0, 10); // Adjust the radius as needed
 
         // Start blinking timer
         this.startBlinking();
@@ -86,20 +86,10 @@ export class Head extends Phaser.GameObjects.Container {
         const playerY = this.scene.player.y - this.y;
 
         // Calculate the angle from the head's center to the player
-        const angle = Phaser.Math.Angle.Between(
-            0,
-            0,
-            playerX,
-            playerY
-        );
+        const angle = Phaser.Math.Angle.Between(0, 0, playerX, playerY);
 
         // Calculate the distance from the head's center to the player
-        const distance = Phaser.Math.Distance.Between(
-            0,
-            0,
-            playerX,
-            playerY
-        );
+        const distance = Phaser.Math.Distance.Between(0, 0, playerX, playerY);
 
         // Clamp the distance to the iris boundary radius
         const clampedDistance = Math.min(distance, this.irisBoundary.radius);
@@ -109,11 +99,10 @@ export class Head extends Phaser.GameObjects.Container {
         const irisOffsetY = Math.sin(angle) * clampedDistance;
 
         // Update the iris positions
-        // The base positions (-15, -10) and (15, -10) are relative to the head container's center
-        this.leftIris.x = -15 + irisOffsetX;
-        this.leftIris.y = -10 + irisOffsetY;
+        this.leftIris.x = irisOffsetX;
+        this.leftIris.y = 2 + irisOffsetY;
 
-        this.rightIris.x = 15 + irisOffsetX;
-        this.rightIris.y = -10 + irisOffsetY;
+        this.rightIris.x = irisOffsetX;
+        this.rightIris.y = 2 + irisOffsetY;
     }
 }
