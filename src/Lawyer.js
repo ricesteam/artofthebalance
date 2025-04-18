@@ -66,7 +66,10 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Find the player
         this.findPlayer();
 
-        this.setOnCollideWith(this.scene.platform, this.handlePlatformCollision);
+        this.setOnCollideWith(
+            this.scene.platform,
+            this.handlePlatformCollision
+        );
     }
 
     handlePlatformCollision(data) {
@@ -102,6 +105,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             this.player.y
         );
 
+        // remove the backingoff behavior for now ai!
         if (distanceToPlayer <= this.attackRange) {
             // Attack the player
             this.attack();
