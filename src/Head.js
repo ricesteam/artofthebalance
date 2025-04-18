@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 
+// extend the phaser game object class instead ai!
 export class Head extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'head', 0, {
