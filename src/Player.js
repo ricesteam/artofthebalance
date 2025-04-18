@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 
+// The player can have at most 2 slottable attacks. First it needs a simple inventory system ai!
+
 export class Player extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'player', 0, {
