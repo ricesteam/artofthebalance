@@ -105,20 +105,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             this.player.y
         );
 
-        // remove the backingoff behavior for now ai!
         if (distanceToPlayer <= this.attackRange) {
             // Attack the player
             this.attack();
-        } else if (
-            this.backingOff &&
-            distanceToPlayer > this.backingOffDistance
-        ) {
-            // Stop backing off
-            this.backingOff = false;
-            this.setVelocityX(0);
-        } else if (distanceToPlayer < this.backingOffDistance) {
-            // Back off from the player
-            this.backOff();
         } else {
             // Seek the player
             this.seek();
