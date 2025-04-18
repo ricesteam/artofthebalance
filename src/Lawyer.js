@@ -67,6 +67,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             return; // Do nothing if idling
         }
 
+        // refactor: need some basic ai logic, like seeking the player, then attack the player, then backing off ai!
         // Basic back and forth movement
         if (this.x < this.startPosition - this.range) {
             this.enemyDirection = 1;
