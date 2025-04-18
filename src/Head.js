@@ -1,17 +1,21 @@
 import Phaser from 'phaser';
 
-// I want this class a compsitite of several sprite/images. extend the container class instead ai!
-export class Head extends Phaser.GameObjects.Sprite {
+// I want this class a compsitite of several sprite/images. extend the container class instead
+export class Head extends Phaser.GameObjects.Container {
     constructor(scene, x, y) {
-        super(scene, x, y, 'bald', 0);
+        super(scene, x, y);
         this.scene = scene;
 
         scene.add.existing(this);
 
-        this.setScale(2);
+        // Add the 'bald' image as a child of the container
+        this.baldImage = scene.add.image(0, 0, 'bald', 0);
+        this.add(this.baldImage);
+
+        this.baldImage.setScale(2);
         this.name = 'head';
 
-        // Add a wobbly tween effect to the bald image
+        // Add a wobbly tween effect to the bald image (targeting the container)
         this.scene.tweens.add({
             targets: this,
             y: () =>
