@@ -7,8 +7,11 @@ export class Preloader extends Scene {
 
     init() {
         //  We loaded this image in our Boot Scene, so we can display it here
-        // make this image stretch to the screen ai!
-        this.add.image(0, 0, 'flag');
+        const flagImage = this.add.image(0, 0, 'flag');
+        flagImage.setOrigin(0, 0);
+        flagImage.displayWidth = this.sys.game.config.width;
+        flagImage.displayHeight = this.sys.game.config.height;
+
 
         //  A simple progress bar. This is the outline of the bar.
         this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff);
