@@ -106,6 +106,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             this.startIdling();
         }
 
+        // make this check a threashold because the body velocity.y may not be 0 even tho she is on something ai!
         if (this.body.velocity.y === 0) {
             this.isInAir = false;
         } else {
@@ -115,6 +116,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
     seek() {
         if (!this.player) return;
+        if (this.isInAir) return;
 
         if (this.player.x < this.x) {
             this.enemyDirection = -1;
@@ -132,9 +134,18 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.setVelocityX(0);
 
         if (!this.isInAir) {
-            const jumpDirection = this.player.x < this.x ? -1 : 1;
             // Apply force from the bottom of the sprite
-            this.applyForceFrom({ x: this.x, y: this.y + this.displayHeight / 2 }, { x: jumpDirection * 0.1, y: -0.04 });
+            const gameObject = this.body.gameObject;
+            const position = this.body.position;
+            this.applyForceFrom(
+                {
+                    x:
+                        (position.x - (gameObject.width + 10)) *
+                        this.enemyDirection,
+                    y: position.y + (gameObject.height + 10),
+                },
+                { x: this.enemyDirection * 0.1, y: -0.04 }
+            );
         }
 
         console.log('Attacking player!');
