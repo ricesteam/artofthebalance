@@ -31,6 +31,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
         this.jumpForce = -0.02; // The force of the jump
+        this.isOnPlatform = false;
 
         this.setMass(this.enemyMass);
         this.setFriction(0.5);
@@ -43,6 +44,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_PLAYER,
             this.scene.CATEGORY_ATTACK,
+            this.scene.CATEGORY_PLATFORM,
         ]); // Collide with blocks, player, and attack
         this.setScale(2);
         this.setRotation(0);
@@ -63,6 +65,14 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
         // Find the player
         this.findPlayer();
+
+        this.setOnCollideWith(this.scene.platform, this.handlePlatformCollision);
+    }
+
+    handlePlatformCollision(data) {
+        if (data.bodyB === this.body) {
+            this.isOnPlatform = true;
+        }
     }
 
     findPlayer() {
@@ -114,6 +124,8 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         if (Phaser.Math.Between(0, 200) === 0) {
             this.startIdling();
         }
+
+        this.isOnPlatform = false; // Reset the flag every frame, collision will set it to true
     }
 
     seek() {
@@ -135,7 +147,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.setVelocityX(0);
 
         // Make the enemy jump
-        this.applyForce({ x: 0, y: this.jumpForce });
+        if (this.isOnPlatform) {
+            this.applyForce({ x: 0, y: this.jumpForce });
+        }
 
         console.log('Attacking player!');
         // You might want to add a timer to control the attack rate
