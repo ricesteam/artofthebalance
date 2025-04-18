@@ -77,4 +77,24 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.scene.enemies.splice(id, 1);
         super.destroy();
     }
+
+    startIdling() {
+        this.isIdle = true;
+        this.setVelocityX(0);
+        this.anims.play('enemyIdle');
+
+        // Set a timer for how long to idle
+        this.idleTimer = this.scene.time.addEvent({
+            delay: Phaser.Math.Between(1000, 3000), // Idle for 1-3 seconds
+            callback: this.stopIdling,
+            callbackScope: this,
+            loop: false,
+        });
+    }
+
+    stopIdling() {
+        if (!this.active) return;
+        this.isIdle = false;
+        this.anims.play('enemyWalk');
+    }
 }
