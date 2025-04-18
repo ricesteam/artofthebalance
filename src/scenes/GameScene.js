@@ -347,6 +347,12 @@ export class GameScene extends Scene {
             }
         });
 
-        // remove enemies that have fallen off-screen ai!
+        // remove enemies that have fallen off-screen
+        this.enemies.forEach((enemy, index) => {
+            if (enemy.y > this.scale.height + 200) {
+                this.enemies.splice(index, 1); // Remove from the enemies array
+                enemy.destroy(); // Destroy the enemy
+            }
+        });
     }
 }
