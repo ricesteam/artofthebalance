@@ -14,19 +14,20 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.scene = scene;
         this.world = scene.matter.world;
         this.matter = scene.matter;
+        this.active = true;
 
         scene.add.existing(this);
         this.scene = scene;
         this.enemyMass = 1;
         this.acceleration = 0.05;
-        this.maxSpeed = 1.5;
-        this.enemyDirection = -1; // Start moving left
+        this.maxSpeed = 2;
+        this.enemyDirection = 1; // Start moving left
         this.range = 150; // Distance the enemy will walk in each direction
         this.startPosition = x; // Initial x position
         this.hp = 3; // Initial health points
         this.ignorePlatformRotation = false;
         this.player = null; // Reference to the player
-        this.attackRange = 100; // Distance to start attacking
+        this.attackRange = 150; // Distance to start attacking
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
         this.isInAir = true;
@@ -50,7 +51,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.setRotation(0);
         this.name = 'lawyer';
 
-        this.flipX = true;
+        this.flipX = false;
 
         var outlineconfig = {
             thickness: 2,
@@ -68,7 +69,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
         // State Machine
         this.stateMachine = new StateMachine(
-            'idle',
+            'seek',
             {
                 idle: {
                     enter: this.enterIdle.bind(this),
@@ -98,25 +99,17 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     update() {
         if (!this.active) return;
 
-        if (!this.player) {
-            this.findPlayer();
-            return;
-        }
-
-        if (!this.ignorePlatformRotation && !this.isAttacking)
-            this.rotation = this.scene.platform.rotation;
+        //if (!this.ignorePlatformRotation)
+        this.rotation = this.scene.platform.rotation;
 
         if (Math.abs(this.body.velocity.y) < this.groundThreshold) {
             this.isInAir = false;
             this.setVelocityY(0);
-            this.setAngularVelocity(0);
         } else {
             this.isInAir = true;
         }
 
-        if (this.active) {
-            this.stateMachine.step();
-        }
+        this.stateMachine.step();
     }
 
     // State Methods
@@ -132,12 +125,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         });
     }
 
-    idleState() {
-        //add random chance to start seeking
-        if (Phaser.Math.Between(0, 200) === 0) {
-            this.stateMachine.transition('seek');
-        }
-    }
+    idleState() {}
 
     enterSeek() {
         if (!this.active) return;
@@ -145,7 +133,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     seekState() {
-        if (!this.player) return;
+        if (!this.player) this.findPlayer();
         if (this.isInAir) return;
 
         const distanceToPlayer = Phaser.Math.Distance.Between(
@@ -190,7 +178,6 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             },
             { x: this.enemyDirection * 0.06, y: -0.09 }
         );
-        this.setAngularVelocity(0.2 * this.enemyDirection);
 
         // Transition back to seek after a short delay (adjust as needed)
         this.scene.time.addEvent({
@@ -215,18 +202,6 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
     jumpState() {
         // Logic for a different jump state
-    }
-
-    backOff() {
-        this.backingOff = true;
-        if (this.player.x < this.x) {
-            this.enemyDirection = 1; // Move right to back off
-            this.flipX = false;
-        } else {
-            this.enemyDirection = -1; // Move left to back off
-            this.flipX = true;
-        }
-        this.setVelocityX(this.enemyDirection * this.maxSpeed);
     }
 
     takeDamage(damage) {

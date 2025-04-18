@@ -115,6 +115,8 @@ export class Explosion extends Phaser.Physics.Matter.Sprite {
     }
 
     destroy() {
+        if (!this.scene) return;
+
         this.victims.forEach((body) => {
             if (
                 body.collisionFilter.category === this.scene.CATEGORY_ENEMY &&

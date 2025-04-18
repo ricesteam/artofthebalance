@@ -16,7 +16,7 @@ export class GameScene extends Scene {
         this.leftWeight = 0;
         this.platform = null;
         this.platformFriction = 0.01; // Friction when on the platform
-        this.platformFrictionStatic = 0; // Friction when on the platform
+        this.platformFrictionStatic = 0.1; // Friction when on the platform
         this.player = null; // Player game object
         this.rightWeight = 0;
         this.spawner = null; // Spawner instance
@@ -95,7 +95,7 @@ export class GameScene extends Scene {
                 collisionFilter: {
                     category: this.CATEGORY_PLATFORM,
                 },
-                isStatic: true,
+                //isStatic: true,
             }
         );
         this.platform.setOrigin(0.5, 0.5);

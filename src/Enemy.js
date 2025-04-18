@@ -11,6 +11,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             },
         });
         scene.add.existing(this);
+        this.active = true;
 
         this.scene = scene;
         this.enemyMass = 1;
@@ -77,8 +78,8 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     update() {
         if (!this.active) return;
 
-        if (!this.ignorePlatformRotation)
-            this.rotation = this.scene.platform.rotation;
+        //if (!this.ignorePlatformRotation)
+        this.rotation = this.scene.platform.rotation;
 
         if (this.isIdle) {
             return; // Do nothing if idling
