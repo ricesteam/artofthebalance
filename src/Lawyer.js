@@ -30,12 +30,11 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.attackRange = 50; // Distance to start attacking
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
-        this.jumpForce = -0.02; // The force of the jump
-        this.isOnPlatform = false;
+        this.jumpForce = -0.009; // The force of the jump
 
         this.setMass(this.enemyMass);
-        this.setFriction(0.5);
-        this.setFrictionStatic(0.5);
+        this.setFriction(1);
+        this.setFrictionStatic(1);
         this.setFixedRotation();
         this.setBounce(0.5);
         this.setCollisionCategory(this.scene.CATEGORY_ENEMY); // Set enemy collision category
@@ -48,7 +47,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         ]); // Collide with blocks, player, and attack
         this.setScale(2);
         this.setRotation(0);
-        this.name = 'maga';
+        this.name = 'lawyer';
 
         this.flipX = true;
 
@@ -65,17 +64,6 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
         // Find the player
         this.findPlayer();
-
-        this.setOnCollideWith(
-            this.scene.platform,
-            this.handlePlatformCollision
-        );
-    }
-
-    handlePlatformCollision(data) {
-        if (data.bodyB === this.body) {
-            this.isOnPlatform = true;
-        }
     }
 
     findPlayer() {
@@ -117,8 +105,6 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         if (Phaser.Math.Between(0, 200) === 0) {
             this.startIdling();
         }
-
-        this.isOnPlatform = false; // Reset the flag every frame, collision will set it to true
     }
 
     seek() {
@@ -139,10 +125,8 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Stop moving horizontally
         this.setVelocityX(0);
 
-        // Make the enemy jump over the player
-        if (this.isOnPlatform) {
-            this.applyForce({ x: 0, y: this.jumpForce });
-        }
+        // make this jump in the opposite direction of the player ai!
+        this.applyForce({ x: 0, y: this.jumpForce });
 
         console.log('Attacking player!');
         // You might want to add a timer to control the attack rate
