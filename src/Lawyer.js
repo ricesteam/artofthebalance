@@ -87,6 +87,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
                     execute: this.jumpState,
                 },
             },
+            //each of the handlers are not getting a reference to this ai!
             [this]
         ); // Pass the lawyer instance as a state argument
     }
@@ -145,7 +146,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     seekState() {
-        if (!this.player) return;
+        if (!this.player) this.scene.player;
         if (this.isInAir) return;
 
         const distanceToPlayer = Phaser.Math.Distance.Between(
