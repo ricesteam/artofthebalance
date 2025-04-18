@@ -30,7 +30,14 @@ export class Head extends Phaser.GameObjects.Container {
             ease: 'quart.inout',
         });
 
-        // add both left and right eye lid images here ai!
+        // add both left and right eye lid images here
+        this.leftEyeLid = scene.add.image(-20, -40, 'eyelid', 0); // Adjust position as needed
+        this.rightEyeLid = scene.add.image(20, -40, 'eyelid', 0); // Adjust position as needed
+        this.add(this.leftEyeLid);
+        this.add(this.rightEyeLid);
+
+        this.leftEyeLid.setScale(0.5);
+        this.rightEyeLid.setScale(0.5);
     }
 
     update() {
