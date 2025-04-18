@@ -41,7 +41,14 @@ export class Head extends Phaser.GameObjects.Container {
         this.leftEyeLid.setScale(0.5);
         this.rightEyeLid.setScale(0.5);
 
-        // add the left and right iris here ai!
+        this.leftIris = scene.add.image(-15, -10, 'iris', 0); // Adjust position as needed
+        this.rightIris = scene.add.image(15, -10, 'iris', 0); // Adjust position as needed
+        this.add(this.leftIris);
+        this.add(this.rightIris);
+
+        this.leftIris.setScale(0.5);
+        this.rightIris.setScale(0.5);
+
 
         // Start blinking timer
         this.startBlinking();
