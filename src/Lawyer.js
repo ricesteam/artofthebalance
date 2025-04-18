@@ -55,7 +55,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
         var outlineconfig = {
             thickness: 2,
-            outlineColor: 0xae2334,
+            outlineColor: 0x2e222f,
             quality: 0.1,
             name: 'rexOutlinePostFx',
         };
