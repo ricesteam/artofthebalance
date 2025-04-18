@@ -71,23 +71,22 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             'idle',
             {
                 idle: {
-                    enter: this.enterIdle,
-                    execute: this.idleState,
+                    enter: this.enterIdle.bind(this),
+                    execute: this.idleState.bind(this),
                 },
                 seek: {
-                    enter: this.enterSeek,
-                    execute: this.seekState,
+                    enter: this.enterSeek.bind(this),
+                    execute: this.seekState.bind(this),
                 },
                 attack: {
-                    enter: this.enterAttack,
-                    execute: this.attackState,
+                    enter: this.enterAttack.bind(this),
+                    execute: this.attackState.bind(this),
                 },
                 jump: {
-                    enter: this.enterJump,
-                    execute: this.jumpState,
+                    enter: this.enterJump.bind(this),
+                    execute: this.jumpState.bind(this),
                 },
             },
-            //each of the handlers are not getting a reference to this ai!
             [this]
         ); // Pass the lawyer instance as a state argument
     }
