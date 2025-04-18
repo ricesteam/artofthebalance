@@ -3,6 +3,7 @@ import { Player } from '../Player';
 import { Spawner } from '../Spawner';
 import { Blackhole } from '../Blackhole';
 import { Explosion } from '../Explosion';
+import { Head } from '../Head'; // Import the Head class
 
 export class GameScene extends Scene {
     constructor() {
@@ -49,25 +50,6 @@ export class GameScene extends Scene {
         this.bg.setOrigin(0, 0);
         this.bg.setScrollFactor(0);
         this.bg.setTint(0xdddddd); // Tint the background to make it darker
-
-        // move this stuff and anything related to to bald to the Head class ai!
-        // Add the 'bald' image at the bottom center of the screen
-        this.baldImage = this.add
-            .image(width / 2, height + 40, 'bald')
-            .setOrigin(0.5, 1) // Center the image horizontally, bottom vertically
-            .setScale(this.baldScale); // Scale the image
-
-        // Add a wobbly tween effect to the bald image
-        this.tweens.add({
-            targets: this.baldImage,
-            //x: () => Phaser.Math.FloatBetween(width / 2 - 10, width / 2 + 10), // Move slightly up and down
-            y: () => Phaser.Math.FloatBetween(height + 80, height + 30), // Move slightly up and down
-            rotation: () => Phaser.Math.FloatBetween(-0.06, 0.06), // Rotate slightly
-            duration: 1500, // Duration of the tween
-            yoyo: true, // Make it go back and forth
-            repeat: -1, // Repeat infinitely
-            ease: 'quart.inout',
-        });
 
         const fx = this.bg.preFX.addPixelate(2);
         this.bg.preFX.addDisplacement('distort', -0.5, -0.5);
@@ -139,6 +121,10 @@ export class GameScene extends Scene {
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
+
+        // Create the Head instance
+        this.head = new Head(this, width / 2, height + 40);
+
 
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -316,6 +302,7 @@ export class GameScene extends Scene {
 
     update() {
         this.player.update(this.cursors);
+        this.head.update(); // Update the head
 
         // Update enemies
         this.enemies.forEach((enemy) => {
