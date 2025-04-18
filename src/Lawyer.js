@@ -30,7 +30,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.attackRange = 50; // Distance to start attacking
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
-        this.jumpForce = -0.2; // The force of the jump
+        this.jumpForce = -0.02; // The force of the jump
 
         this.setMass(this.enemyMass);
         this.setFriction(0.5);
