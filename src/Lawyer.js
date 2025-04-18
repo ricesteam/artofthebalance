@@ -110,7 +110,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             this.isInAir = true;
         }
 
-        this.stateMachine.step();
+        if (this.active) {
+            this.stateMachine.step();
+        }
     }
 
     // State Methods
