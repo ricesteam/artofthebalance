@@ -4,8 +4,8 @@ import { Spawner } from '../Spawner';
 import { Blackhole } from '../Blackhole';
 import { Explosion } from '../Explosion';
 import { Head } from '../Head'; // Import the Head class
+import { BasicAttack } from '../attacks/BasicAttack'; // Import the BasicAttack class
 
-// remove the z pressed attack. Refactor it out to a class, BasicAttack ai!
 
 export class GameScene extends Scene {
     constructor() {
@@ -126,6 +126,11 @@ export class GameScene extends Scene {
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
+
+        // Add the basic attack to the player's inventory
+        const basicAttack = new BasicAttack(this);
+        this.player.addAttack(basicAttack);
+
 
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -318,9 +323,9 @@ export class GameScene extends Scene {
             explosion.update();
         });
 
-        // Attack input
+        // Attack input - Use the attack from the inventory
         if (this.attackKey.isDown) {
-            this.player.attack();
+            this.player.useAttack(0); // Use the attack in the first inventory slot
         }
 
         // Scroll the background
@@ -341,6 +346,10 @@ export class GameScene extends Scene {
             if (enemy.y > this.scale.height + 200) {
                 this.enemies.splice(index, 1); // Remove from the enemies array
                 enemy.die(); // Destroy the enemy
+            }
+            // Remove enemies that have been destroyed (health <= 0)
+            else if (enemy.health <= 0) {
+                this.enemies.splice(index, 1);
             }
         });
     }
