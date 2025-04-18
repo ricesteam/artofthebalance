@@ -63,6 +63,9 @@ export class GameScene extends Scene {
             ease: 'sine.inout',
         });
 
+        // Create the Head instance
+        this.head = new Head(this, width / 2, height + 40);
+
         // Create the see-saw platform
         this.platform = this.matter.add.image(
             width / 2,
@@ -121,10 +124,6 @@ export class GameScene extends Scene {
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
-
-        // Create the Head instance
-        this.head = new Head(this, width / 2, height + 40);
-
 
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();

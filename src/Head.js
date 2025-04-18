@@ -12,7 +12,7 @@ export class Head extends Phaser.GameObjects.Container {
         this.baldImage = scene.add.image(0, 0, 'bald', 0);
         this.add(this.baldImage);
 
-        this.baldImage.setScale(2);
+        this.baldImage.setScale(0.5).setOrigin(0.5, 1);
         this.name = 'head';
 
         // Add a wobbly tween effect to the bald image (targeting the container)
