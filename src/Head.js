@@ -8,6 +8,7 @@ export class Head extends Phaser.GameObjects.Container {
 
         scene.add.existing(this);
 
+        // I changed the bald image to head.png which is a spritesheet, load it and set it on frame 3 ai!
         // Add the 'bald' image as a child of the container
         this.baldImage = scene.add.image(0, 0, 'bald', 0);
         this.add(this.baldImage);
