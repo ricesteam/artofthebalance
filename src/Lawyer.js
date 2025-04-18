@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { StateMachine } from './StateMachine';
 
 export class Lawyer extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -23,8 +24,6 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.range = 150; // Distance the enemy will walk in each direction
         this.startPosition = x; // Initial x position
         this.hp = 3; // Initial health points
-        this.isIdle = false; // New state: is the enemy idling?
-        this.idleTimer = null; // Timer for idling
         this.ignorePlatformRotation = false;
         this.player = null; // Reference to the player
         this.attackRange = 120; // Distance to start attacking
@@ -66,6 +65,26 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
         // Find the player
         this.findPlayer();
+
+        // State Machine
+        this.stateMachine = new StateMachine('idle', {
+            idle: {
+                enter: this.enterIdle,
+                execute: this.idleState,
+            },
+            seek: {
+                enter: this.enterSeek,
+                execute: this.seekState,
+            },
+            attack: {
+                enter: this.enterAttack,
+                execute: this.attackState,
+            },
+            jump: {
+                enter: this.enterJump,
+                execute: this.jumpState,
+            },
+        }, [this]); // Pass the lawyer instance as a state argument
     }
 
     findPlayer() {
@@ -83,23 +102,41 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         if (!this.ignorePlatformRotation && !this.isAttacking)
             this.rotation = this.scene.platform.rotation;
 
-        if (this.isIdle) {
-            return; // Do nothing if idling
+        if (Math.abs(this.body.velocity.y) < this.groundThreshold) {
+            this.isInAir = false;
+            this.setVelocityY(0);
+            this.setAngularVelocity(0);
+        } else {
+            this.isInAir = true;
         }
 
-        if (!this.isInAir) {
-            if (Math.abs(this.body.velocity.x) < this.groundThreshold) {
-                this.anims.play('lawyerIdle');
-            } else {
-                if (
-                    this.anims.currentAnim &&
-                    this.anims.currentAnim.key !== 'lawyerWalk'
-                )
-                    this.anims.play('lawyerWalk');
-            }
-        }
+        this.stateMachine.step();
+    }
 
-        // Check distance to player
+    // State Methods
+    enterIdle() {
+        this.setVelocityX(0);
+        this.anims.play('lawyerIdle');
+        this.scene.time.addEvent({
+            delay: Phaser.Math.Between(1000, 3000),
+            callback: () => this.stateMachine.transition('seek'),
+            callbackScope: this,
+            loop: false,
+        });
+    }
+
+    idleState() {
+        // Stay idle until the timer transitions to seek
+    }
+
+    enterSeek() {
+        this.anims.play('lawyerWalk');
+    }
+
+    seekState() {
+        if (!this.player) return;
+        if (this.isInAir) return;
+
         const distanceToPlayer = Phaser.Math.Distance.Between(
             this.x,
             this.y,
@@ -108,28 +145,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         );
 
         if (distanceToPlayer <= this.attackRange) {
-            // Attack the player
-            this.attack();
-        } else {
-            if (Phaser.Math.Between(0, 200) === 0) this.startIdling();
-            else this.seek();
+            this.stateMachine.transition('attack');
+            return;
         }
-
-        if (Math.abs(this.body.velocity.y) < this.groundThreshold) {
-            this.isInAir = false;
-            this.setVelocityY(0);
-            this.setAngularVelocity(0);
-        } else {
-            this.isInAir = true;
-        }
-    }
-
-    seek() {
-        if (!this.ignorePlatformRotation)
-            this.rotation = this.scene.platform.rotation;
-
-        if (!this.player) return;
-        if (this.isInAir) return;
 
         if (this.player.x < this.x) {
             this.enemyDirection = -1;
@@ -139,31 +157,53 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             this.flipX = false;
         }
         this.setVelocityX(this.enemyDirection * this.maxSpeed);
+
+        if (Phaser.Math.Between(0, 200) === 0) {
+            this.stateMachine.transition('idle');
+        }
     }
 
-    attack() {
-        // Stop moving horizontally
-        if (!this.isInAir) this.setVelocityX(0);
+    enterAttack() {
+        this.isAttacking = true;
+        this.setVelocityX(0);
+        this.anims.play('lawyerJump');
 
-        if (!this.isInAir) {
-            this.anims.play('lawyerJump');
-            // Apply force from the bottom of the sprite
-            const gameObject = this.body.gameObject;
-            const position = this.body.position;
-            this.applyForceFrom(
-                {
-                    x:
-                        (position.x - (gameObject.width + 10)) *
-                        this.enemyDirection,
-                    y: position.y + gameObject.height,
-                },
-                { x: this.enemyDirection * 0.05, y: -0.035 }
-            );
-            this.setAngularVelocity(0.2 * this.enemyDirection);
-        }
+        // Apply force from the bottom of the sprite
+        const gameObject = this.body.gameObject;
+        const position = this.body.position;
+        this.applyForceFrom(
+            {
+                x:
+                    (position.x - (gameObject.width + 10)) *
+                    this.enemyDirection,
+                y: position.y + gameObject.height,
+            },
+            { x: this.enemyDirection * 0.05, y: -0.035 }
+        );
+        this.setAngularVelocity(0.2 * this.enemyDirection);
 
-        console.log('Attacking player!');
-        // You might want to add a timer to control the attack rate
+        // Transition back to seek after a short delay (adjust as needed)
+        this.scene.time.addEvent({
+            delay: 1000, // Attack duration
+            callback: () => {
+                this.isAttacking = false;
+                this.stateMachine.transition('seek');
+            },
+            callbackScope: this,
+            loop: false,
+        });
+    }
+
+    attackState() {
+        // Stay in attack state until the timer transitions back to seek
+    }
+
+    enterJump() {
+        // This state might be used for a different type of jump if needed
+    }
+
+    jumpState() {
+        // Logic for a different jump state
     }
 
     backOff() {
@@ -189,27 +229,5 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
         super.destroy();
-    }
-
-    startIdling() {
-        this.isIdle = true;
-        this.setVelocityX(0);
-        this.anims.play('lawyerIdle');
-
-        if (!this.ignorePlatformRotation)
-            this.rotation = this.scene.platform.rotation;
-
-        // Set a timer for how long to idle
-        this.idleTimer = this.scene.time.addEvent({
-            delay: Phaser.Math.Between(1000, 3000), // Idle for 1-3 seconds
-            callback: this.stopIdling,
-            callbackScope: this,
-            loop: false,
-        });
-    }
-
-    stopIdling() {
-        if (!this.active) return;
-        this.isIdle = false;
     }
 }
