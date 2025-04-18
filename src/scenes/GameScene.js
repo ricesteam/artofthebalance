@@ -5,6 +5,8 @@ import { Blackhole } from '../Blackhole';
 import { Explosion } from '../Explosion';
 import { Head } from '../Head'; // Import the Head class
 
+// remove the z pressed attack. Refactor it out to a class, BasicAttack ai!
+
 export class GameScene extends Scene {
     constructor() {
         super({ key: 'GameScene' });
