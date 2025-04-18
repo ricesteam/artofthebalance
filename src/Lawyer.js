@@ -117,6 +117,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
     // State Methods
     enterIdle() {
+        if (!this.active) return;
         this.setVelocityX(0);
         this.anims.play('lawyerIdle');
         this.scene.time.addEvent({
@@ -132,6 +133,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     enterSeek() {
+        if (!this.active) return;
         this.anims.play('lawyerWalk');
     }
 
@@ -166,6 +168,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     enterAttack() {
+        if (!this.active) return;
         this.isAttacking = true;
         this.setVelocityX(0);
         this.anims.play('lawyerJump');
@@ -201,6 +204,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     enterJump() {
+        if (!this.active) return;
         // This state might be used for a different type of jump if needed
     }
 
