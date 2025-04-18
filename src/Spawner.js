@@ -12,20 +12,22 @@ export class Spawner {
         };
 
         // Add a timer to spawn blocks periodically
-        this.scene.time.addEvent({
-            delay: 2000, // Spawn a block every 2 seconds
-            callback: this.addBlock,
-            callbackScope: this,
-            loop: true,
-        });
+        // this.scene.time.addEvent({
+        //     delay: 2000, // Spawn a block every 2 seconds
+        //     callback: this.addBlock,
+        //     callbackScope: this,
+        //     loop: true,
+        // });
 
         // Add a timer to spawn enemies periodically
-        this.scene.time.addEvent({
-            delay: 5000, // Spawn an enemy every 5 seconds
-            callback: this.addEnemy,
-            callbackScope: this,
-            loop: true,
-        });
+        // this.scene.time.addEvent({
+        //     delay: 1000, // Spawn an enemy every 5 seconds
+        //     callback: this.addEnemy,
+        //     callbackScope: this,
+        //     loop: true,
+        // });
+
+        this.addEnemy();
     }
 
     addBlock() {
@@ -41,11 +43,11 @@ export class Spawner {
         const randomNumber = Math.random();
         let enemy;
 
-        if (randomNumber < 0.5) {
-            enemy = new Enemy(this.scene, x, y);
-        } else {
-            enemy = new Lawyer(this.scene, x, y);
-        }
+        // if (randomNumber < 0.5) {
+        //     enemy = new Enemy(this.scene, x, y);
+        //} else {
+        enemy = new Lawyer(this.scene, x, y);
+        //}
 
         this.scene.enemies.push(enemy);
     }

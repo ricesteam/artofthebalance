@@ -43,7 +43,7 @@ export class MainMenu extends Scene {
         });
 
         const start = this.add
-            .text(width / 2, height - 150, 'Press Tax to Begin', {
+            .text(width / 2, height - 150, 'Press TAX to Begin', {
                 fontFamily: 'retro',
                 fontSize: '32px',
                 color: '#ffffff',

@@ -95,7 +95,7 @@ export class GameScene extends Scene {
                 collisionFilter: {
                     category: this.CATEGORY_PLATFORM,
                 },
-                //isStatic: true,
+                isStatic: true,
             }
         );
         this.platform.setOrigin(0.5, 0.5);
@@ -351,7 +351,7 @@ export class GameScene extends Scene {
         this.enemies.forEach((enemy, index) => {
             if (enemy.y > this.scale.height + 200) {
                 this.enemies.splice(index, 1); // Remove from the enemies array
-                enemy.destroy(); // Destroy the enemy
+                enemy.die(); // Destroy the enemy
             }
         });
     }

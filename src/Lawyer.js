@@ -145,7 +145,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     seekState() {
-        if (!this.player) this.scene.player;
+        if (!this.player) return;
         if (this.isInAir) return;
 
         const distanceToPlayer = Phaser.Math.Distance.Between(
@@ -188,7 +188,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
                 x: (position.x - (gameObject.width + 10)) * this.enemyDirection,
                 y: position.y + gameObject.height,
             },
-            { x: this.enemyDirection * 0.05, y: -0.035 }
+            { x: this.enemyDirection * 0.05, y: -0.09 }
         );
         this.setAngularVelocity(0.2 * this.enemyDirection);
 
