@@ -37,6 +37,7 @@ export class Spawner {
     addEnemy() {
         let x = this.spawnArea.x + Math.random() * this.spawnArea.width; // Random X position within spawn area
         let y = this.spawnArea.y;
+        // random chance to create Enemy or Lawyer ai!
         const enemy = new Enemy(this.scene, x, y);
         this.scene.enemies.push(enemy);
     }
