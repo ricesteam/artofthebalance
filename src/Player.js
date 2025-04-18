@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 
+// refactor: make the BasicAttack the first equipable attack. Enable it to auto attack periodically ai!
+
 export class Player extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'player', 0, {
@@ -111,7 +113,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             const removedAttack = this.inventory[index];
             if (removedAttack) {
                 this.inventory[index] = null;
-                console.log('Attack removed from slot', index + 1 + ':', removedAttack.name);
+                console.log(
+                    'Attack removed from slot',
+                    index + 1 + ':',
+                    removedAttack.name
+                );
             } else {
                 console.log('Slot', index + 1, 'is already empty.');
             }
@@ -130,7 +136,10 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     attack.lastUsedTime = 0; // Initialize if not present
                 }
 
-                if (this.scene.time.now - attack.lastUsedTime >= attack.cooldown) {
+                if (
+                    this.scene.time.now - attack.lastUsedTime >=
+                    attack.cooldown
+                ) {
                     attack.use(this); // Pass the player instance to the attack's use method
                     attack.lastUsedTime = this.scene.time.now; // Update last used time
                 } else {
@@ -143,7 +152,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             console.log('Invalid inventory slot index:', index);
         }
     }
-
 
     attack() {
         if (
