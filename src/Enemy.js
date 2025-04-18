@@ -40,7 +40,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.setRotation(0);
         this.name = 'maga';
 
-        this.anims.play('enemyWalk');
         this.flipX = true;
 
         var outlineconfig = {

@@ -133,38 +133,7 @@ export class GameScene extends Scene {
             }
         );
 
-        // Create animations
-        this.anims.create({
-            key: 'walk',
-            frames: this.anims.generateFrameNumbers('player', {
-                start: 0,
-                end: 7,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-
-        this.anims.create({
-            key: 'stand',
-            frames: [{ key: 'player', frame: 8 }],
-            frameRate: 20,
-        });
-
-        this.anims.create({
-            key: 'enemyWalk',
-            frames: this.anims.generateFrameNumbers('maga', {
-                start: 1,
-                end: 8,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-
-        this.anims.create({
-            key: 'enemyIdle',
-            frames: [{ key: 'maga', frame: 8 }],
-            frameRate: 20,
-        });
+        this.createAnimations();
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
@@ -198,6 +167,57 @@ export class GameScene extends Scene {
 
         // slow down time but only for matter objects
         //this.matter.world.engine.timing.timeScale = 0.1;
+    }
+
+    createAnimations() {
+        // Create animations
+        this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNumbers('player', {
+                start: 0,
+                end: 7,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'stand',
+            frames: [{ key: 'player', frame: 8 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'enemyWalk',
+            frames: this.anims.generateFrameNumbers('maga', {
+                start: 1,
+                end: 8,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'enemyIdle',
+            frames: [{ key: 'maga', frame: 0 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'lawyerWalk',
+            frames: this.anims.generateFrameNumbers('lawyer', {
+                start: 1,
+                end: 8,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'lawyerIdle',
+            frames: [{ key: 'lawyer', frame: 0 }],
+            frameRate: 20,
+        });
     }
 
     handleCollisions() {

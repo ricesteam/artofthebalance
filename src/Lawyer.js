@@ -9,21 +9,31 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
                 width: 16,
                 height: 32,
             },
-            collisionFilter: {
-                category: scene.CATEGORY_ENEMY,
-            },
-            density: 0.001,
-            friction: 0.01,
-            restitution: 0.8,
-            frictionAir: 0.005,
-            frictionStatic: 0.0,
         });
         this.scene = scene;
         this.world = scene.matter.world;
         this.matter = scene.matter;
 
         scene.add.existing(this);
-        this.setCollisionGroup(-1);
+        this.scene = scene;
+        this.enemyMass = 1;
+        this.acceleration = 0.05;
+        this.maxSpeed = 1.5;
+        this.enemyDirection = -1; // Start moving left
+        this.range = 150; // Distance the enemy will walk in each direction
+        this.startPosition = x; // Initial x position
+        this.hp = 3; // Initial health points
+        this.isIdle = false; // New state: is the enemy idling?
+        this.idleTimer = null; // Timer for idling
+        this.ignorePlatformRotation = false;
+
+        this.setMass(this.enemyMass);
+        this.setFriction(0.5);
+        this.setFrictionStatic(0.5);
+        this.setFixedRotation();
+        this.setBounce(0.5);
+        this.setCollisionCategory(this.scene.CATEGORY_ENEMY); // Set enemy collision category
+        this.setCollisionGroup(-1); // Ensure enemies don't collide with each other
         this.setCollidesWith([
             this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_PLAYER,
@@ -31,10 +41,20 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         ]); // Collide with blocks, player, and attack
         this.setScale(2);
         this.setRotation(0);
-        this.speed = 5;
-        this.isIdle = false; // New state: is the enemy idling?
-        this.idleTimer = null; // Timer for idling
-        this.ignorePlatformRotation = false;
+        this.name = 'maga';
+
+        this.flipX = true;
+
+        var outlineconfig = {
+            thickness: 2,
+            outlineColor: 0xae2334,
+            quality: 0.1,
+            name: 'rexOutlinePostFx',
+        };
+
+        this.outlinePipeline = scene.plugins
+            .get('rexOutlinePipeline')
+            .add(this.body.gameObject, outlineconfig);
     }
 
     update() {
@@ -80,7 +100,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     startIdling() {
         this.isIdle = true;
         this.setVelocityX(0);
-        this.anims.play('enemyIdle');
+        this.anims.play('lawyerIdle');
 
         // Set a timer for how long to idle
         this.idleTimer = this.scene.time.addEvent({
@@ -94,6 +114,6 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     stopIdling() {
         if (!this.active) return;
         this.isIdle = false;
-        this.anims.play('enemyWalk');
+        this.anims.play('lawyerWalk');
     }
 }
