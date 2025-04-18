@@ -131,10 +131,10 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Stop moving horizontally
         this.setVelocityX(0);
 
-        // I want to apply force from a position: this sprite's bottom ai!
         if (!this.isInAir) {
             const jumpDirection = this.player.x < this.x ? -1 : 1;
-            this.applyForce({ x: jumpDirection * 0.1, y: -0.04 });
+            // Apply force from the bottom of the sprite
+            this.applyForceFrom({ x: this.x, y: this.y + this.displayHeight / 2 }, { x: jumpDirection * 0.1, y: -0.04 });
         }
 
         console.log('Attacking player!');
