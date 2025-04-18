@@ -40,13 +40,15 @@ export class Head extends Phaser.GameObjects.Container {
         this.leftEyeLid.setScale(0.5);
         this.rightEyeLid.setScale(0.5);
 
-        // I want the iris to follow the player, but also cap it so it doesn't leave the eyesockets ai!
-        this.leftIris = scene.add.image(0, 0, 'leftiris', 0); // Adjust position as needed
-        this.rightIris = scene.add.image(0, 0, 'rightiris', 0); // Adjust position as needed
+        this.leftIris = scene.add.image(-15, -10, 'iris', 0); // Adjust position as needed
+        this.rightIris = scene.add.image(15, -10, 'iris', 0); // Adjust position as needed
         this.add(this.leftIris);
         this.add(this.rightIris);
         this.leftIris.setScale(0.5);
         this.rightIris.setScale(0.5);
+
+        // Define the boundary for iris movement relative to the head container's center
+        this.irisBoundary = new Phaser.Geom.Circle(0, 0, 10); // Adjust the radius as needed
 
         // Start blinking timer
         this.startBlinking();
@@ -79,6 +81,30 @@ export class Head extends Phaser.GameObjects.Container {
     }
 
     update() {
-        // Head specific update logic goes here
+        // Get the pointer position relative to the head container
+        const pointer = this.scene.input.activePointer;
+        const localPointerX = pointer.x - this.x;
+        const localPointerY = pointer.y - this.y;
+
+        // Calculate the angle from the head's center to the pointer
+        const angle = Phaser.Math.Angle.Between(0, 0, localPointerX, localPointerY);
+
+        // Calculate the distance from the head's center to the pointer
+        const distance = Phaser.Math.Distance.Between(0, 0, localPointerX, localPointerY);
+
+        // Clamp the distance to the iris boundary radius
+        const clampedDistance = Math.min(distance, this.irisBoundary.radius);
+
+        // Calculate the new position for the irises based on the clamped distance and angle
+        const irisOffsetX = Math.cos(angle) * clampedDistance;
+        const irisOffsetY = Math.sin(angle) * clampedDistance;
+
+        // Update the iris positions
+        // The base positions (-15, -10) and (15, -10) are relative to the head container's center
+        this.leftIris.x = -15 + irisOffsetX;
+        this.leftIris.y = -10 + irisOffsetY;
+
+        this.rightIris.x = 15 + irisOffsetX;
+        this.rightIris.y = -10 + irisOffsetY;
     }
 }
