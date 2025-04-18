@@ -94,7 +94,10 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         if (distanceToPlayer <= this.attackRange) {
             // Attack the player
             this.attack();
-        } else if (this.backingOff && distanceToPlayer > this.backingOffDistance) {
+        } else if (
+            this.backingOff &&
+            distanceToPlayer > this.backingOffDistance
+        ) {
             // Stop backing off
             this.backingOff = false;
             this.setVelocityX(0);
@@ -126,6 +129,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.setVelocityX(this.enemyDirection * this.maxSpeed);
     }
 
+    // attacking consist of jumping of the player ai!
     attack() {
         // Implement attack logic here (e.g., play attack animation, deal damage to player)
         this.setVelocityX(0); // Stop moving while attacking
