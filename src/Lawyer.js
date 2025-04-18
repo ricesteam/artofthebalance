@@ -67,24 +67,28 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.findPlayer();
 
         // State Machine
-        this.stateMachine = new StateMachine('idle', {
-            idle: {
-                enter: this.enterIdle,
-                execute: this.idleState,
+        this.stateMachine = new StateMachine(
+            'idle',
+            {
+                idle: {
+                    enter: this.enterIdle,
+                    execute: this.idleState,
+                },
+                seek: {
+                    enter: this.enterSeek,
+                    execute: this.seekState,
+                },
+                attack: {
+                    enter: this.enterAttack,
+                    execute: this.attackState,
+                },
+                jump: {
+                    enter: this.enterJump,
+                    execute: this.jumpState,
+                },
             },
-            seek: {
-                enter: this.enterSeek,
-                execute: this.seekState,
-            },
-            attack: {
-                enter: this.enterAttack,
-                execute: this.attackState,
-            },
-            jump: {
-                enter: this.enterJump,
-                execute: this.jumpState,
-            },
-        }, [this]); // Pass the lawyer instance as a state argument
+            [this]
+        ); // Pass the lawyer instance as a state argument
     }
 
     findPlayer() {
@@ -129,7 +133,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     idleState() {
-        // Stay idle until the timer transitions to seek
+        //add random chance to start seeking ai!
     }
 
     enterSeek() {
@@ -178,9 +182,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         const position = this.body.position;
         this.applyForceFrom(
             {
-                x:
-                    (position.x - (gameObject.width + 10)) *
-                    this.enemyDirection,
+                x: (position.x - (gameObject.width + 10)) * this.enemyDirection,
                 y: position.y + gameObject.height,
             },
             { x: this.enemyDirection * 0.05, y: -0.035 }
