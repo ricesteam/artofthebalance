@@ -1,7 +1,5 @@
 import Phaser from 'phaser';
 
-// refactor: make the BasicAttack the first equipable attack. Enable it to auto attack periodically ai!
-
 export class Player extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'player', 0, {
@@ -64,6 +62,16 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         // Simple inventory for slottable attacks
         this.inventory = [null, null]; // Array to hold up to 2 attack objects
+
+        // Timer for auto-attacking with the first equipped attack
+        this.autoAttackTimer = this.scene.time.addEvent({
+            delay: 500, // Adjust the delay as needed (e.g., 500ms for 2 attacks per second)
+            callback: () => {
+                this.useAttack(0); // Use the attack in the first inventory slot
+            },
+            callbackScope: this,
+            loop: true,
+        });
     }
 
     handleCollision(event) {
@@ -143,10 +151,10 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     attack.use(this); // Pass the player instance to the attack's use method
                     attack.lastUsedTime = this.scene.time.now; // Update last used time
                 } else {
-                    console.log(attack.name, 'is on cooldown.');
+                    // console.log(attack.name, 'is on cooldown.'); // Optional: log cooldown
                 }
             } else {
-                console.log('No attack in slot', index + 1);
+                // console.log('No attack in slot', index + 1); // Optional: log empty slot
             }
         } else {
             console.log('Invalid inventory slot index:', index);
