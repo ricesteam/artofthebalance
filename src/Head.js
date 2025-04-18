@@ -29,6 +29,8 @@ export class Head extends Phaser.GameObjects.Container {
             repeat: -1, // Repeat infinitely
             ease: 'quart.inout',
         });
+
+        // add both left and right eye lid images here ai!
     }
 
     update() {
