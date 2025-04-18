@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 
-// this class share alot of commonality with the Enemy, refactor it to extend Enemy instead ai!
 export class Lawyer extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'lawyer', 0, {
