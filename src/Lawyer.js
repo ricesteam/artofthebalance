@@ -125,8 +125,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Stop moving horizontally
         this.setVelocityX(0);
 
-        // make this jump in the opposite direction of the player ai!
-        this.applyForce({ x: 0, y: this.jumpForce });
+        // make this jump in the opposite direction of the player
+        const jumpDirection = this.player.x < this.x ? 1 : -1;
+        this.applyForce({ x: jumpDirection * 0.005, y: this.jumpForce });
 
         console.log('Attacking player!');
         // You might want to add a timer to control the attack rate
