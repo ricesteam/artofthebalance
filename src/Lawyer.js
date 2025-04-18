@@ -27,10 +27,10 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.idleTimer = null; // Timer for idling
         this.ignorePlatformRotation = false;
         this.player = null; // Reference to the player
-        this.attackRange = 50; // Distance to start attacking
+        this.attackRange = 100; // Distance to start attacking
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
-        this.jumpForce = -0.009; // The force of the jump
+        this.isInAir = true;
 
         this.setMass(this.enemyMass);
         this.setFriction(1);
@@ -105,6 +105,12 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         if (Phaser.Math.Between(0, 200) === 0) {
             this.startIdling();
         }
+
+        if (this.body.velocity.y === 0) {
+            this.isInAir = false;
+        } else {
+            this.isInAir = true;
+        }
     }
 
     seek() {
@@ -125,9 +131,11 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Stop moving horizontally
         this.setVelocityX(0);
 
-        // make this jump in the opposite direction of the player
-        const jumpDirection = this.player.x < this.x ? 1 : -1;
-        this.applyForce({ x: jumpDirection * 0.005, y: this.jumpForce });
+        // I want to apply force from a position: this sprite's bottom ai!
+        if (!this.isInAir) {
+            const jumpDirection = this.player.x < this.x ? -1 : 1;
+            this.applyForce({ x: jumpDirection * 0.1, y: -0.04 });
+        }
 
         console.log('Attacking player!');
         // You might want to add a timer to control the attack rate
