@@ -16,23 +16,25 @@ export class Head extends Phaser.GameObjects.Container {
         this.name = 'head';
 
         // Add a wobbly tween effect to the bald image (targeting the container)
-        // this.scene.tweens.add({
-        //     targets: this,
-        //     y: () =>
-        //         Phaser.Math.FloatBetween(
-        //             this.scene.scale.height + 80,
-        //             this.scene.scale.height + 30
-        //         ), // Move slightly up and down
-        //     rotation: () => Phaser.Math.FloatBetween(-0.06, 0.06), // Rotate slightly
-        //     duration: 1500, // Duration of the tween
-        //     yoyo: true, // Make it go back and forth
-        //     repeat: -1, // Repeat infinitely
-        //     ease: 'quart.inout',
-        // });
+        this.scene.tweens.add({
+            targets: this,
+            y: () =>
+                Phaser.Math.FloatBetween(
+                    this.scene.scale.height + 30,
+                    this.scene.scale.height + 20
+                ), // Move slightly up and down
+            rotation: () => Phaser.Math.FloatBetween(-0.06, 0.06), // Rotate slightly
+            duration: 1500, // Duration of the tween
+            yoyo: true, // Make it go back and forth
+            repeat: -1, // Repeat infinitely
+            ease: 'quart.inout',
+        });
 
         // I want the eyelids visibility to be on/off so it appears as he's blinking
-        this.leftEyeLid = scene.add.image(-20, -40, 'eyelid', 0); // Adjust position as needed
-        this.rightEyeLid = scene.add.image(20, -40, 'eyelid', 0); // Adjust position as needed
+        this.leftEyeLid = scene.add.image(0, 0, 'lefteyelid', 0); // Adjust position as needed
+        this.rightEyeLid = scene.add.image(0, 0, 'righteyelid', 0); // Adjust position as needed
+        this.leftEyeLid.setVisible(false);
+        this.rightEyeLid.setVisible(false);
         this.add(this.leftEyeLid);
         this.add(this.rightEyeLid);
 
@@ -46,7 +48,7 @@ export class Head extends Phaser.GameObjects.Container {
     startBlinking() {
         // Set a timer for random blinking
         this.scene.time.addEvent({
-            delay: Phaser.Math.Between(2000, 5000), // Blink every 2-5 seconds
+            delay: Phaser.Math.Between(1000, 5000), // Blink every 2-5 seconds
             callback: this.blink,
             callbackScope: this,
             loop: true,

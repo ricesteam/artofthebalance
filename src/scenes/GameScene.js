@@ -64,7 +64,7 @@ export class GameScene extends Scene {
         });
 
         // Create the Head instance
-        this.head = new Head(this, width / 2, height + 40);
+        this.head = new Head(this, width / 2, height);
 
         // Create the see-saw platform
         this.platform = this.matter.add.image(
