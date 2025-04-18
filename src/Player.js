@@ -51,7 +51,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         var outlineconfig = {
             thickness: 2,
-            outlineColor: 0xd5e04b,
+            //outlineColor: 0xd5e04b,
+            outlineColor: 0xffffff,
             quality: 0.1,
             name: 'rexOutlinePostFx',
         };
