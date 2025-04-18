@@ -1,5 +1,6 @@
 import { Junk } from './Junk';
 import { Enemy } from './Enemy';
+import { Lawyer } from './Lawyer';
 
 export class Spawner {
     constructor(scene) {
@@ -37,8 +38,15 @@ export class Spawner {
     addEnemy() {
         let x = this.spawnArea.x + Math.random() * this.spawnArea.width; // Random X position within spawn area
         let y = this.spawnArea.y;
-        // random chance to create Enemy or Lawyer ai!
-        const enemy = new Enemy(this.scene, x, y);
+        const randomNumber = Math.random();
+        let enemy;
+
+        if (randomNumber < 0.5) {
+            enemy = new Enemy(this.scene, x, y);
+        } else {
+            enemy = new Lawyer(this.scene, x, y);
+        }
+
         this.scene.enemies.push(enemy);
     }
 }
