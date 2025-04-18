@@ -133,7 +133,10 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     idleState() {
-        //add random chance to start seeking ai!
+        //add random chance to start seeking
+        if (Phaser.Math.Between(0, 200) === 0) {
+            this.stateMachine.transition('seek');
+        }
     }
 
     enterSeek() {
