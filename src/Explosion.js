@@ -11,6 +11,7 @@ export class Explosion extends Phaser.GameObjects.GameObject {
         this.lifespan = lifespan;
         this.victims = [];
 
+        //move the explosion graphic back to the Bomb class ai!
         // Create a graphic for the explosion (e.g., a circle)
         this.explosionGraphic = scene.add.graphics();
         this.explosionGraphic.fillStyle(0xff6600, 0.8); // Orange color
