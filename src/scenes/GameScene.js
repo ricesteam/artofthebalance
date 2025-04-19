@@ -259,10 +259,11 @@ export class GameScene extends Scene {
                     if (otherGameObject) {
                         // Check if the object is above the player
                         if (otherGameObject.y < this.player.y) {
-                            // lets mix in the player's velocity ai!
+                            // lets mix in the player's velocity
                             const bounceVelocityX =
+                                this.player.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
                                 this.player.playerDirection *
-                                Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
+                                    Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
                             const bounceVelocityY = Phaser.Math.FloatBetween(
                                 -4,
                                 -6
