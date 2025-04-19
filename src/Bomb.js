@@ -46,7 +46,6 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.explosionRadius,
             this.lifespan // Pass lifespan to Explosion
         );
-        this.scene.explosions.push(explosion); // Add the explosion to the scene's list
     }
 
     update() {
@@ -69,8 +68,6 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.matter.world.removeConstraint(constraint);
         });
 
-        const id = this.scene.explosions.indexOf(this);
-        this.scene.explosions.splice(id, 1);
         super.destroy();
     }
 }

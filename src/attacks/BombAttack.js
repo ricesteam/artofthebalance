@@ -18,6 +18,5 @@ export class BombAttack {
 
         // Create a new Bomb instance at the player's position
         const bomb = new Bomb(this.scene, player.x, player.y);
-        this.scene.explosions.push(bomb); // Add the bomb to the scene's list
     }
 }

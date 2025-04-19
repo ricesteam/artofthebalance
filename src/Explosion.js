@@ -95,6 +95,4 @@ export class Explosion extends Phaser.GameObjects.GameObject {
             }
         });
     }
-
-    // Explosions don't need an update method as their effect is immediate
 }
