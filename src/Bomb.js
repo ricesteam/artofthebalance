@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 
-
 export class Bomb extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'explosion', 0, {
@@ -58,6 +57,8 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
     }
 
     explode() {
+        if (!this.scene) return;
+
         const categoriesToCheck = [
             this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_ENEMY,

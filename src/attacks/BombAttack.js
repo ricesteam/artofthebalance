@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import { Bomb } from '../Bomb';
 
 export class BombAttack {

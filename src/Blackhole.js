@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 
-
 export class Blackhole extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'blackhole', 0, {
@@ -35,7 +34,11 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
     }
 
     destroyBlackhole() {
+        if (!this.scene) return;
+
         this.victims.forEach((body) => {
+            if (!body && !body.gameObject) return;
+
             body.gameObject.setSensor(false);
             body.gameObject.setIgnoreGravity(false);
             if (
@@ -56,6 +59,8 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
+        if (!this.scene) return;
+
         this.victims.forEach((body) => {
             if (!body || !body.gameObject) return;
 
