@@ -310,11 +310,17 @@ export class GameScene extends Scene {
             explosion.update();
         });
 
+        // if the player falls off screen, respawn him
+        if (this.player.y > this.scale.height + 50) {
+            this.player.setPosition(this.scale.width / 2, 100);
+            this.player.setVelocity(0, 0); // Stop any existing velocity
+            this.player.hp = 100; // Reset player HP
+        }
+
+
         // Scroll the background
         this.bg.tilePositionX += this.scrollSpeedX;
         this.bg.tilePositionY += this.scrollSpeedY;
-
-        // if the player falls off screen, respawn him ai!
 
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
