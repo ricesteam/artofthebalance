@@ -8,17 +8,8 @@ export class BasicAttack {
         this.attackRadius = 15;
         this.attackPushback = 5;
         this.maxCapacity = 3;
-        this.victims = [];
         this.cooldown = 300; // Cooldown in milliseconds
         this.lastUsedTime = 0; // Timestamp of the last time the attack was used
-
-        // move this to the attackArea, e.g. attackArea.setCollidesWith ai!
-        // Add collision handling for this attack
-        this.scene.matter.world.on(
-            'collisionstart',
-            this.handleCollision,
-            this
-        );
     }
 
     use(player) {
@@ -51,6 +42,34 @@ export class BasicAttack {
             }
         );
 
+        // Add collision handling specifically for this attack area
+        attackArea.onCollideCallback = (pair) => {
+            const { bodyA, bodyB } = pair;
+
+            // Determine which body is the other object
+            let otherBody = bodyA === attackArea ? bodyB : bodyA;
+            let otherGameObject = otherBody.gameObject;
+
+            // Check if the other object is already a victim or if we've reached max capacity
+            if (otherGameObject) {
+                const direction = this.scene.player.playerDirection;
+                const pushbackDirection = new Phaser.Math.Vector2(direction, 0);
+                pushbackDirection.rotate(this.scene.platform.rotation);
+                pushbackDirection.scale(this.attackPushback);
+
+                // use setVelocity as you previously mentioned
+                otherGameObject.setVelocity(
+                    pushbackDirection.x,
+                    pushbackDirection.y
+                );
+
+                // Check if the other object is an enemy
+                if (otherGameObject.name === 'maga') {
+                    otherGameObject.takeDamage(1);
+                }
+            }
+        };
+
         // Calculate velocity based on player direction and attack speed
         let velocityX = this.attackSpeed * player.playerDirection;
         let velocityY = 0;
@@ -72,47 +91,6 @@ export class BasicAttack {
         // Destroy the attack area after a short delay
         this.scene.time.delayedCall(50, () => {
             this.scene.matter.world.remove(attackArea);
-        });
-    }
-
-    handleCollision(event) {
-        event.pairs.forEach((pair) => {
-            const { bodyA, bodyB } = pair;
-
-            if (bodyA.label === 'attack1' || bodyB.label === 'attack1') {
-                // Determine which body is the other object
-                let otherBody =
-                    (bodyA === bodyA.label) === 'attack1' ? bodyB : bodyA;
-                let otherGameObject = otherBody.gameObject;
-
-                // Check if the other object is already a victim or if we've reached max capacity
-                if (
-                    otherGameObject &&
-                    this.victims.length < this.maxCapacity &&
-                    !this.victims.includes(otherBody)
-                ) {
-                    this.victims.push(otherBody);
-
-                    const direction = this.scene.player.playerDirection;
-                    const pushbackDirection = new Phaser.Math.Vector2(
-                        direction,
-                        0
-                    );
-                    pushbackDirection.rotate(this.scene.platform.rotation);
-                    pushbackDirection.scale(this.attackPushback);
-
-                    // use setVelocity as you previously mentioned
-                    otherGameObject.setVelocity(
-                        pushbackDirection.x,
-                        pushbackDirection.y
-                    );
-
-                    // Check if the other object is an enemy
-                    if (otherGameObject.name === 'maga') {
-                        otherGameObject.takeDamage(1);
-                    }
-                }
-            }
         });
     }
 }
