@@ -259,8 +259,9 @@ export class GameScene extends Scene {
                         // Check if the object is above the player
                         if (otherGameObject.y < this.player.y) {
                             // use setvelocity instead
-                            // make it bounce slightly in the direction the player is facing ai!
-                            otherGameObject.setVelocity(0, -5); // Adjust velocity as needed
+                            const bounceVelocityX =
+                                this.player.playerDirection * 2; // Bounce slightly in the player's facing direction
+                            otherGameObject.setVelocity(bounceVelocityX, -5); // Adjust velocity as needed
                         }
                     }
                 }
