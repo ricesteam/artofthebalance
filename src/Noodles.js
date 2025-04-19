@@ -47,10 +47,17 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         this.glowTween = this.scene.tweens.add({
             targets: this.glowPipeline,
             intensity: {
-                getStart: () => this.glowPipeline.intensity,
-                getEnd: () => 0.02 + this.bounceCount * 0.01, // Increase intensity with bounce count
+                // make this dynamic based on bounceCount, the end should cap at 0.02 ai!
+                getEnd: function (target, key, value) {
+                    destX -= 30;
+
+                    return destX;
+                },
+
+                getStart: function (target, key, value) {
+                    return value + 30;
+                },
             },
-            ease: 'Linear',
             duration: 1000, // Initial duration
             repeat: -1,
             yoyo: true,
@@ -61,10 +68,5 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
 
     bounce() {
         this.bounceCount++;
-        // Update the tween's end intensity
-        this.glowTween.updateTo('intensity', 0.02 + this.bounceCount * 0.01, true);
-        // Make the tween faster as bounce increases
-        const newDuration = Math.max(100, 1000 - this.bounceCount * 100); // Decrease duration, minimum 100ms
-        this.glowTween.updateTo('duration', newDuration, true);
     }
 }
