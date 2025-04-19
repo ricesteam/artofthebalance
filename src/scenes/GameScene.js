@@ -262,6 +262,7 @@ export class GameScene extends Scene {
                             const bounceVelocityX =
                                 this.player.playerDirection *
                                 Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
+                            //randomize the Y direction as well ai!
                             otherGameObject.setVelocity(bounceVelocityX, -5);
 
                             if (otherGameObject instanceof Noodles) {
