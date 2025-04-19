@@ -116,7 +116,7 @@ export class GameScene extends Scene {
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
-        this.player.postFX.addShine(0.7, 0.2, 3);
+        this.player.postFX.addShine(0.7, 0.2, 5);
         this.spawnPlayer(); // Initial player spawn
 
         // Create the Hud
@@ -250,21 +250,16 @@ export class GameScene extends Scene {
                 const { bodyA, bodyB } = pair;
 
                 // Bounce objects off the player if they land on top
-                if (
-                    (bodyA === this.player.body ||
-                        bodyB === this.player.body) &&
-                    (bodyA.label === 'junk' ||
-                        bodyB.label === 'junk' ||
-                        bodyA.label === 'maga' ||
-                        bodyB.label === 'maga')
-                ) {
-                    let otherBody = bodyA === this.player.body ? bodyB : bodyA;
-                    let otherGameObject = otherBody.gameObject;
+                if (bodyA === this.player.body || bodyB === this.player.body) {
+                    const otherBody =
+                        bodyA === this.player.body ? bodyB : bodyA;
+                    const otherGameObject = otherBody.gameObject;
 
                     if (otherGameObject) {
                         // Check if the object is above the player
                         if (otherGameObject.y < this.player.y) {
                             // use setvelocity instead
+                            // make it bounce slightly in the direction the player is facing ai!
                             otherGameObject.setVelocity(0, -5); // Adjust velocity as needed
                         }
                     }
