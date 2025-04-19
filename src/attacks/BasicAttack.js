@@ -42,6 +42,7 @@ export class BasicAttack {
             }
         );
 
+        // can I attach an array victims to the attackArea? will it free up memory once attackArea is removed from the matter.world ai?
         // Add collision handling specifically for this attack area
         attackArea.onCollideCallback = (pair) => {
             const { bodyA, bodyB } = pair;
