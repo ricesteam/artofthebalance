@@ -59,15 +59,14 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
                 targets: this.glowPipeline,
                 intensity: 0.02,
                 ease: 'Linear',
-                duration: 100000,
+                duration: 1000, // Initial duration
                 repeat: -1,
                 yoyo: true,
             });
         } else {
-            // this doesn't seem to work; does the tween need to be restarted? ai!
             // Make the tween faster as bounce increases
             const newDuration = Math.max(100, 1000 - this.bounceCount * 100); // Decrease duration, minimum 100ms
-            this.glowTween.updateTo('duration', 500, true);
+            this.glowTween.updateTo('duration', newDuration, true);
         }
     }
 }
