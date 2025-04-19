@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { StateMachine } from './StateMachine';
+import { Explosion } from './Explosion'; // Import the Explosion class
 
 export class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -237,7 +238,19 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     }
 
     bounce() {
-        // after 5 bounces I want this enemy to explode and die. The explosion will have a 1s delay. Explosion will cause a particle effects. Use the Explosion class ai!
         this.bounceCount++;
+        // after 5 bounces I want this enemy to explode and die. The explosion will have a 1s delay. Explosion will cause a particle effects. Use the Explosion class
+        if (this.bounceCount >= 5) {
+            this.scene.time.delayedCall(1000, () => {
+                const explosion = new Explosion(
+                    this.scene,
+                    this.x,
+                    this.y,
+                    64 // Explosion radius
+                );
+                this.scene.explosions.push(explosion);
+                this.die(); // Destroy the enemy after the explosion
+            });
+        }
     }
 }
