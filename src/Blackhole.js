@@ -62,15 +62,15 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         if (!this.scene) return;
 
         this.victims.forEach((body) => {
-            if (!body || !body.gameObject) return;
-
-            body.gameObject.applyForce({
-                x: Phaser.Math.FloatBetween(-0.01, 0.01),
-                y: Phaser.Math.FloatBetween(-0.01, 0.01),
-            });
-            body.gameObject.setAngularVelocity(
-                Phaser.Math.FloatBetween(0.1, 0.2)
-            );
+            if (body && body.gameObject) {
+                body.gameObject.applyForce({
+                    x: Phaser.Math.FloatBetween(-0.01, 0.01),
+                    y: Phaser.Math.FloatBetween(-0.01, 0.01),
+                });
+                body.gameObject.setAngularVelocity(
+                    Phaser.Math.FloatBetween(0.1, 0.2)
+                );
+            }
         });
 
         if (this.victims.length >= this.maxCapacity) return;

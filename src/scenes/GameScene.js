@@ -78,7 +78,7 @@ export class GameScene extends Scene {
                 shape: { type: 'rectangle', width: 700, height: 15 },
                 friction: this.platformFriction,
                 frictionStatic: this.platformFrictionStatic,
-                restitution: 0.8,
+                //restitution: 0.8,
                 collisionFilter: {
                     category: this.CATEGORY_PLATFORM,
                 },
@@ -89,9 +89,10 @@ export class GameScene extends Scene {
         this.platform.setCollisionCategory(this.CATEGORY_PLATFORM);
 
         // Create an anchor point
-        this.anchor = this.matter.add.circle(width / 2, height / 2 + 50, 0, {
+        this.anchor = this.matter.add.circle(width / 2, height / 2 + 50, 50, {
             ignoreGravity: false,
             isStatic: true,
+            isSensor: true,
         });
 
         this.platformLocation = 0;
@@ -104,22 +105,13 @@ export class GameScene extends Scene {
             this.platformLocation,
             this.platformStiffness,
             {
-                damping: 0.8,
-                angularStiffness: 1,
+                damping: 0.1,
+                angularStiffness: 0.1,
             }
         );
 
         // Create the static blocks to limit rotation
-        this.stopblock = this.matter.add.rectangle(
-            width / 2,
-            height / 2 + 150,
-            250,
-            50,
-            {
-                isStatic: true,
-                ignoreGravity: true,
-            }
-        );
+        this.createStopBlocks();
 
         this.createAnimations();
 
@@ -159,6 +151,35 @@ export class GameScene extends Scene {
 
         // slow down time but only for matter objects
         //this.matter.world.engine.timing.timeScale = 0.1;
+    }
+
+    createStopBlocks() {
+        const width = this.scale.width;
+        const height = this.scale.height;
+        const offsety = 150;
+        const offsetx = 125;
+
+        this.matter.add.rectangle(
+            width / 2 - offsetx,
+            height / 2 + offsety,
+            10,
+            50,
+            {
+                isStatic: true,
+                ignoreGravity: true,
+            }
+        );
+
+        this.matter.add.rectangle(
+            width / 2 + offsetx,
+            height / 2 + offsety,
+            10,
+            50,
+            {
+                isStatic: true,
+                ignoreGravity: true,
+            }
+        );
     }
 
     createAnimations() {
