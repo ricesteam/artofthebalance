@@ -49,7 +49,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             intensity: {
                 getEnd: function (target, key, value) {
                     // make this dynamic based on bounceCount, the end should cap at 0.02
-                    const maxIntensity = 0.02;
+                    const maxIntensity = 0.05;
                     const intensityPerBounce = 0.005; // Adjust this value to control how much intensity increases per bounce
                     const targetIntensity = Math.min(
                         maxIntensity,
@@ -59,9 +59,10 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
                 }.bind(this), // Bind 'this' to the getEnd function to access bounceCount
 
                 getStart: function (target, key, value) {
-                    return value + 30;
+                    return 0;
                 },
             },
+            // can this be dynamic too? ai!
             duration: 1000, // Initial duration
             repeat: -1,
             yoyo: true,
