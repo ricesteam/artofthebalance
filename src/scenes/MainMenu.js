@@ -4,19 +4,19 @@ export class MainMenu extends Scene {
     constructor() {
         super('MainMenu');
         this.cloudScrollSpeed = 0.2; // Adjust the scroll speed as needed
-        this.count = 0; // Initialize count
+        this.count = 0;
     }
 
     create() {
         const width = this.scale.width;
         const height = this.scale.height;
 
-        // this.clouds = this.add.tileSprite(0, 0, width, height, 'clouds3');
-        // this.clouds.setOrigin(0, 0);
-        // this.clouds.setTint(0xdddddd);
+        this.clouds = this.add.tileSprite(0, 0, width, height, 'clouds3');
+        this.clouds.setOrigin(0, 0);
+        this.clouds.setTint(0xdddddd);
 
-        //const castle = this.add.image(width / 2, height / 2, 'castle');
-        //castle.preFX.addVignette(0.5, 0.5, 1, 0.5);
+        const castle = this.add.image(width / 2, height / 2, 'castle');
+        castle.preFX.addVignette(0.5, 0.5, 1, 0.5);
 
         //const flag = this.add.image(width / 2 + 25, 45, 'flag');
         this.flag = this.add.rope(width / 2 + 25, 45, 'flag', null, 20);
@@ -72,14 +72,15 @@ export class MainMenu extends Scene {
 
     update() {
         // Scroll the clouds horizontally
-        //this.clouds.tilePositionX += this.cloudScrollSpeed;
+        this.clouds.tilePositionX += this.cloudScrollSpeed;
 
         this.count += 0.1;
 
         let points = this.flag.points;
 
+        // is there other calculations that simulate a fabric blowing in the wind? ai!
         for (let i = 0; i < points.length; i++) {
-            points[i].y = Math.sin(i * 0.5 + this.count) * 16;
+            points[i].y = Math.sin(i * 0.1 + this.count) * 16;
         }
 
         this.flag.setDirty();
