@@ -232,6 +232,19 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     }
 
     die() {
+        if (!this.active) return;
+
+        this.scene.add.particles(this.x, this.y, 'blood', {
+            speed: { min: -200, max: 200 },
+            angle: { min: 0, max: 360 },
+            scale: { start: 0.5, end: 0 },
+            lifespan: 500,
+            gravityY: 300,
+            quantity: 20,
+            tint: [0xff0000, 0x8b0000], // Red and dark red tints
+        });
+
+        // I want this logic to run after the blood particle effects are done ai!
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
         super.destroy();
@@ -250,16 +263,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
                     64 // Explosion radius
                 );
 
-                // add some particle effects of a exploding into a pool of blood
-                this.scene.add.particles(this.x, this.y, 'blood', {
-                    speed: { min: -200, max: 200 },
-                    angle: { min: 0, max: 360 },
-                    scale: { start: 0.5, end: 0 },
-                    lifespan: 500,
-                    gravityY: 300,
-                    quantity: 20,
-                    tint: [0xff0000, 0x8b0000], // Red and dark red tints
-                });
+                this.visible = false;
 
                 this.die(); // Destroy the enemy after the explosion
             });
