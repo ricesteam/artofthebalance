@@ -5,6 +5,7 @@ import { Blackhole } from '../Blackhole';
 import { Bomb } from '../Bomb';
 import { Head } from '../Head';
 import { BasicAttack } from '../attacks/BasicAttack'; // Import the BasicAttack class
+import { Hud } from '../Hud'; // Import the Hud class
 
 export class GameScene extends Scene {
     constructor() {
@@ -28,6 +29,7 @@ export class GameScene extends Scene {
         this.scrollSpeedX = 0.5; // Background horizontal scroll speed
         this.scrollSpeedY = 0.2; // Background vertical scroll speed
         this.baldScale = 0.5; // Scale of the bald image
+        this.hud = null; // Hud game object
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -115,6 +117,9 @@ export class GameScene extends Scene {
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
+
+        // Create the Hud
+        this.hud = new Hud(this, this.player);
 
         // Add the basic attack to the player's inventory
         const basicAttack = new BasicAttack(this);
@@ -294,6 +299,7 @@ export class GameScene extends Scene {
     update() {
         this.player.update(this.cursors);
         this.head.update(); // Update the head
+        this.hud.update(); // Update the hud
 
         // Update enemies
         this.enemies.forEach((enemy) => {
