@@ -75,8 +75,6 @@ export class BasicAttack {
     }
 
     handleCollision(event) {
-        // limit the number of objects (this.maxCapacity) this attack can collide with ai!
-
         event.pairs.forEach((pair) => {
             const { bodyA, bodyB } = pair;
 
@@ -85,7 +83,11 @@ export class BasicAttack {
                 let otherBody =
                     (bodyA === bodyA.label) === 'attack1' ? bodyB : bodyA;
                 let otherGameObject = otherBody.gameObject;
-                if (otherGameObject) {
+
+                // Check if the other object is already a victim or if we've reached max capacity
+                if (otherGameObject && this.victims.length < this.maxCapacity && !this.victims.includes(otherBody)) {
+                    this.victims.push(otherBody);
+
                     const direction = this.scene.player.playerDirection;
                     const pushbackDirection = new Phaser.Math.Vector2(
                         direction,
