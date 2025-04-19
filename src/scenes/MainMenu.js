@@ -81,9 +81,8 @@ export class MainMenu extends Scene {
         // Simulate fabric blowing in the wind using a combination of sine waves
         for (let i = 0; i < points.length; i++) {
             points[i].y =
-                //make this slightly random ai!
-                Math.sin(i * 0.1 + this.count) * 2 + // Primary wave
-                Math.sin(i * 0.2 + this.count * 0.5) * 4;
+                Math.sin(i * 0.1 + this.count + Phaser.Math.FloatBetween(-0.5, 0.5)) * 2 + // Primary wave with randomness
+                Math.sin(i * 0.2 + this.count * 0.5 + Phaser.Math.FloatBetween(-0.2, 0.2)) * 4; // Secondary wave with randomness
         }
 
         this.flag.setDirty();
