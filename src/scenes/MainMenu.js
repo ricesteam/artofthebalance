@@ -15,14 +15,14 @@ export class MainMenu extends Scene {
         this.clouds.setOrigin(0, 0);
         this.clouds.setTint(0xdddddd);
 
+        //const flag = this.add.image(width / 2 + 25, 45, 'flag');
+        this.flag = this.add.rope(width / 2 + 23, 45, 'flag', null, 50);
+        this.flag.setScale(0.25, 0.25);
+
         const castle = this.add.image(width / 2, height / 2, 'castle');
         castle.preFX.addVignette(0.5, 0.5, 1, 0.5);
 
-        //const flag = this.add.image(width / 2 + 25, 45, 'flag');
-        this.flag = this.add.rope(width / 2 + 25, 45, 'flag', null, 20);
-        this.flag.setScale(0.25, 0.25);
-
-        const title = this.add.image(width / 2, height / 2 - 130, 'title');
+        const title = this.add.image(width / 2, height / 2 - 100, 'title');
         this.tweens.add({
             targets: title,
             y: height / 2 - 110,
@@ -45,7 +45,7 @@ export class MainMenu extends Scene {
         // });
 
         const start = this.add
-            .text(width / 2, height - 150, 'Press TAX to Begin', {
+            .text(width / 2, height - 120, 'Press TAX to Begin', {
                 fontFamily: 'retro',
                 fontSize: '32px',
                 color: '#ffffff',
@@ -81,8 +81,8 @@ export class MainMenu extends Scene {
         // Simulate fabric blowing in the wind using a combination of sine waves
         for (let i = 0; i < points.length; i++) {
             points[i].y =
-                Math.sin(i * 0.1 + this.count + Phaser.Math.FloatBetween(-0.5, 0.5)) * 2 + // Primary wave with randomness
-                Math.sin(i * 0.2 + this.count * 0.5 + Phaser.Math.FloatBetween(-0.2, 0.2)) * 4; // Secondary wave with randomness
+                Math.sin(i * 0.1 + this.count) * 2 + // Primary wave with randomness
+                Math.sin(i * 0.2 + this.count * 0.5) * 4; // Secondary wave with randomness
         }
 
         this.flag.setDirty();
