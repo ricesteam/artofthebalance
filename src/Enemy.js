@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { StateMachine } from './StateMachine';
 
+// add the similar bouncing logic from the Noodle class to the Enemy class ai!
+
 export class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'maga', 0, {
