@@ -310,6 +310,7 @@ export class GameScene extends Scene {
             explosion.update();
         });
 
+        // Let's add some VFX for player spawning ai!
         // if the player falls off screen, respawn him
         if (this.player.y > this.scale.height + 50) {
             this.player.setPosition(this.scale.width / 2, 100);
