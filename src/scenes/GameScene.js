@@ -294,12 +294,12 @@ export class GameScene extends Scene {
         }
     }
 
-    spawnPlayer() {
+    spawnPlayer(init = true) {
         const width = this.scale.width;
         // Position the player at the center top of the platform
         this.player.setPosition(width / 2, 100);
         this.player.setVelocity(0, 0); // Stop any existing velocity
-        this.player.hp = 100; // Reset player HP
+        if (init) this.player.hp = 100; // Reset player HP
 
         // Add a simple tween for a fade-in effect on spawn
         this.tweens.add({
@@ -360,7 +360,7 @@ export class GameScene extends Scene {
         // player takes 10 damage from falling
         if (this.player.y > this.scale.height + 50) {
             this.player.takeDamage(10); // Player takes 10 damage
-            this.spawnPlayer();
+            this.spawnPlayer(false);
         }
 
         // Scroll the background
