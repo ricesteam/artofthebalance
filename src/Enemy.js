@@ -88,7 +88,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
                     return 0;
                 },
             },
-            duration: 1000, // Initial duration
+            duration: 600, // Initial duration
             repeat: -1,
             yoyo: true,
         });

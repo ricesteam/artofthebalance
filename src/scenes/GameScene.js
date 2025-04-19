@@ -319,8 +319,6 @@ export class GameScene extends Scene {
             ease: 'Linear',
         });
 
-        this.player.postFX.addShine(0.7, 0.2, 3);
-
         // add rotation to the particles
         const emitter = this.add.particles(
             this.player.x,
