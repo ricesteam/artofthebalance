@@ -166,7 +166,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         // Play attack animation if available, or just stop movement
         // this.anims.play('enemyAttack');
 
-        console.log('Enemy attacking player!');
+        this.scene.player.takeDamage(1);
 
         // Transition back to seek after a short delay (adjust as needed)
         this.scene.time.addEvent({
