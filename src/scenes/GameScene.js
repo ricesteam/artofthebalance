@@ -309,7 +309,9 @@ export class GameScene extends Scene {
             ease: 'Linear',
         });
 
-        // add rotation to the particles ai!
+        this.player.postFX.addShine(0.7, 0.2, 3);
+
+        // add rotation to the particles
         const emitter = this.add.particles(
             this.player.x,
             this.player.y,
@@ -320,7 +322,7 @@ export class GameScene extends Scene {
                 scale: { start: 0.8, end: 0 }, // Increase starting scale
                 lifespan: 400, // Increase lifespan slightly
                 gravityY: 300, // Increase gravity
-                quantity: 50, // Increase number of particles
+                quantity: 50, // Number of particles
                 //blendMode: 'ADD',
                 emitZone: {
                     type: 'random',
@@ -329,6 +331,8 @@ export class GameScene extends Scene {
                 duration: 150, // Emit for a slightly longer duration
                 stopAfter: 50, // Stop after emitting 50 particles
                 tint: [0xf9c22b, 0xd5e04b, 0xf79617], // Add multiple tints (yellow, orange, red)
+                rotate: { min: 0, max: 360 }, // Add random initial rotation
+                angularSpeed: { min: -180, max: 180 }, // Add random angular speed
             }
         );
 
