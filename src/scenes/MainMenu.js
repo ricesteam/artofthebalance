@@ -78,9 +78,12 @@ export class MainMenu extends Scene {
 
         let points = this.flag.points;
 
-        // is there other calculations that simulate a fabric blowing in the wind? ai!
+        // Simulate fabric blowing in the wind using a combination of sine waves
         for (let i = 0; i < points.length; i++) {
-            points[i].y = Math.sin(i * 0.1 + this.count) * 16;
+            points[i].y =
+                Math.sin(i * 0.1 + this.count) * 16 + // Primary wave
+                Math.sin(i * 0.2 + this.count * 0.5) * 8 + // Secondary wave with different frequency and speed
+                Math.sin(i * 0.05 + this.count * 2) * 4; // Tertiary wave for smaller ripples
         }
 
         this.flag.setDirty();
