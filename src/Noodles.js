@@ -36,7 +36,6 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
-        // add the similar bouncing logic to the Enemy class ai!
         this.bounceCount = 0; // Track how many times it has been bounced
 
         this.glowPipeline = scene.plugins
@@ -49,7 +48,6 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             targets: this.glowPipeline,
             intensity: {
                 getEnd: function (target, key, value) {
-                    // make this dynamic based on bounceCount, the end should cap at 0.02
                     const maxIntensity = 0.05;
                     const intensityPerBounce = 0.005; // Adjust this value to control how much intensity increases per bounce
                     const targetIntensity = Math.min(
