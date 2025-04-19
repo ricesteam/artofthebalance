@@ -6,7 +6,7 @@ export class BasicAttack {
         this.name = 'BasicAttack';
         this.attackSpeed = 15;
         this.attackRadius = 15;
-        this.attackPushback = 50;
+        this.attackPushback = 5;
         this.cooldown = 300; // Cooldown in milliseconds
         this.lastUsedTime = 0; // Timestamp of the last time the attack was used
 
@@ -44,7 +44,7 @@ export class BasicAttack {
                     category: this.scene.CATEGORY_ATTACK,
                     mask: this.scene.CATEGORY_BLOCK | this.scene.CATEGORY_ENEMY,
                 },
-                //isSensor: true,
+                isSensor: true,
             }
         );
 
@@ -82,30 +82,23 @@ export class BasicAttack {
                     (bodyA === bodyA.label) === 'attack1' ? bodyB : bodyA;
                 let otherGameObject = otherBody.gameObject;
                 if (otherGameObject) {
-                    const direction = -this.scene.player.playerDirection;
+                    const direction = this.scene.player.playerDirection;
+                    const pushbackDirection = new Phaser.Math.Vector2(
+                        direction,
+                        0
+                    );
+                    pushbackDirection.rotate(this.scene.platform.rotation);
+                    pushbackDirection.scale(this.attackPushback);
 
-                    if (this.scene.player) {
-                        const pushbackDirection = new Phaser.Math.Vector2(
-                            this.scene.player.playerDirection,
-                            0
-                        );
-
-                        pushbackDirection.rotate(this.scene.platform.rotation);
-                        pushbackDirection.scale(this.attackPushback);
-
-                        // use setVelocity as you previously mentioned
-                        otherGameObject.setVelocity(pushbackDirection.x, pushbackDirection.y);
-                    }
+                    // use setVelocity as you previously mentioned
+                    otherGameObject.setVelocity(
+                        pushbackDirection.x,
+                        pushbackDirection.y
+                    );
 
                     // Check if the other object is an enemy
                     if (otherGameObject.name === 'maga') {
                         otherGameObject.takeDamage(1);
-                    }
-
-                    // Check if the other object is a block
-                    if (otherBody.label === 'junk') {
-                        // Pass the pushback force magnitude to the takeDamage method
-                        otherGameObject.takeDamage(0.2, this.attackPushback);
                     }
                 }
             }

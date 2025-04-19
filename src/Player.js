@@ -17,7 +17,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.playerDirection = 1;
         this.attackSpeed = 15;
         this.attackRadius = 15;
-        this.attackPushback = 5; // Increased attack pushback
         this.attackCooldown = 300;
         this.isAttacking = false;
         this.lastAttackTime = 0;
