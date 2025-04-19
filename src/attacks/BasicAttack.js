@@ -93,8 +93,8 @@ export class BasicAttack {
                         pushbackDirection.rotate(this.scene.platform.rotation);
                         pushbackDirection.scale(this.attackPushback);
 
-                        // use setVelocity as you previously mentioned ai!
-                        otherGameObject.applyForce(pushbackDirection);
+                        // use setVelocity as you previously mentioned
+                        otherGameObject.setVelocity(pushbackDirection.x, pushbackDirection.y);
                     }
 
                     // Check if the other object is an enemy
