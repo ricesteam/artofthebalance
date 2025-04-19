@@ -78,6 +78,7 @@ export class MainMenu extends Scene {
 
         let points = this.flag.points;
 
+        // make it more random ai!
         // Simulate fabric blowing in the wind using a combination of sine waves
         for (let i = 0; i < points.length; i++) {
             points[i].y =
