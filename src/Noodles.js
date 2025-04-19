@@ -24,7 +24,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         ]);
         this.setCollisionCategory(scene.CATEGORY_BLOCK);
 
-        // noodles is a sprite sheet with total of 5 frames: randomly choose one ai!
+        this.setFrame(Phaser.Math.Between(0, 4));
     }
 
     takeDamage(damage) {}
