@@ -1,6 +1,7 @@
 import { Junk } from './Junk';
 import { Enemy } from './Enemy';
 import { Lawyer } from './Lawyer';
+import { Noodles } from './Noodles'; // Import the Noodles class
 
 export class Spawner {
     constructor(scene) {
@@ -33,8 +34,14 @@ export class Spawner {
     addBlock() {
         let x = this.spawnArea.x + Math.random() * this.spawnArea.width; // Random X position within spawn area
         let y = this.spawnArea.y;
-        //random chance to spawn junk or noodles ai!
-        const block = new Junk(this.scene, x, y);
+        const randomNumber = Math.random();
+        let block;
+
+        if (randomNumber < 0.5) {
+            block = new Junk(this.scene, x, y);
+        } else {
+            block = new Noodles(this.scene, x, y);
+        }
         this.scene.blocks.push(block);
     }
 
