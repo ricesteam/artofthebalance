@@ -11,7 +11,6 @@ export class GameScene extends Scene {
     constructor() {
         super({ key: 'GameScene' });
         this.anchor = null;
-        this.attackKey = null; // Attack input key
         this.blocks = []; // Keep track of the blocks
         this.constraint = null;
         this.cursors = null; // Keyboard input
@@ -129,9 +128,6 @@ export class GameScene extends Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cursors.space = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.SPACE
-        );
-        this.attackKey = this.input.keyboard.addKey(
-            Phaser.Input.Keyboard.KeyCodes.Z
         );
 
         // Initialize the spawner
@@ -314,14 +310,11 @@ export class GameScene extends Scene {
             explosion.update();
         });
 
-        // Attack input - Use the attack from the inventory
-        if (this.attackKey.isDown) {
-            this.player.useAttack(0); // Use the attack in the first inventory slot
-        }
-
         // Scroll the background
         this.bg.tilePositionX += this.scrollSpeedX;
         this.bg.tilePositionY += this.scrollSpeedY;
+
+        // if the player falls off screen, respawn him ai!
 
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
