@@ -6,50 +6,16 @@ export class BasicAttack {
         this.name = 'BasicAttack';
         this.attackSpeed = 15;
         this.attackRadius = 15;
-        this.attackPushback = 5;
+        this.attackPushback = 50;
         this.cooldown = 300; // Cooldown in milliseconds
         this.lastUsedTime = 0; // Timestamp of the last time the attack was used
 
         // Add collision handling for this attack
-        this.scene.matter.world.on('collisionstart', this.handleCollision, this);
-    }
-
-    handleCollision(event) {
-        event.pairs.forEach((pair) => {
-            const { bodyA, bodyB } = pair;
-
-            if (bodyA.label === 'attack1' || bodyB.label === 'attack1') {
-                // Determine which body is the other object
-                let otherBody =
-                    (bodyA === bodyA.label) === 'attack1' ? bodyB : bodyA;
-                let otherGameObject = otherBody.gameObject;
-                if (otherGameObject) {
-                    // Check if player and its body are valid before applying force
-                    if (this.scene.player) {
-                        const pushbackDirection = new Phaser.Math.Vector2(
-                            this.scene.player.playerDirection,
-                            0
-                        );
-                        pushbackDirection.rotate(this.scene.platform.rotation);
-                        pushbackDirection.scale(this.scene.player.attackPushback);
-                        otherGameObject.applyForce(
-                            this.scene.player.body.position,
-                            pushbackDirection
-                        );
-                    }
-
-                    // Check if the other object is an enemy
-                    if (otherGameObject.name === 'maga') {
-                        otherGameObject.takeDamage(1);
-                    }
-
-                    // Check if the other object is a block
-                    if (otherBody.label === 'junk') {
-                        otherGameObject.takeDamage(0.2); // Reduce block mass
-                    }
-                }
-            }
-        });
+        this.scene.matter.world.on(
+            'collisionstart',
+            this.handleCollision,
+            this
+        );
     }
 
     use(player) {
@@ -78,6 +44,7 @@ export class BasicAttack {
                     category: this.scene.CATEGORY_ATTACK,
                     mask: this.scene.CATEGORY_BLOCK | this.scene.CATEGORY_ENEMY,
                 },
+                //isSensor: true,
             }
         );
 
@@ -102,6 +69,44 @@ export class BasicAttack {
         // Destroy the attack area after a short delay
         this.scene.time.delayedCall(50, () => {
             this.scene.matter.world.remove(attackArea);
+        });
+    }
+
+    handleCollision(event) {
+        event.pairs.forEach((pair) => {
+            const { bodyA, bodyB } = pair;
+
+            if (bodyA.label === 'attack1' || bodyB.label === 'attack1') {
+                // Determine which body is the other object
+                let otherBody =
+                    (bodyA === bodyA.label) === 'attack1' ? bodyB : bodyA;
+                let otherGameObject = otherBody.gameObject;
+                if (otherGameObject) {
+                    const direction = -this.scene.player.playerDirection;
+
+                    if (this.scene.player) {
+                        const pushbackDirection = new Phaser.Math.Vector2(
+                            this.scene.player.playerDirection,
+                            0
+                        );
+
+                        pushbackDirection.rotate(this.scene.platform.rotation);
+                        pushbackDirection.scale(this.attackPushback);
+
+                        // I want to pushback the othergameobject ai!
+
+                        // otherGameObject.applyForceFrom(
+                        //     this.scene.player.body.position,
+                        //     pushbackDirection
+                        // );
+                    }
+
+                    // Check if the other object is an enemy
+                    if (otherGameObject.name === 'maga') {
+                        otherGameObject.takeDamage(1);
+                    }
+                }
+            }
         });
     }
 }
