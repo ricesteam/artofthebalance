@@ -116,6 +116,7 @@ export class GameScene extends Scene {
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
+        this.player.postFX.addShine(0.7, 0.2, 3);
         this.spawnPlayer(); // Initial player spawn
 
         // Create the Hud
@@ -308,29 +309,26 @@ export class GameScene extends Scene {
             ease: 'Linear',
         });
 
-        this.player.postFX.addShine(0.7, 0.2, 3);
-
-        // I can barely see the effects, maybe change the colors or contrast
-        // add some particle effecsts that explodes with stars
+        // add rotation to the particles ai!
         const emitter = this.add.particles(
             this.player.x,
             this.player.y,
-            'star',
+            'toupee',
             {
                 speed: { min: -300, max: 300 }, // Increase speed range
                 angle: { min: 0, max: 360 },
                 scale: { start: 0.8, end: 0 }, // Increase starting scale
-                lifespan: 600, // Increase lifespan slightly
+                lifespan: 400, // Increase lifespan slightly
                 gravityY: 300, // Increase gravity
                 quantity: 50, // Increase number of particles
-                blendMode: 'ADD',
+                //blendMode: 'ADD',
                 emitZone: {
                     type: 'random',
                     source: new Phaser.Geom.Circle(0, 0, 15), // Increase emit zone radius
                 },
                 duration: 150, // Emit for a slightly longer duration
                 stopAfter: 50, // Stop after emitting 50 particles
-                tint: [0xffff00, 0xffa500, 0xff4500], // Add multiple tints (yellow, orange, red)
+                tint: [0xf9c22b, 0xd5e04b, 0xf79617], // Add multiple tints (yellow, orange, red)
             }
         );
 
