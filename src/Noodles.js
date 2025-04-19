@@ -35,7 +35,15 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         this.outlinePipeline = scene.plugins
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
+
+        this.bounceCount = 0; // Track how many times it has been bounced
     }
 
     takeDamage(damage) {}
+
+    bounce() {
+        this.bounceCount++;
+        console.log(`Noodles bounced! Bounce count: ${this.bounceCount}`);
+        // You can add visual or audio feedback here based on the bounce count
+    }
 }

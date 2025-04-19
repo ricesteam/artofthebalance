@@ -6,6 +6,7 @@ import { Bomb } from '../Bomb';
 import { Head } from '../Head';
 import { BasicAttack } from '../attacks/BasicAttack'; // Import the BasicAttack class
 import { Hud } from '../Hud'; // Import the Hud class
+import { Noodles } from '../Noodles'; // Import the Noodles class
 
 export class GameScene extends Scene {
     constructor() {
@@ -262,7 +263,9 @@ export class GameScene extends Scene {
                                 this.player.playerDirection * 0.5;
                             otherGameObject.setVelocity(bounceVelocityX, -5);
 
-                            // add a method to Noodles, bounce, to handle how many times it was bounced ai!
+                            if (otherGameObject instanceof Noodles) {
+                                otherGameObject.bounce();
+                            }
                         }
                     }
                 }
