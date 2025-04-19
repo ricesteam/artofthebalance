@@ -78,13 +78,13 @@ export class MainMenu extends Scene {
 
         let points = this.flag.points;
 
-        // make it more random ai!
-        // Simulate fabric blowing in the wind using a combination of sine waves
+        // Simulate fabric blowing in the wind using a combination of sine waves and random variations
         for (let i = 0; i < points.length; i++) {
             points[i].y =
-                Math.sin(i * 0.1 + this.count) * 16 + // Primary wave
-                Math.sin(i * 0.2 + this.count * 0.5) * 8 + // Secondary wave with different frequency and speed
-                Math.sin(i * 0.05 + this.count * 2) * 4; // Tertiary wave for smaller ripples
+                Math.sin(i * 0.1 + this.count + Math.random() * 0.5) * 16 + // Primary wave with random offset
+                Math.sin(i * 0.2 + this.count * 0.5 + Math.random() * 0.3) * 8 + // Secondary wave with different frequency, speed, and random offset
+                Math.sin(i * 0.05 + this.count * 2 + Math.random() * 0.1) * 4 + // Tertiary wave for smaller ripples with random offset
+                Phaser.Math.FloatBetween(-2, 2); // Add a small random vertical displacement
         }
 
         this.flag.setDirty();
