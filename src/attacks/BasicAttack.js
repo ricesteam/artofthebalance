@@ -93,17 +93,19 @@ export class BasicAttack {
                         pushbackDirection.rotate(this.scene.platform.rotation);
                         pushbackDirection.scale(this.attackPushback);
 
-                        // I want to pushback the othergameobject ai!
-
-                        // otherGameObject.applyForceFrom(
-                        //     this.scene.player.body.position,
-                        //     pushbackDirection
-                        // );
+                        // Apply the pushback force to the other game object
+                        otherGameObject.applyForce(pushbackDirection);
                     }
 
                     // Check if the other object is an enemy
                     if (otherGameObject.name === 'maga') {
                         otherGameObject.takeDamage(1);
+                    }
+
+                    // Check if the other object is a block
+                    if (otherBody.label === 'junk') {
+                        // Pass the pushback force magnitude to the takeDamage method
+                        otherGameObject.takeDamage(0.2, this.attackPushback);
                     }
                 }
             }
