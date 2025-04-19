@@ -310,19 +310,28 @@ export class GameScene extends Scene {
 
         this.player.postFX.addShine(0.7, 0.2, 3);
 
+        // I can barely see the effects, maybe change the colors or contrast ai!
         // add some particle effecsts that explodes with stars
-        const emitter = this.add.particles(this.player.x, this.player.y, 'star', {
-            speed: { min: -200, max: 200 },
-            angle: { min: 0, max: 360 },
-            scale: { start: 0.5, end: 0 },
-            lifespan: 500,
-            gravityY: 200,
-            quantity: 20, // Number of particles
-            blendMode: 'ADD',
-            emitZone: { type: 'random', source: new Phaser.Geom.Circle(0, 0, 10) }, // Emit from a small circle around the player
-            duration: 100, // Emit for a short duration
-            stopAfter: 20, // Stop after emitting 20 particles
-        });
+        const emitter = this.add.particles(
+            this.player.x,
+            this.player.y,
+            'star',
+            {
+                speed: { min: -200, max: 200 },
+                angle: { min: 0, max: 360 },
+                scale: { start: 0.5, end: 0 },
+                lifespan: 500,
+                gravityY: 200,
+                quantity: 20, // Number of particles
+                blendMode: 'ADD',
+                emitZone: {
+                    type: 'random',
+                    source: new Phaser.Geom.Circle(0, 0, 10),
+                }, // Emit from a small circle around the player
+                duration: 100, // Emit for a short duration
+                stopAfter: 20, // Stop after emitting 20 particles
+            }
+        );
 
         // The emitter will automatically stop and be garbage collected after its duration/stopAfter
     }
