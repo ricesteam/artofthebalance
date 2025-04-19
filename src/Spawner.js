@@ -33,6 +33,7 @@ export class Spawner {
     addBlock() {
         let x = this.spawnArea.x + Math.random() * this.spawnArea.width; // Random X position within spawn area
         let y = this.spawnArea.y;
+        //random chance to spawn junk or noodles ai!
         const block = new Junk(this.scene, x, y);
         this.scene.blocks.push(block);
     }
