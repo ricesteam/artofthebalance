@@ -259,6 +259,7 @@ export class GameScene extends Scene {
                     if (otherGameObject) {
                         // Check if the object is above the player
                         if (otherGameObject.y < this.player.y) {
+                            // let's make the bounce more random ai!
                             const bounceVelocityX =
                                 this.player.playerDirection * 0.5;
                             otherGameObject.setVelocity(bounceVelocityX, -5);
