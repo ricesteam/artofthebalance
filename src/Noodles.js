@@ -44,6 +44,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
                 inintensity: 0,
             });
 
+        // i don't want this to start until the first bounce ai!
         this.glowTween = scene.tweens.add({
             targets: this.glowPipeline,
             intensity: 0.02,
