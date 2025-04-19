@@ -22,6 +22,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.lastAttackTime = 0;
         this.isGrounded = false; // Track if the player is on the ground
         this.jumpForce = -0.012; // Upward jump force
+        this.hp = 100;
 
         this.setRectangle(16, 32);
         this.setMass(this.playerMass);
@@ -252,4 +253,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         // Rotate the player to be perpendicular to the platform
         this.rotation = this.scene.platform.rotation;
     }
+
+    // add a takeDamage method that other enemies call when they attack the player ai!
 }
