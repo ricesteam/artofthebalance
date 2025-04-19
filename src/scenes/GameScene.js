@@ -310,11 +310,19 @@ export class GameScene extends Scene {
             explosion.update();
         });
 
-        // Let's add some VFX for player spawning ai!
+        // Let's add some VFX for player spawning
         // if the player falls off screen, respawn him
         if (this.player.y > this.scale.height + 50) {
             this.player.setPosition(this.scale.width / 2, 100);
             this.player.setVelocity(0, 0);
+
+            // Add a simple tween for a fade-in effect on respawn
+            this.tweens.add({
+                targets: this.player,
+                alpha: { from: 0, to: 1 },
+                duration: 500,
+                ease: 'Linear',
+            });
         }
 
         // Scroll the background
