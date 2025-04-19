@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 
+// create a BombAttack class from this ai!
+
 export class Bomb extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'explosion', 0, {
