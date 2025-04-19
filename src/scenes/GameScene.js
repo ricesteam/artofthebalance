@@ -2,10 +2,9 @@ import { Scene } from 'phaser';
 import { Player } from '../Player';
 import { Spawner } from '../Spawner';
 import { Blackhole } from '../Blackhole';
-import { Explosion } from '../Explosion';
-import { Head } from '../Head'; // Import the Head class
+import { Bomb } from '../Bomb';
+import { Head } from '../Head';
 import { BasicAttack } from '../attacks/BasicAttack'; // Import the BasicAttack class
-
 
 export class GameScene extends Scene {
     constructor() {
@@ -131,7 +130,6 @@ export class GameScene extends Scene {
         const basicAttack = new BasicAttack(this);
         this.player.addAttack(basicAttack);
 
-
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cursors.space = this.input.keyboard.addKey(
@@ -150,8 +148,8 @@ export class GameScene extends Scene {
         this.input.on('pointerdown', (pointer) => {
             //const blackhole = new Blackhole(this, pointer.x, pointer.y);
             //this.blackholes.push(blackhole);
-            const explosion = new Explosion(this, pointer.x, pointer.y);
-            this.explosions.push(explosion);
+            const bomb = new Bomb(this, pointer.x, pointer.y);
+            this.explosions.push(bomb);
         });
 
         // Restart the game on 'R' key press
