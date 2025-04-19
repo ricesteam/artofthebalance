@@ -242,15 +242,12 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             gravityY: 300,
             quantity: 20,
             tint: [0xff0000, 0x8b0000], // Red and dark red tints
-            stopAfter: 20, // Stop emitting after 20 particles
+            stopAfter: 100, // Stop emitting after 20 particles
         });
 
-        // this particle effect keeps running after this Enemey is destroyed
-        particles.on('complete', () => {
-            const id = this.scene.enemies.indexOf(this);
-            this.scene.enemies.splice(id, 1);
-            super.destroy();
-        });
+        const id = this.scene.enemies.indexOf(this);
+        this.scene.enemies.splice(id, 1);
+        super.destroy();
     }
 
     bounce() {
@@ -265,8 +262,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
                     this.y,
                     64 // Explosion radius
                 );
-
-                this.visible = false;
 
                 this.die(); // Destroy the enemy after the explosion
             });
