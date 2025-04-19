@@ -240,8 +240,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     bounce() {
         if (!this.active) return;
         this.bounceCount++;
-        // after 5 bounces I want this enemy to explode and die. The explosion will have a 1s delay. Explosion will cause a particle effects. Use the Explosion class
-        if (this.bounceCount >= 1) {
+        if (this.bounceCount >= 3) {
             this.scene.time.delayedCall(1000, () => {
                 if (!this.active) return;
                 const explosion = new Explosion(
@@ -250,6 +249,9 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
                     this.y,
                     64 // Explosion radius
                 );
+
+                // add some particle effects of a exploding into a pool of blood ai!
+
                 this.die(); // Destroy the enemy after the explosion
             });
         }
