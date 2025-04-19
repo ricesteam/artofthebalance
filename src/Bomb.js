@@ -71,7 +71,6 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             );
         });
 
-        // Apply gravitational force to all bodies within the blackhole's radius
         filteredBodies.forEach((body) => {
             if (body === this.body || body.label === 'player') return; // Skip the blackhole itself
 
@@ -85,6 +84,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             if (distance < this.explosionRadius) {
                 this.victims.push(body);
 
+                // can we abstract out the explosion to another class? ai!
                 // Calculate the angle from the explosion to the body
                 const angle = Phaser.Math.Angle.Between(
                     this.x,
