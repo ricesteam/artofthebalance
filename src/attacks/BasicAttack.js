@@ -7,6 +7,7 @@ export class BasicAttack {
         this.attackSpeed = 15;
         this.attackRadius = 15;
         this.attackPushback = 5;
+        this.attackMass = 0.8;
         this.maxCapacity = 3;
         this.cooldown = 300; // Cooldown in milliseconds
         this.lastUsedTime = 0; // Timestamp of the last time the attack was used
@@ -38,7 +39,8 @@ export class BasicAttack {
                     category: this.scene.CATEGORY_ATTACK,
                     mask: this.scene.CATEGORY_BLOCK | this.scene.CATEGORY_ENEMY,
                 },
-                isSensor: true,
+                //isSensor: true,
+                mass: this.attackMass,
             }
         );
 
@@ -61,17 +63,6 @@ export class BasicAttack {
                 !attackArea.victims.includes(otherBody)
             ) {
                 attackArea.victims.push(otherBody); // Add to attackArea's victims
-
-                const direction = this.scene.player.playerDirection;
-                const pushbackDirection = new Phaser.Math.Vector2(direction, 0);
-                pushbackDirection.rotate(this.scene.platform.rotation);
-                pushbackDirection.scale(this.attackPushback);
-
-                // use setVelocity as you previously mentioned
-                otherGameObject.setVelocity(
-                    pushbackDirection.x,
-                    pushbackDirection.y
-                );
 
                 // Check if the other object is an enemy
                 if (otherGameObject.name === 'maga') {
