@@ -310,7 +310,29 @@ export class GameScene extends Scene {
 
         this.player.postFX.addShine(0.7, 0.2, 3);
 
-        // add some particle effecsts that explodes with stars ai!
+        // add some particle effecsts that explodes with stars
+        const particles = this.add.particles('star'); // Assuming you have a 'star' particle image loaded
+        const emitter = particles.createEmitter({
+            x: this.player.x,
+            y: this.player.y,
+            speed: { min: -200, max: 200 },
+            angle: { min: 0, max: 360 },
+            scale: { start: 0.5, end: 0 },
+            lifespan: 500,
+            gravityY: 200,
+            quantity: 20, // Number of particles
+            blendMode: 'ADD',
+        });
+
+        // Stop the emitter after a short duration
+        this.time.delayedCall(100, () => {
+            emitter.stop();
+        });
+
+        // Destroy the particle emitter after all particles have died
+        this.time.delayedCall(500 + 100, () => {
+            particles.destroy();
+        });
     }
 
     update() {
