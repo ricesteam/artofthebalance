@@ -7,6 +7,8 @@ export class BasicAttack {
         this.attackSpeed = 15;
         this.attackRadius = 15;
         this.attackPushback = 5;
+        this.maxCapacity = 3;
+        this.victims = [];
         this.cooldown = 300; // Cooldown in milliseconds
         this.lastUsedTime = 0; // Timestamp of the last time the attack was used
 
@@ -73,6 +75,8 @@ export class BasicAttack {
     }
 
     handleCollision(event) {
+        // limit the number of objects (this.maxCapacity) this attack can collide with ai!
+
         event.pairs.forEach((pair) => {
             const { bodyA, bodyB } = pair;
 
