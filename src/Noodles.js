@@ -1,10 +1,9 @@
 import Phaser from 'phaser';
 
-
-export class Junk extends Phaser.Physics.Matter.Sprite {
+export class Noodles extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'block', 0, {
-            label: 'junk',
+            label: 'noodles',
             shape: {
                 type: 'rectangle',
                 width: 32,
@@ -24,7 +23,6 @@ export class Junk extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_ATTACK,
         ]);
         this.setCollisionCategory(scene.CATEGORY_BLOCK);
-        // scene.blocks.push(this); // Add the block to the array - REMOVED
     }
 
     takeDamage(damage) {
