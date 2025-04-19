@@ -30,6 +30,7 @@ export class GameScene extends Scene {
         this.scrollSpeedY = 0.2; // Background vertical scroll speed
         this.baldScale = 0.5; // Scale of the bald image
         this.hud = null; // Hud game object
+        this.juggleThreshold = 5;
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;

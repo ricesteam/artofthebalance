@@ -31,8 +31,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.ignorePlatformRotation = false;
         this.player = null; // Reference to the player
         this.attackRange = 50; // Distance to start attacking
-        this.backingOff = false; // Flag to indicate if the enemy is backing off
-        this.backingOffDistance = 75; // Distance to back off to
+        this.canBeJuggled = true;
 
         this.setMass(this.enemyMass);
         this.setFriction(0.5);
@@ -234,7 +233,8 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     die() {
         if (!this.active) return;
 
-        const particles = this.scene.add.particles(this.x, this.y, 'blood', {
+        // I don't have the
+        this.scene.add.particles(this.x, this.y, 'blood', {
             speed: { min: -200, max: 200 },
             angle: { min: 0, max: 360 },
             scale: { start: 0.5, end: 0 },
@@ -251,16 +251,17 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     }
 
     bounce() {
-        if (!this.active) return;
+        if (!this.active || !this.canBeJuggled) return;
         this.bounceCount++;
-        if (this.bounceCount >= 3) {
+        if (this.bounceCount >= this.scene.juggleThreshold) {
+            this.canBeJuggled = false;
             this.scene.time.delayedCall(1000, () => {
                 if (!this.active) return;
                 const explosion = new Explosion(
                     this.scene,
                     this.x,
                     this.y,
-                    64 // Explosion radius
+                    100 // Explosion radius
                 );
 
                 this.die(); // Destroy the enemy after the explosion
