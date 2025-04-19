@@ -44,29 +44,19 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
                 inintensity: 0,
             });
 
-        this.glowTween = null; // Initialize glowTween to null
+        this.glowTween = this.scene.tweens.add({
+            targets: this.glowPipeline,
+            intensity: 0.02, // make this dynamic ai!
+            ease: 'Linear',
+            duration: 1000, // Initial duration
+            repeat: -1,
+            yoyo: true,
+        });
     }
 
     takeDamage(damage) {}
 
     bounce() {
         this.bounceCount++;
-        console.log(`Noodles bounced! Bounce count: ${this.bounceCount}`);
-
-        if (!this.glowTween) {
-            // Start the tween on the first bounce
-            this.glowTween = this.scene.tweens.add({
-                targets: this.glowPipeline,
-                intensity: 0.02,
-                ease: 'Linear',
-                duration: 1000, // Initial duration
-                repeat: -1,
-                yoyo: true,
-            });
-        } else {
-            // Make the tween faster as bounce increases
-            const newDuration = Math.max(100, 1000 - this.bounceCount * 100); // Decrease duration, minimum 100ms
-            this.glowTween.updateTo('duration', newDuration, true);
-        }
     }
 }
