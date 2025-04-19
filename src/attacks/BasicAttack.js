@@ -12,6 +12,7 @@ export class BasicAttack {
         this.cooldown = 300; // Cooldown in milliseconds
         this.lastUsedTime = 0; // Timestamp of the last time the attack was used
 
+        // move this to the attackArea, e.g. attackArea.setCollidesWith ai!
         // Add collision handling for this attack
         this.scene.matter.world.on(
             'collisionstart',
@@ -85,7 +86,11 @@ export class BasicAttack {
                 let otherGameObject = otherBody.gameObject;
 
                 // Check if the other object is already a victim or if we've reached max capacity
-                if (otherGameObject && this.victims.length < this.maxCapacity && !this.victims.includes(otherBody)) {
+                if (
+                    otherGameObject &&
+                    this.victims.length < this.maxCapacity &&
+                    !this.victims.includes(otherBody)
+                ) {
                     this.victims.push(otherBody);
 
                     const direction = this.scene.player.playerDirection;
