@@ -21,6 +21,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
         this.constraints = [];
         this.victims = [];
 
+        // move this to the explosion class ai!
         // Create a graphic for the explosion (e.g., a circle)
         this.explosionGraphic = scene.add.graphics();
         this.explosionGraphic.fillStyle(0xff6600, 0.8); // Orange color
