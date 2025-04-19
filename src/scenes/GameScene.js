@@ -316,6 +316,7 @@ export class GameScene extends Scene {
             this.player.setPosition(this.scale.width / 2, 100);
             this.player.setVelocity(0, 0);
 
+            // put this in a helper method and use it for the initial player spawn ai!
             // Add a simple tween for a fade-in effect on respawn
             this.tweens.add({
                 targets: this.player,
