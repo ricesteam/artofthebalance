@@ -68,8 +68,6 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.explosionRadius
         );
         this.scene.explosions.push(explosion); // Add the explosion to the scene's list
-
-        // The logic for finding and affecting bodies is now in the Explosion class
     }
 
     update() {
