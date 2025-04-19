@@ -4,6 +4,7 @@ export class MainMenu extends Scene {
     constructor() {
         super('MainMenu');
         this.cloudScrollSpeed = 0.2; // Adjust the scroll speed as needed
+        this.count = 0; // Initialize count
     }
 
     create() {
@@ -77,7 +78,6 @@ export class MainMenu extends Scene {
 
         let points = this.flag.points;
 
-        // investigate: this makes my flag disappear ai!
         for (let i = 0; i < points.length; i++) {
             points[i].y = Math.sin(i * 0.5 + this.count) * 16;
         }
