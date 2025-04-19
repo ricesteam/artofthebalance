@@ -116,6 +116,7 @@ export class GameScene extends Scene {
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
+        this.spawnPlayer(); // Initial player spawn
 
         // Create the Hud
         this.hud = new Hud(this, this.player);
@@ -292,6 +293,22 @@ export class GameScene extends Scene {
         }
     }
 
+    spawnPlayer() {
+        const width = this.scale.width;
+        // Position the player at the center top of the platform
+        this.player.setPosition(width / 2, 100);
+        this.player.setVelocity(0, 0); // Stop any existing velocity
+        this.player.hp = 100; // Reset player HP
+
+        // Add a simple tween for a fade-in effect on spawn
+        this.tweens.add({
+            targets: this.player,
+            alpha: { from: 0, to: 1 },
+            duration: 500,
+            ease: 'Linear',
+        });
+    }
+
     update() {
         this.player.update(this.cursors);
         this.head.update(); // Update the head
@@ -310,20 +327,9 @@ export class GameScene extends Scene {
             explosion.update();
         });
 
-        // Let's add some VFX for player spawning
         // if the player falls off screen, respawn him
         if (this.player.y > this.scale.height + 50) {
-            this.player.setPosition(this.scale.width / 2, 100);
-            this.player.setVelocity(0, 0);
-
-            // put this in a helper method and use it for the initial player spawn ai!
-            // Add a simple tween for a fade-in effect on respawn
-            this.tweens.add({
-                targets: this.player,
-                alpha: { from: 0, to: 1 },
-                duration: 500,
-                ease: 'Linear',
-            });
+            this.spawnPlayer();
         }
 
         // Scroll the background
