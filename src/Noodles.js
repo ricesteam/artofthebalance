@@ -36,6 +36,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
+        // add the similar bouncing logic to the Enemy class ai!
         this.bounceCount = 0; // Track how many times it has been bounced
 
         this.glowPipeline = scene.plugins
