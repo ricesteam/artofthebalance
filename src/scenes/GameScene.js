@@ -307,6 +307,10 @@ export class GameScene extends Scene {
             duration: 500,
             ease: 'Linear',
         });
+
+        this.player.postFX.addShine(0.7, 0.2, 3);
+
+        // add some particle effecsts that explodes with stars ai!
     }
 
     update() {
