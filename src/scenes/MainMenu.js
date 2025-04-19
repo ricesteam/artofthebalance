@@ -30,17 +30,17 @@ export class MainMenu extends Scene {
             ease: 'sine.inout',
         });
 
-        const fx = this.clouds.preFX.addColorMatrix();
+        // const fx = this.clouds.preFX.addColorMatrix();
 
-        const tween = this.tweens.addCounter({
-            from: 0,
-            to: 360,
-            duration: 3000,
-            loop: -1,
-            onUpdate: () => {
-                fx.hue(tween.getValue());
-            },
-        });
+        // const tween = this.tweens.addCounter({
+        //     from: 0,
+        //     to: 360,
+        //     duration: 3000,
+        //     loop: -1,
+        //     onUpdate: () => {
+        //         fx.hue(tween.getValue());
+        //     },
+        // });
 
         const start = this.add
             .text(width / 2, height - 150, 'Press TAX to Begin', {

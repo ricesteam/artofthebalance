@@ -9,7 +9,7 @@ import OutlinePipelinePlugin from 'phaser3-rex-plugins/plugins/outlinepipeline-p
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config = {
     type: Phaser.AUTO,
-    title: 'Overlord Rising',
+    title: 'The Art of the Balance',
     description: '',
     parent: 'game-container',
     width: 853,
