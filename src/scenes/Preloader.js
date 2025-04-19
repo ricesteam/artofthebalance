@@ -59,6 +59,7 @@ export class Preloader extends Scene {
         this.load.image('castle', 'neo-whitehouse.png');
         this.load.image('clouds', 'clouds.png');
         this.load.image('clouds3', 'clouds3.png');
+        this.load.image('toupee', 'toupee.png');
 
         // big head
         this.load.spritesheet('head', 'head.png', {
