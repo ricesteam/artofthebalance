@@ -254,5 +254,14 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.rotation = this.scene.platform.rotation;
     }
 
-    // add a takeDamage method that other enemies call when they attack the player ai!
+    takeDamage(damage) {
+        this.hp -= damage;
+        if (this.hp <= 0) {
+            this.hp = 0;
+            // Handle player death here (e.g., game over)
+            console.log('Player Died!');
+            // You might want to trigger a game over scene or restart the level
+            //this.scene.scene.start('GameOverScene'); // Assuming you have a GameOverScene
+        }
+    }
 }
