@@ -246,39 +246,6 @@ export class GameScene extends Scene {
             event.pairs.forEach((pair) => {
                 const { bodyA, bodyB } = pair;
 
-                // refactor: move this to the BasicAttack class ai!
-                if (bodyA.label === 'attack1' || bodyB.label === 'attack1') {
-                    // Determine which body is the other object
-                    let otherBody =
-                        (bodyA === bodyA.label) === 'attack1' ? bodyB : bodyA;
-                    let otherGameObject = otherBody.gameObject;
-                    if (otherGameObject) {
-                        // Check if player and its body are valid before applying force
-                        if (this.player) {
-                            const pushbackDirection = new Phaser.Math.Vector2(
-                                this.player.playerDirection,
-                                0
-                            );
-                            pushbackDirection.rotate(this.platform.rotation);
-                            pushbackDirection.scale(this.player.attackPushback);
-                            otherGameObject.applyForce(
-                                this.player.body.position,
-                                pushbackDirection
-                            );
-                        }
-
-                        // Check if the other object is an enemy
-                        if (otherGameObject.name === 'maga') {
-                            otherGameObject.takeDamage(1);
-                        }
-
-                        // Check if the other object is a block
-                        if (otherBody.label === 'junk') {
-                            otherGameObject.takeDamage(0.2); // Reduce block mass
-                        }
-                    }
-                }
-
                 // Bounce objects off the player if they land on top
                 if (
                     (bodyA === this.player.body ||
