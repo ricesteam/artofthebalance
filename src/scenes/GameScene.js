@@ -26,8 +26,6 @@ export class GameScene extends Scene {
         this.spawner = null; // Spawner instance
         this.enemies = []; // Array to hold enemies
         this.blackholes = [];
-        // this is no longer needed, refactor all classes that reference this ai!
-        this.explosions = [];
         this.scrollSpeedX = 0.5; // Background horizontal scroll speed
         this.scrollSpeedY = 0.2; // Background vertical scroll speed
         this.baldScale = 0.5; // Scale of the bald image
@@ -145,7 +143,6 @@ export class GameScene extends Scene {
             //const blackhole = new Blackhole(this, pointer.x, pointer.y);
             //this.blackholes.push(blackhole);
             const bomb = new Bomb(this, pointer.x, pointer.y);
-            this.explosions.push(bomb);
         });
 
         // Restart the game on 'R' key press
