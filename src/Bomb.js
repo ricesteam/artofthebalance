@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { Explosion } from './Explosion'; // Import the new Explosion class
 
 export class Bomb extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -59,57 +60,16 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
     explode() {
         if (!this.scene) return;
 
-        const categoriesToCheck = [
-            this.scene.CATEGORY_BLOCK,
-            this.scene.CATEGORY_ENEMY,
-        ];
-        const filteredBodies = this.world.getAllBodies().filter((body) => {
-            return (
-                categoriesToCheck.includes(body.collisionFilter.category) &&
-                !body.isSensor &&
-                this.victims.indexOf(body) === -1
-            );
-        });
+        // Create a new Explosion instance
+        const explosion = new Explosion(
+            this.scene,
+            this.x,
+            this.y,
+            this.explosionRadius
+        );
+        this.scene.explosions.push(explosion); // Add the explosion to the scene's list
 
-        filteredBodies.forEach((body) => {
-            if (body === this.body || body.label === 'player') return; // Skip the blackhole itself
-
-            const distance = Phaser.Math.Distance.Between(
-                this.x,
-                this.y,
-                body.position.x,
-                body.position.y
-            );
-
-            if (distance < this.explosionRadius) {
-                this.victims.push(body);
-
-                // can we abstract out the explosion to another class? ai!
-                // Calculate the angle from the explosion to the body
-                const angle = Phaser.Math.Angle.Between(
-                    this.x,
-                    this.y,
-                    body.position.x,
-                    body.position.y
-                );
-
-                // Calculate the force based on a proportion of the body's mass
-                const forceMagnitude = body.mass * 0.05;
-                const forceX = Math.cos(angle) * forceMagnitude;
-                const forceY = Math.sin(angle) * forceMagnitude;
-
-                // Apply the force to the body
-                body.gameObject.applyForce({ x: forceX, y: forceY });
-
-                if (
-                    body.collisionFilter.category ===
-                        this.scene.CATEGORY_ENEMY &&
-                    body.gameObject.ignorePlatformRotation !== undefined
-                ) {
-                    body.gameObject.ignorePlatformRotation = true;
-                }
-            }
-        });
+        // The logic for finding and affecting bodies is now in the Explosion class
     }
 
     update() {

@@ -7,6 +7,7 @@ import { Head } from '../Head';
 import { BasicAttack } from '../attacks/BasicAttack'; // Import the BasicAttack class
 import { Hud } from '../Hud'; // Import the Hud class
 import { Noodles } from '../Noodles'; // Import the Noodles class
+import { Explosion } from '../Explosion'; // Import the Explosion class
 
 export class GameScene extends Scene {
     constructor() {
@@ -361,9 +362,10 @@ export class GameScene extends Scene {
             blackhole.update();
         });
 
-        this.explosions.forEach((explosion) => {
-            explosion.update();
-        });
+        // Explosions are now GameObjects and don't need an update method
+        // this.explosions.forEach((explosion) => {
+        //     explosion.update();
+        // });
 
         // player takes 10 damage from falling
         if (this.player.y > this.scale.height + 50) {
