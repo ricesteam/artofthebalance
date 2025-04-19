@@ -234,6 +234,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     die() {
         if (!this.active) return;
 
+        // this particle effect keeps running after this Enemey is destroyed ai!
         const particles = this.scene.add.particles(this.x, this.y, 'blood', {
             speed: { min: -200, max: 200 },
             angle: { min: 0, max: 360 },
@@ -268,8 +269,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
                     this.y,
                     64 // Explosion radius
                 );
-
-                this.visible = false;
 
                 this.die(); // Destroy the enemy after the explosion
             });
