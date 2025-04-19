@@ -234,7 +234,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     die() {
         if (!this.active) return;
 
-        this.scene.add.particles(this.x, this.y, 'blood', {
+        const particles = this.scene.add.particles(this.x, this.y, 'blood', {
             speed: { min: -200, max: 200 },
             angle: { min: 0, max: 360 },
             scale: { start: 0.5, end: 0 },
@@ -244,10 +244,16 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             tint: [0xff0000, 0x8b0000], // Red and dark red tints
         });
 
-        // I want this logic to run after the blood particle effects are done ai!
-        const id = this.scene.enemies.indexOf(this);
-        this.scene.enemies.splice(id, 1);
-        super.destroy();
+        // I want this logic to run after the blood particle effects are done
+        particles.on('complete', () => {
+            const id = this.scene.enemies.indexOf(this);
+            this.scene.enemies.splice(id, 1);
+            super.destroy();
+        });
+
+        // If the particle emitter has a finite duration, it will automatically emit and then complete.
+        // If it's set to loop or emit continuously, you might need to explicitly stop it before destroying.
+        // Assuming 'blood' particles are set up to emit a finite quantity or have a lifespan that causes them to stop.
     }
 
     bounce() {
