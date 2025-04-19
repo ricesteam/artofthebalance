@@ -237,6 +237,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     }
 
     bounce() {
+        // after 5 bounces I want this enemy to explode and die. The explosion will have a 1s delay. Explosion will cause a particle effects. Use the Explosion class ai!
         this.bounceCount++;
     }
 }
