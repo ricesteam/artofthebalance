@@ -26,6 +26,7 @@ export class GameScene extends Scene {
         this.spawner = null; // Spawner instance
         this.enemies = []; // Array to hold enemies
         this.blackholes = [];
+        // this is no longer needed, refactor all classes that reference this ai!
         this.explosions = [];
         this.scrollSpeedX = 0.5; // Background horizontal scroll speed
         this.scrollSpeedY = 0.2; // Background vertical scroll speed
