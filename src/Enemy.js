@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { StateMachine } from './StateMachine';
 
-// add the similar bouncing logic from the Noodle class to the Enemy class ai!
 
 export class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -64,6 +63,49 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.outlinePipeline = scene.plugins
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
+
+        this.bounceCount = 0; // Track how many times it has been bounced
+
+        this.glowPipeline = scene.plugins
+            .get('rexGlowFilterPipeline')
+            .add(this.body.gameObject, {
+                inintensity: 0,
+            });
+
+        this.glowTween = this.scene.tweens.add({
+            targets: this.glowPipeline,
+            intensity: {
+                getEnd: function (target, key, value) {
+                    const maxIntensity = 0.05;
+                    const intensityPerBounce = 0.005; // Adjust this value to control how much intensity increases per bounce
+                    const targetIntensity = Math.min(
+                        maxIntensity,
+                        this.bounceCount * intensityPerBounce
+                    );
+                    return targetIntensity;
+                }.bind(this), // Bind 'this' to the getEnd function to access bounceCount
+
+                getStart: function (target, key, value) {
+                    return 0;
+                },
+            },
+            duration: {
+                getEnd: function (target, key, value) {
+                    const minDuration = 200; // Minimum duration
+                    const durationDecreasePerBounce = 50; // Adjust this value
+                    const targetDuration = Math.max(
+                        minDuration,
+                        1000 - this.bounceCount * durationDecreasePerBounce
+                    );
+                    return targetDuration;
+                }.bind(this),
+                getStart: function (target, key, value) {
+                    return value;
+                },
+            },
+            repeat: -1,
+            yoyo: true,
+        });
 
         // Find the player
         this.findPlayer();
@@ -206,5 +248,9 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
         super.destroy();
+    }
+
+    bounce() {
+        this.bounceCount++;
     }
 }
