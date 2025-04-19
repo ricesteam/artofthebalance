@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 export class Noodles extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
-        super(scene.matter.world, x, y, 'block', 0, {
+        super(scene.matter.world, x, y, 'noddles', 0, {
             label: 'noodles',
             shape: {
                 type: 'rectangle',
@@ -23,10 +23,9 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_ATTACK,
         ]);
         this.setCollisionCategory(scene.CATEGORY_BLOCK);
+
+        // noodles is a sprite sheet with total of 5 frames: randomly choose one ai!
     }
 
-    takeDamage(damage) {
-        //const newMass = Math.max(0.1, this.body.mass - damage);
-        //this.setMass(newMass);
-    }
+    takeDamage(damage) {}
 }
