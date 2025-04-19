@@ -110,9 +110,7 @@ export class GameScene extends Scene {
             }
         );
 
-        // Create the static blocks to limit rotation
         this.createStopBlocks();
-
         this.createAnimations();
 
         // Create the player
@@ -248,6 +246,7 @@ export class GameScene extends Scene {
             event.pairs.forEach((pair) => {
                 const { bodyA, bodyB } = pair;
 
+                // refactor: move this to the BasicAttack class ai!
                 if (bodyA.label === 'attack1' || bodyB.label === 'attack1') {
                     // Determine which body is the other object
                     let otherBody =
