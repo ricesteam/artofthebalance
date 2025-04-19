@@ -27,6 +27,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.setMass(this.playerMass);
         this.setFriction(0.1);
         this.setFrictionStatic(0.1);
+        this.setFrictionAir(0);
         this.setBounce(0.5);
         this.setFixedRotation();
         this.setCollisionCategory(this.scene.CATEGORY_PLAYER);
