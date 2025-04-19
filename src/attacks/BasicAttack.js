@@ -42,7 +42,10 @@ export class BasicAttack {
             }
         );
 
-        // can I attach an array victims to the attackArea? will it free up memory once attackArea is removed from the matter.world ai?
+        // Create a victims array specifically for this attackArea
+        attackArea.victims = [];
+        attackArea.maxCapacity = this.maxCapacity; // Also attach maxCapacity
+
         // Add collision handling specifically for this attack area
         attackArea.onCollideCallback = (pair) => {
             const { bodyA, bodyB } = pair;
@@ -52,7 +55,13 @@ export class BasicAttack {
             let otherGameObject = otherBody.gameObject;
 
             // Check if the other object is already a victim or if we've reached max capacity
-            if (otherGameObject) {
+            if (
+                otherGameObject &&
+                attackArea.victims.length < attackArea.maxCapacity && // Use attackArea's victims and maxCapacity
+                !attackArea.victims.includes(otherBody)
+            ) {
+                attackArea.victims.push(otherBody); // Add to attackArea's victims
+
                 const direction = this.scene.player.playerDirection;
                 const pushbackDirection = new Phaser.Math.Vector2(direction, 0);
                 pushbackDirection.rotate(this.scene.platform.rotation);
@@ -92,6 +101,7 @@ export class BasicAttack {
         // Destroy the attack area after a short delay
         this.scene.time.delayedCall(50, () => {
             this.scene.matter.world.remove(attackArea);
+            // The victims array attached to attackArea will be garbage collected with attackArea
         });
     }
 }
