@@ -10,15 +10,16 @@ export class MainMenu extends Scene {
         const width = this.scale.width;
         const height = this.scale.height;
 
-        this.clouds = this.add.tileSprite(0, 0, width, height, 'clouds3');
-        this.clouds.setOrigin(0, 0);
-        this.clouds.setTint(0xdddddd);
+        // this.clouds = this.add.tileSprite(0, 0, width, height, 'clouds3');
+        // this.clouds.setOrigin(0, 0);
+        // this.clouds.setTint(0xdddddd);
 
-        const castle = this.add.image(width / 2, height / 2, 'castle');
-        castle.preFX.addVignette(0.5, 0.5, 1, 0.5);
+        //const castle = this.add.image(width / 2, height / 2, 'castle');
+        //castle.preFX.addVignette(0.5, 0.5, 1, 0.5);
 
-        const flag = this.add.image(width / 2 + 25, 45, 'flag');
-        flag.setScale(0.25, 0.25);
+        //const flag = this.add.image(width / 2 + 25, 45, 'flag');
+        this.flag = this.add.rope(width / 2 + 25, 45, 'flag', null, 20);
+        this.flag.setScale(0.25, 0.25);
 
         const title = this.add.image(width / 2, height / 2 - 130, 'title');
         this.tweens.add({
@@ -70,6 +71,17 @@ export class MainMenu extends Scene {
 
     update() {
         // Scroll the clouds horizontally
-        this.clouds.tilePositionX += this.cloudScrollSpeed;
+        //this.clouds.tilePositionX += this.cloudScrollSpeed;
+
+        this.count += 0.1;
+
+        let points = this.flag.points;
+
+        // investigate: this makes my flag disappear ai!
+        for (let i = 0; i < points.length; i++) {
+            points[i].y = Math.sin(i * 0.5 + this.count) * 16;
+        }
+
+        this.flag.setDirty();
     }
 }
