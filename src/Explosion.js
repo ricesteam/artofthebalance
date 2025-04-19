@@ -11,28 +11,6 @@ export class Explosion extends Phaser.GameObjects.GameObject {
         this.lifespan = lifespan;
         this.victims = [];
 
-        //move the explosion graphic back to the Bomb class ai!
-        // Create a graphic for the explosion (e.g., a circle)
-        this.explosionGraphic = scene.add.graphics();
-        this.explosionGraphic.fillStyle(0xff6600, 0.8); // Orange color
-        this.explosionGraphic.fillCircle(0, 0, this.radius); // Circle at the center of the sprite
-        this.explosionGraphic.x = x;
-        this.explosionGraphic.y = y;
-        this.explosionGraphic.alpha = 0;
-
-        // Add a tween to scale the graphic
-        scene.tweens.add({
-            targets: this.explosionGraphic,
-            scaleX: 2,
-            scaleY: 2,
-            alpha: 0.8,
-            duration: this.lifespan,
-            ease: 'Linear',
-            onComplete: () => {
-                this.explosionGraphic.destroy();
-            },
-        });
-
         this.applyForceToBodies();
     }
 
