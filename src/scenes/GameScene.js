@@ -261,9 +261,8 @@ export class GameScene extends Scene {
                     if (otherGameObject) {
                         // Check if the object is above the player
                         if (otherGameObject.y < this.player.y) {
-                            // use setvelocity instead ai!
-                            // Apply an upward force to the other object
-                            otherGameObject.applyForce({ x: 0, y: -0.05 }); // Adjust force as needed
+                            // use setvelocity instead
+                            otherGameObject.setVelocity(0, -5); // Adjust velocity as needed
                         }
                     }
                 }
