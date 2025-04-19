@@ -357,7 +357,7 @@ export class GameScene extends Scene {
             explosion.update();
         });
 
-        // if the player falls off screen, respawn him
+        // player takes 10 damage from falling ai!
         if (this.player.y > this.scale.height + 50) {
             this.spawnPlayer();
         }
