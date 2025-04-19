@@ -271,7 +271,7 @@ export class GameScene extends Scene {
                                 bounceVelocityY
                             );
 
-                            if (otherGameObject instanceof Noodles) {
+                            if (typeof otherGameObject.bounce === 'function') {
                                 otherGameObject.bounce();
                             }
                         }

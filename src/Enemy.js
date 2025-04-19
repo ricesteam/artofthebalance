@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { StateMachine } from './StateMachine';
 
-
 export class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'maga', 0, {
@@ -89,20 +88,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
                     return 0;
                 },
             },
-            duration: {
-                getEnd: function (target, key, value) {
-                    const minDuration = 200; // Minimum duration
-                    const durationDecreasePerBounce = 50; // Adjust this value
-                    const targetDuration = Math.max(
-                        minDuration,
-                        1000 - this.bounceCount * durationDecreasePerBounce
-                    );
-                    return targetDuration;
-                }.bind(this),
-                getStart: function (target, key, value) {
-                    return value;
-                },
-            },
+            duration: 1000, // Initial duration
             repeat: -1,
             yoyo: true,
         });

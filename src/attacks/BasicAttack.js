@@ -65,7 +65,7 @@ export class BasicAttack {
                 attackArea.victims.push(otherBody); // Add to attackArea's victims
 
                 // Check if the other object is an enemy
-                if (otherGameObject.name === 'maga') {
+                if (typeof otherGameObject.takeDamage === 'function') {
                     otherGameObject.takeDamage(1);
                 }
             }
