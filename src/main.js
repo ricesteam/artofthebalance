@@ -4,6 +4,7 @@ import { GameOver } from './scenes/GameOver';
 import { MainMenu } from './scenes/MainMenu';
 import { Preloader } from './scenes/Preloader';
 import OutlinePipelinePlugin from 'phaser3-rex-plugins/plugins/outlinepipeline-plugin.js';
+import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilterpipeline-plugin.js';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -35,7 +36,11 @@ const config = {
                 plugin: OutlinePipelinePlugin,
                 start: true,
             },
-            // ...
+            {
+                key: 'rexGlowFilterPipeline',
+                plugin: GlowFilterPipelinePlugin,
+                start: true,
+            },
         ],
     },
 };

@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 
-
 export class Junk extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'block', 0, {

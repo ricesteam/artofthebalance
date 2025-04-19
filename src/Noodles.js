@@ -48,6 +48,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             targets: this.glowPipeline,
             intensity: {
                 getEnd: function (target, key, value) {
+                    // make this dynamic based on bounceCount, the end should cap at 0.02
                     const maxIntensity = 0.05;
                     const intensityPerBounce = 0.005; // Adjust this value to control how much intensity increases per bounce
                     const targetIntensity = Math.min(
@@ -61,21 +62,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
                     return 0;
                 },
             },
-            duration: {
-                getEnd: function (target, key, value) {
-                    // make duration dynamic based on bounceCount, shorter duration for more bounces
-                    const minDuration = 200; // Minimum duration
-                    const durationDecreasePerBounce = 50; // Adjust this value
-                    const targetDuration = Math.max(
-                        minDuration,
-                        1000 - this.bounceCount * durationDecreasePerBounce
-                    );
-                    return targetDuration;
-                }.bind(this),
-                getStart: function (target, key, value) {
-                    return value;
-                },
-            },
+            duration: 1000, // Initial duration
             repeat: -1,
             yoyo: true,
         });
