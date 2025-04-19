@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 export class Noodles extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
-        super(scene.matter.world, x, y, 'noddles', 0, {
+        super(scene.matter.world, x, y, 'noodles', 0, {
             label: 'noodles',
             shape: {
                 type: 'rectangle',
@@ -25,6 +25,16 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         this.setCollisionCategory(scene.CATEGORY_BLOCK);
 
         this.setFrame(Phaser.Math.Between(0, 4));
+
+        var outlineconfig = {
+            thickness: 2,
+            outlineColor: 0xf9c22b,
+            quality: 0.1,
+            name: 'rexOutlinePostFx',
+        };
+        this.outlinePipeline = scene.plugins
+            .get('rexOutlinePipeline')
+            .add(this.body.gameObject, outlineconfig);
     }
 
     takeDamage(damage) {}

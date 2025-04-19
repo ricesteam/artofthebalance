@@ -258,10 +258,11 @@ export class GameScene extends Scene {
                     if (otherGameObject) {
                         // Check if the object is above the player
                         if (otherGameObject.y < this.player.y) {
-                            // use setvelocity instead
                             const bounceVelocityX =
-                                this.player.playerDirection * 2; // Bounce slightly in the player's facing direction
-                            otherGameObject.setVelocity(bounceVelocityX, -5); // Adjust velocity as needed
+                                this.player.playerDirection * 0.5;
+                            otherGameObject.setVelocity(bounceVelocityX, -5);
+
+                            // add a method to Noodles, bounce, to handle how many times it was bounced ai!
                         }
                     }
                 }
