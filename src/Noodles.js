@@ -37,13 +37,27 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             .add(this.body.gameObject, outlineconfig);
 
         this.bounceCount = 0; // Track how many times it has been bounced
+
+        this.glowPipeline = scene.plugins
+            .get('rexGlowFilterPipeline')
+            .add(this.body.gameObject, {
+                inintensity: 0,
+            });
+
+        // I want this tween to be faster as bounce increases ai!
+        this.glowTween = scene.tweens.add({
+            targets: glowPipeline,
+            intensity: 0.02,
+            ease: 'Linear',
+            duration: Between(500, 1000),
+            repeat: -1,
+            yoyo: true,
+        });
     }
 
     takeDamage(damage) {}
 
     bounce() {
         this.bounceCount++;
-        console.log(`Noodles bounced! Bounce count: ${this.bounceCount}`);
-        // You can add visual or audio feedback here based on the bounce count
     }
 }
