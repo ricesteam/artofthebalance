@@ -357,8 +357,9 @@ export class GameScene extends Scene {
             explosion.update();
         });
 
-        // player takes 10 damage from falling ai!
+        // player takes 10 damage from falling
         if (this.player.y > this.scale.height + 50) {
+            this.player.takeDamage(10); // Player takes 10 damage
             this.spawnPlayer();
         }
 
