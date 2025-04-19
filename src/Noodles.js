@@ -44,12 +44,11 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
                 inintensity: 0,
             });
 
-        // I want this tween to be faster as bounce increases ai!
         this.glowTween = scene.tweens.add({
-            targets: glowPipeline,
+            targets: this.glowPipeline,
             intensity: 0.02,
             ease: 'Linear',
-            duration: Between(500, 1000),
+            duration: Phaser.Math.Between(500, 1000),
             repeat: -1,
             yoyo: true,
         });
@@ -59,5 +58,8 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
 
     bounce() {
         this.bounceCount++;
+        // Make the tween faster as bounce increases
+        const newDuration = Math.max(100, 1000 - this.bounceCount * 100); // Decrease duration, minimum 100ms
+        this.glowTween.updateTo('duration', newDuration, true);
     }
 }
