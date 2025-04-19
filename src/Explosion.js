@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 
+// rename to Bomb ai!
 export class Explosion extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'explosion', 0, {
