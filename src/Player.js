@@ -219,8 +219,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             if (this.SupremeJuice >= 25 && this.SupremeJuice < 50) {
                 this.basicAttack.attackSpeed *= 1.05; // Increase by 5%
                 this.basicAttack.attackPushback *= 1.05; // Increase by 5%
-                // how do I decrease the cooldown by 5%? ai!
-                this.basicAttack.cooldown *= 1.05;
+                this.basicAttack.cooldown *= 0.95; // Decrease by 5%
             }
 
             // Consume all Supreme Juice when spacebar is pressed
