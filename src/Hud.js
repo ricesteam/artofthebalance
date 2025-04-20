@@ -38,7 +38,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.add(this.hpText);
 
         // Add text for juggling count
-        this.juggleText = this.scene.add.text(this.barX, this.barY + this.barHeight + 10, `Juggling: 0`, {
+        this.juggleText = this.scene.add.text(this.barX, this.barY + this.barHeight + 10, `Juggling: ${this.scene.juggledObjects.length}`, {
             fontSize: '18px',
             fill: '#ffffff',
             fontFamily: 'retro'
@@ -61,7 +61,6 @@ export class Hud extends Phaser.GameObjects.Container {
 
         // Create the Supreme Juice bar itself
         this.SupremeJuiceBar = this.scene.add.graphics();
-        this.SupremeJuiceBar.fillStyle(0x00ff00); // Green color
         // Initial draw will be handled by updateSupremeJuice
         this.SupremeJuiceBar.setScrollFactor(0);
         this.add(this.SupremeJuiceBar);
@@ -96,9 +95,12 @@ export class Hud extends Phaser.GameObjects.Container {
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
         const currentBarHeight = this.SupremeJuiceBarHeight * meterPercentage;
 
+        // Determine the color based on the Supreme Juice percentage
+        const barColor = this.player.SupremeJuice < 25 ? 0xa9a9a9 : 0x00ff00; // Slightly lighter gray or green
+
         // Clear the current Supreme Juice bar graphic and redraw it
         this.SupremeJuiceBar.clear();
-        this.SupremeJuiceBar.fillStyle(0x00ff00);
+        this.SupremeJuiceBar.fillStyle(barColor);
         // Draw from the bottom up
         this.SupremeJuiceBar.fillRect(this.SupremeJuiceBarX, this.SupremeJuiceBarY + this.SupremeJuiceBarHeight - currentBarHeight, this.SupremeJuiceBarWidth, currentBarHeight);
     }
