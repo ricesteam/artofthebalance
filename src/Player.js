@@ -173,10 +173,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
     }
 
-    // refactor: use each attack in the inventory ai!
-    useAttack(index) {
-        if (index >= 0 && index < this.inventory.length) {
-            const attack = this.inventory[index];
+    // Method to use each attack in the inventory
+    useAttack() {
+        this.inventory.forEach(attack => {
             if (attack) {
                 // Check if the attack has a cooldown and if it's ready
                 if (attack.lastUsedTime === undefined) {
@@ -192,12 +191,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 } else {
                     // console.log(attack.name, 'is on cooldown.'); // Optional: log cooldown
                 }
-            } else {
-                // console.log('No attack in slot', index + 1); // Optional: log empty slot
             }
-        } else {
-            console.log('Invalid inventory slot index:', index);
-        }
+        });
     }
 
     update(cursors) {
