@@ -31,6 +31,7 @@ export class GameScene extends Scene {
         this.baldScale = 0.5; // Scale of the bald image
         this.hud = null; // Hud game object
         this.juggleThreshold = 5;
+        this.juggledObjects = []; // Array to keep track of currently juggled objects
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -256,9 +257,13 @@ export class GameScene extends Scene {
                     const otherGameObject = otherBody.gameObject;
 
                     if (otherGameObject) {
-                        // I need to keep track of how many objects the player is juggling ai!
                         // Check if the object is above the player
                         if (otherGameObject.y < this.player.y) {
+                            // Add the object to the juggledObjects array if it's not already there
+                            if (!this.juggledObjects.includes(otherGameObject)) {
+                                this.juggledObjects.push(otherGameObject);
+                            }
+
                             // lets mix in the player's velocity
                             const bounceVelocityX =
                                 this.player.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
@@ -276,6 +281,26 @@ export class GameScene extends Scene {
                             if (typeof otherGameObject.bounce === 'function') {
                                 otherGameObject.bounce();
                             }
+                        }
+                    }
+                }
+            });
+        });
+
+        this.matter.world.on('collisionend', (event) => {
+            event.pairs.forEach((pair) => {
+                const { bodyA, bodyB } = pair;
+
+                // Remove objects from the juggledObjects array when they are no longer colliding with the player
+                if (bodyA === this.player.body || bodyB === this.player.body) {
+                    const otherBody =
+                        bodyA === this.player.body ? bodyB : bodyA;
+                    const otherGameObject = otherBody.gameObject;
+
+                    if (otherGameObject) {
+                        const index = this.juggledObjects.indexOf(otherGameObject);
+                        if (index > -1) {
+                            this.juggledObjects.splice(index, 1);
                         }
                     }
                 }
