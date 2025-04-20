@@ -67,7 +67,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             speed: { min: -200, max: 200 },
             angle: { min: 0, max: 360 },
             scale: { start: 0.5, end: 0 },
-            // add some alpha ai!
+            alpha: { start: 1, end: 0 }, // add some alpha
             lifespan: 500,
             gravityY: 0,
             quantity: 20,
