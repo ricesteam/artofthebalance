@@ -44,20 +44,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
-        // refactor: remove glowpipeline and its tween ai!
-        this.glowPipeline = scene.plugins
-            .get('rexGlowFilterPipeline')
-            .add(this.body.gameObject, {
-                inintensity: 0,
-            });
-
-        this.glowTween = this.scene.tweens.add({
-            targets: this.glowPipeline,
-            intensity: 0.02,
-            duration: this.delay / 5,
-            repeat: -1,
-            yoyo: true,
-        });
+        // refactor: remove glowpipeline and its tween
 
         this.shockWavePlugin = scene.plugins
             .get('rexShockwavePipeline')
@@ -132,13 +119,6 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
 
     destroy() {
         if (!this.scene) return;
-
-        this.glowTween.stop();
-        this.glowTween.remove();
-        this.scene.plugins
-            .get('rexGlowFilterPipeline')
-            .remove(this.body.gameObject);
-        this.glowTween.destroy();
 
         this.scene.plugins
             .get('rexShockwavePipeline')
