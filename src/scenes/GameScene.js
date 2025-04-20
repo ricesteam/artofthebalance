@@ -315,7 +315,7 @@ export class GameScene extends Scene {
         // The emitter will automatically stop and be garbage collected after its duration/stopAfter
     }
 
-    update() {
+    update(time, delta) {
         this.player.update(this.cursors);
         this.head.update(); // Update the head
         this.hud.update(); // Update the hud
@@ -356,5 +356,8 @@ export class GameScene extends Scene {
                 enemy.die(); // Destroy the enemy
             }
         });
+
+        // Increase juggle meter over time
+        this.player.juggleMeter = Math.min(100, this.player.juggleMeter + (0.1 * delta) / 1000); // 0.1% per second
     }
 }
