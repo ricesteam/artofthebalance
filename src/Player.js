@@ -121,7 +121,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                         this.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
                         this.playerDirection *
                             Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
-                    const bounceVelocityY = Phaser.Math.FloatBetween(-4, -6); // Randomize vertical bounce
+                    const bounceVelocityY = Phaser.Math.FloatBetween(-5, -8); // Randomize vertical bounce
                     otherGameObject.setVelocity(
                         bounceVelocityX,
                         bounceVelocityY

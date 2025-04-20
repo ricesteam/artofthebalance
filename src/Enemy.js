@@ -88,7 +88,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
                     return 0;
                 },
             },
-            duration: 600, // Initial duration
+            duration: 400, // Initial duration
             repeat: -1,
             yoyo: true,
         });
@@ -285,7 +285,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.bounceCount++;
         if (this.bounceCount >= this.scene.juggleThreshold) {
             this.canBeJuggled = false;
-            this.scene.time.delayedCall(1000, () => {
+            this.scene.time.delayedCall(Phaser.Math.Between(1000, 3000), () => {
                 if (!this.active) return;
                 const explosion = new Explosion(
                     this.scene,

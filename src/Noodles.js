@@ -12,12 +12,12 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         });
         scene.add.existing(this);
 
-        this.setBounce(0.5);
+        this.setBounce(1);
         this.setFriction(0.01);
         this.setMass(1.5);
         //this.setCollisionGroup(-1);
         this.setCollidesWith([
-            this.scene.CATEGORY_BLOCK,
+            // this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_PLAYER,
             this.scene.CATEGORY_ATTACK,
             this.scene.CATEGORY_PLATFORM,
