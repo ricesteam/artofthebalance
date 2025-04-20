@@ -65,6 +65,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
         this.bounceCount = 0; // Track how many times it has been bounced
 
+        // i think this is causing performance issues, refactor and remove it from everywhere I'm usin git ai!
         this.glowPipeline = scene.plugins
             .get('rexGlowFilterPipeline')
             .add(this.body.gameObject, {
