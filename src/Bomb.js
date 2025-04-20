@@ -48,24 +48,18 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.explosionRadius
         );
 
-        // refactor: use the sprite animation, explosion instead of this tween effect ai!
-        this.explosionGraphic = this.scene.add.graphics();
-        this.explosionGraphic.fillStyle(0xff6600, 0.8); // Orange color
-        this.explosionGraphic.fillCircle(0, 0, this.explosionRadius); // Circle at the center of the sprite
-        this.explosionGraphic.x = this.x;
-        this.explosionGraphic.y = this.y;
-        this.explosionGraphic.alpha = 0;
+        // Use the explosion sprite animation
+        const explosionSprite = this.scene.add.sprite(
+            this.x,
+            this.y,
+            'explosion'
+        );
+        explosionSprite.setScale(this.explosionRadius / 24); // Scale based on desired radius (explosion sprite is 48x48, radius 24)
+        explosionSprite.play('explosion');
 
-        this.scene.tweens.add({
-            targets: this.explosionGraphic,
-            radius: this.explosionRadius, // Target the radius property
-            alpha: 0.8,
-            duration: 400,
-            ease: 'Linear',
-            onComplete: () => {
-                this.explosionGraphic.destroy();
-                this.destroy();
-            },
+        explosionSprite.on('animationcomplete', () => {
+            explosionSprite.destroy();
+            this.destroy();
         });
     }
 
