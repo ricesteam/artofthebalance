@@ -161,7 +161,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         console.log('Attack added to inventory:', attack.name);
     }
 
-    // Method to remove an attack from the inventory by index (0 or 1)
+    // refactor: since inventory is now a stack, pop the top off ai!
     removeAttack(index) {
         if (index >= 0 && index < this.inventory.length) {
             const removedAttack = this.inventory.splice(index, 1)[0];
