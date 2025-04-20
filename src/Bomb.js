@@ -43,11 +43,9 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
         this.explosionGraphic.y = this.y;
         this.explosionGraphic.alpha = 0;
 
-        // do not use scale, target the radius instead ai!
         this.scene.tweens.add({
             targets: this.explosionGraphic,
-            scaleX: 2,
-            scaleY: 2,
+            radius: this.explosionRadius, // Target the radius property
             alpha: 0.8,
             duration: 400,
             ease: 'Linear',
