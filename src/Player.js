@@ -313,6 +313,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
 
         if (cursors.space.isDown) {
+            // Consume all Supreme Juice when spacebar is pressed
+            this.SupremeJuice = 0;
         }
 
         // Cap the velocity
