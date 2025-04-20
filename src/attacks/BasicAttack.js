@@ -64,7 +64,14 @@ export class BasicAttack {
             ) {
                 attackArea.victims.push(otherBody); // Add to attackArea's victims
 
-                // pushback the otherBody in the direction the player is facing ai!
+                // pushback the otherBody in the direction the player is facing
+                const pushbackDirection = player.playerDirection;
+                const pushbackForce = {
+                    x: this.attackPushback * pushbackDirection,
+                    y: 0, // Apply force horizontally
+                };
+                otherGameObject.applyForce(pushbackForce);
+
 
                 // Check if the other object is an enemy
                 if (typeof otherGameObject.takeDamage === 'function') {
