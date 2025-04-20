@@ -135,7 +135,15 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                         if (typeof otherGameObject.bounce === 'function') {
                             otherGameObject.bounce();
 
-                            // add some tween effect that scales the otherGameObject with bounce easing ai!
+                            // add some tween effect that scales the otherGameObject with bounce easing
+                            this.scene.tweens.add({
+                                targets: otherGameObject,
+                                scaleX: '*=1.2', // Scale up by 10%
+                                scaleY: '*=1.2', // Scale up by 10%
+                                duration: 100, // Duration of the scale effect
+                                yoyo: true, // Scale back down
+                                ease: 'Bounce.easeOut', // Use bounce easing
+                            });
 
                             this.updateSupremeJuiceFromJuggling();
                         }
