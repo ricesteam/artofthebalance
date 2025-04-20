@@ -70,7 +70,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             lifespan: 500,
             gravityY: 300,
             quantity: 20,
-            tint: [0xff0000, 0x8b0000], // use brown, yellow, and orange tints instead ai!
+            tint: [0xa0522d, 0xffa500, 0xffff00], // use brown, yellow, and orange tints instead
             stopAfter: 100, // Stop emitting after 20 particles
         });
     }
