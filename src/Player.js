@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { BasicAttack } from './attacks/BasicAttack'; // Import BasicAttack
+import { BombAttack } from './attacks/BombAttack';
 
 export class Player extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -74,6 +75,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.basicAttack = new BasicAttack(scene);
         this.addAttack(this.basicAttack);
+
+        this.bombAttack = new BombAttack(scene);
 
         // Timer for auto-attacking with the first equipped attack
         this.autoAttackTimer = this.scene.time.addEvent({
@@ -237,6 +240,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     this.basicAttack.cooldown * 0.95
                 ); // Decrease by 5%, capped at 50
             }
+
+            // if consumption is between 50% and 75%, push the this.bombAttack into the inventory ai!
 
             // Consume all Supreme Juice when spacebar is pressed
             this.SupremeJuice = 0;
