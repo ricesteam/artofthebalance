@@ -260,7 +260,9 @@ export class GameScene extends Scene {
                         // Check if the object is above the player
                         if (otherGameObject.y < this.player.y) {
                             // Add the object to the juggledObjects array if it's not already there
-                            if (!this.juggledObjects.includes(otherGameObject)) {
+                            if (
+                                !this.juggledObjects.includes(otherGameObject)
+                            ) {
                                 this.juggledObjects.push(otherGameObject);
                             }
 
@@ -287,6 +289,7 @@ export class GameScene extends Scene {
             });
         });
 
+        // refactor: only juggledObject that touches the platform is removed from the list ai!
         this.matter.world.on('collisionend', (event) => {
             event.pairs.forEach((pair) => {
                 const { bodyA, bodyB } = pair;
@@ -298,7 +301,8 @@ export class GameScene extends Scene {
                     const otherGameObject = otherBody.gameObject;
 
                     if (otherGameObject) {
-                        const index = this.juggledObjects.indexOf(otherGameObject);
+                        const index =
+                            this.juggledObjects.indexOf(otherGameObject);
                         if (index > -1) {
                             this.juggledObjects.splice(index, 1);
                         }
