@@ -92,7 +92,7 @@ export class GameScene extends Scene {
         this.platform.setCollisionCategory(this.CATEGORY_PLATFORM);
 
         // Create an anchor point
-        this.anchor = this.matter.add.circle(width / 2, height / 2 + 50, 50, {
+        this.anchor = this.matter.add.circle(width / 2, height / 2 + 60, 50, {
             ignoreGravity: false,
             isStatic: true,
             isSensor: true,
@@ -157,7 +157,7 @@ export class GameScene extends Scene {
     createStopBlocks() {
         const width = this.scale.width;
         const height = this.scale.height;
-        const offsety = 150;
+        const offsety = 160;
         const offsetx = 125;
 
         this.matter.add.rectangle(
@@ -256,6 +256,7 @@ export class GameScene extends Scene {
                     const otherGameObject = otherBody.gameObject;
 
                     if (otherGameObject) {
+                        // I need to keep track of how many objects the player is juggling ai!
                         // Check if the object is above the player
                         if (otherGameObject.y < this.player.y) {
                             // lets mix in the player's velocity
