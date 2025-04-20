@@ -62,7 +62,17 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.destroy();
         });
 
-        // also add some particle effects to compliment the exploding animations ai!
+        // Add particle effects
+        this.scene.add.particles(this.x, this.y, 'blood', {
+            speed: { min: -200, max: 200 },
+            angle: { min: 0, max: 360 },
+            scale: { start: 0.5, end: 0 },
+            lifespan: 500,
+            gravityY: 300,
+            quantity: 20,
+            tint: [0xff0000, 0x8b0000], // Red and dark red tints
+            stopAfter: 100, // Stop emitting after 20 particles
+        });
     }
 
     update() {
