@@ -130,11 +130,15 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
                         if (typeof otherGameObject.bounce === 'function') {
                             otherGameObject.bounce();
-                            // update the gain calculation: in each juggledObjects, check the bounceCounter; each counter increases base by 5% ai!
-                            const base = 1;
-                            const gain =
-                                this.SupremeJuice +
-                                base * this.scene.juggledObjects.length;
+                            let totalBounceGain = 0;
+                            this.scene.juggledObjects.forEach(obj => {
+                                if (obj.bounceCount !== undefined) {
+                                    totalBounceGain += 1 * (1 + obj.bounceCount * 0.05); // 5% increase per bounce
+                                } else {
+                                    totalBounceGain += 1; // Default gain if bounceCount is not available
+                                }
+                            });
+                            const gain = this.SupremeJuice + totalBounceGain;
                             this.SupremeJuice = Math.min(100, gain);
                         }
                     }
