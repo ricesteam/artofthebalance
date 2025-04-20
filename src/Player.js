@@ -134,12 +134,18 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                             let totalBounceGain = 0;
                             this.scene.juggledObjects.forEach((obj) => {
                                 if (obj.bounceCount !== undefined) {
-                                    totalBounceGain += Math.pow(1.05, obj.bounceCount); // 5% compounded increase per bounce
+                                    totalBounceGain += Math.pow(
+                                        1.01,
+                                        obj.bounceCount
+                                    );
                                 } else {
                                     totalBounceGain += 1;
                                 }
                             });
-                            const gain = this.SupremeJuice + this.scene.juggledObjects.length + totalBounceGain;
+                            const gain =
+                                this.SupremeJuice +
+                                this.scene.juggledObjects.length +
+                                totalBounceGain;
                             this.SupremeJuice = Math.min(100, gain);
                         }
                     }
