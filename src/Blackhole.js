@@ -35,9 +35,32 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         const postFxPlugin = this.plugins.get('rexswirlpipelineplugin');
         this.cameraFilter = postFxPlugin.add(this.cameras.main);
 
-        // make this continuous ai!
-        this.cameraFilter.angle += 1;
-        this.cameraFilter.radius += 5;
+        // make this continuous
+        this.cameraFilter.angle = 0;
+        this.cameraFilter.radius = 0;
+
+        this.swirlTween = this.scene.tweens.add({
+            targets: this.cameraFilter,
+            angle: 360, // Rotate 360 degrees
+            radius: this.blackholeRadius,
+            duration: this.timeAlive, // Duration of the swirl effect
+            repeat: -1, // Repeat infinitely
+            ease: 'Linear', // Linear easing for constant rotation
+        });
+
+        //add a tween that rotates this head
+        this.head = new Head(scene, x, y - 20);
+        this.head.setScale(0.2);
+        this.head.tween.pause();
+        this.head.baldImage.setFrame(0);
+
+        this.headRotationTween = this.scene.tweens.add({
+            targets: this.head,
+            angle: 360, // Rotate 360 degrees
+            duration: 2000, // Duration of the rotation
+            repeat: -1, // Repeat infinitely
+            ease: 'Linear', // Linear easing for constant rotation
+        });
     }
 
     destroyBlackhole() {
@@ -62,6 +85,18 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
 
         const id = this.scene.blackholes.indexOf(this);
         this.scene.blackholes.splice(id, 1);
+
+        this.swirlTween.stop();
+        this.swirlTween.destroy();
+        this.scene.tweens.killTweensOf(this.swirlTween);
+        this.swirlTween = null;
+
+        this.headRotationTween.stop();
+        this.headRotationTween.destroy();
+        this.scene.tweens.killTweensOf(this.headRotationTween);
+        this.headRotationTween = null;
+
+        this.head.destroy();
 
         super.destroy();
     }
