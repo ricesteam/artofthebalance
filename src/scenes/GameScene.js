@@ -247,75 +247,7 @@ export class GameScene extends Scene {
     handleCollisions() {
         // Add a callback for when the attack area overlaps with another body
         this.matter.world.on('collisionstart', (event) => {
-            event.pairs.forEach((pair) => {
-                const { bodyA, bodyB } = pair;
-
-                // Bounce objects off the player if they land on top
-                if (bodyA === this.player.body || bodyB === this.player.body) {
-                    const otherBody =
-                        bodyA === this.player.body ? bodyB : bodyA;
-                    const otherGameObject = otherBody.gameObject;
-
-                    if (otherGameObject) {
-                        // Check if the object is above the player
-                        if (otherGameObject.y < this.player.y) {
-                            // Add the object to the juggledObjects array if it's not already there
-                            if (
-                                !this.juggledObjects.includes(otherGameObject)
-                            ) {
-                                this.juggledObjects.push(otherGameObject);
-                            }
-
-                            // lets mix in the player's velocity
-                            const bounceVelocityX =
-                                this.player.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
-                                this.player.playerDirection *
-                                    Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
-                            const bounceVelocityY = Phaser.Math.FloatBetween(
-                                -4,
-                                -6
-                            ); // Randomize vertical bounce
-                            otherGameObject.setVelocity(
-                                bounceVelocityX,
-                                bounceVelocityY
-                            );
-
-                            if (typeof otherGameObject.bounce === 'function') {
-                                otherGameObject.bounce();
-                            }
-                        }
-                    }
-                }
-            });
-        });
-
-        this.matter.world.on('collisionend', (event) => {
-            event.pairs.forEach((pair) => {
-                const { bodyA, bodyB } = pair;
-
-                // Check if one of the bodies is the platform and the other is a juggled object
-                const platformBody =
-                    bodyA.collisionFilter.category ===
-                    this.CATEGORY_PLATFORM
-                        ? bodyA
-                        : bodyB.collisionFilter.category ===
-                          this.CATEGORY_PLATFORM
-                        ? bodyB
-                        : null;
-
-                const otherBody =
-                    platformBody === bodyA ? bodyB : platformBody === bodyB ? bodyA : null;
-
-                if (platformBody && otherBody) {
-                    const otherGameObject = otherBody.gameObject;
-                    if (otherGameObject) {
-                        const index = this.juggledObjects.indexOf(otherGameObject);
-                        if (index > -1) {
-                            this.juggledObjects.splice(index, 1);
-                        }
-                    }
-                }
-            });
+            event.pairs.forEach((pair) => {});
         });
     }
 
@@ -412,6 +344,7 @@ export class GameScene extends Scene {
             if (block.y > this.scale.height + 200) {
                 this.matter.world.remove(block); // Remove from Matter world
                 this.blocks.splice(index, 1); // Remove from the blocks array
+                this.juggledObjects.remove(block);
                 block.destroy(); // Destroy the block
             }
         });
@@ -421,10 +354,6 @@ export class GameScene extends Scene {
             if (enemy.y > this.scale.height + 200) {
                 this.enemies.splice(index, 1); // Remove from the enemies array
                 enemy.die(); // Destroy the enemy
-            }
-            // Remove enemies that have been destroyed (health <= 0)
-            else if (enemy.health <= 0) {
-                this.enemies.splice(index, 1);
             }
         });
     }

@@ -38,7 +38,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.anims.play('stand');
 
-        this.headSensor = this.scene.matter.add.circle(this.x, this.y, 10, {
+        this.headSensor = this.scene.matter.add.circle(this.x, this.y, 15, {
             isSensor: true,
             ignoreGravity: true,
             label: 'headSensor',
@@ -46,7 +46,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         // Create a constraint to keep the head sensor attached to the player's body
         this.scene.matter.add.constraint(this.body, this.headSensor, 0, 1, {
-            pointA: { x: 0, y: -30 }, // Position relative to the player's body center
+            pointA: { x: 0, y: -40 }, // Position relative to the player's body center
             pointB: { x: 0, y: 0 }, // Position relative to the head sensor's center,
             damping: 0,
             angularStiffness: 0,
@@ -119,9 +119,13 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     // lets mix in the player's velocity
                     const bounceVelocityX =
                         this.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
-                        this.playerDirection * Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
+                        this.playerDirection *
+                            Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
                     const bounceVelocityY = Phaser.Math.FloatBetween(-4, -6); // Randomize vertical bounce
-                    otherGameObject.setVelocity(bounceVelocityX, bounceVelocityY);
+                    otherGameObject.setVelocity(
+                        bounceVelocityX,
+                        bounceVelocityY
+                    );
 
                     if (typeof otherGameObject.bounce === 'function') {
                         otherGameObject.bounce();

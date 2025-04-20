@@ -115,6 +115,12 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             },
             [this]
         ); // Pass the enemy instance as a state argument
+
+        this.scene.matter.world.on(
+            'collisionstart',
+            this.handleCollision,
+            this
+        );
     }
 
     findPlayer() {
@@ -247,7 +253,31 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
+        this.scene.juggledObjects.splice(id, 1);
         super.destroy();
+    }
+
+    handleCollision(event) {
+        event.pairs.forEach((pair) => {
+            const { bodyA, bodyB } = pair;
+
+            // Check if it is itself and the other is the platform. If so and bounceCount > 0, then remove it from juggledObjects list
+            if (
+                (bodyA === this.body &&
+                    bodyB.collisionFilter.category ===
+                        this.scene.CATEGORY_PLATFORM) ||
+                (bodyB === this.body &&
+                    bodyA.collisionFilter.category ===
+                        this.scene.CATEGORY_PLATFORM)
+            ) {
+                if (this.bounceCount > 0) {
+                    const index = this.scene.juggledObjects.indexOf(this);
+                    if (index > -1) {
+                        this.scene.juggledObjects.splice(index, 1);
+                    }
+                }
+            }
+        });
     }
 
     bounce() {

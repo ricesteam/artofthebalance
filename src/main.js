@@ -25,7 +25,7 @@ const config = {
         default: 'matter',
         matter: {
             gravity: { y: 0.5 },
-            //debug: true,
+            debug: true,
         },
     },
     scene: [Boot, Preloader, MainMenu, GameScene, GameOver],
