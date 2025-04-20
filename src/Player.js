@@ -22,6 +22,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.isGrounded = false; // Track if the player is on the ground
         this.jumpForce = -0.012; // Upward jump force
         this.hp = 100;
+        this.juggleMeter = 0; // New stat: Juggle Meter
 
         this.setRectangle(16, 32);
         this.setMass(1);

@@ -356,5 +356,14 @@ export class GameScene extends Scene {
                 enemy.die(); // Destroy the enemy
             }
         });
+
+        // Update Juggle Meter
+        let totalJuggleValue = 0;
+        this.juggledObjects.forEach((obj) => {
+            if (obj && obj.bounceCount !== undefined) {
+                totalJuggleValue += obj.bounceCount;
+            }
+        });
+        this.player.juggleMeter = Math.min(100, totalJuggleValue); // Cap at 100
     }
 }
