@@ -57,6 +57,11 @@ export class Preloader extends Scene {
             frameHeight: 32,
         });
 
+        this.load.spritesheet('explosion', 'explosion.png', {
+            frameWidth: 48,
+            frameHeight: 48,
+        });
+
         this.load.image('background2', 'background2.png');
         this.load.image('distort', 'noiseTexture.png');
         this.load.image('plank', 'plank.png');
@@ -66,6 +71,7 @@ export class Preloader extends Scene {
         this.load.image('clouds3', 'clouds3.png');
         this.load.image('toupee', 'toupee.png');
         this.load.image('blood', 'blood.png');
+        this.load.image('meatbomb', 'meatbomb.png');
 
         // big head
         this.load.spritesheet('head', 'head.png', {

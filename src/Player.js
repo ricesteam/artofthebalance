@@ -232,21 +232,15 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
-            if (this.SupremeJuice >= 25 && this.SupremeJuice < 50) {
+            if (this.SupremeJuice >= 0) {
+                this.addAttack(this.bombAttack);
+            } else if (this.SupremeJuice >= 25) {
                 this.basicAttack.attackSpeed *= 1.05; // Increase by 5%
                 this.basicAttack.attackPushback *= 1.05; // Increase by 5%
                 this.basicAttack.cooldown = Math.max(
                     50,
                     this.basicAttack.cooldown * 0.95
                 ); // Decrease by 5%, capped at 50
-            }
-
-            if (this.SupremeJuice >= 50 && this.SupremeJuice < 75) {
-                // Check if BombAttack is already in inventory
-                const bombAttackInInventory = this.inventory.some(attack => attack instanceof BombAttack);
-                if (!bombAttackInInventory) {
-                    this.addAttack(this.bombAttack);
-                }
             }
 
             // Consume all Supreme Juice when spacebar is pressed

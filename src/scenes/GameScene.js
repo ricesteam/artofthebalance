@@ -239,6 +239,15 @@ export class GameScene extends Scene {
             }),
             frameRate: 5,
         });
+
+        this.anims.create({
+            key: 'explosion',
+            frames: this.anims.generateFrameNumbers('explosion', {
+                start: 0,
+                end: 6,
+            }),
+            frameRate: 20,
+        });
     }
 
     handleCollisions() {

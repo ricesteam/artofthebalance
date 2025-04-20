@@ -1,14 +1,13 @@
 import Phaser from 'phaser';
 
 export class Explosion extends Phaser.GameObjects.GameObject {
-    constructor(scene, x, y, radius, lifespan = 500) {
+    constructor(scene, x, y, radius) {
         super(scene, 'Explosion');
         this.scene = scene;
         this.world = scene.matter.world;
         this.x = x;
         this.y = y;
         this.radius = radius;
-        this.lifespan = lifespan;
         this.victims = [];
 
         this.applyForceToBodies();
@@ -48,11 +47,12 @@ export class Explosion extends Phaser.GameObjects.GameObject {
                 );
 
                 // Calculate the force based on a proportion of the body's mass
-                const forceMagnitude = body.mass * 0.05;
+                const forceMagnitude = body.mass * 0.06;
                 const forceX = Math.cos(angle) * forceMagnitude;
                 const forceY = Math.sin(angle) * forceMagnitude;
 
                 // Apply the force to the body
+                body.gameObject.setVelocityX(0);
                 body.gameObject.applyForce({ x: forceX, y: forceY });
 
                 if (

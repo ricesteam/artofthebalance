@@ -6,6 +6,8 @@ export class BombAttack {
         this.name = 'BombAttack';
         this.cooldown = 2000; // Cooldown in milliseconds (e.g., 2 seconds)
         this.lastUsedTime = 0; // Timestamp of the last time the attack was used
+        this.bombDelay = 1000;
+        this.explosionRadius = 60;
     }
 
     use(player) {
@@ -17,6 +19,12 @@ export class BombAttack {
         this.lastUsedTime = this.scene.time.now;
 
         // Create a new Bomb instance at the player's position
-        const bomb = new Bomb(this.scene, player.x, player.y);
+        const bomb = new Bomb(
+            this.scene,
+            player.x,
+            player.y,
+            this.bombDelay,
+            this.explosionRadius
+        );
     }
 }
