@@ -20,7 +20,7 @@ export class BombAttack {
 
         // Create a new Bomb instance at a random position near the player
         const randomOffsetX = Phaser.Math.FloatBetween(-50, 50); // Adjust range as needed
-        const randomOffsetY = Phaser.Math.FloatBetween(-50, 50); // Adjust range as needed
+        const randomOffsetY = 0;
         const bombX = player.x + randomOffsetX;
         const bombY = player.y + randomOffsetY;
 
