@@ -175,7 +175,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
     // Method to use each attack in the inventory
     useAttack() {
-        this.inventory.forEach(attack => {
+        this.inventory.forEach((attack) => {
             if (attack) {
                 // Check if the attack has a cooldown and if it's ready
                 if (attack.lastUsedTime === undefined) {
@@ -211,6 +211,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.anims.play('stand');
         }
 
+        // if supremejuice is greater than 25% and < 50%, increase the stats of the this.basicAttack ai!
         if (cursors.space.isDown) {
             // Calculate health to restore (2:1 ratio)
             const healthToRestore = this.SupremeJuice / 2;
