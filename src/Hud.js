@@ -62,7 +62,7 @@ export class Hud extends Phaser.GameObjects.Container {
         // Create the juggle meter bar itself
         this.juggleMeterBar = this.scene.add.graphics();
         this.juggleMeterBar.fillStyle(0x00ff00); // Green color
-        this.juggleMeterBar.fillRect(this.juggleMeterBarX, this.juggleMeterBarY + this.juggleMeterBarHeight, this.juggleMeterBarWidth, 0); // Start with 0 height
+        // Initial draw will be handled by updateJuggleMeter
         this.juggleMeterBar.setScrollFactor(0);
         this.add(this.juggleMeterBar);
 
