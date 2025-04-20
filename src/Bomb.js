@@ -57,6 +57,19 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             repeat: -1,
             yoyo: true,
         });
+
+        this.shockWavePlugin = scene.plugins
+            .get('rexShockwavePipeline')
+            .add(this.body.gameObject, {
+                // center: {
+                //    x: windowWidth / 2,
+                //    y: windowHeight / 2
+                //}
+                waveRadius: 0,
+                waveWidth: 20,
+                powBaseScale: 0.8,
+                // powExponent: 0.1,
+            });
     }
 
     explode() {
@@ -98,6 +111,8 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             tint: [0x6e2727, 0xfb6b1d, 0xfbff86], // use brown, yellow, and orange tints instead
             stopAfter: 100, // Stop emitting after 20 particles
         });
+
+        // add a tween for the shockwaveplugin ai!
     }
 
     update() {
