@@ -247,7 +247,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
-            if (this.SupremeJuice >= 0) {
+            if (this.SupremeJuice >= 50) {
                 this.addAttack(this.bombAttack);
                 this.scene.time.delayedCall(
                     this.bombAttackDuration,
