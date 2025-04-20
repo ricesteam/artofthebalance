@@ -241,7 +241,13 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 ); // Decrease by 5%, capped at 50
             }
 
-            // if consumption is between 50% and 75%, push the this.bombAttack into the inventory ai!
+            if (this.SupremeJuice >= 50 && this.SupremeJuice < 75) {
+                // Check if BombAttack is already in inventory
+                const bombAttackInInventory = this.inventory.some(attack => attack instanceof BombAttack);
+                if (!bombAttackInInventory) {
+                    this.addAttack(this.bombAttack);
+                }
+            }
 
             // Consume all Supreme Juice when spacebar is pressed
             this.SupremeJuice = 0;
