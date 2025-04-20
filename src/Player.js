@@ -211,7 +211,17 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.anims.play('stand');
         }
 
-        // if supremejuice is greater than 25% and < 50%, increase the stats of the this.basicAttack ai!
+        // if supremejuice is greater than 25% and < 50%, increase the stats of the this.basicAttack
+        if (this.SupremeJuice >= 25 && this.SupremeJuice < 50) {
+            this.basicAttack.attackSpeed = 20; // Example stat increase
+            this.basicAttack.attackPushback = 7; // Example stat increase
+        } else {
+            // Reset stats if Supreme Juice is not in the specified range
+            this.basicAttack.attackSpeed = 15;
+            this.basicAttack.attackPushback = 5;
+        }
+
+
         if (cursors.space.isDown) {
             // Calculate health to restore (2:1 ratio)
             const healthToRestore = this.SupremeJuice / 2;
