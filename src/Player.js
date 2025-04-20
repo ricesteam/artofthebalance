@@ -173,7 +173,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
     }
 
-    // Method to use an attack from the inventory by index (0 is the top of the stack)
+    // refactor: use each attack in the inventory ai!
     useAttack(index) {
         if (index >= 0 && index < this.inventory.length) {
             const attack = this.inventory[index];
