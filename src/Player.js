@@ -135,6 +135,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                         if (typeof otherGameObject.bounce === 'function') {
                             otherGameObject.bounce();
 
+                            // add some tween effect that scales the otherGameObject with bounce easing ai!
+
                             this.updateSupremeJuiceFromJuggling();
                         }
                     }
@@ -167,7 +169,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             }
         });
         const gain =
-            this.SupremeJuice + this.scene.juggledObjects.length + totalBounceGain;
+            this.SupremeJuice +
+            this.scene.juggledObjects.length +
+            totalBounceGain;
         this.SupremeJuice = Math.min(100, gain);
     }
 
