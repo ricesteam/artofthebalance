@@ -46,7 +46,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         // Create a constraint to keep the head sensor attached to the player's body
         this.scene.matter.add.constraint(this.body, this.headSensor, 0, 1, {
-            pointA: { x: 0, y: -50 }, // Position relative to the player's body center
+            pointA: { x: 0, y: -30 }, // Position relative to the player's body center
             pointB: { x: 0, y: 0 }, // Position relative to the head sensor's center,
             damping: 0,
             angularStiffness: 0,
@@ -107,6 +107,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
             if (bodyA === this.headSensor || bodyB === this.headSensor) {
                 const otherBody = bodyA === this.headSensor ? bodyB : bodyA;
+
+                // check if otherBody is not the player ai!
                 const otherGameObject = otherBody.gameObject;
 
                 // Add the object to the juggledObjects array if it's not already there
