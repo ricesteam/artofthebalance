@@ -155,28 +155,25 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         });
     }
 
-    // Method to add an attack to the inventory
+    // Method to add an attack to the inventory (push onto the stack)
     addAttack(attack) {
         this.inventory.push(attack);
         console.log('Attack added to inventory:', attack.name);
     }
 
-    // refactor: since inventory is now a stack, pop the top off ai!
-    removeAttack(index) {
-        if (index >= 0 && index < this.inventory.length) {
-            const removedAttack = this.inventory.splice(index, 1)[0];
-            if (removedAttack) {
-                console.log(
-                    'Attack removed from inventory:',
-                    removedAttack.name
-                );
-            }
+    // Method to remove an attack from the inventory (pop from the stack)
+    removeAttack() {
+        if (this.inventory.length > 0) {
+            const removedAttack = this.inventory.pop();
+            console.log('Attack removed from inventory:', removedAttack.name);
+            return removedAttack;
         } else {
-            console.log('Invalid inventory slot index:', index);
+            console.log('Inventory is empty. Cannot remove attack.');
+            return null;
         }
     }
 
-    // Method to use an attack from the inventory by index (0 or 1)
+    // Method to use an attack from the inventory by index (0 is the top of the stack)
     useAttack(index) {
         if (index >= 0 && index < this.inventory.length) {
             const attack = this.inventory[index];
