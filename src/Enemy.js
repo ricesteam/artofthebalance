@@ -282,6 +282,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     bounce() {
         if (!this.active || !this.canBeJuggled) return;
         this.bounceCount++;
+
         if (this.bounceCount >= this.scene.juggleThreshold) {
             this.canBeJuggled = false;
             this.scene.time.delayedCall(Phaser.Math.Between(1000, 3000), () => {

@@ -109,7 +109,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 const otherBody = bodyA === this.headSensor ? bodyB : bodyA;
                 if (otherBody !== this.body) {
                     const otherGameObject = otherBody.gameObject;
-                    if (otherGameObject) {
+                    if (otherGameObject && otherGameObject.active) {
                         // Add the object to the juggledObjects array if it's not already there
                         if (
                             !this.scene.juggledObjects.includes(otherGameObject)
@@ -134,17 +134,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
                         if (typeof otherGameObject.bounce === 'function') {
                             otherGameObject.bounce();
-
-                            // add some tween effect that scales the otherGameObject with bounce easing
-                            this.scene.tweens.add({
-                                targets: otherGameObject,
-                                scaleX: '*=1.2', // Scale up by 10%
-                                scaleY: '*=1.2', // Scale up by 10%
-                                duration: 100, // Duration of the scale effect
-                                yoyo: true, // Scale back down
-                                ease: 'Bounce.easeOut', // Use bounce easing
-                            });
-
                             this.updateSupremeJuiceFromJuggling();
                         }
                     }
