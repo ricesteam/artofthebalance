@@ -357,6 +357,7 @@ export class GameScene extends Scene {
             }
         });
 
+        // the player should not lose what was previously gained ai!
         // Update Juggle Meter
         let totalJuggleValue = 0;
         this.juggledObjects.forEach((obj) => {
