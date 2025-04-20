@@ -65,13 +65,16 @@ export class BasicAttack {
                 attackArea.victims.push(otherBody); // Add to attackArea's victims
 
                 // pushback the otherBody in the direction the player is facing
-                const pushbackDirection = player.playerDirection;
-                const pushbackForce = {
-                    x: this.attackPushback * pushbackDirection,
-                    y: 0, // Apply force horizontally
-                };
-                otherGameObject.applyForce(pushbackForce);
+                const direction = this.scene.player.playerDirection;
+                const pushbackDirection = new Phaser.Math.Vector2(direction, 0);
+                pushbackDirection.rotate(this.scene.platform.rotation);
+                pushbackDirection.scale(this.attackPushback);
 
+                // use setVelocity as you previously mentioned
+                otherGameObject.setVelocity(
+                    pushbackDirection.x,
+                    pushbackDirection.y
+                );
 
                 // Check if the other object is an enemy
                 if (typeof otherGameObject.takeDamage === 'function') {

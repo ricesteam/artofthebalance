@@ -12,15 +12,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.acceleration = 0.002;
         this.maxSpeed = 3;
         this.minSlideSpeed = 1;
-        //this.airFriction = 0.0001;
         this.playerDirection = 1;
-        this.attackSpeed = 15;
-        this.attackRadius = 15;
-        this.attackCooldown = 300;
-        this.isAttacking = false;
-        this.lastAttackTime = 0;
         this.isGrounded = false; // Track if the player is on the ground
-        this.jumpForce = -0.012; // Upward jump force
         this.hp = 100;
         this.SupremeJuice = 0; // New stat: Supreme Juice
 
@@ -107,32 +100,37 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
             if (bodyA === this.headSensor || bodyB === this.headSensor) {
                 const otherBody = bodyA === this.headSensor ? bodyB : bodyA;
-
                 if (otherBody !== this.body) {
                     const otherGameObject = otherBody.gameObject;
+                    if (otherGameObject) {
+                        // Add the object to the juggledObjects array if it's not already there
+                        if (
+                            !this.scene.juggledObjects.includes(otherGameObject)
+                        ) {
+                            this.scene.juggledObjects.push(otherGameObject);
+                        }
 
-                    // Add the object to the juggledObjects array if it's not already there
-                    if (!this.scene.juggledObjects.includes(otherGameObject)) {
-                        this.scene.juggledObjects.push(otherGameObject);
-                    }
+                        // lets mix in the player's velocity
+                        const bounceVelocityX =
+                            this.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
+                            this.playerDirection *
+                                Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
+                        const bounceVelocityY = Phaser.Math.FloatBetween(
+                            -5,
+                            -8
+                        ); // Randomize vertical bounce
+                        otherGameObject.setVelocity(
+                            bounceVelocityX,
+                            bounceVelocityY
+                        );
 
-                    // lets mix in the player's velocity
-                    const bounceVelocityX =
-                        this.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
-                        this.playerDirection *
-                            Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
-                    const bounceVelocityY = Phaser.Math.FloatBetween(-5, -8); // Randomize vertical bounce
-                    otherGameObject.setVelocity(
-                        bounceVelocityX,
-                        bounceVelocityY
-                    );
-
-                    if (typeof otherGameObject.bounce === 'function') {
-                        otherGameObject.bounce();
-                        const gain =
-                            this.SupremeJuice +
-                            1 * this.scene.juggledObjects.length;
-                        this.SupremeJuice = Math.min(100, gain);
+                        if (typeof otherGameObject.bounce === 'function') {
+                            otherGameObject.bounce();
+                            const gain =
+                                this.SupremeJuice +
+                                1 * this.scene.juggledObjects.length;
+                            this.SupremeJuice = Math.min(100, gain);
+                        }
                     }
                 }
             }
@@ -212,90 +210,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
     }
 
-    attack() {
-        if (
-            this.isAttacking ||
-            this.scene.time.now - this.lastAttackTime < this.attackCooldown
-        ) {
-            return;
-        }
-
-        this.isAttacking = true;
-        this.lastAttackTime = this.scene.time.now;
-
-        // Get the platform's angle in radians
-        const platformAngle = this.scene.platform.rotation;
-
-        // Initial position: player's center
-        const attackX = this.body.position.x;
-        const attackY = this.body.position.y;
-
-        // Create the attack area as a circle
-        const attackArea = this.scene.matter.add.circle(
-            attackX,
-            attackY,
-            this.attackRadius,
-            {
-                label: 'attack1',
-                collisionFilter: {
-                    category: this.scene.CATEGORY_ATTACK,
-                    mask: this.scene.CATEGORY_BLOCK | this.scene.CATEGORY_ENEMY,
-                },
-            }
-        );
-
-        // Create a victims array specifically for this attackArea
-        attackArea.victims = [];
-        attackArea.maxCapacity = this.maxCapacity; // Also attach maxCapacity
-
-        // Add collision handling specifically for this attack area
-        attackArea.onCollideCallback = (pair) => {
-            const { bodyA, bodyB } = pair;
-
-            // Determine which body is the other object
-            let otherBody = bodyA === attackArea ? bodyB : bodyA;
-            let otherGameObject = otherBody.gameObject;
-
-            // Check if the other object is already a victim or if we've reached max capacity
-            if (
-                otherGameObject &&
-                attackArea.victims.length < attackArea.maxCapacity && // Use attackArea's victims and maxCapacity
-                !attackArea.victims.includes(otherBody)
-            ) {
-                attackArea.victims.push(otherBody); // Add to attackArea's victims
-
-                // Check if the other object is an enemy
-                if (typeof otherGameObject.takeDamage === 'function') {
-                    otherGameObject.takeDamage(1);
-                }
-            }
-        };
-
-        // Calculate velocity based on player direction and attack speed
-        let velocityX = this.attackSpeed * this.playerDirection;
-        let velocityY = 0;
-
-        // Rotate the velocity vector by the platform angle
-        const rotatedVelocity = Phaser.Math.RotateAround(
-            { x: velocityX, y: velocityY },
-            0,
-            0,
-            platformAngle
-        );
-
-        velocityX = rotatedVelocity.x;
-        velocityY = rotatedVelocity.y;
-
-        // Apply the velocity to the attack area
-        this.scene.matter.setVelocity(attackArea, velocityX, velocityY);
-
-        // Destroy the attack area after a short delay
-        this.scene.time.delayedCall(50, () => {
-            this.scene.matter.world.remove(attackArea);
-            // The victims array attached to attackArea will be garbage collected with attackArea
-        });
-    }
-
     update(cursors) {
         // Player movement
         if (cursors.left.isDown) {
@@ -313,8 +227,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
 
         if (cursors.space.isDown) {
-            // Calculate health to restore (4:1 ratio)
-            const healthToRestore = this.SupremeJuice / 4;
+            // Calculate health to restore (2:1 ratio)
+            const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore); // Restore health, capped at 100
 
             // Consume all Supreme Juice when spacebar is pressed
