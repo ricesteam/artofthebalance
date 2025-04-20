@@ -73,9 +73,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.inventory = []; // Array to hold attacks (stack)
 
-        // basicAttack is the default attack. Do not add it to the inventory for it will get removed by accident ai!
         this.basicAttack = new BasicAttack(scene);
-        this.addAttack(this.basicAttack);
+        // basicAttack is the default attack. Do not add it to the inventory for it will get removed by accident
 
         this.bombAttackDuration = 10000;
         this.bombAttack = new BombAttack(scene);
@@ -194,7 +193,12 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
     // Method to use each attack in the inventory
     useAttack() {
-        this.inventory.forEach((attack) => {
+        // Always use the basic attack first
+        this.basicAttack.use(this);
+
+        // Then iterate through the rest of the inventory
+        for (let i = 0; i < this.inventory.length; i++) {
+            const attack = this.inventory[i];
             if (attack) {
                 // Check if the attack has a cooldown and if it's ready
                 if (attack.lastUsedTime === undefined) {
@@ -211,7 +215,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     // console.log(attack.name, 'is on cooldown.'); // Optional: log cooldown
                 }
             }
-        });
+        }
     }
 
     update(cursors) {
