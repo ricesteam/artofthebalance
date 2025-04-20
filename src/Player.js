@@ -70,7 +70,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
-        // Simple inventory for slottable attacks
+        // refactor: no more limitation and let's treat it as a stack ai!
         this.inventory = [null, null]; // Array to hold up to 2 attack objects
 
         this.basicAttack = new BasicAttack(scene);
