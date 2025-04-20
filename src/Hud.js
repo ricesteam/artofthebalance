@@ -129,9 +129,11 @@ export class Hud extends Phaser.GameObjects.Container {
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
         const currentBarHeight = this.SupremeJuiceBarHeight * meterPercentage;
 
-        // when it's above 75%, barcolor should be blue ai!
+        // when it's above 75%, barcolor should be blue
         let barColor;
-        if (this.player.SupremeJuice >= 50) {
+        if (this.player.SupremeJuice >= 75) {
+            barColor = 0x0000ff; // Blue
+        } else if (this.player.SupremeJuice >= 50) {
             barColor = 0xffff00; // Yellow
         } else if (this.player.SupremeJuice >= 25) {
             barColor = 0x00ff00; // Green
