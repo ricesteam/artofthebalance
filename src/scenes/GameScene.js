@@ -120,7 +120,7 @@ export class GameScene extends Scene {
         // Create the player
         this.player = new Player(this, width / 2, 100);
 
-        // Add the basic attack to the player's inventory
+        // create the BasicAttack in the Player class ai!
         this.player.addAttack(new BasicAttack(this));
 
         this.spawnPlayer(); // Initial player spawn
