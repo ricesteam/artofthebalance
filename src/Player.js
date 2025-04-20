@@ -10,7 +10,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.scene = scene;
         this.world = scene.matter.world;
         this.playerMass = 0.5;
-        this.acceleration = 0.001;
+        this.acceleration = 0.002;
         this.maxSpeed = 3;
         this.minSlideSpeed = 1;
         //this.airFriction = 0.0001;
@@ -37,6 +37,27 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.attackArea = null;
 
         this.anims.play('stand');
+
+        // change this to a circle ai!
+        this.headSensor = this.scene.matter.add.rectangle(
+            this.x,
+            this.y,
+            10,
+            10,
+            {
+                isSensor: true,
+                ignoreGravity: true,
+                label: 'headSensor',
+            }
+        );
+
+        // Create a constraint to keep the head sensor attached to the player's body
+        this.scene.matter.add.constraint(this.body, this.headSensor, 0, 1, {
+            pointA: { x: 0, y: -50 }, // Position relative to the player's body center
+            pointB: { x: 0, y: 0 }, // Position relative to the head sensor's center,
+            damping: 0,
+            angularStiffness: 0,
+        });
 
         // Listen for collision events to determine if the player is on the ground
         this.scene.matter.world.on(
@@ -80,14 +101,36 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
     handleCollision(event) {
         event.pairs.forEach((pair) => {
+            const { bodyA, bodyB } = pair;
             if (
-                (pair.bodyA === this.body || pair.bodyB === this.body) &&
-                (pair.bodyA.collisionFilter.category ===
+                (bodyA === this.body || bodyB === this.body) &&
+                (bodyA.collisionFilter.category ===
                     this.scene.CATEGORY_PLATFORM ||
-                    pair.bodyB.collisionFilter.category ===
+                    bodyB.collisionFilter.category ===
                         this.scene.CATEGORY_PLATFORM)
             ) {
                 this.isGrounded = true;
+            }
+
+            if (bodyA === this.headSensor || bodyB === this.headSensor) {
+                const otherBody = bodyA === this.headSensor ? bodyB : bodyA;
+                const otherGameObject = otherBody.gameObject;
+
+                // Add the object to the juggledObjects array if it's not already there
+                if (!this.scene.juggledObjects.includes(otherGameObject)) {
+                    this.scene.juggledObjects.push(otherGameObject);
+                }
+
+                // lets mix in the player's velocity
+                const bounceVelocityX =
+                    this.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
+                    this.playerDirection * Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
+                const bounceVelocityY = Phaser.Math.FloatBetween(-4, -6); // Randomize vertical bounce
+                otherGameObject.setVelocity(bounceVelocityX, bounceVelocityY);
+
+                if (typeof otherGameObject.bounce === 'function') {
+                    otherGameObject.bounce();
+                }
             }
         });
     }
