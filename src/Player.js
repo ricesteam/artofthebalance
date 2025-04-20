@@ -70,8 +70,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
-        // refactor: no more limitation and let's treat it as a stack ai!
-        this.inventory = [null, null]; // Array to hold up to 2 attack objects
+        this.inventory = []; // Array to hold attacks (stack)
 
         this.basicAttack = new BasicAttack(scene);
         this.addAttack(this.basicAttack);
@@ -158,30 +157,19 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
     // Method to add an attack to the inventory
     addAttack(attack) {
-        if (this.inventory[0] === null) {
-            this.inventory[0] = attack;
-            console.log('Attack added to slot 1:', attack.name);
-        } else if (this.inventory[1] === null) {
-            this.inventory[1] = attack;
-            console.log('Attack added to slot 2:', attack.name);
-        } else {
-            console.log('Inventory is full. Cannot add', attack.name);
-        }
+        this.inventory.push(attack);
+        console.log('Attack added to inventory:', attack.name);
     }
 
     // Method to remove an attack from the inventory by index (0 or 1)
     removeAttack(index) {
         if (index >= 0 && index < this.inventory.length) {
-            const removedAttack = this.inventory[index];
+            const removedAttack = this.inventory.splice(index, 1)[0];
             if (removedAttack) {
-                this.inventory[index] = null;
                 console.log(
-                    'Attack removed from slot',
-                    index + 1 + ':',
+                    'Attack removed from inventory:',
                     removedAttack.name
                 );
-            } else {
-                console.log('Slot', index + 1, 'is already empty.');
             }
         } else {
             console.log('Invalid inventory slot index:', index);
