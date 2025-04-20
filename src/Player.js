@@ -178,10 +178,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         console.log('Attack added to inventory:', attack.name);
     }
 
-    // refactor: treat this.inventory as a fifo queue, protecting index 0 ai!
+    // refactor: treat this.inventory as a fifo queue, protecting index 0
     removeAttack() {
         if (this.inventory.length > 1) {
-            const removedAttack = this.inventory.pop();
+            // Use shift() to remove from the beginning (FIFO)
+            const removedAttack = this.inventory.shift();
             console.log('Attack removed from inventory:', removedAttack.name);
             return removedAttack;
         } else {

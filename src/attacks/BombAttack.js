@@ -18,11 +18,16 @@ export class BombAttack {
 
         this.lastUsedTime = this.scene.time.now;
 
-        // Create a new Bomb instance at a random position near the player ai!
+        // Create a new Bomb instance at a random position near the player
+        const randomOffsetX = Phaser.Math.FloatBetween(-50, 50); // Adjust range as needed
+        const randomOffsetY = Phaser.Math.FloatBetween(-50, 50); // Adjust range as needed
+        const bombX = player.x + randomOffsetX;
+        const bombY = player.y + randomOffsetY;
+
         const bomb = new Bomb(
             this.scene,
-            player.x,
-            player.y,
+            bombX,
+            bombY,
             this.bombDelay,
             this.explosionRadius
         );
