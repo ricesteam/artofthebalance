@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { Head } from './Head';
 
 export class Blackhole extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -31,6 +32,12 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             [],
             this
         );
+
+        //add a tween that rotates this head ai!
+        this.head = new Head(scene, x, y - 20);
+        this.head.setScale(0.2);
+        this.head.tween.pause();
+        this.head.baldImage.setFrame(0);
     }
 
     destroyBlackhole() {
@@ -55,6 +62,9 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
 
         const id = this.scene.blackholes.indexOf(this);
         this.scene.blackholes.splice(id, 1);
+
+        this.head.destroy();
+
         super.destroy();
     }
 
