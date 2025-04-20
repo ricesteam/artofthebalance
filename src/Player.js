@@ -161,14 +161,14 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         console.log('Attack added to inventory:', attack.name);
     }
 
-    // Let's protect index 0 which contains the default attack ai!
+    // Method to remove an attack from the inventory (pop from the stack), protecting index 0
     removeAttack() {
-        if (this.inventory.length > 0) {
+        if (this.inventory.length > 1) {
             const removedAttack = this.inventory.pop();
             console.log('Attack removed from inventory:', removedAttack.name);
             return removedAttack;
         } else {
-            console.log('Inventory is empty. Cannot remove attack.');
+            console.log('Cannot remove the default attack.');
             return null;
         }
     }
