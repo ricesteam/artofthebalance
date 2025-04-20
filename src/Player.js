@@ -135,23 +135,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                         if (typeof otherGameObject.bounce === 'function') {
                             otherGameObject.bounce();
 
-                            // move this to a helper method ai!
-                            let totalBounceGain = 0;
-                            this.scene.juggledObjects.forEach((obj) => {
-                                if (obj.bounceCount !== undefined) {
-                                    totalBounceGain += Math.pow(
-                                        1.01,
-                                        obj.bounceCount
-                                    );
-                                } else {
-                                    totalBounceGain += 1;
-                                }
-                            });
-                            const gain =
-                                this.SupremeJuice +
-                                this.scene.juggledObjects.length +
-                                totalBounceGain;
-                            this.SupremeJuice = Math.min(100, gain);
+                            this.updateSupremeJuiceFromJuggling();
                         }
                     }
                 }
@@ -171,6 +155,20 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 this.isGrounded = false;
             }
         });
+    }
+
+    updateSupremeJuiceFromJuggling() {
+        let totalBounceGain = 0;
+        this.scene.juggledObjects.forEach((obj) => {
+            if (obj.bounceCount !== undefined) {
+                totalBounceGain += Math.pow(1.01, obj.bounceCount);
+            } else {
+                totalBounceGain += 1;
+            }
+        });
+        const gain =
+            this.SupremeJuice + this.scene.juggledObjects.length + totalBounceGain;
+        this.SupremeJuice = Math.min(100, gain);
     }
 
     // Method to add an attack to the inventory (push onto the stack)
