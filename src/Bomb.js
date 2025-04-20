@@ -54,7 +54,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.y,
             'explosion'
         );
-        explosionSprite.setScale(this.explosionRadius / 24); // Scale based on desired radius (explosion sprite is 48x48, radius 24)
+        explosionSprite.setScale(this.explosionRadius / 32); // Scale based on desired radius (explosion sprite is 48x48, radius 24)
         explosionSprite.play('explosion');
 
         explosionSprite.on('animationcomplete', () => {
@@ -67,8 +67,9 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             speed: { min: -200, max: 200 },
             angle: { min: 0, max: 360 },
             scale: { start: 0.5, end: 0 },
+            // add some alpha ai!
             lifespan: 500,
-            gravityY: 300,
+            gravityY: 0,
             quantity: 20,
             tint: [0xa0522d, 0xffa500, 0xffff00], // use brown, yellow, and orange tints instead
             stopAfter: 100, // Stop emitting after 20 particles
