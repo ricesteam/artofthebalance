@@ -124,7 +124,7 @@ export class GameScene extends Scene {
         // Create the Hud
         this.hud = new Hud(this, this.player);
 
-        // Add the basic attack to the player's inventory
+        // refactor: move this to the Player ai!
         const basicAttack = new BasicAttack(this);
         this.player.addAttack(basicAttack);
 
@@ -358,6 +358,9 @@ export class GameScene extends Scene {
         });
 
         // Increase Supreme Juice over time
-        this.player.SupremeJuice = Math.min(100, this.player.SupremeJuice + (0.1 * delta) / 1000); // 0.1% per second
+        this.player.SupremeJuice = Math.min(
+            100,
+            this.player.SupremeJuice + (0.1 * delta) / 1000
+        ); // 0.1% per second
     }
 }
