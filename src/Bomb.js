@@ -61,6 +61,8 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             explosionSprite.destroy();
             this.destroy();
         });
+
+        // also add some particle effects to compliment the exploding animations ai!
     }
 
     update() {
