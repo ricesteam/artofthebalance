@@ -76,6 +76,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.basicAttack = new BasicAttack(scene);
         this.addAttack(this.basicAttack);
 
+        this.bombAttackDuration = 15000;
         this.bombAttack = new BombAttack(scene);
 
         // Timer for auto-attacking with the first equipped attack
@@ -177,7 +178,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         console.log('Attack added to inventory:', attack.name);
     }
 
-    // Method to remove an attack from the inventory (pop from the stack), protecting index 0
+    // refactor: treat this.inventory as a fifo queue, protecting index 0 ai!
     removeAttack() {
         if (this.inventory.length > 1) {
             const removedAttack = this.inventory.pop();
@@ -227,13 +228,14 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.anims.play('stand');
         }
 
-        if (cursors.space.isDown) {
+        if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
             // Calculate health to restore (2:1 ratio)
             const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
             if (this.SupremeJuice >= 0) {
                 this.addAttack(this.bombAttack);
+                // start a delayed call using this.bombAttackDuration
             } else if (this.SupremeJuice >= 25) {
                 this.basicAttack.attackSpeed *= 1.05; // Increase by 5%
                 this.basicAttack.attackPushback *= 1.05; // Increase by 5%
