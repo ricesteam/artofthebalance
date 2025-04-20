@@ -357,14 +357,13 @@ export class GameScene extends Scene {
             }
         });
 
-        // the player should not lose what was previously gained ai!
         // Update Juggle Meter
-        let totalJuggleValue = 0;
+        let juggleGain = 0;
         this.juggledObjects.forEach((obj) => {
             if (obj && obj.bounceCount !== undefined) {
-                totalJuggleValue += obj.bounceCount;
+                juggleGain += obj.bounceCount;
             }
         });
-        this.player.juggleMeter = Math.min(100, totalJuggleValue); // Cap at 100
+        this.player.juggleMeter = Math.min(100, this.player.juggleMeter + juggleGain); // Add to existing meter and cap at 100
     }
 }
