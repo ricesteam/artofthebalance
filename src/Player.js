@@ -130,6 +130,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     if (typeof otherGameObject.bounce === 'function') {
                         otherGameObject.bounce();
                     }
+
+                    //refactor how jugglemeter is gained. Instead of doing it in GameScene update, do it here. 1% per bounce multiplied by the number objects in juggledObjects ai!
                 }
             }
         });
