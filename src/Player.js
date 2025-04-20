@@ -108,23 +108,24 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             if (bodyA === this.headSensor || bodyB === this.headSensor) {
                 const otherBody = bodyA === this.headSensor ? bodyB : bodyA;
 
-                // check if otherBody is not the player ai!
-                const otherGameObject = otherBody.gameObject;
+                if (otherBody !== this.body) {
+                    const otherGameObject = otherBody.gameObject;
 
-                // Add the object to the juggledObjects array if it's not already there
-                if (!this.scene.juggledObjects.includes(otherGameObject)) {
-                    this.scene.juggledObjects.push(otherGameObject);
-                }
+                    // Add the object to the juggledObjects array if it's not already there
+                    if (!this.scene.juggledObjects.includes(otherGameObject)) {
+                        this.scene.juggledObjects.push(otherGameObject);
+                    }
 
-                // lets mix in the player's velocity
-                const bounceVelocityX =
-                    this.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
-                    this.playerDirection * Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
-                const bounceVelocityY = Phaser.Math.FloatBetween(-4, -6); // Randomize vertical bounce
-                otherGameObject.setVelocity(bounceVelocityX, bounceVelocityY);
+                    // lets mix in the player's velocity
+                    const bounceVelocityX =
+                        this.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
+                        this.playerDirection * Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
+                    const bounceVelocityY = Phaser.Math.FloatBetween(-4, -6); // Randomize vertical bounce
+                    otherGameObject.setVelocity(bounceVelocityX, bounceVelocityY);
 
-                if (typeof otherGameObject.bounce === 'function') {
-                    otherGameObject.bounce();
+                    if (typeof otherGameObject.bounce === 'function') {
+                        otherGameObject.bounce();
+                    }
                 }
             }
         });
@@ -234,6 +235,33 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 },
             }
         );
+
+        // Create a victims array specifically for this attackArea
+        attackArea.victims = [];
+        attackArea.maxCapacity = this.maxCapacity; // Also attach maxCapacity
+
+        // Add collision handling specifically for this attack area
+        attackArea.onCollideCallback = (pair) => {
+            const { bodyA, bodyB } = pair;
+
+            // Determine which body is the other object
+            let otherBody = bodyA === attackArea ? bodyB : bodyA;
+            let otherGameObject = otherBody.gameObject;
+
+            // Check if the other object is already a victim or if we've reached max capacity
+            if (
+                otherGameObject &&
+                attackArea.victims.length < attackArea.maxCapacity && // Use attackArea's victims and maxCapacity
+                !attackArea.victims.includes(otherBody)
+            ) {
+                attackArea.victims.push(otherBody); // Add to attackArea's victims
+
+                // Check if the other object is an enemy
+                if (typeof otherGameObject.takeDamage === 'function') {
+                    otherGameObject.takeDamage(1);
+                }
+            }
+        };
 
         // Calculate velocity based on player direction and attack speed
         let velocityX = this.attackSpeed * this.playerDirection;
