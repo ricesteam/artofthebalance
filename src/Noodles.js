@@ -38,34 +38,6 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
 
         this.bounceCount = 0; // Track how many times it has been bounced
 
-        this.glowPipeline = scene.plugins
-            .get('rexGlowFilterPipeline')
-            .add(this.body.gameObject, {
-                inintensity: 0,
-            });
-
-        this.glowTween = this.scene.tweens.add({
-            targets: this.glowPipeline,
-            intensity: {
-                getEnd: function (target, key, value) {
-                    const maxIntensity = 0.05;
-                    const intensityPerBounce = 0.005; // Adjust this value to control how much intensity increases per bounce
-                    const targetIntensity = Math.min(
-                        maxIntensity,
-                        this.bounceCount * intensityPerBounce
-                    );
-                    return targetIntensity;
-                }.bind(this), // Bind 'this' to the getEnd function to access bounceCount
-
-                getStart: function (target, key, value) {
-                    return 0;
-                },
-            },
-            duration: 1000, // Initial duration
-            repeat: -1,
-            yoyo: true,
-        });
-
         this.scene.matter.world.on(
             'collisionstart',
             this.handleCollision,
@@ -112,12 +84,6 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
 
     destroy() {
         if (!this.scene) return;
-        this.glowTween.stop();
-        this.glowTween.remove();
-        this.scene.plugins
-            .get('rexGlowFilterPipeline')
-            .remove(this.body.gameObject);
-        this.glowTween.destroy();
         super.destroy();
     }
 }
