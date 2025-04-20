@@ -238,13 +238,13 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
             if (this.SupremeJuice >= 0) {
                 this.addAttack(this.bombAttack);
-                // start a delayed call using this.bombAttackDuration, when time is up, removeAttack
                 this.scene.time.delayedCall(
                     this.bombAttackDuration,
                     this.removeAttack,
                     [],
                     this
                 );
+                // increase this.bombAttack explosion radius by 5% ai!
             } else if (this.SupremeJuice >= 25) {
                 this.basicAttack.attackSpeed *= 1.05; // Increase by 5%
                 this.basicAttack.attackPushback *= 1.05; // Increase by 5%
