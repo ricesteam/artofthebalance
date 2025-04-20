@@ -351,7 +351,10 @@ export class GameScene extends Scene {
             if (block.y > this.scale.height + 200) {
                 this.matter.world.remove(block); // Remove from Matter world
                 this.blocks.splice(index, 1); // Remove from the blocks array
-                this.juggledObjects.remove(block);
+
+                const id = this.juggledObjects.indexOf(block);
+                this.juggledObjects.splice(id, 1);
+
                 block.destroy(); // Destroy the block
             }
         });

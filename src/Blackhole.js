@@ -35,15 +35,15 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             this
         );
         this.postFxPlugin = this.scene.plugins.get('rexSwirlPipeline');
-        this.cameraFilter = this.postFxPlugin.add(this.body.gameObject);
+        const cameraFilter = this.postFxPlugin.add(this.body.gameObject);
 
         // make this continuous
-        this.cameraFilter.angle = 0;
-        this.cameraFilter.radius = 0;
-        this.cameraFilter.setCenter(x, y);
+        cameraFilter.angle = 0;
+        cameraFilter.radius = 0;
+        cameraFilter.setCenter(x, y);
 
         this.swirlTween = this.scene.tweens.add({
-            targets: this.cameraFilter,
+            targets: cameraFilter,
             angle: 360, // Rotate 360 degrees
             radius: this.blackholeRadius * 2,
             duration: this.timeAlive, // Duration of the swirl effect

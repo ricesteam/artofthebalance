@@ -34,15 +34,10 @@ export class Spawner {
     addBlock() {
         let x = this.spawnArea.x + Math.random() * this.spawnArea.width; // Random X position within spawn area
         let y = this.spawnArea.y;
-        const randomNumber = Math.random();
         let block;
 
-        //if (randomNumber < 0.5) {
-        //    block = new Junk(this.scene, x, y);
-        //} else {
         block = new Noodles(this.scene, x, y);
-        //}
-        //this.scene.blocks.push(block);
+        this.scene.blocks.push(block);
     }
 
     addEnemy() {

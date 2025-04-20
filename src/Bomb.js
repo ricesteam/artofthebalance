@@ -56,6 +56,19 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
                 powBaseScale: 0.8,
                 // powExponent: 0.1,
             });
+
+        this.postFxPlugin = scene.plugins.get('rexGlowFilterPipeline');
+        const glowFx = this.postFxPlugin.add(this.body.gameObject, {
+            inintensity: 0,
+        });
+
+        this.glowTween = this.scene.tweens.add({
+            targets: glowFx,
+            intensity: 0.02,
+            duration: this.delay / 5,
+            repeat: -1,
+            yoyo: true,
+        });
     }
 
     explode() {
@@ -134,6 +147,15 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
         this.constraints.forEach((constraint) => {
             this.matter.world.removeConstraint(constraint);
         });
+
+        this.glowTween.stop();
+        this.glowTween.destroy();
+        this.scene.tweens.killTweensOf(this.glowTween);
+        this.glowTween = null;
+
+        this.postFxPlugin.remove(this.body.gameObject);
+        this.postFxPlugin.stop();
+        this.postFxPlugin.destroy();
 
         super.destroy();
     }

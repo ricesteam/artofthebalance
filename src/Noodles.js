@@ -37,17 +37,31 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
-        this.body.gameObject.postFX.setPadding(32);
-        this.glowFx = this.body.gameObject.postFX.addGlow();
-        this.glowFx.outerStrength = 0;
-        this.glowFx.color = 0xf9c22b;
+        this.postFxPlugin = scene.plugins.get('rexGlowFilterPipeline');
+        const glowFx = this.postFxPlugin.add(this.body.gameObject, {
+            inintensity: 0,
+        });
+
         this.glowTween = this.scene.tweens.add({
-            targets: this.glowFx,
-            outerStrength: 5,
+            targets: glowFx,
+            intensity: {
+                getEnd: function (target, key, value) {
+                    const maxIntensity = 0.05;
+                    const intensityPerBounce = 0.005; // Adjust this value to control how much intensity increases per bounce
+                    const targetIntensity = Math.min(
+                        maxIntensity,
+                        this.bounceCount * intensityPerBounce
+                    );
+                    return targetIntensity;
+                }.bind(this), // Bind 'this' to the getEnd function to access bounceCount
+
+                getStart: function (target, key, value) {
+                    return 0;
+                },
+            },
+            duration: 1000, // Initial duration
+            repeat: -1,
             yoyo: true,
-            loop: -1,
-            ease: 'sine.inout',
-            paused: true,
         });
 
         this.bounceCount = 0; // Track how many times it has been bounced
@@ -103,10 +117,12 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         this.glowTween.stop();
         this.glowTween.destroy();
         this.scene.tweens.killTweensOf(this.glowTween);
-
         this.glowTween = null;
 
-        this.body.gameObject.postFX.remove(this.glowFx);
+        this.postFxPlugin.remove(this.body.gameObject);
+        this.postFxPlugin.stop();
+        this.postFxPlugin.destroy();
+
         super.destroy();
     }
 }
