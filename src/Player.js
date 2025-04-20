@@ -211,21 +211,16 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.anims.play('stand');
         }
 
-        // if supremejuice is greater than 25% and < 50%, increase the stats of the this.basicAttack
-        if (this.SupremeJuice >= 25 && this.SupremeJuice < 50) {
-            this.basicAttack.attackSpeed = 15 * 1.05; // Increase by 5%
-            this.basicAttack.attackPushback = 5 * 1.05; // Increase by 5%
-        } else {
-            // Reset stats if Supreme Juice is not in the specified range
-            this.basicAttack.attackSpeed = 15;
-            this.basicAttack.attackPushback = 5;
-        }
-
-
         if (cursors.space.isDown) {
             // Calculate health to restore (2:1 ratio)
             const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore);
+
+            if (this.SupremeJuice >= 25 && this.SupremeJuice < 50) {
+                // this seems static. I want it the upgrades linearly progressive ai!
+                this.basicAttack.attackSpeed = 15 * 1.05; // Increase by 5%
+                this.basicAttack.attackPushback = 5 * 1.05; // Increase by 5%
+            }
 
             // Consume all Supreme Juice when spacebar is pressed
             this.SupremeJuice = 0;
