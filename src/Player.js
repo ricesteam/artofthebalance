@@ -38,18 +38,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.anims.play('stand');
 
-        // change this to a circle ai!
-        this.headSensor = this.scene.matter.add.rectangle(
-            this.x,
-            this.y,
-            10,
-            10,
-            {
-                isSensor: true,
-                ignoreGravity: true,
-                label: 'headSensor',
-            }
-        );
+        this.headSensor = this.scene.matter.add.circle(this.x, this.y, 10, {
+            isSensor: true,
+            ignoreGravity: true,
+            label: 'headSensor',
+        });
 
         // Create a constraint to keep the head sensor attached to the player's body
         this.scene.matter.add.constraint(this.body, this.headSensor, 0, 1, {
@@ -227,7 +220,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         const attackY = this.body.position.y;
 
         // Create the attack area as a circle
-        this.attackArea = this.scene.matter.add.circle(
+        const attackArea = this.scene.matter.add.circle(
             attackX,
             attackY,
             this.attackRadius,
@@ -256,13 +249,12 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         velocityY = rotatedVelocity.y;
 
         // Apply the velocity to the attack area
-        this.scene.matter.setVelocity(this.attackArea, velocityX, velocityY);
+        this.scene.matter.setVelocity(attackArea, velocityX, velocityY);
 
         // Destroy the attack area after a short delay
         this.scene.time.delayedCall(50, () => {
-            this.scene.matter.world.remove(this.attackArea);
-            this.attackArea = null;
-            this.isAttacking = false;
+            this.scene.matter.world.remove(attackArea);
+            // The victims array attached to attackArea will be garbage collected with attackArea
         });
     }
 
