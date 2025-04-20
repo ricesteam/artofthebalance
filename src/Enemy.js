@@ -65,35 +65,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
         this.bounceCount = 0; // Track how many times it has been bounced
 
-        // i think this is causing performance issues, refactor and remove it from everywhere I'm usin git ai!
-        this.glowPipeline = scene.plugins
-            .get('rexGlowFilterPipeline')
-            .add(this.body.gameObject, {
-                inintensity: 0,
-            });
-
-        this.glowTween = this.scene.tweens.add({
-            targets: this.glowPipeline,
-            intensity: {
-                getEnd: function (target, key, value) {
-                    const maxIntensity = 0.05;
-                    const intensityPerBounce = 0.005; // Adjust this value to control how much intensity increases per bounce
-                    const targetIntensity = Math.min(
-                        maxIntensity,
-                        this.bounceCount * intensityPerBounce
-                    );
-                    return targetIntensity;
-                }.bind(this), // Bind 'this' to the getEnd function to access bounceCount
-
-                getStart: function (target, key, value) {
-                    return 0;
-                },
-            },
-            duration: 400, // Initial duration
-            repeat: -1,
-            yoyo: true,
-        });
-
         // Find the player
         this.findPlayer();
 
@@ -251,16 +222,12 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             stopAfter: 100,
         });
 
-        this.glowTween.stop();
-        this.glowTween.remove();
-        this.scene.plugins
-            .get('rexGlowFilterPipeline')
-            .remove(this.body.gameObject);
-        this.glowTween.destroy();
-
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
-        this.scene.juggledObjects.splice(id, 1);
+        const juggledIndex = this.scene.juggledObjects.indexOf(this);
+        if (juggledIndex > -1) {
+            this.scene.juggledObjects.splice(juggledIndex, 1);
+        }
         super.destroy();
     }
 
