@@ -37,7 +37,18 @@ export class Hud extends Phaser.GameObjects.Container {
         this.hpText.setScrollFactor(0);
         this.add(this.hpText);
 
+        // Add text for juggling count
+        this.juggleText = this.scene.add.text(this.barX, this.barY + this.barHeight + 10, `Juggling: 0`, {
+            fontSize: '18px',
+            fill: '#ffffff',
+            fontFamily: 'retro'
+        });
+        this.juggleText.setScrollFactor(0);
+        this.add(this.juggleText);
+
+
         this.updateHealthBar();
+        this.updateJuggleCount();
     }
 
     updateHealthBar() {
@@ -54,8 +65,15 @@ export class Hud extends Phaser.GameObjects.Container {
         this.hpText.setText(`${this.player.hp}`);
     }
 
+    updateJuggleCount() {
+        // Update the juggling count text
+        this.juggleText.setText(`Juggling: ${this.scene.juggledObjects.length}`);
+    }
+
     update() {
         // Update the health bar display
         this.updateHealthBar();
+        // Update the juggling count display
+        this.updateJuggleCount();
     }
 }
