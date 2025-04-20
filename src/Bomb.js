@@ -3,9 +3,17 @@ import { Explosion } from './Explosion'; // Import the new Explosion class
 
 export class Bomb extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y, delay = 250, explosionRadius = 64) {
-        super(scene.matter.world, x, y, 'explosion', 0, {
+        super(scene.matter.world, x, y, 'meatbomb', 0, {
             //isSensor: true,
             //isStatic: true,
+            shape: {
+                type: 'circle',
+                radius: 16,
+                // maxSides: 25
+            },
+            friction: 0.1,
+            frictionStatic: 0.5,
+            frictionAir: 0.01,
             collisionFilter: {
                 mask: scene.CATEGORY_PLATFORM,
             },
@@ -14,6 +22,9 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
         this.world = scene.matter.world;
         this.matter = scene.matter;
         scene.add.existing(this);
+
+        this.setMass(2);
+        this.setBounce(1);
 
         this.explosionRadius = explosionRadius ?? 64; // Radius of the explosion
         this.delay = delay ?? 250;
@@ -27,6 +38,8 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
     explode() {
         if (!this.scene) return;
 
+        this.visible = false;
+
         // Create a new Explosion instance
         const explosion = new Explosion(
             this.scene,
@@ -35,7 +48,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.explosionRadius
         );
 
-        // Create a graphic for the explosion (e.g., a circle)
+        // refactor: use the sprite animation, explosion instead of this tween effect ai!
         this.explosionGraphic = this.scene.add.graphics();
         this.explosionGraphic.fillStyle(0xff6600, 0.8); // Orange color
         this.explosionGraphic.fillCircle(0, 0, this.explosionRadius); // Circle at the center of the sprite
