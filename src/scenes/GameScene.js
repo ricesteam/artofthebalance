@@ -357,7 +357,7 @@ export class GameScene extends Scene {
             }
         });
 
-        // Increase juggle meter over time
-        this.player.juggleMeter = Math.min(100, this.player.juggleMeter + (0.1 * delta) / 1000); // 0.1% per second
+        // Increase Supreme Juice over time
+        this.player.SupremeJuice = Math.min(100, this.player.SupremeJuice + (0.1 * delta) / 1000); // 0.1% per second
     }
 }

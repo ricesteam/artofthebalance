@@ -22,7 +22,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.isGrounded = false; // Track if the player is on the ground
         this.jumpForce = -0.012; // Upward jump force
         this.hp = 100;
-        this.juggleMeter = 0; // New stat: Juggle Meter
+        this.SupremeJuice = 0; // New stat: Supreme Juice
 
         this.setRectangle(16, 32);
         this.setMass(1);
@@ -130,9 +130,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     if (typeof otherGameObject.bounce === 'function') {
                         otherGameObject.bounce();
                         const gain =
-                            this.juggleMeter +
+                            this.SupremeJuice +
                             1 * this.scene.juggledObjects.length;
-                        this.juggleMeter = Math.min(100, gain);
+                        this.SupremeJuice = Math.min(100, gain);
                     }
                 }
             }
