@@ -119,14 +119,14 @@ export class GameScene extends Scene {
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
+
+        // Add the basic attack to the player's inventory
+        this.player.addAttack(new BasicAttack(this));
+
         this.spawnPlayer(); // Initial player spawn
 
         // Create the Hud
         this.hud = new Hud(this, this.player);
-
-        // refactor: move this to the Player ai!
-        const basicAttack = new BasicAttack(this);
-        this.player.addAttack(basicAttack);
 
         // Input keys
         this.cursors = this.input.keyboard.createCursorKeys();
