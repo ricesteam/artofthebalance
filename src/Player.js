@@ -72,6 +72,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         // Simple inventory for slottable attacks
         this.inventory = [null, null]; // Array to hold up to 2 attack objects
 
+        // Instantiate BasicAttack and add it to the inventory ai!
+
         // Timer for auto-attacking with the first equipped attack
         this.autoAttackTimer = this.scene.time.addEvent({
             delay: 500, // Adjust the delay as needed (e.g., 500ms for 2 attacks per second)
