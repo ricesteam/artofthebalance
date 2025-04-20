@@ -135,6 +135,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                         if (typeof otherGameObject.bounce === 'function') {
                             otherGameObject.bounce();
 
+                            // move this to a helper method ai!
                             let totalBounceGain = 0;
                             this.scene.juggledObjects.forEach((obj) => {
                                 if (obj.bounceCount !== undefined) {
