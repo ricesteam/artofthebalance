@@ -244,7 +244,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     [],
                     this
                 );
-                // increase this.bombAttack explosion radius by 5% ai!
+                // increase this.bombAttack explosion radius by 5%
+                this.bombAttack.explosionRadius *= 1.05;
             } else if (this.SupremeJuice >= 25) {
                 this.basicAttack.attackSpeed *= 1.05; // Increase by 5%
                 this.basicAttack.attackPushback *= 1.05; // Increase by 5%
