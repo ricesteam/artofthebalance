@@ -250,6 +250,13 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             stopAfter: 100,
         });
 
+        this.glowTween.stop();
+        this.glowTween.remove();
+        this.scene.plugins
+            .get('rexGlowFilterPipeline')
+            .remove(this.body.gameObject);
+        this.glowTween.destroy();
+
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
         this.scene.juggledObjects.splice(id, 1);

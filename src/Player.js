@@ -107,7 +107,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
             if (bodyA === this.headSensor || bodyB === this.headSensor) {
                 const otherBody = bodyA === this.headSensor ? bodyB : bodyA;
-                if (otherBody !== this.body) {
+                if (otherBody !== this.body && !otherBody.isSensor) {
                     const otherGameObject = otherBody.gameObject;
                     if (otherGameObject && otherGameObject.active) {
                         // Add the object to the juggledObjects array if it's not already there

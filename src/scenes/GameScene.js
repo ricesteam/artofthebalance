@@ -138,9 +138,9 @@ export class GameScene extends Scene {
 
         // Create blackhole where I click
         this.input.on('pointerdown', (pointer) => {
-            //const blackhole = new Blackhole(this, pointer.x, pointer.y);
-            //this.blackholes.push(blackhole);
-            const bomb = new Bomb(this, pointer.x, pointer.y);
+            const blackhole = new Blackhole(this, pointer.x, pointer.y);
+            this.blackholes.push(blackhole);
+            //const bomb = new Bomb(this, pointer.x, pointer.y);
         });
 
         // Restart the game on 'R' key press

@@ -132,6 +132,13 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
     destroy() {
         if (!this.scene) return;
 
+        this.glowTween.stop();
+        this.glowTween.remove();
+        this.scene.plugins
+            .get('rexGlowFilterPipeline')
+            .remove(this.body.gameObject);
+        this.glowTween.destroy();
+
         this.scene.plugins
             .get('rexShockwavePipeline')
             .remove(this.scene.cameras.main);

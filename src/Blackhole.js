@@ -37,7 +37,7 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         if (!this.scene) return;
 
         this.victims.forEach((body) => {
-            if (!body && body.gameObject === null) return;
+            if (body === null || body.gameObject === null) return;
 
             body.gameObject.setSensor(false);
             body.gameObject.setIgnoreGravity(false);

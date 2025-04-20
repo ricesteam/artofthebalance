@@ -100,7 +100,6 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
 
     bounce() {
         this.bounceCount++;
-
         this.scene.tweens.add({
             targets: this,
             scaleX: '*=1.2', // Scale up by 10%
@@ -109,5 +108,16 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             yoyo: true, // Scale back down
             ease: 'Bounce.easeOut', // Use bounce easing
         });
+    }
+
+    destroy() {
+        if (!this.scene) return;
+        this.glowTween.stop();
+        this.glowTween.remove();
+        this.scene.plugins
+            .get('rexGlowFilterPipeline')
+            .remove(this.body.gameObject);
+        this.glowTween.destroy();
+        super.destroy();
     }
 }
