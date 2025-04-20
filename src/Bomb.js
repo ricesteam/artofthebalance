@@ -112,7 +112,20 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             stopAfter: 100, // Stop emitting after 20 particles
         });
 
-        // add a tween for the shockwaveplugin ai!
+        // add a tween for the shockwaveplugin
+        this.scene.tweens.add({
+            targets: this.shockWavePlugin,
+            waveRadius: this.explosionRadius * 2, // Make the wave radius larger than the explosion
+            waveWidth: 50, // Adjust wave width as needed
+            duration: 500, // Duration of the shockwave effect
+            ease: 'Quart.easeOut',
+            onComplete: () => {
+                // Optionally remove the plugin after the tween
+                this.scene.plugins
+                    .get('rexShockwavePipeline')
+                    .remove(this.body.gameObject);
+            },
+        });
     }
 
     update() {
