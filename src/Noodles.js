@@ -36,6 +36,19 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
+        this.body.gameObject.preFX.setPadding(32);
+        this.glowFx = this.body.gameObject.preFX.addGlow();
+        this.glowFx.outerStrength = 0;
+        this.glowFx.color = 0xf9c22b;
+        this.glowTween = this.scene.tweens.add({
+            targets: this.glowFx,
+            outerStrength: 5,
+            yoyo: true,
+            loop: -1,
+            ease: 'sine.inout',
+            paused: true,
+        });
+
         this.bounceCount = 0; // Track how many times it has been bounced
 
         this.scene.matter.world.on(
@@ -72,6 +85,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
 
     bounce() {
         this.bounceCount++;
+        this.glowTween.play();
         this.scene.tweens.add({
             targets: this,
             scaleX: '*=1.2', // Scale up by 10%
@@ -84,6 +98,14 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
 
     destroy() {
         if (!this.scene) return;
+
+        this.glowTween.stop();
+        this.glowTween.destroy();
+        this.scene.tweens.killTweensOf(this.glowTween);
+
+        this.glowTween = null;
+
+        this.body.gameObject.preFX.remove(this.glowFx);
         super.destroy();
     }
 }

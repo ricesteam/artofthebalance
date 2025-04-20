@@ -63,6 +63,20 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
+        this.body.gameObject.preFX.setPadding(32);
+        this.glowFx = this.body.gameObject.preFX.addGlow();
+        this.glowFx.outerStrength = 0;
+        this.glowFx.color = 0xae2334;
+        this.glowTween = this.scene.tweens.add({
+            targets: this.glowFx,
+            outerStrength: 5,
+            yoyo: true,
+            loop: -1,
+            ease: 'sine.inout',
+            paused: true,
+            duration: 200,
+        });
+
         this.bounceCount = 0; // Track how many times it has been bounced
 
         // Find the player
@@ -228,6 +242,12 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         if (juggledIndex > -1) {
             this.scene.juggledObjects.splice(juggledIndex, 1);
         }
+
+        this.glowTween.stop();
+        this.glowTween.destroy();
+        this.scene.tweens.killTweensOf(this.glowTween);
+        this.body.gameObject.preFX.remove(this.glowFx);
+        this.glowTween = null;
         super.destroy();
     }
 
@@ -260,6 +280,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
         if (this.bounceCount >= this.scene.juggleThreshold) {
             this.canBeJuggled = false;
+            this.glowTween.play();
             this.scene.time.delayedCall(Phaser.Math.Between(1000, 3000), () => {
                 if (!this.active) return;
                 const explosion = new Explosion(

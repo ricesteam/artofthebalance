@@ -44,8 +44,6 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
-        // refactor: remove glowpipeline and its tween
-
         this.shockWavePlugin = scene.plugins
             .get('rexShockwavePipeline')
             .add(this.scene.cameras.main, {
