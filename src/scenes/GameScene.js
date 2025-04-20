@@ -289,20 +289,27 @@ export class GameScene extends Scene {
             });
         });
 
-        // refactor: only juggledObject that touches the platform is removed from the list ai!
         this.matter.world.on('collisionend', (event) => {
             event.pairs.forEach((pair) => {
                 const { bodyA, bodyB } = pair;
 
-                // Remove objects from the juggledObjects array when they are no longer colliding with the player
-                if (bodyA === this.player.body || bodyB === this.player.body) {
-                    const otherBody =
-                        bodyA === this.player.body ? bodyB : bodyA;
-                    const otherGameObject = otherBody.gameObject;
+                // Check if one of the bodies is the platform and the other is a juggled object
+                const platformBody =
+                    bodyA.collisionFilter.category ===
+                    this.CATEGORY_PLATFORM
+                        ? bodyA
+                        : bodyB.collisionFilter.category ===
+                          this.CATEGORY_PLATFORM
+                        ? bodyB
+                        : null;
 
+                const otherBody =
+                    platformBody === bodyA ? bodyB : platformBody === bodyB ? bodyA : null;
+
+                if (platformBody && otherBody) {
+                    const otherGameObject = otherBody.gameObject;
                     if (otherGameObject) {
-                        const index =
-                            this.juggledObjects.indexOf(otherGameObject);
+                        const index = this.juggledObjects.indexOf(otherGameObject);
                         if (index > -1) {
                             this.juggledObjects.splice(index, 1);
                         }
