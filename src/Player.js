@@ -313,6 +313,10 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
 
         if (cursors.space.isDown) {
+            // Calculate health to restore (4:1 ratio)
+            const healthToRestore = this.SupremeJuice / 4;
+            this.hp = Math.min(100, this.hp + healthToRestore); // Restore health, capped at 100
+
             // Consume all Supreme Juice when spacebar is pressed
             this.SupremeJuice = 0;
         }
