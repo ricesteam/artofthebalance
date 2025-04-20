@@ -39,7 +39,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         // Create a constraint to keep the head sensor attached to the player's body
         this.scene.matter.add.constraint(this.body, this.headSensor, 0, 1, {
-            pointA: { x: 0, y: -40 }, // Position relative to the player's body center
+            pointA: { x: 0, y: -35 }, // Position relative to the player's body center
             pointB: { x: 0, y: 0 }, // Position relative to the head sensor's center,
             damping: 0,
             angularStiffness: 0,
@@ -112,9 +112,10 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
                         // lets mix in the player's velocity
                         const bounceVelocityX =
-                            this.body.velocity.x * 0.5 + // Mix in player's horizontal velocity
+                            this.body.velocity.x *
+                                Phaser.Math.FloatBetween(0, 1) + // Mix in player's horizontal velocity
                             this.playerDirection *
-                                Phaser.Math.FloatBetween(0.3, 0.7); // Randomize horizontal bounce
+                                Phaser.Math.FloatBetween(0, 1); // Randomize horizontal bounce
                         const bounceVelocityY = Phaser.Math.FloatBetween(
                             -5,
                             -8
