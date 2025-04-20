@@ -38,8 +38,8 @@ export class Preloader extends Scene {
         //  Load the assets for the game - Replace with your own assets
         this.load.setPath('assets');
         this.load.image('logo', 'logo.png');
+
         // Load game assets here
-        this.load.image('block', 'block.png');
         this.load.spritesheet('player', 'trump_animations.png', {
             frameWidth: 64,
             frameHeight: 64,

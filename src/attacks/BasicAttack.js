@@ -5,7 +5,7 @@ export class BasicAttack {
         this.scene = scene;
         this.name = 'BasicAttack';
         this.attackSpeed = 15;
-        this.attackRadius = 15;
+        this.attackRadius = 20;
         this.attackPushback = 5;
         this.attackMass = 0.8;
         this.maxCapacity = 5;
