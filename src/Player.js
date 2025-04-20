@@ -130,10 +130,13 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
                         if (typeof otherGameObject.bounce === 'function') {
                             otherGameObject.bounce();
+
+                            // I need better ways to calculate gain. Given juggledObjects.length and bounceCounter of each object, what are some good forumulas to use? ai?
                             let totalBounceGain = 0;
-                            this.scene.juggledObjects.forEach(obj => {
+                            this.scene.juggledObjects.forEach((obj) => {
                                 if (obj.bounceCount !== undefined) {
-                                    totalBounceGain += 1 * (1 + obj.bounceCount * 0.05); // 5% increase per bounce
+                                    totalBounceGain +=
+                                        1 * (1 + obj.bounceCount * 0.01); // 5% increase per bounce
                                 } else {
                                     totalBounceGain += 1; // Default gain if bounceCount is not available
                                 }
