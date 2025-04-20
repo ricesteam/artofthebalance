@@ -120,9 +120,6 @@ export class GameScene extends Scene {
         // Create the player
         this.player = new Player(this, width / 2, 100);
 
-        // create the BasicAttack in the Player class ai!
-        this.player.addAttack(new BasicAttack(this));
-
         this.spawnPlayer(); // Initial player spawn
 
         // Create the Hud
