@@ -32,12 +32,12 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             [],
             this
         );
+        const postFxPlugin = this.plugins.get('rexswirlpipelineplugin');
+        this.cameraFilter = postFxPlugin.add(this.cameras.main);
 
-        //add a tween that rotates this head ai!
-        this.head = new Head(scene, x, y - 20);
-        this.head.setScale(0.2);
-        this.head.tween.pause();
-        this.head.baldImage.setFrame(0);
+        // make this continuous ai!
+        this.cameraFilter.angle += 1;
+        this.cameraFilter.radius += 5;
     }
 
     destroyBlackhole() {
@@ -62,8 +62,6 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
 
         const id = this.scene.blackholes.indexOf(this);
         this.scene.blackholes.splice(id, 1);
-
-        this.head.destroy();
 
         super.destroy();
     }
