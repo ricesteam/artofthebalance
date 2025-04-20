@@ -48,6 +48,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         ]); // Collide with blocks, player, and attack
         this.setScale(2);
         this.setRotation(0);
+        this.setDepth(2);
         this.name = 'maga';
 
         this.flipX = true;

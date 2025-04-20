@@ -16,7 +16,7 @@ export class Head extends Phaser.GameObjects.Container {
         this.name = 'head';
 
         // Add a wobbly tween effect to the bald image (targeting the container)
-        this.scene.tweens.add({
+        this.tween = this.scene.tweens.add({
             targets: this,
             y: () =>
                 Phaser.Math.FloatBetween(
@@ -55,6 +55,7 @@ export class Head extends Phaser.GameObjects.Container {
     }
 
     startBlinking() {
+        if (!this.active) return;
         // Set a timer for random blinking
         this.scene.time.addEvent({
             delay: Phaser.Math.Between(1000, 5000), // Blink every 2-5 seconds
@@ -65,6 +66,7 @@ export class Head extends Phaser.GameObjects.Container {
     }
 
     blink() {
+        if (!this.active) return;
         // Make eyelids visible for a short duration
         this.leftEyeLid.setVisible(true);
         this.rightEyeLid.setVisible(true);
@@ -81,6 +83,8 @@ export class Head extends Phaser.GameObjects.Container {
     }
 
     update() {
+        if (!this.active) return;
+
         // Get the player position relative to the head container
         const playerX = this.scene.player.x - this.x;
         const playerY = this.scene.player.y - this.y;
@@ -104,5 +108,11 @@ export class Head extends Phaser.GameObjects.Container {
 
         this.rightIris.x = irisOffsetX;
         this.rightIris.y = 2 + irisOffsetY;
+    }
+
+    destroy() {
+        this.tween.stop();
+        this.tween.destroy();
+        super.destroy();
     }
 }

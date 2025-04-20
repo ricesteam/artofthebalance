@@ -28,6 +28,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.setFixedRotation();
         this.setCollisionCategory(this.scene.CATEGORY_PLAYER);
         this.setScale(2); // Double the scale of the player sprite
+        this.setDepth(9);
 
         this.attackArea = null;
 

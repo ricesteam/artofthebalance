@@ -23,6 +23,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_PLATFORM,
         ]);
         this.setCollisionCategory(scene.CATEGORY_BLOCK);
+        this.setDepth(2);
 
         this.setFrame(Phaser.Math.Between(0, 4));
 
@@ -36,8 +37,8 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
-        this.body.gameObject.preFX.setPadding(32);
-        this.glowFx = this.body.gameObject.preFX.addGlow();
+        this.body.gameObject.postFX.setPadding(32);
+        this.glowFx = this.body.gameObject.postFX.addGlow();
         this.glowFx.outerStrength = 0;
         this.glowFx.color = 0xf9c22b;
         this.glowTween = this.scene.tweens.add({
@@ -105,7 +106,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
 
         this.glowTween = null;
 
-        this.body.gameObject.preFX.remove(this.glowFx);
+        this.body.gameObject.postFX.remove(this.glowFx);
         super.destroy();
     }
 }

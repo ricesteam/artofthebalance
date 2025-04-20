@@ -3,7 +3,7 @@ import { Head } from './Head';
 
 export class Blackhole extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
-        super(scene.matter.world, x, y, 'blackhole', 0, {
+        super(scene.matter.world, x, y, 'head', 0, {
             label: 'blackhole',
             isStatic: true,
             ignoreGravity: true,
@@ -13,7 +13,7 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.matter = scene.matter;
         scene.add.existing(this);
 
-        this.blackholeRadius = 100; // Adjust the radius of the blackhole's pull
+        this.blackholeRadius = 50; // Adjust the radius of the blackhole's pull
         this.gravitationalConstant = 0.0005; // Adjust the strength of gravity
         this.timeAlive = 2000; // Time in milliseconds before the blackhole is destroyed
         this.maxCapacity = 3;
@@ -24,6 +24,8 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.setSensor(true); // Make it a sensor so it doesn't collide physically
         this.setIgnoreGravity(true);
         this.setStatic(true);
+        this.setScale(0.1);
+        this.setDepth(1);
 
         // Set a timer to destroy the blackhole after timeAlive
         this.scene.time.delayedCall(
@@ -32,33 +34,20 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             [],
             this
         );
-        const postFxPlugin = this.plugins.get('rexswirlpipelineplugin');
-        this.cameraFilter = postFxPlugin.add(this.cameras.main);
+        this.postFxPlugin = this.scene.plugins.get('rexSwirlPipeline');
+        this.cameraFilter = this.postFxPlugin.add(this.body.gameObject);
 
         // make this continuous
         this.cameraFilter.angle = 0;
         this.cameraFilter.radius = 0;
+        this.cameraFilter.setCenter(x, y);
 
         this.swirlTween = this.scene.tweens.add({
             targets: this.cameraFilter,
             angle: 360, // Rotate 360 degrees
-            radius: this.blackholeRadius,
+            radius: this.blackholeRadius * 2,
             duration: this.timeAlive, // Duration of the swirl effect
-            repeat: -1, // Repeat infinitely
-            ease: 'Linear', // Linear easing for constant rotation
-        });
-
-        //add a tween that rotates this head
-        this.head = new Head(scene, x, y - 20);
-        this.head.setScale(0.2);
-        this.head.tween.pause();
-        this.head.baldImage.setFrame(0);
-
-        this.headRotationTween = this.scene.tweens.add({
-            targets: this.head,
-            angle: 360, // Rotate 360 degrees
-            duration: 2000, // Duration of the rotation
-            repeat: -1, // Repeat infinitely
+            repeat: 999, // Repeat infinitely
             ease: 'Linear', // Linear easing for constant rotation
         });
     }
@@ -91,12 +80,9 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.scene.tweens.killTweensOf(this.swirlTween);
         this.swirlTween = null;
 
-        this.headRotationTween.stop();
-        this.headRotationTween.destroy();
-        this.scene.tweens.killTweensOf(this.headRotationTween);
-        this.headRotationTween = null;
-
-        this.head.destroy();
+        this.postFxPlugin.remove(this.body.gameObject);
+        this.postFxPlugin.stop();
+        this.postFxPlugin.destroy();
 
         super.destroy();
     }
