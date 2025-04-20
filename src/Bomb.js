@@ -33,6 +33,30 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
 
         // Call explode after the delay
         scene.time.delayedCall(this.delay, this.explode, [], this);
+
+        var outlineconfig = {
+            thickness: 3,
+            outlineColor: 0x6e2727,
+            quality: 0.2,
+            name: 'rexOutlinePostFx',
+        };
+        this.outlinePipeline = scene.plugins
+            .get('rexOutlinePipeline')
+            .add(this.body.gameObject, outlineconfig);
+
+        this.glowPipeline = scene.plugins
+            .get('rexGlowFilterPipeline')
+            .add(this.body.gameObject, {
+                inintensity: 0,
+            });
+
+        this.glowTween = this.scene.tweens.add({
+            targets: this.glowPipeline,
+            intensity: 0.02,
+            duration: this.delay / 5,
+            repeat: -1,
+            yoyo: true,
+        });
     }
 
     explode() {
@@ -71,7 +95,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             lifespan: 500,
             gravityY: 0,
             quantity: 20,
-            tint: [0xa0522d, 0xffa500, 0xffff00], // use brown, yellow, and orange tints instead
+            tint: [0x6e2727, 0xfb6b1d, 0xfbff86], // use brown, yellow, and orange tints instead
             stopAfter: 100, // Stop emitting after 20 particles
         });
     }

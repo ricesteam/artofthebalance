@@ -239,7 +239,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     die() {
         if (!this.active) return;
 
-        // I don't have the
         this.scene.add.particles(this.x, this.y, 'blood', {
             speed: { min: -200, max: 200 },
             angle: { min: 0, max: 360 },
@@ -247,8 +246,8 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             lifespan: 500,
             gravityY: 300,
             quantity: 20,
-            tint: [0xff0000, 0x8b0000], // Red and dark red tints
-            stopAfter: 100, // Stop emitting after 20 particles
+            tint: [0xff0000, 0x8b0000],
+            stopAfter: 100,
         });
 
         const id = this.scene.enemies.indexOf(this);

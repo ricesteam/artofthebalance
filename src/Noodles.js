@@ -27,7 +27,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         this.setFrame(Phaser.Math.Between(0, 4));
 
         var outlineconfig = {
-            thickness: 2,
+            thickness: 3,
             outlineColor: 0xf9c22b,
             quality: 0.1,
             name: 'rexOutlinePostFx',
