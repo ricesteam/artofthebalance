@@ -73,10 +73,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.inventory = []; // Array to hold attacks (stack)
 
+        // basicAttack is the default attack. Do not add it to the inventory for it will get removed by accident ai!
         this.basicAttack = new BasicAttack(scene);
         this.addAttack(this.basicAttack);
 
-        this.bombAttackDuration = 15000;
+        this.bombAttackDuration = 10000;
         this.bombAttack = new BombAttack(scene);
 
         // Timer for auto-attacking with the first equipped attack
