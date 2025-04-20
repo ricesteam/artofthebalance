@@ -74,6 +74,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             callbackScope: this,
             loop: true,
         });
+
+        //this.postFX.addShine(0.7, 0.2, 5);
     }
 
     handleCollision(event) {

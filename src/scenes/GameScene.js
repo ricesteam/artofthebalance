@@ -118,7 +118,6 @@ export class GameScene extends Scene {
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
-        //this.player.postFX.addShine(0.7, 0.2, 5);
         this.spawnPlayer(); // Initial player spawn
 
         // Create the Hud
