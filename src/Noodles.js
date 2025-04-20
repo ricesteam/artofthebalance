@@ -16,7 +16,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         this.setFriction(0.01);
         this.initialMass = 2;
         this.setMass(this.initialMass);
-        this.setCollisionGroup(-1);
+        //this.setCollisionGroup(-1);
         this.setCollidesWith([
             this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_PLAYER,
@@ -64,6 +64,44 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             duration: 1000, // Initial duration
             repeat: -1,
             yoyo: true,
+        });
+
+        this.scene.matter.world.on(
+            'collisionstart',
+            this.handleCollision,
+            this
+        );
+    }
+
+    handleCollision(event) {
+        event.pairs.forEach((pair) => {
+            const { bodyA, bodyB } = pair;
+
+            // refactor: check if it is itself and the other is the platform. If so and bounceCount > 0, then remove it from juggledObjects list ai!
+            // Check if one of the bodies is the platform and the other is a juggled object
+            const platformBody =
+                bodyA.collisionFilter.category === this.CATEGORY_PLATFORM
+                    ? bodyA
+                    : bodyB.collisionFilter.category === this.CATEGORY_PLATFORM
+                    ? bodyB
+                    : null;
+
+            const otherBody =
+                platformBody === bodyA
+                    ? bodyB
+                    : platformBody === bodyB
+                    ? bodyA
+                    : null;
+
+            if (platformBody && otherBody) {
+                const otherGameObject = otherBody.gameObject;
+                if (otherGameObject) {
+                    const index = this.juggledObjects.indexOf(otherGameObject);
+                    if (index > -1) {
+                        this.juggledObjects.splice(index, 1);
+                    }
+                }
+            }
         });
     }
 
