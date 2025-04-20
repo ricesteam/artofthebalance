@@ -244,7 +244,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     [],
                     this
                 );
-                // also decrease the cooldown by 5%. cap it at 500 ai!
+                // also decrease the cooldown by 5%. cap it at 500
+                this.bombAttack.cooldown = Math.max(
+                    500,
+                    this.bombAttack.cooldown * 0.95
+                );
                 this.bombAttack.explosionRadius *= 1.05;
             } else if (this.SupremeJuice >= 25) {
                 this.basicAttack.attackSpeed *= 1.05; // Increase by 5%
