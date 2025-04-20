@@ -60,13 +60,13 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
 
         this.shockWavePlugin = scene.plugins
             .get('rexShockwavePipeline')
-            .add(this.body.gameObject, {
-                // center: {
-                //    x: windowWidth / 2,
-                //    y: windowHeight / 2
-                //}
-                waveRadius: 0,
-                waveWidth: 20,
+            .add(this.scene.cameras.main, {
+                center: {
+                    x: this.x,
+                    y: this.y,
+                },
+                waveRadius: 32,
+                waveWidth: 0,
                 powBaseScale: 0.8,
                 // powExponent: 0.1,
             });
@@ -85,6 +85,31 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.explosionRadius
         );
 
+        // add a tween for the shockwaveplugin
+        this.scene.tweens.add({
+            targets: this.shockWavePlugin,
+            waveRadius: this.explosionRadius, // Make the wave radius larger than the explosion
+            waveWidth: 100, // Adjust wave width as needed
+            duration: 1000, // Duration of the shockwave effect
+            //ease: 'Quart.easeOut',
+            onComplete: () => {
+                this.shockWavePlugin.waveRadius = 0;
+                this.shockWavePlugin.waveWidth = 0;
+            },
+        });
+
+        this.scene.add.particles(this.x, this.y, 'meatbomb', {
+            speed: { min: -200, max: 200 },
+            angle: { min: 0, max: 360 },
+            scale: { start: 0.5, end: 0 },
+            alpha: { start: 1, end: 0 }, // add some alpha
+            lifespan: 500,
+            gravityY: 0,
+            quantity: 20,
+            tint: [0x6e2727, 0xfb6b1d, 0xfbff86], // use brown, yellow, and orange tints instead
+            stopAfter: 100, // Stop emitting after 20 particles
+        });
+
         // Use the explosion sprite animation
         const explosionSprite = this.scene.add.sprite(
             this.x,
@@ -98,34 +123,6 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             explosionSprite.destroy();
             this.destroy();
         });
-
-        // Add particle effects
-        this.scene.add.particles(this.x, this.y, 'meatbomb', {
-            speed: { min: -200, max: 200 },
-            angle: { min: 0, max: 360 },
-            scale: { start: 0.5, end: 0 },
-            alpha: { start: 1, end: 0 }, // add some alpha
-            lifespan: 500,
-            gravityY: 0,
-            quantity: 20,
-            tint: [0x6e2727, 0xfb6b1d, 0xfbff86], // use brown, yellow, and orange tints instead
-            stopAfter: 100, // Stop emitting after 20 particles
-        });
-
-        // add a tween for the shockwaveplugin
-        this.scene.tweens.add({
-            targets: this.shockWavePlugin,
-            waveRadius: this.explosionRadius * 2, // Make the wave radius larger than the explosion
-            waveWidth: 50, // Adjust wave width as needed
-            duration: 500, // Duration of the shockwave effect
-            ease: 'Quart.easeOut',
-            onComplete: () => {
-                // Optionally remove the plugin after the tween
-                this.scene.plugins
-                    .get('rexShockwavePipeline')
-                    .remove(this.body.gameObject);
-            },
-        });
     }
 
     update() {
@@ -134,6 +131,10 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
 
     destroy() {
         if (!this.scene) return;
+
+        this.scene.plugins
+            .get('rexShockwavePipeline')
+            .remove(this.scene.cameras.main);
 
         this.victims.forEach((body) => {
             if (
