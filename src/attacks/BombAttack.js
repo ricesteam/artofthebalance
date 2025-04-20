@@ -18,7 +18,7 @@ export class BombAttack {
 
         this.lastUsedTime = this.scene.time.now;
 
-        // Create a new Bomb instance at the player's position
+        // Create a new Bomb instance at a random position near the player ai!
         const bomb = new Bomb(
             this.scene,
             player.x,
