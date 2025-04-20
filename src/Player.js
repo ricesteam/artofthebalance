@@ -129,11 +129,10 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
                     if (typeof otherGameObject.bounce === 'function') {
                         otherGameObject.bounce();
-                    }
-
-                    // Gain juggle meter
-                    if (otherGameObject && otherGameObject.bounceCount !== undefined) {
-                        this.juggleMeter = Math.min(100, this.juggleMeter + otherGameObject.bounceCount);
+                        const gain =
+                            this.juggleMeter +
+                            1 * this.scene.juggledObjects.length;
+                        this.juggleMeter = Math.min(100, gain);
                     }
                 }
             }
@@ -313,9 +312,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.anims.play('stand');
         }
 
-        // Jumping
-        if (cursors.space.isDown && this.isGrounded) {
-            this.applyForce({ x: 0, y: this.jumpForce }); // Apply upward force for the jump
+        if (cursors.space.isDown) {
         }
 
         // Cap the velocity
