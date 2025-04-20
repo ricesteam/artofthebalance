@@ -21,6 +21,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_BLOCK,
             this.scene.CATEGORY_PLAYER,
             this.scene.CATEGORY_ATTACK,
+            this.scene.CATEGORY_PLATFORM,
         ]);
         this.setCollisionCategory(scene.CATEGORY_BLOCK);
 
@@ -77,28 +78,19 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         event.pairs.forEach((pair) => {
             const { bodyA, bodyB } = pair;
 
-            // refactor: check if it is itself and the other is the platform. If so and bounceCount > 0, then remove it from juggledObjects list ai!
-            // Check if one of the bodies is the platform and the other is a juggled object
-            const platformBody =
-                bodyA.collisionFilter.category === this.CATEGORY_PLATFORM
-                    ? bodyA
-                    : bodyB.collisionFilter.category === this.CATEGORY_PLATFORM
-                    ? bodyB
-                    : null;
-
-            const otherBody =
-                platformBody === bodyA
-                    ? bodyB
-                    : platformBody === bodyB
-                    ? bodyA
-                    : null;
-
-            if (platformBody && otherBody) {
-                const otherGameObject = otherBody.gameObject;
-                if (otherGameObject) {
-                    const index = this.juggledObjects.indexOf(otherGameObject);
+            // Check if it is itself and the other is the platform. If so and bounceCount > 0, then remove it from juggledObjects list
+            if (
+                (bodyA === this.body &&
+                    bodyB.collisionFilter.category ===
+                        this.scene.CATEGORY_PLATFORM) ||
+                (bodyB === this.body &&
+                    bodyA.collisionFilter.category ===
+                        this.scene.CATEGORY_PLATFORM)
+            ) {
+                if (this.bounceCount > 0) {
+                    const index = this.scene.juggledObjects.indexOf(this);
                     if (index > -1) {
-                        this.juggledObjects.splice(index, 1);
+                        this.scene.juggledObjects.splice(index, 1);
                     }
                 }
             }
