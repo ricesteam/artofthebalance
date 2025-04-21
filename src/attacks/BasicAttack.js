@@ -14,6 +14,30 @@ export class BasicAttack {
     }
 
     use(player) {
+        const trumpWords = [
+            'Huge',
+            'Yuge',
+            'Fake',
+            'Sad!',
+            'Tremendous',
+            'Wrong',
+            'Disaster',
+            'Loser',
+            'Winning',
+            'China',
+            'Believe',
+            'Beautiful',
+            'Bigly',
+            'Terrific',
+            'Nasty',
+            'Covfefe',
+            'Corrupt',
+            'Rigged',
+            'Witchhunt',
+            'Radical',
+            'Classy',
+        ];
+
         // Check if the attack is on cooldown
         if (this.scene.time.now - this.lastUsedTime < this.cooldown) {
             return;
@@ -27,6 +51,8 @@ export class BasicAttack {
         // Initial position: player's center
         const attackX = player.body.position.x;
         const attackY = player.body.position.y;
+
+        // as the attack graphic, create a text from a random chosen word from trumpWords ai!
 
         // Create the attack area as a circle
         const attackArea = this.scene.matter.add.circle(
