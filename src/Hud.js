@@ -76,10 +76,20 @@ export class Hud extends Phaser.GameObjects.Container {
         this.spectrumX = this.barX; // Start from the left margin
         this.spectrumY = this.barY + this.barHeight + 10; // Position below the health bar
 
-        // can the background be multiple colors like a spectrum? left grey, middle green, right red. consider this example: https://phaser.io/examples/v3.85.0/game-objects/rope/view/draw-rope-gradient ai!
+        // Create the spectrum background using a gradient
         this.spectrumBackground = this.scene.add.graphics();
-        this.spectrumBackground.fillStyle(0x808080); // Grey background
-        this.spectrumBackground.fillRect(
+        const gradient = this.spectrumBackground.createLinearGradient(
+            this.spectrumX,
+            this.spectrumY,
+            this.spectrumX + this.spectrumWidth,
+            this.spectrumY
+        );
+        gradient.addColorStop(0, '#808080'); // Grey on the left
+        gradient.addColorStop(0.5, '#00ff00'); // Green in the middle
+        gradient.addColorStop(1, '#ff0000'); // Red on the right
+        this.spectrumBackground.fillStyle(0xffffff); // Use a dummy color, the gradient will override
+        this.spectrumBackground.fillGradient(
+            gradient,
             this.spectrumX,
             this.spectrumY,
             this.spectrumWidth,

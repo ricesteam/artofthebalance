@@ -137,6 +137,7 @@ export class GameOver extends Scene {
         }
 
         this.input.once('pointerdown', () => {
+            this.sound.stopAll();
             this.scene.start('MainMenu');
         });
     }
@@ -220,7 +221,7 @@ export class GameOver extends Scene {
         const height = this.scale.height;
         const margin = 200;
         this.add
-            .text(width / 2, height / 2, '"Thanks for playing" -- AI', {
+            .text(width / 2, height / 2, '"Thanks for playing"', {
                 fontFamily: 'retro',
                 fontSize: 24,
                 fill: '#ffffff',
