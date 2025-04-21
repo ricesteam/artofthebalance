@@ -116,58 +116,31 @@ export class Head extends Phaser.GameObjects.Container {
         const radius = this.irisBoundary.radius; // Use the defined iris boundary radius
         const duration = 1000; // Duration for one full rotation (adjust as needed)
 
-        // no scrap this. Use cos or sin to move the iris in a circular motion ai!
         this.scene.tweens.add({
             targets: [this.leftIris, this.rightIris],
             x: {
-                value: `+=${radius}`, // Move right by the radius
-                duration: duration / 4,
+                value: (target, key, current) => {
+                    // Calculate the angle based on the elapsed time and duration
+                    const angle =
+                        ((this.scene.time.now % duration) / duration) *
+                        Phaser.Math.PI2;
+                    return Math.cos(angle) * radius;
+                },
+                duration: duration,
                 ease: 'Linear',
-                yoyo: true,
                 repeat: -1,
-                onYoyo: function (tween, target) {
-                    // Move down after moving right
-                    this.scene.tweens.add({
-                        targets: target,
-                        y: `+=${radius}`,
-                        duration: duration / 4,
-                        ease: 'Linear',
-                    });
-                }.bind(this),
-                onRepeat: function (tween, target) {
-                    // Move up after moving left
-                    this.scene.tweens.add({
-                        targets: target,
-                        y: `-=${radius}`,
-                        duration: duration / 4,
-                        ease: 'Linear',
-                    });
-                }.bind(this),
             },
             y: {
-                value: `-=${radius}`, // Move up by the radius initially
-                duration: duration / 4,
+                value: (target, key, current) => {
+                    // Calculate the angle based on the elapsed time and duration
+                    const angle =
+                        ((this.scene.time.now % duration) / duration) *
+                        Phaser.Math.PI2;
+                    return 2 + Math.sin(angle) * radius; // Add 2 to the y position
+                },
+                duration: duration,
                 ease: 'Linear',
-                yoyo: true,
                 repeat: -1,
-                onYoyo: function (tween, target) {
-                    // Move left after moving up
-                    this.scene.tweens.add({
-                        targets: target,
-                        x: `-=${radius}`,
-                        duration: duration / 4,
-                        ease: 'Linear',
-                    });
-                }.bind(this),
-                onRepeat: function (tween, target) {
-                    // Move right after moving down
-                    this.scene.tweens.add({
-                        targets: target,
-                        x: `+=${radius}`,
-                        duration: duration / 4,
-                        ease: 'Linear',
-                    });
-                }.bind(this),
             },
             duration: duration,
             repeat: -1,
