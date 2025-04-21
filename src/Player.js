@@ -348,7 +348,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         });
     }
 
-    // this could cause seizures ai!
     startLightshow() {
         // Create a graphics object for the lightshow
         const lightshowGraphics = this.scene.add.graphics();
@@ -358,13 +357,13 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         const colors = [
             0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff,
         ]; // Array of colors
-        const duration = 100; // Duration of each flash
-        const repeat = 20; // Number of flashes
+        const duration = 200; // Increased duration of each flash
+        const repeat = 10; // Reduced number of flashes
 
         // Create a tween to cycle through colors and alpha
         this.scene.tweens.add({
             targets: lightshowGraphics,
-            alpha: { from: 1, to: 0.5 }, // Flash between full and half alpha
+            alpha: { from: 1, to: 0.7 }, // Flash between full and slightly less alpha
             duration: duration / 2,
             yoyo: true,
             repeat: repeat,
