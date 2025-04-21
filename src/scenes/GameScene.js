@@ -187,7 +187,7 @@ export class GameScene extends Scene {
             repeat: -1,
         });
 
-        this.anims.create({
+        thisims.create({
             key: 'stand',
             frames: [{ key: 'player', frame: 8 }],
             frameRate: 20,
@@ -385,6 +385,19 @@ export class GameScene extends Scene {
             this.player.SupremeJuice + (0.1 * delta) / 1000
         ); // 0.1% per second
 
-        // check this.tweens count, if it's greater than 120 splice the end off ai!
+        // check this.tweens count, if it's greater than 120 splice the end off
+        if (this.tweens.getAllTweens().length > 120) {
+            // Get all active tweens
+            const allTweens = this.tweens.getAllTweens();
+            // Sort tweens by their progress (tweens that are closer to completion first)
+            allTweens.sort((a, b) => a.progress - b.progress);
+            // Determine how many tweens to remove
+            const tweensToRemoveCount = allTweens.length - 120;
+            // Remove the tweens that are closest to completion
+            for (let i = 0; i < tweensToRemoveCount; i++) {
+                allTweens[i].stop();
+                allTweens[i].destroy();
+            }
+        }
     }
 }
