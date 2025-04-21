@@ -9,7 +9,6 @@ import { Hud } from '../Hud'; // Import the Hud class
 import { Noodles } from '../Noodles'; // Import the Noodles class
 import { Explosion } from '../Explosion'; // Import the Explosion class
 
-// i need a countdown timer starting at 5:00. Display this in the HUD at the top of the screen ai!
 
 export class GameScene extends Scene {
     constructor() {
@@ -45,6 +44,10 @@ export class GameScene extends Scene {
         this.CATEGORY_PLATFORM = 0x0016;
 
         this.balanceMeter = 0; // Balance meter stat
+
+        this.gameDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
+        this.timeRemaining = this.gameDuration;
+        this.timerText = null;
     }
 
     create() {
@@ -329,6 +332,15 @@ export class GameScene extends Scene {
     }
 
     update(time, delta) {
+        // Update the timer
+        this.timeRemaining -= delta;
+        if (this.timeRemaining <= 0) {
+            this.timeRemaining = 0;
+            // Handle game over here (e.g., transition to game over scene)
+            console.log('Game Over - Time Up!');
+            // this.scene.start('GameOverScene'); // Assuming you have a GameOverScene
+        }
+
         // if the platform passes rotation -47,47, reset it to 0
         const maxRotation = Phaser.Math.DegToRad(47); // Convert degrees to radians
         if (

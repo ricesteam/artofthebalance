@@ -15,6 +15,19 @@ export class Hud extends Phaser.GameObjects.Container {
         this.barX = 10;
         this.barY = 10;
 
+        // Timer Text
+        this.timerText = this.scene.add
+            .text(this.scene.scale.width / 2, this.barY, '5:00', {
+                fontSize: '24px',
+                fill: '#ffffff',
+                fontFamily: 'retro',
+                align: 'center',
+            })
+            .setOrigin(0.5, 0);
+        this.timerText.setScrollFactor(0);
+        this.add(this.timerText);
+
+
         // Create the background of the health bar
         this.healthBarBackground = this.scene.add.graphics();
         this.healthBarBackground.fillStyle(0x808080); // Grey background
@@ -202,6 +215,13 @@ export class Hud extends Phaser.GameObjects.Container {
         this.balanceIndicator.y = this.spectrumY + this.spectrumHeight / 2 - 5; // Position vertically in the middle of the spectrum
     }
 
+    updateTimer() {
+        const minutes = Math.floor(this.scene.timeRemaining / 60000);
+        const seconds = Math.floor((this.scene.timeRemaining % 60000) / 1000);
+        const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        this.timerText.setText(formattedTime);
+    }
+
     update() {
         // Update the health bar display
         this.updateHealthBar();
@@ -211,5 +231,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.updateSupremeJuice();
         // Update the balance meter display
         this.updateBalanceMeter();
+        // Update the timer display
+        this.updateTimer();
     }
 }
