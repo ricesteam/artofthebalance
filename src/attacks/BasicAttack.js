@@ -54,6 +54,7 @@ export class BasicAttack {
 
         const randomWord = Phaser.Utils.Array.GetRandom(trumpWords);
 
+        // align to the top ai!
         const attackText = this.scene.add
             .text(attackX, attackY, randomWord, {
                 fontSize: '24px',
