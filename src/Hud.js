@@ -86,7 +86,6 @@ export class Hud extends Phaser.GameObjects.Container {
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
 
-
         // Add text for juggling count
         this.juggleText = this.scene.add.text(
             this.barX,
@@ -192,10 +191,12 @@ export class Hud extends Phaser.GameObjects.Container {
     updateBalanceMeter() {
         // Map the balance meter value (-100 to 100) to the spectrum width (0 to spectrumWidth)
         const balanceRange = 200; // -100 to 100
-        const normalizedBalance = (this.scene.balanceMeter + 100) / balanceRange; // 0 to 1
-        const indicatorPositionX = this.spectrumX + (normalizedBalance * this.spectrumWidth);
+        const normalizedBalance =
+            (this.scene.balanceMeter + 100) / balanceRange; // 0 to 1
+        const indicatorPositionX =
+            this.spectrumX + normalizedBalance * this.spectrumWidth;
 
-        // Update the indicator's position
+        // the indicator is not on the bar ai!
         this.balanceIndicator.x = indicatorPositionX;
     }
 
