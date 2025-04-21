@@ -85,7 +85,8 @@ export class Preloader extends Scene {
         this.load.image('leftiris', 'leftiris.png');
         this.load.image('rightiris', 'rightiris.png');
 
-        this.load.font('retro', 'Expire.otf');
+        this.load.font('retro', 'PixeloidMono.ttf');
+        this.load.font('retrobold', 'PixeloidSans-Bold.ttf');
 
         this.loadSounds();
     }
@@ -94,6 +95,9 @@ export class Preloader extends Scene {
         this.load.setPath('assets/sfx');
         // load sound
         this.load.audio('china', 'TrumpChina-low.wav');
+        this.load.audio('fired', 'fired.mp3');
+
+        this.load.audio('outro', 'outro.mp3');
     }
 
     create() {

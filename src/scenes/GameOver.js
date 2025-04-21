@@ -46,6 +46,22 @@ export class GameOver extends Scene {
                     'The people starved.\n\n' +
                     'Balance was never the goal. Greatness was.',
             },
+            {
+                text:
+                    'The tariff was bold. Assertive. Moderately outrageous.\n\n' +
+                    'At 147%, the Supreme Leader was pleased. Not ecstatic—pleased. The best kind of pleased.\n\n' +
+                    'Trade slowed, but didn’t collapse. Noodles became rare, but not mythical.\n\n' +
+                    'Citizens lined up for rationed bowls with tears in their eyes and pride in their hearts.\n\n' +
+                    '“We suffer… correctly,” one weeping patriot declared.\n\n' +
+                    'The economy stabilized. Approval ratings soared.\n' +
+                    'Foreign leaders wept and applauded simultaneously.\n\n' +
+                    'The Wall flexed. The skies cleared.\n\n' +
+                    'For the first time in decades, the Supreme Leader nodded.\n\n' +
+                    'Balance had been struck. The noodle had been mastered.\n\n' +
+                    'History would remember this day—not for its cruelty, nor its mercy…\n\n' +
+                    'Glory to the West\n\n' +
+                    'Glory to the Supreme Leader',
+            },
         ];
     }
 
@@ -60,8 +76,9 @@ export class GameOver extends Scene {
 
         // Access the data passed from the previous scene
         this.balanceMeter = data.balanceMeter;
-        this.mainText = data.mainText ?? 'Game Over';
-        this.endingId = data.endingId ?? 0;
+        this.isEnding = data.isEnding ?? false;
+        this.endingId = data.endingId ?? 1;
+        this.mainText = this.endingId === 3 ? 'Victory' : 'Game Over';
     }
 
     create() {
@@ -69,18 +86,36 @@ export class GameOver extends Scene {
         const width = this.scale.width;
         const height = this.scale.height;
 
-        const margin = 200;
-
         // Create the Head instance
         this.head = new Head(this, width / 2, height / 2);
         this.head.setDepth(0);
         this.head.tween.stop(); // Stop the wobbly tween from GameScene
-        this.head.eyesGoRound();
 
-        this.head.baldImage.setFrame(5);
+        if (this.endingId != 3) {
+            this.head.eyesGoRound();
+            this.head.baldImage.setFrame(5);
+            this.time.delayedCall(1000, () => {
+                this.sound.play('fired');
+            });
+        } else {
+            this.head.baldImage.setFrame(1);
+        }
 
-        // Stop the floating tween on the head
-        this.tweens.killTweensOf(this.head);
+        const floatingHead = this.tweens.add({
+            targets: this.head,
+            y: this.head.y - 20, // Float up by 20 pixels
+            rotation: {
+                value: () => Phaser.Math.FloatBetween(-0.1, 0.1), // Tilt slightly
+                duration: 1500, // Duration of the tilt
+                yoyo: true, // Go back and forth
+                repeat: -1, // Repeat indefinitely
+                ease: 'bounce.easeInOut', // Smooth easing
+            },
+            duration: 2000, // Duration of the float
+            yoyo: true, // Go back down
+            repeat: -1, // Repeat indefinitely
+            ease: 'Sine.easeInOut', // Smooth easing
+        });
 
         const gameOver = this.add
             .text(width / 2, height / 2, this.mainText, {
@@ -93,9 +128,24 @@ export class GameOver extends Scene {
             })
             .setOrigin(0.5);
 
+        if (this.isEnding) {
+            floatingHead.stop();
+            this.playEnding(gameOver);
+        }
+
+        this.input.once('pointerdown', () => {
+            this.scene.start('MainMenu');
+        });
+    }
+
+    playEnding(gameOver) {
+        const width = this.scale.width;
+        const height = this.scale.height;
+        const margin = 200;
+
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
-            this.sound.play('outro'); // how do I ensure a max of 1 can be played? ai!
+            this.sound.play('outro');
             const endingText = this.add
                 .text(
                     width / 2,
@@ -123,12 +173,54 @@ export class GameOver extends Scene {
                     endingText.destroy();
                     gameOver.destroy();
                     this.head.destroy();
+                    this.playOutro2();
                 },
             });
         });
+    }
 
-        this.input.once('pointerdown', () => {
-            this.scene.start('MainMenu');
+    playOutro2() {
+        const width = this.scale.width;
+        const height = this.scale.height;
+        const margin = 200;
+        const endingText = this.add
+            .text(
+                width / 2,
+                height + 50,
+                'This game was NOT written by AI.\n\n\n\n\n\n\n\nCode By AI\nArt by AI\nMusic by AI\nStory by AI',
+                {
+                    fontFamily: 'retro',
+                    fontSize: 24,
+                    fill: '#ffffff',
+                    align: 'center',
+                    wordWrap: { width: width - margin }, // Wrap text within the screen width
+                }
+            )
+            .setOrigin(0.5, 0);
+        this.tweens.add({
+            targets: [endingText], // Include the head in the tween
+            y: `-=${height + endingText.height + 50}`, // Scroll up until both are off-screen
+            duration: 30000, // Adjust duration for scrolling speed
+            ease: 'Linear',
+            onComplete: () => {
+                endingText.destroy();
+                this.playOutro3();
+            },
         });
+    }
+
+    playOutro3() {
+        const width = this.scale.width;
+        const height = this.scale.height;
+        const margin = 200;
+        this.add
+            .text(width / 2, height / 2, '"Thanks for playing" -- AI', {
+                fontFamily: 'retro',
+                fontSize: 24,
+                fill: '#ffffff',
+                align: 'center',
+                wordWrap: { width: width - margin },
+            })
+            .setOrigin(0.5);
     }
 }
