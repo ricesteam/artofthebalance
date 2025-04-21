@@ -27,12 +27,20 @@ export class GameOver extends Scene {
         // Create the Head instance
         this.head = new Head(this, width / 2, height / 2);
         this.head.setDepth(0);
-        this.head.tween.stop();
+        this.head.tween.stop(); // Stop the wobbly tween from GameScene
         this.head.eyesGoRound();
 
         this.head.baldImage.setFrame(5);
 
-        // add some tween to make the head look it it's floating ai!
+        // Add a tween to make the head float
+        this.tweens.add({
+            targets: this.head,
+            y: this.head.y - 20, // Float up by 20 pixels
+            duration: 2000, // Duration of the float
+            yoyo: true, // Go back down
+            repeat: -1, // Repeat indefinitely
+            ease: 'Sine.easeInOut', // Smooth easing
+        });
 
         this.add
             .text(width / 2, height / 2, this.mainText, {
