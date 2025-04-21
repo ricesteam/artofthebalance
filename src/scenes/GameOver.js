@@ -66,6 +66,7 @@ export class GameOver extends Scene {
             ease: 'Sine.easeInOut', // Smooth easing
         });
 
+        // this needs to start scrolling too ai!
         const gameOver = this.add
             .text(width / 2, height / 2, this.mainText, {
                 fontFamily: 'retro',
