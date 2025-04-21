@@ -250,6 +250,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             stopAfter: 100,
         });
 
+        // wrap this up in a delayed call ai!
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
         const juggledIndex = this.scene.juggledObjects.indexOf(this);
@@ -265,6 +266,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.postFxPlugin.remove(this.body.gameObject);
         this.postFxPlugin.stop();
         this.postFxPlugin.destroy();
+
         super.destroy();
     }
 
