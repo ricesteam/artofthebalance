@@ -384,5 +384,7 @@ export class GameScene extends Scene {
             100,
             this.player.SupremeJuice + (0.1 * delta) / 1000
         ); // 0.1% per second
+
+        // check this.tweens count, if it's greater than 120 splice the end off ai!
     }
 }
