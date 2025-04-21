@@ -287,29 +287,34 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             duration: 200, // Reduced duration for a faster snap
             ease: 'back.easeout', // Use sine.out for a quick snap
             onComplete: () => {
-                // how do I make lasers shoot out of his eyes? ai!
+                this.scene.time.delayedCall(1000, () => {
+                    head.baldImage.setFrame(3);
 
-                // After the attack, tween the head back to its original position
-                this.scene.time.delayedCall(
-                    2000, // Wait for the blackhole duration
-                    () => {
-                        this.scene.matter.world.engine.timing.timeScale = 1;
-                        this.scene.scrollSpeedX = origscrollSpeedX;
-                        this.scene.scrollSpeedY = origscrollSpeedY;
-                        this.scene.bg.tint = 0xdddddd;
+                    // play the sound China ai!
 
-                        this.scene.tweens.add({
-                            targets: head,
-                            x: this.originalHeadPosition.x,
-                            y: this.originalHeadPosition.y,
-                            duration: 1000, // Duration of the float back down
-                            ease: 'sine.inout',
-                            onComplete: () => {
-                                head.tween.resume(); // Resume the wobbly tween
-                            },
-                        });
-                    }
-                );
+                    // After the attack, tween the head back to its original position
+                    this.scene.time.delayedCall(
+                        2000, // Wait for the blackhole duration
+                        () => {
+                            this.scene.matter.world.engine.timing.timeScale = 1;
+                            this.scene.scrollSpeedX = origscrollSpeedX;
+                            this.scene.scrollSpeedY = origscrollSpeedY;
+                            this.scene.bg.tint = 0xdddddd;
+
+                            this.scene.tweens.add({
+                                targets: head,
+                                x: this.originalHeadPosition.x,
+                                y: this.originalHeadPosition.y,
+                                duration: 1000, // Duration of the float back down
+                                ease: 'sine.inout',
+                                onComplete: () => {
+                                    head.baldImage.setFrame(4);
+                                    head.tween.resume(); // Resume the wobbly tween
+                                },
+                            });
+                        }
+                    );
+                });
             },
         });
     }
