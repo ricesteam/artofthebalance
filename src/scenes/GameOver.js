@@ -1,11 +1,12 @@
 import { Scene } from 'phaser';
+import { Head } from '../Head';
 
 export class GameOver extends Scene {
     constructor() {
         super('GameOver');
     }
 
-    init() {
+    init(data) {
         this.cameras.main.fadeIn(100);
         const fxCamera = this.cameras.main.postFX.addPixelate(40);
         this.add.tween({
@@ -13,16 +14,27 @@ export class GameOver extends Scene {
             duration: 700,
             amount: -1,
         });
+
+        // Access the data passed from the previous scene
+        this.balanceMeter = data.balanceMeter;
+        this.mainText = data.mainText ?? 'Game Over';
     }
 
     create() {
-        this.cameras.main.setBackgroundColor(0xff0000);
-
         const width = this.scale.width;
         const height = this.scale.height;
 
+        // Create the Head instance
+        this.head = new Head(this, width / 2, height / 2);
+        this.head.setDepth(0);
+        this.head.tween.stop();
+        this.head.eyesGoRound();
+
+        // how do I get the baldImage to loop frames 4-6? ai!
+        this.head.baldImage.setFrame(5);
+
         this.add
-            .text(width / 2, height / 2, 'Game Over', {
+            .text(width / 2, height / 2, this.mainText, {
                 fontFamily: 'Arial Black',
                 fontSize: 64,
                 color: '#ffffff',
