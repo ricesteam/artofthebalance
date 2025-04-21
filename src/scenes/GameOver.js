@@ -30,8 +30,19 @@ export class GameOver extends Scene {
         this.head.tween.stop();
         this.head.eyesGoRound();
 
-        // how do I get the baldImage to loop frames 4-6? ai!
-        this.head.baldImage.setFrame(5);
+        // Create an animation for the baldImage to loop frames 4-6
+        this.anims.create({
+            key: 'baldLoop',
+            frames: this.anims.generateFrameNumbers('head', {
+                start: 4,
+                end: 6,
+            }),
+            frameRate: 5, // Adjust frame rate as needed
+            repeat: -1, // Loop indefinitely
+        });
+
+        // Play the animation on the baldImage
+        this.head.baldImage.play('baldLoop');
 
         this.add
             .text(width / 2, height / 2, this.mainText, {
