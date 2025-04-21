@@ -98,6 +98,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.originalHeadPosition = { x: 0, y: 0 };
 
         //this.postFX.addShine(0.7, 0.2, 5);
+        this.pixelFx = this.preFX.addPixelate(-1);
     }
 
     handleCollision(event) {
@@ -457,6 +458,10 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             console.log('Player Died!');
             // You might want to trigger a game over scene or restart the level
             //this.scene.scene.start('GameOverScene'); // Assuming you have a GameOverScene
+            return;
         }
+
+        // add a tween to target pixelFx, no repeat, yoyo true ai!
+        this.scene.tweens.add({});
     }
 }
