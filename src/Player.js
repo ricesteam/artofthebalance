@@ -272,6 +272,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         const origscrollSpeedY = this.scene.scrollSpeedY;
         this.scene.bg.tint = 0x111111;
 
+        // pause the Spawner ai!
+
         this.scene.tweens.add({
             targets: this.scene,
             scrollSpeedX: 0,
@@ -293,7 +295,10 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
                     // loop through each enemies and check if exist and call triggerJuggledExplosion
                     this.scene.enemies.forEach((enemy) => {
-                        if (enemy && typeof enemy.triggerJuggledExplosion === 'function') {
+                        if (
+                            enemy &&
+                            typeof enemy.triggerJuggledExplosion === 'function'
+                        ) {
                             enemy.triggerJuggledExplosion();
                         }
                     });
