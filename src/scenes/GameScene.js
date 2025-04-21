@@ -9,6 +9,8 @@ import { Hud } from '../Hud'; // Import the Hud class
 import { Noodles } from '../Noodles'; // Import the Noodles class
 import { Explosion } from '../Explosion'; // Import the Explosion class
 
+// i need a countdown timer starting at 5:00. Display this in the HUD at the top of the screen ai!
+
 export class GameScene extends Scene {
     constructor() {
         super({ key: 'GameScene' });
