@@ -116,6 +116,7 @@ export class Head extends Phaser.GameObjects.Container {
         const radius = this.irisBoundary.radius; // Use the defined iris boundary radius
         const duration = 1000; // Duration for one full rotation (adjust as needed)
 
+        // no this doesn't work either. See in the update() how the angle is calculated. What if we tween the angle from 0 to 360? ai!
         this.scene.tweens.add({
             targets: [this.leftIris, this.rightIris],
             x: {
