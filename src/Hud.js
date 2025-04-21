@@ -13,11 +13,52 @@ export class Hud extends Phaser.GameObjects.Container {
         this.barX = 10;
         this.barY = 10;
 
+        // Create the background of the health bar
+        this.healthBarBackground = this.scene.add.graphics();
+        this.healthBarBackground.fillStyle(0x808080); // Grey background
+        this.healthBarBackground.fillRect(
+            this.barX,
+            this.barY,
+            this.barWidth,
+            this.barHeight
+        );
+        this.healthBarBackground.setScrollFactor(0);
+        this.add(this.healthBarBackground);
+
+        // Create the health bar itself
+        this.healthBar = this.scene.add.graphics();
+        this.healthBar.fillStyle(0xff0000); // Red health bar
+        this.healthBar.fillRect(
+            this.barX,
+            this.barY,
+            this.barWidth,
+            this.barHeight
+        );
+        this.healthBar.setScrollFactor(0);
+        this.add(this.healthBar);
+
+        // Optional: Add text for HP value on top of the bar
+        this.hpText = this.scene.add
+            .text(
+                this.barX + this.barWidth / 2,
+                this.barY + this.barHeight / 2,
+                `${this.player.hp}`,
+                {
+                    fontSize: '18px',
+                    fill: '#ffffff',
+                    fontFamily: 'retro',
+                    align: 'center',
+                }
+            )
+            .setOrigin(0.5);
+        this.hpText.setScrollFactor(0);
+        this.add(this.hpText);
+
         // Balance Meter Spectrum
-        this.spectrumWidth = 200;
+        this.spectrumWidth = this.scene.scale.width; // Make the spectrum stretch across the screen
         this.spectrumHeight = 10;
-        this.spectrumX = this.scene.scale.width / 2 - this.spectrumWidth / 2; // Center the spectrum
-        this.spectrumY = 10; // Position at the top
+        this.spectrumX = 0; // Start from the left edge
+        this.spectrumY = this.barY + this.barHeight + 10; // Position below the health bar
 
         // Create the background of the spectrum
         this.spectrumBackground = this.scene.add.graphics();
@@ -37,8 +78,8 @@ export class Hud extends Phaser.GameObjects.Container {
         this.indicatorWidth = 5;
         this.indicatorHeight = this.spectrumHeight + 5; // Slightly taller than the spectrum
         this.balanceIndicator.fillRect(
-            this.spectrumX + this.spectrumWidth / 2 - this.indicatorWidth / 2, // Start in the middle
-            this.spectrumY - (this.indicatorHeight - this.spectrumHeight) / 2, // Center vertically
+            -this.indicatorWidth / 2, // Draw relative to the indicator's origin (which will be centered)
+            -(this.indicatorHeight - this.spectrumHeight) / 2, // Center vertically relative to the spectrum
             this.indicatorWidth,
             this.indicatorHeight
         );
@@ -46,51 +87,10 @@ export class Hud extends Phaser.GameObjects.Container {
         this.add(this.balanceIndicator);
 
 
-        // Create the background of the health bar
-        this.healthBarBackground = this.scene.add.graphics();
-        this.healthBarBackground.fillStyle(0x808080); // Grey background
-        this.healthBarBackground.fillRect(
-            this.barX,
-            this.barY + this.spectrumHeight + 10, // Position below the spectrum
-            this.barWidth,
-            this.barHeight
-        );
-        this.healthBarBackground.setScrollFactor(0);
-        this.add(this.healthBarBackground);
-
-        // Create the health bar itself
-        this.healthBar = this.scene.add.graphics();
-        this.healthBar.fillStyle(0xff0000); // Red health bar
-        this.healthBar.fillRect(
-            this.barX,
-            this.barY + this.spectrumHeight + 10, // Position below the spectrum
-            this.barWidth,
-            this.barHeight
-        );
-        this.healthBar.setScrollFactor(0);
-        this.add(this.healthBar);
-
-        // Optional: Add text for HP value on top of the bar
-        this.hpText = this.scene.add
-            .text(
-                this.barX + this.barWidth / 2,
-                this.barY + this.barHeight / 2 + this.spectrumHeight + 10, // Position below the spectrum
-                `${this.player.hp}`,
-                {
-                    fontSize: '18px',
-                    fill: '#ffffff',
-                    fontFamily: 'retro',
-                    align: 'center',
-                }
-            )
-            .setOrigin(0.5);
-        this.hpText.setScrollFactor(0);
-        this.add(this.hpText);
-
         // Add text for juggling count
         this.juggleText = this.scene.add.text(
             this.barX,
-            this.barY + this.barHeight + 10 + this.spectrumHeight + 10, // Position below the health bar
+            this.spectrumY + this.spectrumHeight + 10, // Position below the spectrum
             `Juggling: ${this.scene.juggledObjects.length}`,
             {
                 fontSize: '18px',
@@ -142,7 +142,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.healthBar.fillStyle(0xff0000);
         this.healthBar.fillRect(
             this.barX,
-            this.barY + this.spectrumHeight + 10,
+            this.barY,
             currentBarWidth,
             this.barHeight
         );
@@ -193,10 +193,10 @@ export class Hud extends Phaser.GameObjects.Container {
         // Map the balance meter value (-100 to 100) to the spectrum width (0 to spectrumWidth)
         const balanceRange = 200; // -100 to 100
         const normalizedBalance = (this.scene.balanceMeter + 100) / balanceRange; // 0 to 1
-        const indicatorPositionX = this.spectrumX + (normalizedBalance * this.spectrumWidth) - this.indicatorWidth / 2;
+        const indicatorPositionX = this.spectrumX + (normalizedBalance * this.spectrumWidth);
 
         // Update the indicator's position
-        this.balanceIndicator.x = indicatorPositionX - this.spectrumX; // Set x relative to the container
+        this.balanceIndicator.x = indicatorPositionX;
     }
 
     update() {
