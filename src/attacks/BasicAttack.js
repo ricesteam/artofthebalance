@@ -75,6 +75,7 @@ export class BasicAttack {
             platformAngle
         );
 
+        // this doesn't seem to work ai!
         attackText.setPosition(
             player.x + rotatedOffset.x,
             player.y + rotatedOffset.y
