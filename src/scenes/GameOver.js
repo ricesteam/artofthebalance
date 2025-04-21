@@ -21,7 +21,7 @@ export class GameOver extends Scene {
     }
 
     create() {
-        // set background to be black ai!
+        this.cameras.main.setBackgroundColor(0x000000);
         const width = this.scale.width;
         const height = this.scale.height;
 
