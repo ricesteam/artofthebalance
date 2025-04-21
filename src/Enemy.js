@@ -238,7 +238,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
     die() {
         if (!this.active) return;
-
         this.scene.add.particles(this.x, this.y, 'blood', {
             speed: { min: -200, max: 200 },
             angle: { min: 0, max: 360 },
@@ -248,32 +247,14 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             quantity: 20,
             tint: [0xff0000, 0x8b0000],
             stopAfter: 100,
+            onComplete: () => {},
         });
 
+        // wrap this up in a delay call ai!
         this.setSensor(true); // Turn into a sensor
         this.flipY = true; // Flip vertically to appear as if falling
         this.setVelocityY(Phaser.Math.Between(2, 5)); // Give it a slight downward velocity
         this.setAngularVelocity(Phaser.Math.FloatBetween(-0.1, 0.1)); // Add some rotation
-
-        this.scene.time.delayedCall(100, () => {
-            const id = this.scene.enemies.indexOf(this);
-            this.scene.enemies.splice(id, 1);
-            const juggledIndex = this.scene.juggledObjects.indexOf(this);
-            if (juggledIndex > -1) {
-                this.scene.juggledObjects.splice(juggledIndex, 1);
-            }
-
-            this.glowTween.stop();
-            this.glowTween.destroy();
-            this.scene.tweens.killTweensOf(this.glowTween);
-            this.glowTween = null;
-
-            this.postFxPlugin.remove(this.body.gameObject);
-            this.postFxPlugin.stop();
-            this.postFxPlugin.destroy();
-
-            super.destroy();
-        });
     }
 
     destroy() {
