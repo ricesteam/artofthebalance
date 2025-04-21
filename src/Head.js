@@ -130,6 +130,7 @@ export class Head extends Phaser.GameObjects.Container {
                 this.leftIris.x = irisOffsetX;
                 this.leftIris.y = 2 + irisOffsetY; // Add 2 to the y position
 
+                // can we have right iris go the opposite direction? ai!
                 this.rightIris.x = irisOffsetX;
                 this.rightIris.y = 2 + irisOffsetY; // Add 2 to the y position
             },
