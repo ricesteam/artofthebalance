@@ -8,6 +8,7 @@ export class BlackholeAttack {
         this.cooldown = 5000; // Cooldown in milliseconds (e.g., 5 seconds)
         this.lastUsedTime = 0; // Timestamp of the last time the attack was used
         this.count = count ?? 2;
+        this.blackholeRadius = 50; // Default radius
     }
 
     use(player) {
@@ -18,8 +19,21 @@ export class BlackholeAttack {
 
         this.lastUsedTime = this.scene.time.now;
 
-        // create a blackhole for each this.count ai!
-        const blackhole = new Blackhole(this.scene, player.x, player.y);
-        this.scene.blackholes.push(blackhole); // Add the blackhole to the scene's list
+        // create a blackhole for each this.count
+        for (let i = 0; i < this.count; i++) {
+            // Create a new Blackhole instance at a random position near the player
+            const randomOffsetX = Phaser.Math.FloatBetween(-50, 50); // Adjust range as needed
+            const randomOffsetY = Phaser.Math.FloatBetween(-50, 50); // Adjust range as needed
+            const blackholeX = player.x + randomOffsetX;
+            const blackholeY = player.y + randomOffsetY;
+
+            const blackhole = new Blackhole(
+                this.scene,
+                blackholeX,
+                blackholeY,
+                this.blackholeRadius
+            );
+            this.scene.blackholes.push(blackhole); // Add the blackhole to the scene's list
+        }
     }
 }
