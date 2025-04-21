@@ -289,8 +289,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             onComplete: () => {
                 this.scene.time.delayedCall(1000, () => {
                     head.baldImage.setFrame(3);
-
                     this.scene.sound.play('china');
+
+                    // loop through each enemies and check if exist and call triggerJuggledExplosion ai!
 
                     // After the attack, tween the head back to its original position
                     this.scene.time.delayedCall(
