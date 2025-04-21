@@ -250,11 +250,12 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             onComplete: () => {},
         });
 
-        // wrap this up in a delay call ai!
-        this.setSensor(true); // Turn into a sensor
-        this.flipY = true; // Flip vertically to appear as if falling
-        this.setVelocityY(Phaser.Math.Between(2, 5)); // Give it a slight downward velocity
-        this.setAngularVelocity(Phaser.Math.FloatBetween(-0.1, 0.1)); // Add some rotation
+        this.scene.time.delayedCall(100, () => {
+            this.setSensor(true); // Turn into a sensor
+            this.flipY = true; // Flip vertically to appear as if falling
+            this.setVelocityY(Phaser.Math.Between(2, 5)); // Give it a slight downward velocity
+            this.setAngularVelocity(Phaser.Math.FloatBetween(-0.1, 0.1)); // Add some rotation
+        });
     }
 
     destroy() {
