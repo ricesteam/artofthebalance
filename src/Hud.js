@@ -196,8 +196,8 @@ export class Hud extends Phaser.GameObjects.Container {
         const indicatorPositionX =
             this.spectrumX + normalizedBalance * this.spectrumWidth;
 
-        // account for the spectrumY ai!
         this.balanceIndicator.x = indicatorPositionX;
+        this.balanceIndicator.y = this.spectrumY + this.spectrumHeight / 2; // Position vertically in the middle of the spectrum
     }
 
     update() {
