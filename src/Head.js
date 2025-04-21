@@ -51,9 +51,6 @@ export class Head extends Phaser.GameObjects.Container {
         this.leftEyeLid.setScale(0.5);
         this.rightEyeLid.setScale(0.5);
 
-        // Start blinking timer
-        this.startBlinking();
-
         this.postFxPlugin = scene.plugins.get('rexGlowFilterPipeline');
         const glowFx = this.postFxPlugin.add(this, {
             inintensity: 0,
@@ -86,22 +83,33 @@ export class Head extends Phaser.GameObjects.Container {
         });
     }
 
-    blink() {
+    closeEyes() {
         if (!this.active) return;
-        // Make eyelids visible for a short duration
         this.leftEyeLid.setVisible(true);
         this.rightEyeLid.setVisible(true);
+    }
+
+    openEyes() {
+        if (!this.active) return;
+        this.leftEyeLid.setVisible(false);
+        this.rightEyeLid.setVisible(false);
+    }
+
+    blink() {
+        if (!this.active) return;
+        this.closeEyes();
 
         this.scene.time.addEvent({
             delay: 100, // Eyelids visible for 100ms
             callback: () => {
-                this.leftEyeLid.setVisible(false);
-                this.rightEyeLid.setVisible(false);
+                this.openEyes();
             },
             callbackScope: this,
             loop: false,
         });
     }
+
+    // make a helper function that makes the eyes go round and round like in cartoons ai!
 
     update() {
         if (!this.active) return;
