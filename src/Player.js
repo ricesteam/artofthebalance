@@ -299,6 +299,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.scene.enemies.forEach((enemy) => {
             enemy.isMarkedForDeath = true;
         });
+        //head.glowTween.seek(0);
+        head.glowTween.play();
 
         this.scene.tweens.add({
             targets: head,
@@ -306,6 +308,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             y: this.scene.scale.height / 2,
             duration: 200, // Reduced duration for a faster snap
             ease: 'back.easeout', // Use sine.out for a quick snap
+            delay: 500,
             onComplete: () => {
                 this.scene.time.delayedCall(1000, () => {
                     head.baldImage.setFrame(3);

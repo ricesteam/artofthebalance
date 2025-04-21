@@ -53,6 +53,26 @@ export class Head extends Phaser.GameObjects.Container {
 
         // Start blinking timer
         this.startBlinking();
+
+        this.postFxPlugin = scene.plugins.get('rexGlowFilterPipeline');
+        const glowFx = this.postFxPlugin.add(this, {
+            inintensity: 0,
+        });
+
+        this.glowTween = this.scene.tweens.add({
+            targets: glowFx,
+            intensity: 0.8,
+            duration: 500,
+            yoyo: true,
+            paused: true,
+            loop: -1,
+            ease: 'Sine.easeIn',
+        });
+
+        this.glowTween.on('loop', (tween) => {
+            tween.pause();
+            tween.seek(0);
+        });
     }
 
     startBlinking() {
