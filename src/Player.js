@@ -403,8 +403,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
 
         if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
-            // Calculate health to restore (2:1 ratio)
-            const healthToRestore = this.SupremeJuice / 2;
+            const healthToRestore = this.SupremeJuice / 6;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
             if (this.SupremeJuice >= 100) {

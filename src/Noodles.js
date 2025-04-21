@@ -14,7 +14,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
 
         this.setBounce(1);
         this.setFriction(0.01);
-        this.setMass(1.5);
+        this.setMass(0.5);
         //this.setCollisionGroup(-1);
         this.setCollidesWith([
             // this.scene.CATEGORY_BLOCK,

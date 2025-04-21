@@ -347,6 +347,8 @@ export class GameScene extends Scene {
             // this.scene.start('GameOverScene'); // Assuming you have a GameOverScene
         }
 
+        this.spawner.updateSpawnRate();
+
         // if the platform passes rotation -47,47, reset it to 0
         const maxRotation = Phaser.Math.DegToRad(47); // Convert degrees to radians
         if (
