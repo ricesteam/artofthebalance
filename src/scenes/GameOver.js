@@ -4,6 +4,22 @@ import { Head } from '../Head';
 export class GameOver extends Scene {
     constructor() {
         super('GameOver');
+
+        this.endings = [
+            {
+                text:
+                    'In the final seconds, as noodles surged across the borders like a starchy tidal wave, the Supreme Leader paused…\n\n' +
+                    'Was 34% too much? Would 12% seem weak?\n\n' +
+                    'Paralyzed by indecision, he stared into the abyss of fiscal spreadsheets—mouth agape, finger trembling above the Tariff Slider™.\n\n' +
+                    'But time waits for no man.\n' +
+                    'Especially not one drowning in imported ramen.\n\n' +
+                    'The deficit ballooned. The economy collapsed under the sheer weight of saucy noodles.\n' +
+                    'The Hegemony crumbled, slurped into history by its own appetite.\n\n' +
+                    'And as silence fell over the land, the people slowly realized…\n\n' +
+                    "Maybe… just maybe… trade isn't a zero-sum game.\n\n" +
+                    'World peace emerged, cautiously and gluten-free.',
+            },
+        ];
     }
 
     init(data) {
@@ -42,7 +58,7 @@ export class GameOver extends Scene {
                 duration: 1500, // Duration of the tilt
                 yoyo: true, // Go back and forth
                 repeat: -1, // Repeat indefinitely
-                ease: 'Sine.easeInOut', // Smooth easing
+                ease: 'bounce.easeInOut', // Smooth easing
             },
             duration: 2000, // Duration of the float
             yoyo: true, // Go back down
@@ -50,7 +66,7 @@ export class GameOver extends Scene {
             ease: 'Sine.easeInOut', // Smooth easing
         });
 
-        this.add
+        const gameOver = this.add
             .text(width / 2, height / 2, this.mainText, {
                 fontFamily: 'retro',
                 fontSize: 64,
@@ -60,6 +76,8 @@ export class GameOver extends Scene {
                 align: 'center',
             })
             .setOrigin(0.5);
+
+        // add a delayed call to start scrolling the text in endings[0].text ai!
 
         this.input.once('pointerdown', () => {
             this.scene.start('MainMenu');
