@@ -461,16 +461,29 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             return;
         }
 
-        //make the player flash red when taking damage ai!
+        this.scene.tweens.add({
+            targets: this,
+            tint: 0xff0000, // Flash red
+            duration: 100, // Quick duration
+            yoyo: true, // Go back to original tint
+            repeat: 0, // No repeat
+            onComplete: (tween) => {
+                this.setTint(0xffffff); // Ensure it returns to white tint
+                tween.stop();
+                tween.destroy();
+            },
+        });
 
         this.scene.tweens.add({
             targets: this.pixelFx,
-            amount: 10, // Pixelate fully
+            amount: 5, // Pixelate fully
             duration: 100, // Quick duration
             yoyo: true, // Go back to original state
             repeat: 0, // No repeat
-            onComplete: () => {
+            onComplete: (tween) => {
                 this.pixelFx.amount = -1; // Reset to original state
+                tween.stop();
+                tween.destroy();
             },
         });
     }
