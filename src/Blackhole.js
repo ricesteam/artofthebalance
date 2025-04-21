@@ -24,8 +24,12 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.setSensor(true); // Make it a sensor so it doesn't collide physically
         this.setIgnoreGravity(true);
         this.setStatic(true);
-        // how do I scale down the sprite's texture to match the blackholeRadius? ai!
-        this.setScale(0.005 * this.blackholeRadius);
+        // how do I scale down the sprite's texture to match the blackholeRadius?
+        // The 'head' sprite is 1024x1024. The radius of the circle shape is this.blackholeRadius.
+        // The visual radius of the sprite is half its width/height.
+        // So, we want the visual radius (1024 / 2 = 512) scaled down to this.blackholeRadius.
+        // Scale factor = desired_radius / original_visual_radius = this.blackholeRadius / 512
+        this.setScale(this.blackholeRadius / 512);
         this.setDepth(1);
 
         // Set a timer to destroy the blackhole after timeAlive
