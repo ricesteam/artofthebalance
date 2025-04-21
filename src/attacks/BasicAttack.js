@@ -76,9 +76,10 @@ export class BasicAttack {
             platformAngle
         );
 
+        // account for the player's direction ai!
         attackText.setPosition(
             player.x + rotatedOffset.x,
-            player.y + rotatedOffset.y
+            player.y + rotatedOffset.y - 20
         );
 
         // Set the rotation of the text to match the platform angle
