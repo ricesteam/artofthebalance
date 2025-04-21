@@ -348,6 +348,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         });
     }
 
+    // refactor: show the bursteffect image in the background. Add a yoyo tween to brighten the tint ai!
     startLightshow() {
         // Create a graphics object for the lightshow
         const lightshowGraphics = this.scene.add.graphics();
