@@ -298,6 +298,8 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         if (this.bounceCount >= this.scene.juggleThreshold) {
             this.canBeJuggled = false;
             this.glowTween.play();
+
+            // move this to a method ai!
             this.scene.time.delayedCall(Phaser.Math.Between(1000, 3000), () => {
                 if (!this.active) return;
                 const explosion = new Explosion(
