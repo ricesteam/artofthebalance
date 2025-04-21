@@ -61,7 +61,7 @@ export class GameOver extends Scene {
         // Access the data passed from the previous scene
         this.balanceMeter = data.balanceMeter;
         this.mainText = data.mainText ?? 'Game Over';
-        this.endingId = data.endingId ?? 2;
+        this.endingId = data.endingId ?? 0;
     }
 
     create() {
@@ -95,6 +95,7 @@ export class GameOver extends Scene {
 
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
+            // start playing the outro music ai!
             const endingText = this.add
                 .text(
                     width / 2,
