@@ -408,8 +408,6 @@ export class GameScene extends Scene {
 
         const decisionFactor = 5;
 
-        // for each blocks and enemies that fall off the screen give the player 0.1% Supreme Juice ai!
-
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
             if (block.y > this.scale.height + 20) {
@@ -430,9 +428,17 @@ export class GameScene extends Scene {
                 this.blocks.splice(index, 1); // Remove from the blocks array
 
                 const id = this.juggledObjects.indexOf(block);
-                this.juggledObjects.splice(id, 1);
+                if (id > -1) {
+                    this.juggledObjects.splice(id, 1);
+                }
 
                 block.destroy(); // Destroy the block
+
+                // Give player Supreme Juice for blocks falling off
+                this.player.SupremeJuice = Math.min(
+                    100,
+                    this.player.SupremeJuice + 0.1
+                );
             }
         });
 
@@ -451,8 +457,18 @@ export class GameScene extends Scene {
                         this.balanceMeter + decisionFactor
                     );
                 }
+                const juggledIndex = this.juggledObjects.indexOf(enemy);
+                if (juggledIndex > -1) {
+                    this.juggledObjects.splice(juggledIndex, 1);
+                }
                 this.enemies.splice(index, 1); // Remove from the enemies array
                 enemy.destroy(); // Destroy the enemy
+
+                // Give player Supreme Juice for enemies falling off
+                this.player.SupremeJuice = Math.min(
+                    100,
+                    this.player.SupremeJuice + 0.1
+                );
             }
         });
 

@@ -63,6 +63,7 @@ export class GameOver extends Scene {
                     'Glory to the Supreme Leader',
             },
         ];
+        this.outroMusicPlayed = false; // Flag to track if outro music has been played
     }
 
     init(data) {
@@ -85,6 +86,8 @@ export class GameOver extends Scene {
         this.cameras.main.setBackgroundColor(0x000000);
         const width = this.scale.width;
         const height = this.scale.height;
+
+        const margin = 200;
 
         // Create the Head instance
         this.head = new Head(this, width / 2, height / 2);
@@ -145,7 +148,10 @@ export class GameOver extends Scene {
 
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
-            this.sound.play('outro');
+            if (!this.outroMusicPlayed) {
+                this.sound.play('outro');
+                this.outroMusicPlayed = true;
+            }
             const endingText = this.add
                 .text(
                     width / 2,
@@ -183,30 +189,15 @@ export class GameOver extends Scene {
         const width = this.scale.width;
         const height = this.scale.height;
         const margin = 200;
-        const endingText = this.add
-            .text(
-                width / 2,
-                height + 50,
-                'This game was NOT written by AI.\n\n\n\n\n\n\n\nCode By AI\nArt by AI\nMusic by AI\nStory by AI',
-                {
-                    fontFamily: 'retro',
-                    fontSize: 24,
-                    fill: '#ffffff',
-                    align: 'center',
-                    wordWrap: { width: width - margin }, // Wrap text within the screen width
-                }
-            )
-            .setOrigin(0.5, 0);
-        this.tweens.add({
-            targets: [endingText], // Include the head in the tween
-            y: `-=${height + endingText.height + 50}`, // Scroll up until both are off-screen
-            duration: 30000, // Adjust duration for scrolling speed
-            ease: 'Linear',
-            onComplete: () => {
-                endingText.destroy();
-                this.playOutro3();
-            },
-        });
+        this.add
+            .text(width / 2, height / 2, '"Thanks for playing" -- AI', {
+                fontFamily: 'retro',
+                fontSize: 24,
+                fill: '#ffffff',
+                align: 'center',
+                wordWrap: { width: width - margin },
+            })
+            .setOrigin(0.5);
     }
 
     playOutro3() {
