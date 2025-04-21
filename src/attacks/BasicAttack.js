@@ -54,6 +54,7 @@ export class BasicAttack {
 
         const randomWord = Phaser.Utils.Array.GetRandom(trumpWords);
 
+        // refactor: how do I make the attackText appear to project out from the player? ai!
         const attackText = this.scene.add
             .text(attackX, attackY, randomWord, {
                 fontSize: '24px',
