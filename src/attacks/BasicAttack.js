@@ -75,11 +75,13 @@ export class BasicAttack {
             platformAngle
         );
 
-        // can't you set the text rotation instead? ai!
         attackText.setPosition(
             player.x + rotatedOffset.x,
             player.y + rotatedOffset.y
         );
+
+        // Set the rotation of the text to match the platform angle
+        attackText.setRotation(platformAngle);
 
         // Create the attack area as a circle
         const attackArea = this.scene.matter.add.circle(
