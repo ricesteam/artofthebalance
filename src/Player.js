@@ -94,6 +94,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             loop: true,
         });
 
+        // Store the original head position
+        this.originalHeadPosition = { x: 0, y: 0 };
+
         //this.postFX.addShine(0.7, 0.2, 5);
     }
 
@@ -197,11 +200,14 @@ export class Player extends Phaser.Physics.Matter.Sprite {
     upgradeBlackholeAttack() {
         this.blackholeAttack.cooldown = Math.max(
             1000,
-            this.blackholeAttack.cooldown * 0.9
+            this.blackholeAttack.cooldown * 0.95
         );
         this.blackholeAttack.blackholeRadius *= 1.05;
         this.blackholeAttack.maxCapacity *= 1.05;
-        this.blackholeAttack.count *= 1.05;
+        this.blackholeAttack.count = Math.min(
+            6,
+            Math.floor(this.blackholeAttack.count * 1.1)
+        );
     }
 
     // Method to add an attack to the inventory (push onto the stack)
@@ -272,7 +278,58 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 const head = this.scene.head;
                 head.tween.pause();
 
-                // make the head float up to the center of the screen, keep track of the original position ai!
+                // make the head float up to the center of the screen, keep track of the original position
+                this.originalHeadPosition.x = head.x;
+                this.originalHeadPosition.y = head.y;
+
+                this.scene.tweens.add({
+                    targets: head,
+                    x: this.scene.scale.width / 2,
+                    y: this.scene.scale.height / 2,
+                    duration: 1000, // Duration of the float up
+                    ease: 'sine.inout',
+                    onComplete: () => {
+                        // Once the head is in the center, trigger the blackhole attack
+                        if (this.SupremeJuice >= 75) {
+                            this.addAttack(this.blackholeAttack);
+                            this.scene.time.delayedCall(
+                                this.blackholeAttackDuration,
+                                this.removeAttack,
+                                [],
+                                this
+                            );
+                            this.upgradeBlackholeAttack();
+                        } else if (this.SupremeJuice >= 50) {
+                            this.addAttack(this.bombAttack);
+                            this.scene.time.delayedCall(
+                                this.bombAttackDuration,
+                                this.removeAttack,
+                                [],
+                                this
+                            );
+                            this.upgradeBombAttack();
+                        } else if (this.SupremeJuice >= 25) {
+                            this.upgradeBasicAttack();
+                        }
+
+                        // After the attack, tween the head back to its original position
+                        this.scene.time.delayedCall(
+                            this.blackholeAttackDuration, // Wait for the blackhole duration
+                            () => {
+                                this.scene.tweens.add({
+                                    targets: head,
+                                    x: this.originalHeadPosition.x,
+                                    y: this.originalHeadPosition.y,
+                                    duration: 1000, // Duration of the float back down
+                                    ease: 'sine.inout',
+                                    onComplete: () => {
+                                        head.tween.resume(); // Resume the wobbly tween
+                                    },
+                                });
+                            }
+                        );
+                    },
+                });
             } else if (this.SupremeJuice >= 75) {
                 this.addAttack(this.blackholeAttack);
                 this.scene.time.delayedCall(
