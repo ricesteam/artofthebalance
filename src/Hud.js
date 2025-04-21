@@ -196,7 +196,6 @@ export class Hud extends Phaser.GameObjects.Container {
         const indicatorPositionX =
             this.spectrumX + normalizedBalance * this.spectrumWidth;
 
-        // the indicator is not on the bar ai!
         this.balanceIndicator.x = indicatorPositionX;
     }
 
