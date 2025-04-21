@@ -64,7 +64,7 @@ export class MainMenu extends Scene {
 
         this.input.once('pointerdown', () => {
             // this.scene.start('GameScene');
-            // stop all sounds ai!
+            this.sound.stopAll();
             this.scene.start('GameOver');
         });
 
