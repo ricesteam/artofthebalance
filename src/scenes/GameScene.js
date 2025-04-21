@@ -338,12 +338,16 @@ export class GameScene extends Scene {
             blackhole.update();
         });
 
-        if (this.player.y > this.scale.height + 50) {
+        // if the player is offscreen anywhere, respawn the player
+        if (
+            this.player.y > this.scale.height + 50 ||
+            this.player.y < -50 ||
+            this.player.x < -50 ||
+            this.player.x > this.scale.width + 50
+        ) {
             this.player.takeDamage(10); // Player takes 10 damage
             this.spawnPlayer(false);
         }
-
-        // if the player is offscreen anywhere, respawn the player ai!
 
         // Scroll the background
         this.bg.tilePositionX += this.scrollSpeedX;
