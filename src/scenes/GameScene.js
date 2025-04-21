@@ -314,6 +314,8 @@ export class GameScene extends Scene {
     }
 
     update(time, delta) {
+        // if the platform passes rotation -47,47, reset it to 0 ai!
+
         this.player.update(this.cursors);
         this.head.update(); // Update the head
         this.hud.update(); // Update the hud
