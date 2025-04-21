@@ -116,36 +116,23 @@ export class Head extends Phaser.GameObjects.Container {
         const radius = this.irisBoundary.radius; // Use the defined iris boundary radius
         const duration = 1000; // Duration for one full rotation (adjust as needed)
 
-        // no this doesn't work either. See in the update() how the angle is calculated. What if we tween the angle from 0 to 360? ai!
         this.scene.tweens.add({
-            targets: [this.leftIris, this.rightIris],
-            x: {
-                value: (target, key, current) => {
-                    // Calculate the angle based on the elapsed time and duration
-                    const angle =
-                        ((this.scene.time.now % duration) / duration) *
-                        Phaser.Math.PI2;
-                    return Math.cos(angle) * radius;
-                },
-                duration: duration,
-                ease: 'Linear',
-                repeat: -1,
-            },
-            y: {
-                value: (target, key, current) => {
-                    // Calculate the angle based on the elapsed time and duration
-                    const angle =
-                        ((this.scene.time.now % duration) / duration) *
-                        Phaser.Math.PI2;
-                    return 2 + Math.sin(angle) * radius; // Add 2 to the y position
-                },
-                duration: duration,
-                ease: 'Linear',
-                repeat: -1,
-            },
+            targets: { angle: 0 }, // Tween a dummy object's angle property
+            angle: Phaser.Math.PI2, // Tween to 360 degrees (2 * PI radians)
             duration: duration,
             repeat: -1,
             ease: 'Linear',
+            onUpdate: (tween) => {
+                const angle = tween.getValue();
+                const irisOffsetX = Math.cos(angle) * radius;
+                const irisOffsetY = Math.sin(angle) * radius;
+
+                this.leftIris.x = irisOffsetX;
+                this.leftIris.y = 2 + irisOffsetY; // Add 2 to the y position
+
+                this.rightIris.x = irisOffsetX;
+                this.rightIris.y = 2 + irisOffsetY; // Add 2 to the y position
+            },
         });
     }
 
