@@ -52,7 +52,6 @@ export class BasicAttack {
         const attackX = player.body.position.x;
         const attackY = player.body.position.y;
 
-        // make it so the words are coming out of the direction of the player ai!
         const randomWord = Phaser.Utils.Array.GetRandom(trumpWords);
         const attackText = this.scene.add
             .text(attackX, attackY, randomWord, {
