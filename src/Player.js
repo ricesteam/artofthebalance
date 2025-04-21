@@ -260,8 +260,14 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         // make the head float up to the center of the screen, keep track of the original position
         this.originalHeadPosition.x = head.x;
         this.originalHeadPosition.y = head.y;
+        this.scene.platform.body.isStatic = true;
 
-        this.scene.matter.world.engine.timing.timeScale = 0;
+        this.scene.tweens.add({
+            targets: this.scene.matter.world.engine.timing,
+            timeScale: 0,
+            duration: 1000,
+            ease: 'back.easeout',
+        });
 
         this.scene.tweens.add({
             targets: head,
@@ -275,6 +281,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     1000, // Wait for the blackhole duration
                     () => {
                         this.scene.matter.world.engine.timing.timeScale = 1;
+                        this.scene.platform.body.isStatic = false;
                         this.scene.tweens.add({
                             targets: head,
                             x: this.originalHeadPosition.x,
