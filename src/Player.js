@@ -269,7 +269,12 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             ease: 'back.easeout',
         });
 
-        // darken the background ai!
+        this.scene.tweens.add({
+            targets: this.scene.bg,
+            tint: 0x000000, // Darken to black
+            duration: 1000,
+            ease: 'Linear',
+        });
 
         this.scene.tweens.add({
             targets: head,
@@ -293,6 +298,12 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                             onComplete: () => {
                                 head.tween.resume(); // Resume the wobbly tween
                             },
+                        });
+                        this.scene.tweens.add({
+                            targets: this.scene.bg,
+                            tint: 0xdddddd, // Return to original tint
+                            duration: 1000,
+                            ease: 'Linear',
                         });
                     }
                 );
