@@ -12,6 +12,8 @@ export class Spawner {
             width: scene.scale.width * 0.6,
         };
 
+        // increase spawn rate based on time remaining in the game. cap it at 500 ai!
+
         // Add a timer to spawn blocks periodically
         this.blockSpawnTimer = this.scene.time.addEvent({
             delay: 2000, // Spawn a block every 2 seconds
