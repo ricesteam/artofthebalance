@@ -294,7 +294,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     head.baldImage.setFrame(3);
                     this.scene.sound.play('china');
 
-                    // loop through each enemies and check if exist and call triggerJuggledExplosion
+                    // get all bodies from matter.world instead and filterby body.label === "maga" ai!
                     this.scene.enemies.forEach((enemy) => {
                         if (
                             enemy &&
