@@ -54,7 +54,6 @@ export class BasicAttack {
 
         const randomWord = Phaser.Utils.Array.GetRandom(trumpWords);
 
-        // align to the top ai!
         const attackText = this.scene.add
             .text(attackX, attackY, randomWord, {
                 fontSize: '24px',
@@ -62,7 +61,8 @@ export class BasicAttack {
                 fontFamily: 'retro',
                 align: 'center',
             })
-            .setDepth(20);
+            .setOrigin(0.5, 0); // Align to the top
+        attackText.setDepth(20);
 
         // Calculate the initial position of the text slightly in front of the player
         const offsetX = player.playerDirection * 20; // Adjust the offset as needed
