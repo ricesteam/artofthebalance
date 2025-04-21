@@ -257,16 +257,17 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         const head = this.scene.head;
         head.tween.pause();
 
-        const emitter = this.scene.add.particles(head.x, -100, 'toupee', {
-            angle: { min: 240, max: 300 },
-            speed: { min: 200, max: 300 },
-            lifespan: 4000,
-            gravityY: 180,
-            quantity: 2,
-            bounce: 0.4,
-            bounds: new Phaser.Geom.Rectangle(-100, -200, 1000, 750),
-            stopAfter: 3000,
-        });
+        // const emitter = this.scene.add.particles(head.x, -100, 'toupee', {
+        //     angle: { min: 240, max: 300 },
+        //     speed: { min: 200, max: 300 },
+        //     lifespan: 4000,
+        //     gravityY: 180,
+        //     quantity: 2,
+        //     bounce: 0.4,
+        //     bounds: new Phaser.Geom.Rectangle(-100, -200, 1000, 750),
+        //     stopAfter: 3000,
+        // });
+        //const fx = emitter.postFX.addBokeh(0.5, 10, 0.2);
 
         // make the head float up to the center of the screen, keep track of the original position
         this.originalHeadPosition.x = head.x;
@@ -294,8 +295,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             ease: 'back.easeout',
         });
 
-        const fx = emitter.postFX.addBokeh(0.5, 10, 0.2);
-
         this.scene.tweens.add({
             targets: head,
             x: this.scene.scale.width / 2,
@@ -311,6 +310,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     this.scene.matter.world.getAllBodies().forEach((body) => {
                         if (
                             body.label === 'maga' &&
+                            !body.isSensor &&
                             body.gameObject &&
                             typeof body.gameObject.triggerJuggledExplosion ===
                                 'function'
@@ -338,7 +338,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                                 duration: 1000, // Duration of the float back down
                                 ease: 'sine.inout',
                                 onComplete: () => {
-                                    emitter.destroy();
+                                    //emitter.destroy();
                                     head.baldImage.setFrame(4);
                                     head.tween.resume(); // Resume the wobbly tween
                                 },

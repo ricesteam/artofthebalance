@@ -238,20 +238,24 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
     die() {
         if (!this.active) return;
-        this.scene.add.particles(this.x, this.y, 'blood', {
-            speed: { min: -200, max: 200 },
-            angle: { min: 0, max: 360 },
-            scale: { start: 0.5, end: 0 },
-            lifespan: 500,
-            gravityY: 300,
-            quantity: 20,
-            tint: [0xff0000, 0x8b0000],
-            stopAfter: 100,
-            onComplete: () => {},
-        });
+        this.scene.add
+            .particles(this.x, this.y, 'blood', {
+                speed: { min: -200, max: 200 },
+                angle: { min: 0, max: 360 },
+                scale: { start: 0.5, end: 0 },
+                lifespan: 500,
+                gravityY: 300,
+                quantity: 20,
+                tint: [0xff0000, 0x8b0000],
+                stopAfter: 100,
+            })
+            .setDepth(10);
 
-        this.scene.time.delayedCall(100, () => {
-            this.setSensor(true); // Turn into a sensor
+        this.setSensor(true); // Turn into a sensor
+
+        this.scene.time.delayedCall(500, () => {
+            if (!this.active || !this.body) return;
+
             this.flipY = true; // Flip vertically to appear as if falling
             this.setVelocityY(Phaser.Math.Between(2, 5)); // Give it a slight downward velocity
             this.setAngularVelocity(Phaser.Math.FloatBetween(-0.1, 0.1)); // Add some rotation

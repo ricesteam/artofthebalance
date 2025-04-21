@@ -24,12 +24,14 @@ export class GameScene extends Scene {
         this.player = null; // Player game object
         this.rightWeight = 0;
         this.spawner = null; // Spawner instance
-        this.enemies = []; // Array to hold enemies
-        this.blackholes = [];
+
         this.scrollSpeedX = 0.5; // Background horizontal scroll speed
         this.scrollSpeedY = 0.2; // Background vertical scroll speed
         this.baldScale = 0.5; // Scale of the bald image
         this.hud = null; // Hud game object
+
+        this.enemies = []; // Array to hold enemies
+        this.blackholes = [];
         this.juggleThreshold = 5;
         this.juggledObjects = []; // Array to keep track of currently juggled objects
 
