@@ -65,7 +65,7 @@ export class BasicAttack {
         attackText.setDepth(20);
 
         // Calculate the initial position of the text slightly in front of the player
-        const offsetX = player.playerDirection * 20; // Adjust the offset as needed
+        const offsetX = player.playerDirection * 40; // Adjust the offset as needed
         const offsetY = 0; // Adjust the offset as needed
 
         // Rotate the offset vector by the platform angle
@@ -76,10 +76,9 @@ export class BasicAttack {
             platformAngle
         );
 
-        // account for the player's direction ai!
         attackText.setPosition(
             player.x + rotatedOffset.x,
-            player.y + rotatedOffset.y - 20
+            player.y + rotatedOffset.y - 30
         );
 
         // Set the rotation of the text to match the platform angle
@@ -87,8 +86,8 @@ export class BasicAttack {
 
         // Create the attack area as a circle
         const attackArea = this.scene.matter.add.circle(
-            attackText.x, // Start the attack area at the text's initial position
-            attackText.y, // Start the attack area at the text's initial position
+            attackX, // Start the attack area at the text's initial position
+            attackY, // Start the attack area at the text's initial position
             this.attackRadius,
             {
                 label: 'attack1',
