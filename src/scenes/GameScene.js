@@ -44,6 +44,7 @@ export class GameScene extends Scene {
 
         this.balanceMeter = 0; // Balance meter stat
 
+        // would it make sense to use Phaser.Time.Clock insead? ai!
         this.gameDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
         this.timeRemaining = this.gameDuration;
         this.timerText = null;
