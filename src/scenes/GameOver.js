@@ -77,7 +77,29 @@ export class GameOver extends Scene {
             })
             .setOrigin(0.5);
 
-        // add a delayed call to start scrolling the text in endings[0].text ai!
+        // Add a delayed call to start scrolling the text
+        this.time.delayedCall(2000, () => {
+            const endingText = this.add
+                .text(width / 2, height + 50, this.endings[0].text, {
+                    fontFamily: 'retro',
+                    fontSize: '24px',
+                    fill: '#ffffff',
+                    align: 'center',
+                    wordWrap: { width: width - 100 }, // Wrap text within the screen width
+                })
+                .setOrigin(0.5, 0); // Align to the top-center
+
+            // Tween to scroll the text upwards
+            this.tweens.add({
+                targets: endingText,
+                y: -endingText.height - 50, // Scroll up until it's off-screen
+                duration: 30000, // Adjust duration for scrolling speed
+                ease: 'Linear',
+                onComplete: () => {
+                    endingText.destroy();
+                },
+            });
+        });
 
         this.input.once('pointerdown', () => {
             this.scene.start('MainMenu');
