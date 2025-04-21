@@ -12,9 +12,8 @@ export class Spawner {
             width: scene.scale.width * 0.6,
         };
 
-        // add references to these events so they can be paused later ai!
         // Add a timer to spawn blocks periodically
-        this.scene.time.addEvent({
+        this.blockSpawnTimer = this.scene.time.addEvent({
             delay: 2000, // Spawn a block every 2 seconds
             callback: this.addBlock,
             callbackScope: this,
@@ -22,7 +21,7 @@ export class Spawner {
         });
 
         // Add a timer to spawn enemies periodically
-        this.scene.time.addEvent({
+        this.enemySpawnTimer = this.scene.time.addEvent({
             delay: 2000, // Spawn an enemy every 5 seconds
             callback: this.addEnemy,
             callbackScope: this,
