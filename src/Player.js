@@ -261,8 +261,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.originalHeadPosition.x = head.x;
         this.originalHeadPosition.y = head.y;
 
-        // gradually slow down time ai!
-        this.scene.matter.world.engine.timing.timeScale = 0;
+        this.scene.matter.world.engine.timing.timeScale = 0.1;
 
         // I want to this to snap up really fast
         this.scene.tweens.add({
