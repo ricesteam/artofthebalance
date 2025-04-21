@@ -429,7 +429,11 @@ export class GameScene extends Scene {
 
                 const id = this.juggledObjects.indexOf(block);
                 if (id > -1) {
-                    // player gets 0.5% juice for each bounceCounter in the block ai!
+                    // player gets 0.5% juice for each bounceCounter in the block
+                    this.player.SupremeJuice = Math.min(
+                        100,
+                        this.player.SupremeJuice + block.bounceCount * 0.5
+                    );
                     this.juggledObjects.splice(id, 1);
                 }
 
