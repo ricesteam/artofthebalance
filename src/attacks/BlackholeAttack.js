@@ -21,8 +21,7 @@ export class BlackholeAttack {
 
         // create a blackhole for each this.count
         for (let i = 0; i < this.count; i++) {
-            // spawn in random location slight above the player
-            const randomOffsetX = Phaser.Math.FloatBetween(-50, 50); // Adjust range as needed
+            const randomOffsetX = Phaser.Math.FloatBetween(-50, 50); // the range can be the width of the screen - some margin ai!
             const randomOffsetY = Phaser.Math.FloatBetween(-100, -50); // Adjust range as needed (above the player)
             const blackholeX = player.x + randomOffsetX;
             const blackholeY = player.y + randomOffsetY;
