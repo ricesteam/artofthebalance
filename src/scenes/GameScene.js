@@ -9,7 +9,6 @@ import { Hud } from '../Hud'; // Import the Hud class
 import { Noodles } from '../Noodles'; // Import the Noodles class
 import { Explosion } from '../Explosion'; // Import the Explosion class
 
-
 export class GameScene extends Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -71,10 +70,12 @@ export class GameScene extends Scene {
         // Create the Head instance
         this.head = new Head(this, width / 2, height);
 
+        const levelOffset = 100;
+
         // Create the see-saw platform
         this.platform = this.matter.add.image(
             width / 2,
-            height / 2 + 50,
+            height / 2 + levelOffset,
             'plank',
             null,
             {
@@ -94,11 +95,16 @@ export class GameScene extends Scene {
         this.platform.setDepth(10);
 
         // Create an anchor point
-        this.anchor = this.matter.add.circle(width / 2, height / 2 + 60, 50, {
-            ignoreGravity: false,
-            isStatic: true,
-            isSensor: true,
-        });
+        this.anchor = this.matter.add.circle(
+            width / 2,
+            height / 2 + levelOffset,
+            50,
+            {
+                ignoreGravity: false,
+                isStatic: true,
+                isSensor: true,
+            }
+        );
 
         this.platformLocation = 0;
         this.platformStiffness = 0.2;
@@ -115,7 +121,7 @@ export class GameScene extends Scene {
             }
         );
 
-        this.createStopBlocks();
+        this.createStopBlocks(levelOffset);
         this.createAnimations();
 
         // Create the player
@@ -153,10 +159,10 @@ export class GameScene extends Scene {
         //this.matter.world.engine.timing.timeScale = 0.1;
     }
 
-    createStopBlocks() {
+    createStopBlocks(levelOffset) {
         const width = this.scale.width;
         const height = this.scale.height;
-        const offsety = 160;
+        const offsety = 190;
         const offsetx = 125;
 
         this.matter.add.rectangle(

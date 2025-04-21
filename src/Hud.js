@@ -17,8 +17,8 @@ export class Hud extends Phaser.GameObjects.Container {
 
         // Timer Text
         this.timerText = this.scene.add
-            .text(this.scene.scale.width / 2, this.barY, '5:00', {
-                fontSize: '24px',
+            .text(this.scene.scale.width / 2, this.barY - 5, '5:00', {
+                fontSize: '32px',
                 fill: '#ffffff',
                 fontFamily: 'retro',
                 align: 'center',
@@ -26,7 +26,6 @@ export class Hud extends Phaser.GameObjects.Container {
             .setOrigin(0.5, 0);
         this.timerText.setScrollFactor(0);
         this.add(this.timerText);
-
 
         // Create the background of the health bar
         this.healthBarBackground = this.scene.add.graphics();
