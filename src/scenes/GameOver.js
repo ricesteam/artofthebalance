@@ -18,9 +18,11 @@ export class GameOver extends Scene {
     create() {
         this.cameras.main.setBackgroundColor(0xff0000);
 
-        // center this text ai!
+        const width = this.scale.width;
+        const height = this.scale.height;
+
         this.add
-            .text(512, 384, 'Game Over', {
+            .text(width / 2, height / 2, 'Game Over', {
                 fontFamily: 'Arial Black',
                 fontSize: 64,
                 color: '#ffffff',
