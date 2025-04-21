@@ -8,6 +8,8 @@ export class Hud extends Phaser.GameObjects.Container {
 
         scene.add.existing(this);
 
+        this.setDepth(999);
+
         this.barWidth = 200;
         this.barHeight = 20;
         this.barX = 10;
@@ -57,6 +59,7 @@ export class Hud extends Phaser.GameObjects.Container {
         // Balance Meter Spectrum
         this.spectrumWidth = this.scene.scale.width; // Make the spectrum stretch across the screen
         this.spectrumHeight = 10;
+        // use barX as the margin for this ai!
         this.spectrumX = 0; // Start from the left edge
         this.spectrumY = this.barY + this.barHeight + 10; // Position below the health bar
 
@@ -197,7 +200,7 @@ export class Hud extends Phaser.GameObjects.Container {
             this.spectrumX + normalizedBalance * this.spectrumWidth;
 
         this.balanceIndicator.x = indicatorPositionX;
-        this.balanceIndicator.y = this.spectrumY + this.spectrumHeight / 2; // Position vertically in the middle of the spectrum
+        this.balanceIndicator.y = this.spectrumY + this.spectrumHeight / 2 - 5; // Position vertically in the middle of the spectrum
     }
 
     update() {
