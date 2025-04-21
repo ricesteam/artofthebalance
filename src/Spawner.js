@@ -22,7 +22,7 @@ export class Spawner {
 
         // Add a timer to spawn enemies periodically
         this.enemySpawnTimer = this.scene.time.addEvent({
-            delay: 2000, // Spawn an enemy every 5 seconds
+            delay: 500, // Spawn an enemy every 5 seconds
             callback: this.addEnemy,
             callbackScope: this,
             loop: true,
