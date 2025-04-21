@@ -21,9 +21,14 @@ export class BlackholeAttack {
 
         // create a blackhole for each this.count
         for (let i = 0; i < this.count; i++) {
-            const randomOffsetX = Phaser.Math.FloatBetween(-50, 50); // the range can be the width of the screen - some margin ai!
+            const margin = 50; // Margin from the screen edges
+            const spawnAreaWidth = this.scene.scale.width - 2 * margin;
+            const randomOffsetX = Phaser.Math.FloatBetween(
+                -spawnAreaWidth / 2,
+                spawnAreaWidth / 2
+            );
             const randomOffsetY = Phaser.Math.FloatBetween(-100, -50); // Adjust range as needed (above the player)
-            const blackholeX = player.x + randomOffsetX;
+            const blackholeX = this.scene.scale.width / 2 + randomOffsetX;
             const blackholeY = player.y + randomOffsetY;
 
             const blackhole = new Blackhole(
