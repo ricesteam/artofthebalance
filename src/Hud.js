@@ -196,7 +196,7 @@ export class Hud extends Phaser.GameObjects.Container {
         const indicatorPositionX = this.spectrumX + (normalizedBalance * this.spectrumWidth) - this.indicatorWidth / 2;
 
         // Update the indicator's position
-        this.balanceIndicator.x = indicatorPositionX - this.balanceIndicator.getBounds().x;
+        this.balanceIndicator.x = indicatorPositionX - this.spectrumX; // Set x relative to the container
     }
 
     update() {
