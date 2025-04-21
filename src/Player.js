@@ -269,6 +269,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             ease: 'back.easeout',
         });
 
+        // darken the background ai!
+
         this.scene.tweens.add({
             targets: head,
             x: this.scene.scale.width / 2,
