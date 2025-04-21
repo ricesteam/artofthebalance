@@ -261,41 +261,22 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.originalHeadPosition.x = head.x;
         this.originalHeadPosition.y = head.y;
 
+        // gradually slow down time ai!
+        this.scene.matter.world.engine.timing.timeScale = 0;
+
         // I want to this to snap up really fast
         this.scene.tweens.add({
             targets: head,
             x: this.scene.scale.width / 2,
             y: this.scene.scale.height / 2,
             duration: 200, // Reduced duration for a faster snap
-            ease: 'sine.out', // Use sine.out for a quick snap
+            ease: 'back.easeout', // Use sine.out for a quick snap
             onComplete: () => {
-                // Once the head is in the center, trigger the blackhole attack
-                if (this.SupremeJuice >= 75) {
-                    this.addAttack(this.blackholeAttack);
-                    this.scene.time.delayedCall(
-                        this.blackholeAttackDuration,
-                        this.removeAttack,
-                        [],
-                        this
-                    );
-                    this.upgradeBlackholeAttack();
-                } else if (this.SupremeJuice >= 50) {
-                    this.addAttack(this.bombAttack);
-                    this.scene.time.delayedCall(
-                        this.bombAttackDuration,
-                        this.removeAttack,
-                        [],
-                        this
-                    );
-                    this.upgradeBombAttack();
-                } else if (this.SupremeJuice >= 25) {
-                    this.upgradeBasicAttack();
-                }
-
                 // After the attack, tween the head back to its original position
                 this.scene.time.delayedCall(
-                    this.blackholeAttackDuration, // Wait for the blackhole duration
+                    1000, // Wait for the blackhole duration
                     () => {
+                        this.scene.matter.world.engine.timing.timeScale = 1;
                         this.scene.tweens.add({
                             targets: head,
                             x: this.originalHeadPosition.x,
