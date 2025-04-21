@@ -25,6 +25,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
 
         this.setMass(2);
         this.setBounce(1);
+        this.setDepth(5);
 
         this.explosionRadius = explosionRadius ?? 64; // Radius of the explosion
         this.delay = delay ?? 250;

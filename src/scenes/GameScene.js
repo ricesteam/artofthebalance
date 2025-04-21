@@ -187,7 +187,7 @@ export class GameScene extends Scene {
             repeat: -1,
         });
 
-        thisims.create({
+        this.anims.create({
             key: 'stand',
             frames: [{ key: 'player', frame: 8 }],
             frameRate: 20,
@@ -386,13 +386,13 @@ export class GameScene extends Scene {
         ); // 0.1% per second
 
         // check this.tweens count, if it's greater than 120 splice the end off
-        if (this.tweens.getAllTweens().length > 120) {
+        if (this.tweens.tweens.length > 100) {
             // Get all active tweens
-            const allTweens = this.tweens.getAllTweens();
+            const allTweens = this.tweens.tweens;
             // Sort tweens by their progress (tweens that are closer to completion first)
             allTweens.sort((a, b) => a.progress - b.progress);
             // Determine how many tweens to remove
-            const tweensToRemoveCount = allTweens.length - 120;
+            const tweensToRemoveCount = allTweens.length - 20;
             // Remove the tweens that are closest to completion
             for (let i = 0; i < tweensToRemoveCount; i++) {
                 allTweens[i].stop();

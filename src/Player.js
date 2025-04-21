@@ -406,8 +406,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
-            if (this.SupremeJuice >= 0) {
+            if (this.SupremeJuice >= 100) {
                 this.triggerSupremeAttack();
+                this.upgradeBlackholeAttack();
+                this.upgradeBombAttack();
+                this.upgradeBasicAttack();
             } else if (this.SupremeJuice >= 75) {
                 this.addAttack(this.blackholeAttack);
                 this.scene.time.delayedCall(

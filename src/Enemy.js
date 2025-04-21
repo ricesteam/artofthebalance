@@ -267,6 +267,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     }
 
     destroy() {
+        if (!this.active) return;
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
         const juggledIndex = this.scene.juggledObjects.indexOf(this);
