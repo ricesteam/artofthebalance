@@ -13,12 +13,45 @@ export class Hud extends Phaser.GameObjects.Container {
         this.barX = 10;
         this.barY = 10;
 
+        // Balance Meter Spectrum
+        this.spectrumWidth = 200;
+        this.spectrumHeight = 10;
+        this.spectrumX = this.scene.scale.width / 2 - this.spectrumWidth / 2; // Center the spectrum
+        this.spectrumY = 10; // Position at the top
+
+        // Create the background of the spectrum
+        this.spectrumBackground = this.scene.add.graphics();
+        this.spectrumBackground.fillStyle(0x808080); // Grey background
+        this.spectrumBackground.fillRect(
+            this.spectrumX,
+            this.spectrumY,
+            this.spectrumWidth,
+            this.spectrumHeight
+        );
+        this.spectrumBackground.setScrollFactor(0);
+        this.add(this.spectrumBackground);
+
+        // Create the indicator for the balance meter
+        this.balanceIndicator = this.scene.add.graphics();
+        this.balanceIndicator.fillStyle(0xffffff); // White indicator
+        this.indicatorWidth = 5;
+        this.indicatorHeight = this.spectrumHeight + 5; // Slightly taller than the spectrum
+        this.balanceIndicator.fillRect(
+            this.spectrumX + this.spectrumWidth / 2 - this.indicatorWidth / 2, // Start in the middle
+            this.spectrumY - (this.indicatorHeight - this.spectrumHeight) / 2, // Center vertically
+            this.indicatorWidth,
+            this.indicatorHeight
+        );
+        this.balanceIndicator.setScrollFactor(0);
+        this.add(this.balanceIndicator);
+
+
         // Create the background of the health bar
         this.healthBarBackground = this.scene.add.graphics();
         this.healthBarBackground.fillStyle(0x808080); // Grey background
         this.healthBarBackground.fillRect(
             this.barX,
-            this.barY,
+            this.barY + this.spectrumHeight + 10, // Position below the spectrum
             this.barWidth,
             this.barHeight
         );
@@ -30,7 +63,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.healthBar.fillStyle(0xff0000); // Red health bar
         this.healthBar.fillRect(
             this.barX,
-            this.barY,
+            this.barY + this.spectrumHeight + 10, // Position below the spectrum
             this.barWidth,
             this.barHeight
         );
@@ -41,7 +74,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.hpText = this.scene.add
             .text(
                 this.barX + this.barWidth / 2,
-                this.barY + this.barHeight / 2,
+                this.barY + this.barHeight / 2 + this.spectrumHeight + 10, // Position below the spectrum
                 `${this.player.hp}`,
                 {
                     fontSize: '18px',
@@ -57,7 +90,7 @@ export class Hud extends Phaser.GameObjects.Container {
         // Add text for juggling count
         this.juggleText = this.scene.add.text(
             this.barX,
-            this.barY + this.barHeight + 10,
+            this.barY + this.barHeight + 10 + this.spectrumHeight + 10, // Position below the health bar
             `Juggling: ${this.scene.juggledObjects.length}`,
             {
                 fontSize: '18px',
@@ -96,6 +129,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.updateHealthBar();
         this.updateJuggleCount();
         this.updateSupremeJuice();
+        this.updateBalanceMeter(); // Initial update for the balance meter
     }
 
     updateHealthBar() {
@@ -108,7 +142,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.healthBar.fillStyle(0xff0000);
         this.healthBar.fillRect(
             this.barX,
-            this.barY,
+            this.barY + this.spectrumHeight + 10,
             currentBarWidth,
             this.barHeight
         );
@@ -155,6 +189,16 @@ export class Hud extends Phaser.GameObjects.Container {
         );
     }
 
+    updateBalanceMeter() {
+        // Map the balance meter value (-100 to 100) to the spectrum width (0 to spectrumWidth)
+        const balanceRange = 200; // -100 to 100
+        const normalizedBalance = (this.scene.balanceMeter + 100) / balanceRange; // 0 to 1
+        const indicatorPositionX = this.spectrumX + (normalizedBalance * this.spectrumWidth) - this.indicatorWidth / 2;
+
+        // Update the indicator's position
+        this.balanceIndicator.x = indicatorPositionX - this.balanceIndicator.getBounds().x;
+    }
+
     update() {
         // Update the health bar display
         this.updateHealthBar();
@@ -162,5 +206,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.updateJuggleCount();
         // Update the Supreme Juice display
         this.updateSupremeJuice();
+        // Update the balance meter display
+        this.updateBalanceMeter();
     }
 }
