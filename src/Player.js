@@ -257,7 +257,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         const head = this.scene.head;
         head.tween.pause();
 
-        // I want some sort of lightshow in the background, create a helper method ai!
+        this.startLightshow();
 
         // make the head float up to the center of the screen, keep track of the original position
         this.originalHeadPosition.x = head.x;
@@ -347,6 +347,42 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             },
         });
     }
+
+    startLightshow() {
+        // Create a graphics object for the lightshow
+        const lightshowGraphics = this.scene.add.graphics();
+        this.scene.add.existing(lightshowGraphics); // Add to the scene
+
+        // Define lightshow properties
+        const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff]; // Array of colors
+        const duration = 100; // Duration of each flash
+        const repeat = 20; // Number of flashes
+
+        // Create a tween to cycle through colors and alpha
+        this.scene.tweens.add({
+            targets: lightshowGraphics,
+            alpha: { from: 1, to: 0.5 }, // Flash between full and half alpha
+            duration: duration / 2,
+            yoyo: true,
+            repeat: repeat,
+            onRepeat: () => {
+                // Change color on each repeat
+                const randomColor = Phaser.Utils.Array.GetRandom(colors);
+                lightshowGraphics.fillStyle(randomColor, 1);
+                lightshowGraphics.fillRect(0, 0, this.scene.scale.width, this.scene.scale.height);
+            },
+            onStart: () => {
+                 // Initial fill
+                const randomColor = Phaser.Utils.Array.GetRandom(colors);
+                lightshowGraphics.fillStyle(randomColor, 1);
+                lightshowGraphics.fillRect(0, 0, this.scene.scale.width, this.scene.scale.height);
+            },
+            onComplete: () => {
+                lightshowGraphics.destroy(); // Destroy the graphics object after the lightshow
+            },
+        });
+    }
+
 
     update(cursors) {
         // Player movement
