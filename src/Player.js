@@ -253,6 +253,64 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
     }
 
+    triggerSupremeAttack() {
+        const head = this.scene.head;
+        head.tween.pause();
+
+        // make the head float up to the center of the screen, keep track of the original position
+        this.originalHeadPosition.x = head.x;
+        this.originalHeadPosition.y = head.y;
+
+        this.scene.tweens.add({
+            targets: head,
+            x: this.scene.scale.width / 2,
+            y: this.scene.scale.height / 2,
+            duration: 1000, // Duration of the float up
+            ease: 'sine.inout',
+            onComplete: () => {
+                // Once the head is in the center, trigger the blackhole attack
+                if (this.SupremeJuice >= 75) {
+                    this.addAttack(this.blackholeAttack);
+                    this.scene.time.delayedCall(
+                        this.blackholeAttackDuration,
+                        this.removeAttack,
+                        [],
+                        this
+                    );
+                    this.upgradeBlackholeAttack();
+                } else if (this.SupremeJuice >= 50) {
+                    this.addAttack(this.bombAttack);
+                    this.scene.time.delayedCall(
+                        this.bombAttackDuration,
+                        this.removeAttack,
+                        [],
+                        this
+                    );
+                    this.upgradeBombAttack();
+                } else if (this.SupremeJuice >= 25) {
+                    this.upgradeBasicAttack();
+                }
+
+                // After the attack, tween the head back to its original position
+                this.scene.time.delayedCall(
+                    this.blackholeAttackDuration, // Wait for the blackhole duration
+                    () => {
+                        this.scene.tweens.add({
+                            targets: head,
+                            x: this.originalHeadPosition.x,
+                            y: this.originalHeadPosition.y,
+                            duration: 1000, // Duration of the float back down
+                            ease: 'sine.inout',
+                            onComplete: () => {
+                                head.tween.resume(); // Resume the wobbly tween
+                            },
+                        });
+                    }
+                );
+            },
+        });
+    }
+
     update(cursors) {
         // Player movement
         if (cursors.left.isDown) {
@@ -275,39 +333,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.hp = Math.min(100, this.hp + healthToRestore);
 
             if (this.SupremeJuice >= 0) {
-                // refactor: move to a helper method ai!
-                const head = this.scene.head;
-                head.tween.pause();
-
-                // make the head float up to the center of the screen, keep track of the original position
-                this.originalHeadPosition.x = head.x;
-                this.originalHeadPosition.y = head.y;
-
-                this.scene.tweens.add({
-                    targets: head,
-                    x: this.scene.scale.width / 2,
-                    y: this.scene.scale.height / 2,
-                    duration: 1000, // Duration of the float up
-                    ease: 'sine.inout',
-                    onComplete: () => {
-                        // After the attack, tween the head back to its original position
-                        this.scene.time.delayedCall(
-                            this.blackholeAttackDuration, // Wait for the blackhole duration
-                            () => {
-                                this.scene.tweens.add({
-                                    targets: head,
-                                    x: this.originalHeadPosition.x,
-                                    y: this.originalHeadPosition.y,
-                                    duration: 1000, // Duration of the float back down
-                                    ease: 'sine.inout',
-                                    onComplete: () => {
-                                        head.tween.resume(); // Resume the wobbly tween
-                                    },
-                                });
-                            }
-                        );
-                    },
-                });
+                this.triggerSupremeAttack();
             } else if (this.SupremeJuice >= 75) {
                 this.addAttack(this.blackholeAttack);
                 this.scene.time.delayedCall(
