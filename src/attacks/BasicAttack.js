@@ -75,7 +75,7 @@ export class BasicAttack {
             platformAngle
         );
 
-        // this doesn't seem to work ai!
+        // Set the position of the text relative to the player's sprite position
         attackText.setPosition(
             player.x + rotatedOffset.x,
             player.y + rotatedOffset.y
