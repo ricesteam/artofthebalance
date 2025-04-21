@@ -268,7 +268,12 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
-            if (this.SupremeJuice >= 75) {
+            if (this.SupremeJuice >= 0) {
+                const head = this.scene.head;
+                head.tween.pause();
+
+                // make the head float up to the center of the screen, keep track of the original position ai!
+            } else if (this.SupremeJuice >= 75) {
                 this.addAttack(this.blackholeAttack);
                 this.scene.time.delayedCall(
                     this.blackholeAttackDuration,
