@@ -95,7 +95,7 @@ export class GameOver extends Scene {
 
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
-            // start playing the outro music ai!
+            this.sound.play('outro');
             const endingText = this.add
                 .text(
                     width / 2,
