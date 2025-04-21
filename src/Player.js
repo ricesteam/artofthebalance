@@ -197,9 +197,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
     upgradeBlackholeAttack() {
         this.blackholeAttack.cooldown = Math.max(
             1000,
-            this.blackholeAttack.cooldown * 0.95
+            this.blackholeAttack.cooldown * 0.9
         );
-        this.blackholeAttack.blackholeRadius *= 1.05;
+        this.blackholeAttack.blackholeRadius *= 1.1;
+
+        // increase the blackholeattack.count by 10% rounded down ai!
     }
 
     // Method to add an attack to the inventory (push onto the stack)
@@ -266,7 +268,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
-            if (this.SupremeJuice >= 75) {
+            if (this.SupremeJuice >= 0) {
                 this.addAttack(this.blackholeAttack);
                 this.scene.time.delayedCall(
                     this.blackholeAttackDuration,
