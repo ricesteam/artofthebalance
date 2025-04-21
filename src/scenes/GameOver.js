@@ -30,18 +30,19 @@ export class GameOver extends Scene {
         this.head.tween.stop();
         this.head.eyesGoRound();
 
-        // this doesn't work; lets just manually switch the frames ai!
-        // Create an animation for the baldImage to loop frames 4-6
-        this.anims.create({
-            key: 'baldLoop',
-            frames: this.anims.generateFrameNumbers('head', {
-                start: 4,
-                end: 6,
-            }),
-            frameRate: 5, // Adjust frame rate as needed
-            repeat: -1, // Loop indefinitely
+        // Manually switch frames for the baldImage to loop frames 4-6
+        let currentFrame = 4;
+        this.time.addEvent({
+            delay: 200, // Adjust delay between frames as needed
+            callback: () => {
+                currentFrame++;
+                if (currentFrame > 6) {
+                    currentFrame = 4;
+                }
+                this.head.baldImage.setFrame(currentFrame);
+            },
+            loop: true,
         });
-        this.anims.play('baldLoop');
 
         this.add
             .text(width / 2, height / 2, this.mainText, {
