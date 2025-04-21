@@ -261,6 +261,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.originalHeadPosition.x = head.x;
         this.originalHeadPosition.y = head.y;
 
+        // I want to this to snap up really fast ai!
         this.scene.tweens.add({
             targets: head,
             x: this.scene.scale.width / 2,
@@ -268,29 +269,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             duration: 1000, // Duration of the float up
             ease: 'sine.inout',
             onComplete: () => {
-                // Once the head is in the center, trigger the blackhole attack
-                if (this.SupremeJuice >= 75) {
-                    this.addAttack(this.blackholeAttack);
-                    this.scene.time.delayedCall(
-                        this.blackholeAttackDuration,
-                        this.removeAttack,
-                        [],
-                        this
-                    );
-                    this.upgradeBlackholeAttack();
-                } else if (this.SupremeJuice >= 50) {
-                    this.addAttack(this.bombAttack);
-                    this.scene.time.delayedCall(
-                        this.bombAttackDuration,
-                        this.removeAttack,
-                        [],
-                        this
-                    );
-                    this.upgradeBombAttack();
-                } else if (this.SupremeJuice >= 25) {
-                    this.upgradeBasicAttack();
-                }
-
                 // After the attack, tween the head back to its original position
                 this.scene.time.delayedCall(
                     this.blackholeAttackDuration, // Wait for the blackhole duration
