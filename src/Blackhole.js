@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { Explosion } from './Explosion';
 
 export class Blackhole extends Phaser.Physics.Matter.Sprite {
-    constructor(scene, x, y) {
+    constructor(scene, x, y, radius, maxCapacity) {
         super(scene.matter.world, x, y, 'head', 0, {
             label: 'blackhole',
             isStatic: true,
@@ -13,10 +13,9 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.matter = scene.matter;
         scene.add.existing(this);
 
-        this.blackholeRadius = 50; // Adjust the radius of the blackhole's pull
-        this.gravitationalConstant = 0.0005; // Adjust the strength of gravity
+        this.blackholeRadius = radius ?? 50; // Adjust the radius of the blackhole's pull
         this.timeAlive = 2000; // Time in milliseconds before the blackhole is destroyed
-        this.maxCapacity = 3;
+        this.maxCapacity = maxCapacity ?? 3;
         this.victims = [];
         this.constraints = [];
 
