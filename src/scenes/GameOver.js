@@ -14,7 +14,7 @@ export class GameOver extends Scene {
                     'Some claimed it was dumpling-related. Others blamed an aneurysm triggered by complex VAT calculations.\n\n' +
                     'Regardless, no tariffs were issued. No decisions made.\n\n' +
                     'The noodles flowed in unchecked. The deficit grew unchecked.\n' +
-                    'The Hegemony collapsed under the weight of its own appetite.\n\n' +
+                    'The Hegemony crumbled under the weight of its own appetite.\n\n' +
                     'A regime undone not by rebellion… but by ramen.\n\n' +
                     'A tragic end. A soggy legacy.\n\n' +
                     'World Peace emerged...',
@@ -79,22 +79,8 @@ export class GameOver extends Scene {
 
         this.head.baldImage.setFrame(5);
 
-        // this needs to stop and the head needs scroll up along with the Game Over text ai!
-        const floatingHead = this.tweens.add({
-            targets: this.head,
-            y: this.head.y - 20, // Float up by 20 pixels
-            rotation: {
-                value: () => Phaser.Math.FloatBetween(-0.1, 0.1), // Tilt slightly
-                duration: 1500, // Duration of the tilt
-                yoyo: true, // Go back and forth
-                repeat: -1, // Repeat indefinitely
-                ease: 'bounce.easeInOut', // Smooth easing
-            },
-            duration: 2000, // Duration of the float
-            yoyo: true, // Go back down
-            repeat: -1, // Repeat indefinitely
-            ease: 'Sine.easeInOut', // Smooth easing
-        });
+        // Stop the floating tween on the head
+        this.tweens.killTweensOf(this.head);
 
         const gameOver = this.add
             .text(width / 2, height / 2, this.mainText, {
@@ -126,15 +112,16 @@ export class GameOver extends Scene {
                 )
                 .setOrigin(0.5, 0); // Align to the top-center
 
-            // Tween to scroll the text upwards
+            // Tween to scroll the text and head upwards
             this.tweens.add({
-                targets: [endingText, gameOver], // Include the game over text in the tween
+                targets: [endingText, gameOver, this.head], // Include the head in the tween
                 y: `-=${height + endingText.height + 50}`, // Scroll up until both are off-screen
                 duration: 50000, // Adjust duration for scrolling speed
                 ease: 'Linear',
                 onComplete: () => {
                     endingText.destroy();
                     gameOver.destroy();
+                    this.head.destroy();
                 },
             });
         });
