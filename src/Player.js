@@ -461,7 +461,15 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             return;
         }
 
-        // add a tween to target pixelFx, no repeat, yoyo true ai!
-        this.scene.tweens.add({});
+        this.scene.tweens.add({
+            targets: this.pixelFx,
+            amount: 1, // Pixelate fully
+            duration: 100, // Quick duration
+            yoyo: true, // Go back to original state
+            repeat: 0, // No repeat
+            onComplete: () => {
+                this.pixelFx.amount = -1; // Reset to original state
+            },
+        });
     }
 }
