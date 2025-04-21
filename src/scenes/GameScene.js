@@ -348,6 +348,14 @@ export class GameScene extends Scene {
 
     gameOver() {
         const pixelated = this.cameras.main.postFX.addPixelate(-1);
+        const isEnding = this.player.hp > 0;
+        let endingId = null;
+
+        const balance = Math.abs(this.balanceMeter);
+
+        if (Math.abs(this.balanceMeter) <= 20) endingId = 3;
+        else if (this.balanceMeter > 20) endingId = 2;
+        else if (this.balanceMeter < -20) endingId = 1;
 
         this.add.tween({
             targets: pixelated,
@@ -357,6 +365,8 @@ export class GameScene extends Scene {
                 this.cameras.main.fadeOut(100);
                 this.scene.start('GameOver', {
                     balanceMeter: this.balanceMeter,
+                    isEnding: isEnding,
+                    endingId: endingId,
                 });
             },
         });

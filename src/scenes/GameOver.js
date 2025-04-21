@@ -189,15 +189,30 @@ export class GameOver extends Scene {
         const width = this.scale.width;
         const height = this.scale.height;
         const margin = 200;
-        this.add
-            .text(width / 2, height / 2, '"Thanks for playing" -- AI', {
-                fontFamily: 'retro',
-                fontSize: 24,
-                fill: '#ffffff',
-                align: 'center',
-                wordWrap: { width: width - margin },
-            })
-            .setOrigin(0.5);
+        const endingText = this.add
+            .text(
+                width / 2,
+                height + 50,
+                'This game was NOT written by AI.\n\n\n\n\n\n\n\nCode By AI\nArt by AI\nMusic by AI\nStory by AI',
+                {
+                    fontFamily: 'retro',
+                    fontSize: 24,
+                    fill: '#ffffff',
+                    align: 'center',
+                    wordWrap: { width: width - margin }, // Wrap text within the screen width
+                }
+            )
+            .setOrigin(0.5, 0);
+        this.tweens.add({
+            targets: [endingText], // Include the head in the tween
+            y: `-=${height + endingText.height + 50}`, // Scroll up until both are off-screen
+            duration: 30000, // Adjust duration for scrolling speed
+            ease: 'Linear',
+            onComplete: () => {
+                endingText.destroy();
+                this.playOutro3();
+            },
+        });
     }
 
     playOutro3() {

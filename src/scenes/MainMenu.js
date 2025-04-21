@@ -63,8 +63,8 @@ export class MainMenu extends Scene {
         });
 
         this.input.once('pointerdown', () => {
-            this.scene.start('GameScene');
             this.sound.stopAll();
+            this.scene.start('GameScene');
         });
 
         const camera = this.cameras.main;
