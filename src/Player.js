@@ -272,7 +272,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         const origscrollSpeedY = this.scene.scrollSpeedY;
         this.scene.bg.tint = 0x111111;
 
-        // pause the Spawner ai!
+        this.scene.spawner.blockSpawnTimer.paused = true;
+        this.scene.spawner.enemySpawnTimer.paused = true;
 
         this.scene.tweens.add({
             targets: this.scene,
@@ -311,6 +312,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                             this.scene.scrollSpeedX = origscrollSpeedX;
                             this.scene.scrollSpeedY = origscrollSpeedY;
                             this.scene.bg.tint = 0xdddddd;
+
+                            this.scene.spawner.blockSpawnTimer.paused = false;
+                            this.scene.spawner.enemySpawnTimer.paused = false;
 
                             this.scene.tweens.add({
                                 targets: head,
