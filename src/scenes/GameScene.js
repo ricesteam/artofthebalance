@@ -56,17 +56,8 @@ export class GameScene extends Scene {
         this.bg.setScrollFactor(0);
         this.bg.setTint(0xdddddd); // Tint the background to make it darker
 
-        const fx = this.bg.preFX.addPixelate(2);
-        this.bg.preFX.addDisplacement('distort', -0.5, -0.5);
-
-        this.tweens.add({
-            targets: fx,
-            amount: -1,
-            yoyo: true,
-            loop: -1,
-            duration: 2000,
-            ease: 'sine.inout',
-        });
+        this.bg.postFX.addDisplacement('distort', -0.5, -0.5);
+        const fx = this.bg.postFX.addPixelate(2);
 
         // Create the Head instance
         this.head = new Head(this, width / 2, height);

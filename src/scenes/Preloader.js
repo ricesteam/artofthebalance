@@ -64,6 +64,7 @@ export class Preloader extends Scene {
 
         this.load.image('background2', 'background2.png');
         this.load.image('distort', 'noiseTexture.png');
+        this.load.image('noise2', 'noise2.png');
         this.load.image('plank', 'plank.png');
         this.load.image('title', 'title.png');
         this.load.image('castle', 'neo-whitehouse.png');
@@ -84,6 +85,14 @@ export class Preloader extends Scene {
         this.load.image('rightiris', 'rightiris.png');
 
         this.load.font('retro', 'Expire.otf');
+
+        this.loadSounds();
+    }
+
+    loadSounds() {
+        this.load.setPath('assets/sfx');
+        // load sound
+        this.load.audio('china', 'TrumpChina-low.wav');
     }
 
     create() {

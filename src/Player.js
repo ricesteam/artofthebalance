@@ -290,7 +290,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 this.scene.time.delayedCall(1000, () => {
                     head.baldImage.setFrame(3);
 
-                    // play the sound China ai!
+                    this.scene.sound.play('china');
 
                     // After the attack, tween the head back to its original position
                     this.scene.time.delayedCall(
