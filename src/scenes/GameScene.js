@@ -345,8 +345,10 @@ export class GameScene extends Scene {
             this.player.x < -50 ||
             this.player.x > this.scale.width + 50
         ) {
-            // only take damage if player falls down ai!
-            this.player.takeDamage(10); // Player takes 10 damage
+            // only take damage if player falls down
+            if (this.player.y > this.scale.height + 50) {
+                this.player.takeDamage(10); // Player takes 10 damage
+            }
             this.spawnPlayer(false);
         }
 
