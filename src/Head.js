@@ -116,6 +116,7 @@ export class Head extends Phaser.GameObjects.Container {
         const radius = this.irisBoundary.radius; // Use the defined iris boundary radius
         const duration = 1000; // Duration for one full rotation (adjust as needed)
 
+        // no scrap this. Use cos or sin to move the iris in a circular motion ai!
         this.scene.tweens.add({
             targets: [this.leftIris, this.rightIris],
             x: {
