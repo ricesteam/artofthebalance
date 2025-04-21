@@ -24,7 +24,8 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.setSensor(true); // Make it a sensor so it doesn't collide physically
         this.setIgnoreGravity(true);
         this.setStatic(true);
-        this.setScale(0.1);
+        // how do I scale down the sprite's texture to match the blackholeRadius? ai!
+        this.setScale(0.005 * this.blackholeRadius);
         this.setDepth(1);
 
         // Set a timer to destroy the blackhole after timeAlive
