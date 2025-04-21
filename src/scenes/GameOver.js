@@ -66,7 +66,6 @@ export class GameOver extends Scene {
             ease: 'Sine.easeInOut', // Smooth easing
         });
 
-        // this needs to start scrolling too ai!
         const gameOver = this.add
             .text(width / 2, height / 2, this.mainText, {
                 fontFamily: 'retro',
@@ -92,12 +91,13 @@ export class GameOver extends Scene {
 
             // Tween to scroll the text upwards
             this.tweens.add({
-                targets: endingText,
-                y: -endingText.height - 50, // Scroll up until it's off-screen
+                targets: [endingText, gameOver], // Include the game over text in the tween
+                y: `-=${height + endingText.height + 50}`, // Scroll up until both are off-screen
                 duration: 30000, // Adjust duration for scrolling speed
                 ease: 'Linear',
                 onComplete: () => {
                     endingText.destroy();
+                    gameOver.destroy();
                 },
             });
         });
