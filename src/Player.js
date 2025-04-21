@@ -291,7 +291,12 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     head.baldImage.setFrame(3);
                     this.scene.sound.play('china');
 
-                    // loop through each enemies and check if exist and call triggerJuggledExplosion ai!
+                    // loop through each enemies and check if exist and call triggerJuggledExplosion
+                    this.scene.enemies.forEach((enemy) => {
+                        if (enemy && typeof enemy.triggerJuggledExplosion === 'function') {
+                            enemy.triggerJuggledExplosion();
+                        }
+                    });
 
                     // After the attack, tween the head back to its original position
                     this.scene.time.delayedCall(
