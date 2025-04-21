@@ -30,19 +30,7 @@ export class GameOver extends Scene {
         this.head.tween.stop();
         this.head.eyesGoRound();
 
-        // Manually switch frames for the baldImage to loop frames 4-6
-        let currentFrame = 4;
-        this.time.addEvent({
-            delay: 200, // Adjust delay between frames as needed
-            callback: () => {
-                currentFrame++;
-                if (currentFrame > 6) {
-                    currentFrame = 4;
-                }
-                this.head.baldImage.setFrame(currentFrame);
-            },
-            loop: true,
-        });
+        this.head.baldImage.setFrame(5);
 
         this.add
             .text(width / 2, height / 2, this.mainText, {

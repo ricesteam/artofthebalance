@@ -22,6 +22,8 @@ export class Hud extends Phaser.GameObjects.Container {
                 fill: '#ffffff',
                 fontFamily: 'retro',
                 align: 'center',
+                stroke: '#000000',
+                strokeThickness: 8,
             })
             .setOrigin(0.5, 0);
         this.timerText.setScrollFactor(0);

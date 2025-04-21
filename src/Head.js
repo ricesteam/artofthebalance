@@ -10,7 +10,7 @@ export class Head extends Phaser.GameObjects.Container {
         this.setDepth(1);
 
         // Add the 'bald' image as a child of the container
-        this.baldImage = scene.add.image(0, 0, 'head', 4);
+        this.baldImage = scene.add.sprite(0, 0, 'head', 4);
         this.add(this.baldImage);
 
         this.baldImage.setScale(0.5); //.setOrigin(0.5, 1);

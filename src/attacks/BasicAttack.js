@@ -60,6 +60,8 @@ export class BasicAttack {
                 fill: '#ffffff',
                 fontFamily: 'retro',
                 align: 'center',
+                stroke: '#000000',
+                strokeThickness: 2,
             })
             .setOrigin(0.5, 0); // Align to the top
         attackText.setDepth(20);

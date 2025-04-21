@@ -67,6 +67,7 @@ export class GameScene extends Scene {
 
         // Create the Head instance
         this.head = new Head(this, width / 2, height);
+        this.head.startBlinking();
 
         const levelOffset = 100;
 
@@ -345,8 +346,19 @@ export class GameScene extends Scene {
     }
 
     gameOver() {
-        console.log('Game Over - Time Up!');
-        // this.scene.start('GameOverScene'); // Assuming you have a GameOverScene
+        const pixelated = this.cameras.main.postFX.addPixelate(-1);
+
+        this.add.tween({
+            targets: pixelated,
+            duration: 700,
+            amount: 40,
+            onComplete: () => {
+                this.cameras.main.fadeOut(100);
+                this.scene.start('GameOver', {
+                    balanceMeter: this.balanceMeter,
+                });
+            },
+        });
     }
 
     update(time, delta) {

@@ -64,6 +64,7 @@ export class MainMenu extends Scene {
 
         this.input.once('pointerdown', () => {
             this.scene.start('GameScene');
+            //this.scene.start('GameOver');
         });
 
         const camera = this.cameras.main;
