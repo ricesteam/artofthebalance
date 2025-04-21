@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { BasicAttack } from './attacks/BasicAttack'; // Import BasicAttack
 import { BombAttack } from './attacks/BombAttack';
+import { BlackholeAttack } from './attacks/BlackholeAttack';
 
 export class Player extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -79,6 +80,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.bombAttackDuration = 10000;
         this.bombAttack = new BombAttack(scene);
+
+        this.blackholeAttackDuration = 15000;
+        this.blackholeAttack = new BlackholeAttack(scene);
 
         // Timer for auto-attacking with the first equipped attack
         this.autoAttackTimer = this.scene.time.addEvent({
@@ -173,6 +177,31 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.SupremeJuice = Math.min(100, gain);
     }
 
+    upgradeBasicAttack() {
+        this.basicAttack.attackSpeed *= 1.05; // Increase by 5%
+        this.basicAttack.attackPushback *= 1.05; // Increase by 5%
+        this.basicAttack.cooldown = Math.max(
+            50,
+            this.basicAttack.cooldown * 0.95
+        ); // Decrease by 5%, capped at 50
+    }
+
+    upgradeBombAttack() {
+        this.bombAttack.cooldown = Math.max(
+            500,
+            this.bombAttack.cooldown * 0.95
+        );
+        this.bombAttack.explosionRadius *= 1.05;
+    }
+
+    upgradeBlackholeAttack() {
+        this.blackholeAttack.cooldown = Math.max(
+            1000,
+            this.blackholeAttack.cooldown * 0.95
+        );
+        this.blackholeAttack.blackholeRadius *= 1.05;
+    }
+
     // Method to add an attack to the inventory (push onto the stack)
     addAttack(attack) {
         this.inventory.push(attack);
@@ -237,7 +266,16 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
-            if (this.SupremeJuice >= 50) {
+            if (this.SupremeJuice >= 75) {
+                this.addAttack(this.blackholeAttack);
+                this.scene.time.delayedCall(
+                    this.blackholeAttackDuration,
+                    this.removeAttack,
+                    [],
+                    this
+                );
+                this.upgradeBlackholeAttack();
+            } else if (this.SupremeJuice >= 50) {
                 this.addAttack(this.bombAttack);
                 this.scene.time.delayedCall(
                     this.bombAttackDuration,
@@ -245,20 +283,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     [],
                     this
                 );
-                // also decrease the cooldown by 5%. cap it at 500
-                this.bombAttack.cooldown = Math.max(
-                    500,
-                    this.bombAttack.cooldown * 0.95
-                );
-                this.bombAttack.explosionRadius *= 1.05;
+                this.upgradeBombAttack();
             } else if (this.SupremeJuice >= 25) {
-                // move the upgrading to a helper method ai!
-                this.basicAttack.attackSpeed *= 1.05; // Increase by 5%
-                this.basicAttack.attackPushback *= 1.05; // Increase by 5%
-                this.basicAttack.cooldown = Math.max(
-                    50,
-                    this.basicAttack.cooldown * 0.95
-                ); // Decrease by 5%, capped at 50
+                this.upgradeBasicAttack();
             }
 
             // Consume all Supreme Juice when spacebar is pressed
