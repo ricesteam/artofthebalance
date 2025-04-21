@@ -210,6 +210,15 @@ export class GameScene extends Scene {
         });
 
         this.anims.create({
+            key: 'enemyAttack',
+            frames: this.anims.generateFrameNumbers('maga', {
+                start: 9,
+                end: 15,
+            }),
+            frameRate: 20,
+        });
+
+        this.anims.create({
             key: 'lawyerWalk',
             frames: this.anims.generateFrameNumbers('lawyer', {
                 start: 1,

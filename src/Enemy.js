@@ -30,7 +30,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.idleTimer = null; // Timer for idling
         this.ignorePlatformRotation = false;
         this.player = null; // Reference to the player
-        this.attackRange = 50; // Distance to start attacking
+        this.attackRange = 60; // Distance to start attacking
         this.canBeJuggled = true;
         this.isMarkedForDeath = false;
 
@@ -49,7 +49,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         ]); // Collide with blocks, player, and attack
         this.setScale(2);
         this.setRotation(0);
-        this.setDepth(2);
+        this.setDepth(6);
         this.name = 'maga';
 
         this.flipX = true;
@@ -202,7 +202,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         if (!this.active) return;
         this.setVelocityX(0);
         // Play attack animation if available, or just stop movement
-        // this.anims.play('enemyAttack');
+        this.anims.play('enemyAttack');
 
         this.scene.player.takeDamage(1);
 
