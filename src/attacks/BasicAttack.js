@@ -53,6 +53,8 @@ export class BasicAttack {
         const attackY = player.body.position.y;
 
         const randomWord = Phaser.Utils.Array.GetRandom(trumpWords);
+
+        // rotate and project it in front of the player ai!
         const attackText = this.scene.add
             .text(attackX, attackY, randomWord, {
                 fontSize: '24px',
