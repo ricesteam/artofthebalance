@@ -95,7 +95,7 @@ export class GameOver extends Scene {
 
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
-            this.sound.play('outro');
+            this.sound.play('outro'); // how do I ensure a max of 1 can be played? ai!
             const endingText = this.add
                 .text(
                     width / 2,
