@@ -11,6 +11,46 @@ export class Explosion extends Phaser.GameObjects.GameObject {
         this.victims = [];
 
         this.applyForceToBodies();
+        this.scene.cameras.main.shake(150, 0.01);
+
+        this.postFxPlugin = scene.plugins.get('rexShockwavePipeline');
+        const glowFx = this.postFxPlugin.add(this.scene.cameras.main, {
+            center: {
+                x: this.x,
+                y: this.y,
+            },
+            waveRadius: 32,
+            waveWidth: 0,
+            powBaseScale: 0.8,
+            // powExponent: 0.1,
+        });
+
+        // add a tween for the shockwaveplugin
+        this.explodeTween = this.scene.tweens.add({
+            targets: glowFx,
+            waveRadius: this.radius, // Make the wave radius larger than the explosion
+            waveWidth: 100, // Adjust wave width as needed
+            duration: 200, // Duration of the shockwave effect
+            //ease: 'Quart.easeOut',
+            onComplete: () => {
+                glowFx.waveRadius = 0;
+                glowFx.waveWidth = 0;
+                this.destroy();
+            },
+        });
+    }
+
+    destroy() {
+        this.explodeTween.stop();
+        this.explodeTween.destroy();
+        this.scene.tweens.killTweensOf(this.explodeTween);
+        this.explodeTween = null;
+
+        this.postFxPlugin.remove(this.scene.cameras.main);
+        this.postFxPlugin.stop();
+        this.postFxPlugin.destroy();
+
+        super.destroy();
     }
 
     applyForceToBodies() {

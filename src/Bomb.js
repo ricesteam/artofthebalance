@@ -44,19 +44,6 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             .get('rexOutlinePipeline')
             .add(this.body.gameObject, outlineconfig);
 
-        this.shockWavePlugin = scene.plugins
-            .get('rexShockwavePipeline')
-            .add(this.scene.cameras.main, {
-                center: {
-                    x: this.x,
-                    y: this.y,
-                },
-                waveRadius: 32,
-                waveWidth: 0,
-                powBaseScale: 0.8,
-                // powExponent: 0.1,
-            });
-
         this.postFxPlugin = scene.plugins.get('rexGlowFilterPipeline');
         const glowFx = this.postFxPlugin.add(this.body.gameObject, {
             inintensity: 0,
@@ -83,19 +70,6 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.y,
             this.explosionRadius
         );
-
-        // add a tween for the shockwaveplugin
-        this.scene.tweens.add({
-            targets: this.shockWavePlugin,
-            waveRadius: this.explosionRadius, // Make the wave radius larger than the explosion
-            waveWidth: 100, // Adjust wave width as needed
-            duration: 1000, // Duration of the shockwave effect
-            //ease: 'Quart.easeOut',
-            onComplete: () => {
-                this.shockWavePlugin.waveRadius = 0;
-                this.shockWavePlugin.waveWidth = 0;
-            },
-        });
 
         this.scene.add.particles(this.x, this.y, 'meatbomb', {
             speed: { min: -200, max: 200 },

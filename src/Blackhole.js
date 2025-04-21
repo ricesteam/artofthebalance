@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Head } from './Head';
+import { Explosion } from './Explosion';
 
 export class Blackhole extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -71,6 +71,8 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
         this.constraints.forEach((constraint) => {
             this.matter.world.removeConstraint(constraint);
         });
+
+        new Explosion(this.scene, this.x, this.y, this.blackholeRadius);
 
         const id = this.scene.blackholes.indexOf(this);
         this.scene.blackholes.splice(id, 1);

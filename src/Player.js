@@ -28,7 +28,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.setFixedRotation();
         this.setCollisionCategory(this.scene.CATEGORY_PLAYER);
         this.setScale(2); // Double the scale of the player sprite
-        this.setDepth(9);
+        this.setDepth(5);
 
         this.attackArea = null;
 
@@ -161,7 +161,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         let totalBounceGain = 0;
         this.scene.juggledObjects.forEach((obj) => {
             if (obj.bounceCount !== undefined) {
-                totalBounceGain += Math.pow(1.01, obj.bounceCount);
+                totalBounceGain += Math.pow(1.02, obj.bounceCount);
             } else {
                 totalBounceGain += 1;
             }
