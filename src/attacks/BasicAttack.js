@@ -52,15 +52,16 @@ export class BasicAttack {
         const attackX = player.body.position.x;
         const attackY = player.body.position.y;
 
-        // as the attack graphic, create a text from a random chosen word from trumpWords
+        // make it so the words are coming out of the direction of the player ai!
         const randomWord = Phaser.Utils.Array.GetRandom(trumpWords);
-        const attackText = this.scene.add.text(attackX, attackY, randomWord, {
-            fontSize: '24px',
-            fill: '#ffffff',
-            fontFamily: 'retro',
-            align: 'center',
-        }).setOrigin(0.5);
-
+        const attackText = this.scene.add
+            .text(attackX, attackY, randomWord, {
+                fontSize: '24px',
+                fill: '#ffffff',
+                fontFamily: 'retro',
+                align: 'center',
+            })
+            .setDepth(20);
 
         // Create the attack area as a circle
         const attackArea = this.scene.matter.add.circle(
@@ -134,15 +135,6 @@ export class BasicAttack {
 
         // Apply the velocity to the attack area
         this.scene.matter.setVelocity(attackArea, velocityX, velocityY);
-
-        // Make the text follow the attack area
-        this.scene.matter.world.addConstraint(
-            this.scene.matter.add.constraint(attackArea, attackText.body, 0, 1, {
-                pointA: { x: 0, y: 0 },
-                pointB: { x: 0, y: 0 },
-            })
-        );
-
 
         // Destroy the attack area and text after a short delay
         this.scene.time.delayedCall(50, () => {
