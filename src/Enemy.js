@@ -299,18 +299,21 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             this.canBeJuggled = false;
             this.glowTween.play();
 
-            // move this to a method ai!
-            this.scene.time.delayedCall(Phaser.Math.Between(1000, 3000), () => {
-                if (!this.active) return;
-                const explosion = new Explosion(
-                    this.scene,
-                    this.x,
-                    this.y,
-                    100 // Explosion radius
-                );
-
-                this.die(); // Destroy the enemy after the explosion
-            });
+            this.triggerJuggledExplosion();
         }
+    }
+
+    triggerJuggledExplosion() {
+        this.scene.time.delayedCall(Phaser.Math.Between(1000, 3000), () => {
+            if (!this.active) return;
+            const explosion = new Explosion(
+                this.scene,
+                this.x,
+                this.y,
+                100 // Explosion radius
+            );
+
+            this.die(); // Destroy the enemy after the explosion
+        });
     }
 }
