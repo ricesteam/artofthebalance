@@ -54,7 +54,6 @@ export class BasicAttack {
 
         const randomWord = Phaser.Utils.Array.GetRandom(trumpWords);
 
-        // refactor: how do I make the attackText appear to project out from the player? ai!
         const attackText = this.scene.add
             .text(attackX, attackY, randomWord, {
                 fontSize: '24px',
@@ -64,10 +63,27 @@ export class BasicAttack {
             })
             .setDepth(20);
 
+        // Calculate the initial position of the text slightly in front of the player
+        const offsetX = player.playerDirection * 20; // Adjust the offset as needed
+        const offsetY = 0; // Adjust the offset as needed
+
+        // Rotate the offset vector by the platform angle
+        const rotatedOffset = Phaser.Math.RotateAround(
+            { x: offsetX, y: offsetY },
+            0,
+            0,
+            platformAngle
+        );
+
+        attackText.setPosition(
+            player.x + rotatedOffset.x,
+            player.y + rotatedOffset.y
+        );
+
         // Create the attack area as a circle
         const attackArea = this.scene.matter.add.circle(
-            attackX,
-            attackY,
+            attackText.x, // Start the attack area at the text's initial position
+            attackText.y, // Start the attack area at the text's initial position
             this.attackRadius,
             {
                 label: 'attack1',
