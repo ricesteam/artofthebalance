@@ -348,13 +348,16 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         });
     }
 
+    // this could cause seizures ai!
     startLightshow() {
         // Create a graphics object for the lightshow
         const lightshowGraphics = this.scene.add.graphics();
         this.scene.add.existing(lightshowGraphics); // Add to the scene
 
         // Define lightshow properties
-        const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff]; // Array of colors
+        const colors = [
+            0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff,
+        ]; // Array of colors
         const duration = 100; // Duration of each flash
         const repeat = 20; // Number of flashes
 
@@ -369,20 +372,29 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 // Change color on each repeat
                 const randomColor = Phaser.Utils.Array.GetRandom(colors);
                 lightshowGraphics.fillStyle(randomColor, 1);
-                lightshowGraphics.fillRect(0, 0, this.scene.scale.width, this.scene.scale.height);
+                lightshowGraphics.fillRect(
+                    0,
+                    0,
+                    this.scene.scale.width,
+                    this.scene.scale.height
+                );
             },
             onStart: () => {
-                 // Initial fill
+                // Initial fill
                 const randomColor = Phaser.Utils.Array.GetRandom(colors);
                 lightshowGraphics.fillStyle(randomColor, 1);
-                lightshowGraphics.fillRect(0, 0, this.scene.scale.width, this.scene.scale.height);
+                lightshowGraphics.fillRect(
+                    0,
+                    0,
+                    this.scene.scale.width,
+                    this.scene.scale.height
+                );
             },
             onComplete: () => {
                 lightshowGraphics.destroy(); // Destroy the graphics object after the lightshow
             },
         });
     }
-
 
     update(cursors) {
         // Player movement
