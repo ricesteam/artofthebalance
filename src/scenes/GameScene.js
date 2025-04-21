@@ -408,6 +408,8 @@ export class GameScene extends Scene {
 
         const decisionFactor = 5;
 
+        // for each blocks and enemies that fall off the screen give the player 0.1% Supreme Juice ai!
+
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
             if (block.y > this.scale.height + 20) {
