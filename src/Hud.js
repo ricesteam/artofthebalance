@@ -78,32 +78,28 @@ export class Hud extends Phaser.GameObjects.Container {
 
         // Create the spectrum background using multiple colored rectangles
         this.spectrumBackground = this.scene.add.graphics();
-        const hsl = Phaser.Display.Color.HSVColorWheel();
         const numberOfSegments = 100; // Number of colored segments
         const segmentWidth = this.spectrumWidth / numberOfSegments;
 
         for (let i = 0; i < numberOfSegments; i++) {
             let color;
-            // Map the segment index to a color range (e.g., grey -> green -> red)
-            if (i < numberOfSegments * 0.25) {
-                // Greyish on the left
-                const greyScale = Phaser.Math.Linear(128, 255, i / (numberOfSegments * 0.25));
-                color = Phaser.Display.Color.ValueToColor(greyScale / 255).color;
-            } else if (i < numberOfSegments * 0.75) {
-                // Transition from greyish to green
-                 const progress = (i - numberOfSegments * 0.25) / (numberOfSegments * 0.5);
-                 const greyScale = Phaser.Math.Linear(128, 0, progress);
-                 const greenScale = Phaser.Math.Linear(0, 255, progress);
-                 color = Phaser.Display.Color.ValueToColor(Phaser.Display.Color.GetRGB(greyScale, greenScale, 0)).color;
-            }
-             else {
-                // Transition from green to red
-                const progress = (i - numberOfSegments * 0.75) / (numberOfSegments * 0.25);
-                const greenScale = Phaser.Math.Linear(255, 0, progress);
-                const redScale = Phaser.Math.Linear(0, 255, progress);
-                color = Phaser.Display.Color.ValueToColor(Phaser.Display.Color.GetRGB(redScale, greenScale, 0)).color;
-            }
+            const progress = i / (numberOfSegments - 1); // Normalized progress from 0 to 1
 
+            if (progress < 0.5) {
+                // Transition from grey (at 0) to green (at 0.5)
+                const transitionProgress = progress / 0.5; // Normalize to 0-1 for this segment
+                const r = Phaser.Math.Linear(0x80, 0x00, transitionProgress);
+                const g = Phaser.Math.Linear(0x80, 0xff, transitionProgress);
+                const b = Phaser.Math.Linear(0x80, 0x00, transitionProgress);
+                color = Phaser.Display.Color.GetColor(r, g, b);
+            } else {
+                // Transition from green (at 0.5) to red (at 1)
+                const transitionProgress = (progress - 0.5) / 0.5; // Normalize to 0-1 for this segment
+                const r = Phaser.Math.Linear(0x00, 0xff, transitionProgress);
+                const g = Phaser.Math.Linear(0xff, 0x00, transitionProgress);
+                const b = Phaser.Math.Linear(0x00, 0x00, transitionProgress);
+                color = Phaser.Display.Color.GetColor(r, g, b);
+            }
 
             this.spectrumBackground.fillStyle(color);
             this.spectrumBackground.fillRect(
