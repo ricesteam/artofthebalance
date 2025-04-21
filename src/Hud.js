@@ -85,13 +85,12 @@ export class Hud extends Phaser.GameObjects.Container {
             let color;
             const progress = i / (numberOfSegments - 1); // Normalized progress from 0 to 1
 
-            // change grey to blue ai!
             if (progress < 0.5) {
-                // Transition from grey (at 0) to green (at 0.5)
+                // Transition from blue (at 0) to green (at 0.5)
                 const transitionProgress = progress / 0.5; // Normalize to 0-1 for this segment
-                const r = Phaser.Math.Linear(0x80, 0x00, transitionProgress);
-                const g = Phaser.Math.Linear(0x80, 0xff, transitionProgress);
-                const b = Phaser.Math.Linear(0x80, 0x00, transitionProgress);
+                const r = Phaser.Math.Linear(0x00, 0x00, transitionProgress);
+                const g = Phaser.Math.Linear(0x00, 0xff, transitionProgress);
+                const b = Phaser.Math.Linear(0xff, 0x00, transitionProgress);
                 color = Phaser.Display.Color.GetColor(r, g, b);
             } else {
                 // Transition from green (at 0.5) to red (at 1)
