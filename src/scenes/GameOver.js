@@ -32,9 +32,11 @@ export class GameOver extends Scene {
 
         this.head.baldImage.setFrame(5);
 
+        // add some tween to make the head look it it's floating ai!
+
         this.add
             .text(width / 2, height / 2, this.mainText, {
-                fontFamily: 'Arial Black',
+                fontFamily: 'retro',
                 fontSize: 64,
                 color: '#ffffff',
                 stroke: '#000000',
