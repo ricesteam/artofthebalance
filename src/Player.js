@@ -252,6 +252,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                 );
                 this.bombAttack.explosionRadius *= 1.05;
             } else if (this.SupremeJuice >= 25) {
+                // move the upgrading to a helper method ai!
                 this.basicAttack.attackSpeed *= 1.05; // Increase by 5%
                 this.basicAttack.attackPushback *= 1.05; // Increase by 5%
                 this.basicAttack.cooldown = Math.max(
