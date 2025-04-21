@@ -130,9 +130,13 @@ export class Head extends Phaser.GameObjects.Container {
                 this.leftIris.x = irisOffsetX;
                 this.leftIris.y = 2 + irisOffsetY; // Add 2 to the y position
 
-                // can we have right iris go the opposite direction? ai!
-                this.rightIris.x = irisOffsetX;
-                this.rightIris.y = 2 + irisOffsetY; // Add 2 to the y position
+                // For the right iris, use the negative angle to go in the opposite direction
+                const oppositeAngle = -angle;
+                const rightIrisOffsetX = Math.cos(oppositeAngle) * radius;
+                const rightIrisOffsetY = Math.sin(oppositeAngle) * radius;
+
+                this.rightIris.x = rightIrisOffsetX;
+                this.rightIris.y = 2 + rightIrisOffsetY; // Add 2 to the y position
             },
         });
     }
