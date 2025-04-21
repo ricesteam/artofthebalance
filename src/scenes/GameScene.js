@@ -338,11 +338,12 @@ export class GameScene extends Scene {
             blackhole.update();
         });
 
-        // player takes 10 damage from falling
         if (this.player.y > this.scale.height + 50) {
             this.player.takeDamage(10); // Player takes 10 damage
             this.spawnPlayer(false);
         }
+
+        // if the player is offscreen anywhere, respawn the player ai!
 
         // Scroll the background
         this.bg.tilePositionX += this.scrollSpeedX;
@@ -350,7 +351,7 @@ export class GameScene extends Scene {
 
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
-            if (block.y > this.scale.height + 200) {
+            if (block.y > this.scale.height + 20) {
                 this.matter.world.remove(block); // Remove from Matter world
                 this.blocks.splice(index, 1); // Remove from the blocks array
 
@@ -363,9 +364,9 @@ export class GameScene extends Scene {
 
         // remove enemies that have fallen off-screen
         this.enemies.forEach((enemy, index) => {
-            if (enemy.y > this.scale.height + 200) {
+            if (enemy.y > this.scale.height + 20) {
                 this.enemies.splice(index, 1); // Remove from the enemies array
-                enemy.die(); // Destroy the enemy
+                enemy.destroy(); // Destroy the enemy
             }
         });
 
