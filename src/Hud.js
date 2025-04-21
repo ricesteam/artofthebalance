@@ -76,25 +76,44 @@ export class Hud extends Phaser.GameObjects.Container {
         this.spectrumX = this.barX; // Start from the left margin
         this.spectrumY = this.barY + this.barHeight + 10; // Position below the health bar
 
-        // Create the spectrum background using a gradient
+        // Create the spectrum background using multiple colored rectangles
         this.spectrumBackground = this.scene.add.graphics();
-        const gradient = this.spectrumBackground.createLinearGradient(
-            this.spectrumX,
-            this.spectrumY,
-            this.spectrumX + this.spectrumWidth,
-            this.spectrumY
-        );
-        gradient.addColorStop(0, '#808080'); // Grey on the left
-        gradient.addColorStop(0.5, '#00ff00'); // Green in the middle
-        gradient.addColorStop(1, '#ff0000'); // Red on the right
-        this.spectrumBackground.fillStyle(0xffffff); // Use a dummy color, the gradient will override
-        this.spectrumBackground.fillGradient(
-            gradient,
-            this.spectrumX,
-            this.spectrumY,
-            this.spectrumWidth,
-            this.spectrumHeight
-        );
+        const hsl = Phaser.Display.Color.HSVColorWheel();
+        const numberOfSegments = 100; // Number of colored segments
+        const segmentWidth = this.spectrumWidth / numberOfSegments;
+
+        for (let i = 0; i < numberOfSegments; i++) {
+            let color;
+            // Map the segment index to a color range (e.g., grey -> green -> red)
+            if (i < numberOfSegments * 0.25) {
+                // Greyish on the left
+                const greyScale = Phaser.Math.Linear(128, 255, i / (numberOfSegments * 0.25));
+                color = Phaser.Display.Color.ValueToColor(greyScale / 255).color;
+            } else if (i < numberOfSegments * 0.75) {
+                // Transition from greyish to green
+                 const progress = (i - numberOfSegments * 0.25) / (numberOfSegments * 0.5);
+                 const greyScale = Phaser.Math.Linear(128, 0, progress);
+                 const greenScale = Phaser.Math.Linear(0, 255, progress);
+                 color = Phaser.Display.Color.ValueToColor(Phaser.Display.Color.GetRGB(greyScale, greenScale, 0)).color;
+            }
+             else {
+                // Transition from green to red
+                const progress = (i - numberOfSegments * 0.75) / (numberOfSegments * 0.25);
+                const greenScale = Phaser.Math.Linear(255, 0, progress);
+                const redScale = Phaser.Math.Linear(0, 255, progress);
+                color = Phaser.Display.Color.ValueToColor(Phaser.Display.Color.GetRGB(redScale, greenScale, 0)).color;
+            }
+
+
+            this.spectrumBackground.fillStyle(color);
+            this.spectrumBackground.fillRect(
+                this.spectrumX + i * segmentWidth,
+                this.spectrumY,
+                segmentWidth,
+                this.spectrumHeight
+            );
+        }
+
         this.spectrumBackground.setScrollFactor(0);
         this.add(this.spectrumBackground);
 
