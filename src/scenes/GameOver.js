@@ -32,10 +32,17 @@ export class GameOver extends Scene {
 
         this.head.baldImage.setFrame(5);
 
-        // add some tilting too ai!
+        // Add a tween to make the head float and tilt
         this.tweens.add({
             targets: this.head,
             y: this.head.y - 20, // Float up by 20 pixels
+            rotation: {
+                value: () => Phaser.Math.FloatBetween(-0.1, 0.1), // Tilt slightly
+                duration: 1500, // Duration of the tilt
+                yoyo: true, // Go back and forth
+                repeat: -1, // Repeat indefinitely
+                ease: 'Sine.easeInOut', // Smooth easing
+            },
             duration: 2000, // Duration of the float
             yoyo: true, // Go back down
             repeat: -1, // Repeat indefinitely
