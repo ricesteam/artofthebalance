@@ -348,50 +348,39 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         });
     }
 
-    // refactor: show the bursteffect image in the background. Add a yoyo tween to brighten the tint ai!
     startLightshow() {
-        // Create a graphics object for the lightshow
-        const lightshowGraphics = this.scene.add.graphics();
-        this.scene.add.existing(lightshowGraphics); // Add to the scene
+        // Create the bursteffect image
+        const burstEffect = this.scene.add.image(
+            this.scene.scale.width / 2,
+            this.scene.scale.height / 2,
+            'bursteffect'
+        );
+        burstEffect.setOrigin(0.5);
+        burstEffect.setDepth(0); // Place behind other elements
+        burstEffect.setAlpha(0); // Start invisible
 
-        // Define lightshow properties
-        const colors = [
-            0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff,
-        ]; // Array of colors
-        const duration = 200; // Increased duration of each flash
-        const repeat = 10; // Reduced number of flashes
-
-        // Create a tween to cycle through colors and alpha
+        // Tween to fade in and out the bursteffect image
         this.scene.tweens.add({
-            targets: lightshowGraphics,
-            alpha: { from: 1, to: 0.7 }, // Flash between full and slightly less alpha
-            duration: duration / 2,
+            targets: burstEffect,
+            alpha: { from: 0, to: 1 },
+            scale: { from: 0.5, to: 2 },
+            duration: 500,
+            ease: 'Sine.easeInOut',
             yoyo: true,
-            repeat: repeat,
-            onRepeat: () => {
-                // Change color on each repeat
-                const randomColor = Phaser.Utils.Array.GetRandom(colors);
-                lightshowGraphics.fillStyle(randomColor, 1);
-                lightshowGraphics.fillRect(
-                    0,
-                    0,
-                    this.scene.scale.width,
-                    this.scene.scale.height
-                );
-            },
-            onStart: () => {
-                // Initial fill
-                const randomColor = Phaser.Utils.Array.GetRandom(colors);
-                lightshowGraphics.fillStyle(randomColor, 1);
-                lightshowGraphics.fillRect(
-                    0,
-                    0,
-                    this.scene.scale.width,
-                    this.scene.scale.height
-                );
-            },
             onComplete: () => {
-                lightshowGraphics.destroy(); // Destroy the graphics object after the lightshow
+                burstEffect.destroy(); // Destroy the image after the tween
+            },
+        });
+
+        // Tween to brighten and then return the background tint
+        this.scene.tweens.add({
+            targets: this.scene.bg,
+            tint: { from: 0x111111, to: 0xffffff }, // Brighten to white
+            duration: 500,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            onComplete: () => {
+                this.scene.bg.tint = 0x111111; // Ensure it returns to the dark tint
             },
         });
     }
