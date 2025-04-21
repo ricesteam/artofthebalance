@@ -32,6 +32,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         this.player = null; // Reference to the player
         this.attackRange = 50; // Distance to start attacking
         this.canBeJuggled = true;
+        this.isMarkedForDeath = false;
 
         this.setMass(this.enemyMass);
         this.setFriction(0.5);
@@ -138,12 +139,13 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             return;
         }
 
-        this.stateMachine.step();
+        if (!this.isMarkedForDeath) this.stateMachine.step();
     }
 
     // State Methods
     enterIdle() {
-        if (!this.active) return;
+        if (!this.active || !this.isMarkedForDeath) return;
+
         this.setVelocityX(0);
         this.anims.play('enemyIdle');
         this.scene.time.addEvent({
@@ -238,6 +240,8 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
     die() {
         if (!this.active) return;
+        this.isMarkedForDeath = true;
+        this.stateMachine.transition('idle');
         this.scene.add
             .particles(this.x, this.y, 'blood', {
                 speed: { min: -200, max: 200 },

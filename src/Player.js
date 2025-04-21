@@ -295,6 +295,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             ease: 'back.easeout',
         });
 
+        // mark all enemies for death
+        this.scene.enemies.forEach((enemy) => {
+            enemy.isMarkedForDeath = true;
+        });
+
         this.scene.tweens.add({
             targets: head,
             x: this.scene.scale.width / 2,

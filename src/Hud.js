@@ -114,7 +114,7 @@ export class Hud extends Phaser.GameObjects.Container {
         );
 
         // Update the HP text
-        this.hpText.setText(`${this.player.hp}`);
+        this.hpText.setText(`${Math.round(this.player.hp)}`);
     }
 
     updateJuggleCount() {
