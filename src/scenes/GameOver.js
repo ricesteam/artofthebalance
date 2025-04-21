@@ -32,7 +32,7 @@ export class GameOver extends Scene {
 
         this.head.baldImage.setFrame(5);
 
-        // Add a tween to make the head float
+        // add some tilting too ai!
         this.tweens.add({
             targets: this.head,
             y: this.head.y - 20, // Float up by 20 pixels
