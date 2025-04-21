@@ -260,7 +260,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         // make the head float up to the center of the screen, keep track of the original position
         this.originalHeadPosition.x = head.x;
         this.originalHeadPosition.y = head.y;
-        this.scene.platform.body.isStatic = true;
 
         this.scene.tweens.add({
             targets: this.scene.matter.world.engine.timing,
@@ -269,11 +268,16 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             ease: 'back.easeout',
         });
 
+        const origscrollSpeedX = this.scene.scrollSpeedX;
+        const origscrollSpeedY = this.scene.scrollSpeedY;
+        this.scene.bg.tint = 0x111111;
+
         this.scene.tweens.add({
-            targets: this.scene.bg,
-            tint: 0x000000, // Darken to black
+            targets: this.scene,
+            scrollSpeedX: 0,
+            scrollSpeedY: 0,
             duration: 1000,
-            ease: 'Linear',
+            ease: 'back.easeout',
         });
 
         this.scene.tweens.add({
@@ -283,12 +287,17 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             duration: 200, // Reduced duration for a faster snap
             ease: 'back.easeout', // Use sine.out for a quick snap
             onComplete: () => {
+                // how do I make lasers shoot out of his eyes? ai!
+
                 // After the attack, tween the head back to its original position
                 this.scene.time.delayedCall(
-                    1000, // Wait for the blackhole duration
+                    2000, // Wait for the blackhole duration
                     () => {
                         this.scene.matter.world.engine.timing.timeScale = 1;
-                        this.scene.platform.body.isStatic = false;
+                        this.scene.scrollSpeedX = origscrollSpeedX;
+                        this.scene.scrollSpeedY = origscrollSpeedY;
+                        this.scene.bg.tint = 0xdddddd;
+
                         this.scene.tweens.add({
                             targets: head,
                             x: this.originalHeadPosition.x,
@@ -298,12 +307,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                             onComplete: () => {
                                 head.tween.resume(); // Resume the wobbly tween
                             },
-                        });
-                        this.scene.tweens.add({
-                            targets: this.scene.bg,
-                            tint: 0xdddddd, // Return to original tint
-                            duration: 1000,
-                            ease: 'Linear',
                         });
                     }
                 );
