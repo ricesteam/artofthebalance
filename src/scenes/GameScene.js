@@ -9,7 +9,6 @@ import { Hud } from '../Hud'; // Import the Hud class
 import { Noodles } from '../Noodles'; // Import the Noodles class
 import { Explosion } from '../Explosion'; // Import the Explosion class
 
-
 export class GameScene extends Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -370,14 +369,22 @@ export class GameScene extends Scene {
         this.bg.tilePositionX += this.scrollSpeedX;
         this.bg.tilePositionY += this.scrollSpeedY;
 
+        const decisionFactor = 5;
+
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
             if (block.y > this.scale.height + 20) {
                 const screenCenterX = this.scale.width / 2;
                 if (block.x < screenCenterX) {
-                    this.balanceMeter = Math.max(-100, this.balanceMeter - 1);
+                    this.balanceMeter = Math.max(
+                        -100,
+                        this.balanceMeter - decisionFactor
+                    );
                 } else {
-                    this.balanceMeter = Math.min(100, this.balanceMeter + 1);
+                    this.balanceMeter = Math.min(
+                        100,
+                        this.balanceMeter + decisionFactor
+                    );
                 }
 
                 this.matter.world.remove(block); // Remove from Matter world
@@ -395,9 +402,15 @@ export class GameScene extends Scene {
             if (enemy.y > this.scale.height + 20) {
                 const screenCenterX = this.scale.width / 2;
                 if (enemy.x < screenCenterX) {
-                    this.balanceMeter = Math.max(-100, this.balanceMeter - 1);
+                    this.balanceMeter = Math.max(
+                        -100,
+                        this.balanceMeter - decisionFactor
+                    );
                 } else {
-                    this.balanceMeter = Math.min(100, this.balanceMeter + 1);
+                    this.balanceMeter = Math.min(
+                        100,
+                        this.balanceMeter + decisionFactor
+                    );
                 }
                 this.enemies.splice(index, 1); // Remove from the enemies array
                 enemy.destroy(); // Destroy the enemy

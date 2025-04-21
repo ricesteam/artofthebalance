@@ -57,10 +57,9 @@ export class Hud extends Phaser.GameObjects.Container {
         this.add(this.hpText);
 
         // Balance Meter Spectrum
-        this.spectrumWidth = this.scene.scale.width; // Make the spectrum stretch across the screen
+        this.spectrumWidth = this.scene.scale.width - this.barX * 2; // Make the spectrum stretch across the screen with margins
         this.spectrumHeight = 10;
-        // use barX as the margin for this ai!
-        this.spectrumX = 0; // Start from the left edge
+        this.spectrumX = this.barX; // Start from the left margin
         this.spectrumY = this.barY + this.barHeight + 10; // Position below the health bar
 
         // Create the background of the spectrum
