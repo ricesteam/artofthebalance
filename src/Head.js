@@ -109,7 +109,70 @@ export class Head extends Phaser.GameObjects.Container {
         });
     }
 
-    // make a helper function that makes the eyes go round and round like in cartoons ai!
+    // Helper function to make the eyes go round and round
+    eyesGoRound() {
+        if (!this.active) return;
+
+        const radius = this.irisBoundary.radius; // Use the defined iris boundary radius
+        const duration = 1000; // Duration for one full rotation (adjust as needed)
+
+        this.scene.tweens.add({
+            targets: [this.leftIris, this.rightIris],
+            x: {
+                value: `+=${radius}`, // Move right by the radius
+                duration: duration / 4,
+                ease: 'Linear',
+                yoyo: true,
+                repeat: -1,
+                onYoyo: function (tween, target) {
+                    // Move down after moving right
+                    this.scene.tweens.add({
+                        targets: target,
+                        y: `+=${radius}`,
+                        duration: duration / 4,
+                        ease: 'Linear',
+                    });
+                }.bind(this),
+                onRepeat: function (tween, target) {
+                    // Move up after moving left
+                    this.scene.tweens.add({
+                        targets: target,
+                        y: `-=${radius}`,
+                        duration: duration / 4,
+                        ease: 'Linear',
+                    });
+                }.bind(this),
+            },
+            y: {
+                value: `-=${radius}`, // Move up by the radius initially
+                duration: duration / 4,
+                ease: 'Linear',
+                yoyo: true,
+                repeat: -1,
+                onYoyo: function (tween, target) {
+                    // Move left after moving up
+                    this.scene.tweens.add({
+                        targets: target,
+                        x: `-=${radius}`,
+                        duration: duration / 4,
+                        ease: 'Linear',
+                    });
+                }.bind(this),
+                onRepeat: function (tween, target) {
+                    // Move right after moving down
+                    this.scene.tweens.add({
+                        targets: target,
+                        x: `+=${radius}`,
+                        duration: duration / 4,
+                        ease: 'Linear',
+                    });
+                }.bind(this),
+            },
+            duration: duration,
+            repeat: -1,
+            ease: 'Linear',
+        });
+    }
 
     update() {
         if (!this.active) return;
