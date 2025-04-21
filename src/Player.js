@@ -257,17 +257,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         const head = this.scene.head;
         head.tween.pause();
 
-        // const emitter = this.scene.add.particles(head.x, -100, 'toupee', {
-        //     angle: { min: 240, max: 300 },
-        //     speed: { min: 200, max: 300 },
-        //     lifespan: 4000,
-        //     gravityY: 180,
-        //     quantity: 2,
-        //     bounce: 0.4,
-        //     bounds: new Phaser.Geom.Rectangle(-100, -200, 1000, 750),
-        //     stopAfter: 3000,
-        // });
-        //const fx = emitter.postFX.addBokeh(0.5, 10, 0.2);
+        // I want some sort of lightshow in the background, create a helper method ai!
 
         // make the head float up to the center of the screen, keep track of the original position
         this.originalHeadPosition.x = head.x;
