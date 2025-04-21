@@ -314,7 +314,16 @@ export class GameScene extends Scene {
     }
 
     update(time, delta) {
-        // if the platform passes rotation -47,47, reset it to 0 ai!
+        // if the platform passes rotation -47,47, reset it to 0
+        const maxRotation = Phaser.Math.DegToRad(47); // Convert degrees to radians
+        if (
+            this.platform.rotation > maxRotation ||
+            this.platform.rotation < -maxRotation
+        ) {
+            this.platform.setRotation(0);
+            this.platform.setVelocity(0, 0);
+            this.platform.setAngularVelocity(0);
+        }
 
         this.player.update(this.cursors);
         this.head.update(); // Update the head
