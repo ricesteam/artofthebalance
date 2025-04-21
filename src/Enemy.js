@@ -250,25 +250,27 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             stopAfter: 100,
         });
 
-        this.scene.time.delayedCall(100, () => {
-            const id = this.scene.enemies.indexOf(this);
-            this.scene.enemies.splice(id, 1);
-            const juggledIndex = this.scene.juggledObjects.indexOf(this);
-            if (juggledIndex > -1) {
-                this.scene.juggledObjects.splice(juggledIndex, 1);
-            }
+        // turn this into a sensor, flipY make it appear as if it is falling ai!
+    }
 
-            this.glowTween.stop();
-            this.glowTween.destroy();
-            this.scene.tweens.killTweensOf(this.glowTween);
-            this.glowTween = null;
+    destroy() {
+        const id = this.scene.enemies.indexOf(this);
+        this.scene.enemies.splice(id, 1);
+        const juggledIndex = this.scene.juggledObjects.indexOf(this);
+        if (juggledIndex > -1) {
+            this.scene.juggledObjects.splice(juggledIndex, 1);
+        }
 
-            this.postFxPlugin.remove(this.body.gameObject);
-            this.postFxPlugin.stop();
-            this.postFxPlugin.destroy();
+        this.glowTween.stop();
+        this.glowTween.destroy();
+        this.scene.tweens.killTweensOf(this.glowTween);
+        this.glowTween = null;
 
-            super.destroy();
-        });
+        this.postFxPlugin.remove(this.body.gameObject);
+        this.postFxPlugin.stop();
+        this.postFxPlugin.destroy();
+
+        super.destroy();
     }
 
     handleCollision(event) {
