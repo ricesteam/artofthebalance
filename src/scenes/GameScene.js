@@ -9,6 +9,8 @@ import { Hud } from '../Hud'; // Import the Hud class
 import { Noodles } from '../Noodles'; // Import the Noodles class
 import { Explosion } from '../Explosion'; // Import the Explosion class
 
+// there's a game stat I want to track: the balance meter. Range from -100 to 100. Each time something falls to either side of the screen, where the middle of the screen is the divider, plus/minus 1 to this meter. ai!
+
 export class GameScene extends Scene {
     constructor() {
         super({ key: 'GameScene' });
