@@ -61,8 +61,8 @@ export class Spawner {
 
     updateSpawnRate() {
         // Calculate the progress of the game (0 at start, 1 at end)
-        const gameProgress =
-            1 - this.scene.timeRemaining / this.scene.gameDuration;
+        const timeRemaining = this.scene.clock.getRemaining();
+        const gameProgress = 1 - timeRemaining / this.scene.gameDuration;
 
         // Calculate the new delay, decreasing as the game progresses
         // Use a non-linear function (e.g., exponential) for a more noticeable increase later
