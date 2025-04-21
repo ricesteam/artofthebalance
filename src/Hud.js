@@ -109,7 +109,6 @@ export class Hud extends Phaser.GameObjects.Container {
                 this.spectrumHeight
             );
         }
-
         this.spectrumBackground.setScrollFactor(0);
         this.add(this.spectrumBackground);
 
