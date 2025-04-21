@@ -215,8 +215,10 @@ export class Hud extends Phaser.GameObjects.Container {
     }
 
     updateTimer() {
-        const minutes = Math.floor(this.scene.timeRemaining / 60000);
-        const seconds = Math.floor((this.scene.timeRemaining % 60000) / 1000);
+        // Get the remaining time from the scene's clock
+        const timeRemaining = this.scene.clock.getRemaining();
+        const minutes = Math.floor(timeRemaining / 60000);
+        const seconds = Math.floor((timeRemaining % 60000) / 1000);
         const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         this.timerText.setText(formattedTime);
     }

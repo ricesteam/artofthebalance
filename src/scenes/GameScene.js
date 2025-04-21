@@ -44,9 +44,6 @@ export class GameScene extends Scene {
 
         this.balanceMeter = 0; // Balance meter stat
 
-        // would it make sense to use Phaser.Time.Clock insead? ai!
-        this.gameDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
-        this.timeRemaining = this.gameDuration;
         this.timerText = null;
     }
 
@@ -158,6 +155,15 @@ export class GameScene extends Scene {
 
         // slow down time but only for matter objects
         //this.matter.world.engine.timing.timeScale = 0.1;
+
+        // Game timer using Phaser.Time.Clock
+        this.gameDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
+        this.clock = this.time.addEvent({
+            delay: this.gameDuration,
+            callback: this.gameOver,
+            callbackScope: this,
+            loop: false,
+        });
     }
 
     createStopBlocks(levelOffset) {
@@ -338,16 +344,12 @@ export class GameScene extends Scene {
         // The emitter will automatically stop and be garbage collected after its duration/stopAfter
     }
 
-    update(time, delta) {
-        // Update the timer
-        this.timeRemaining -= delta;
-        if (this.timeRemaining <= 0) {
-            this.timeRemaining = 0;
-            // Handle game over here (e.g., transition to game over scene)
-            console.log('Game Over - Time Up!');
-            // this.scene.start('GameOverScene'); // Assuming you have a GameOverScene
-        }
+    gameOver() {
+        console.log('Game Over - Time Up!');
+        // this.scene.start('GameOverScene'); // Assuming you have a GameOverScene
+    }
 
+    update(time, delta) {
         this.spawner.updateSpawnRate();
 
         // if the platform passes rotation -47,47, reset it to 0
