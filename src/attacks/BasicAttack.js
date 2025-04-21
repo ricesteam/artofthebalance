@@ -56,7 +56,7 @@ export class BasicAttack {
 
         const attackText = this.scene.add
             .text(attackX, attackY, randomWord, {
-                fontSize: '24px',
+                fontSize: 18,
                 fill: '#ffffff',
                 fontFamily: 'retro',
                 align: 'center',

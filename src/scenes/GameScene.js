@@ -308,6 +308,7 @@ export class GameScene extends Scene {
         this.player.setPosition(width / 2, 100);
         this.player.setVelocity(0, 0); // Stop any existing velocity
         if (init) this.player.hp = 100; // Reset player HP
+        this.juggledObjects.splice(0, this.juggledObjects.length);
 
         // Add a simple tween for a fade-in effect on spawn
         this.tweens.add({
@@ -410,7 +411,11 @@ export class GameScene extends Scene {
 
         // Remove blocks that have fallen off-screen
         this.blocks.forEach((block, index) => {
-            if (block.y > this.scale.height + 20) {
+            if (
+                block.y > this.scale.height + 20 ||
+                block.x < -50 ||
+                block.x > this.scale.width + 50
+            ) {
                 const screenCenterX = this.scale.width / 2;
                 if (block.x < screenCenterX) {
                     this.balanceMeter = Math.max(
@@ -426,17 +431,6 @@ export class GameScene extends Scene {
 
                 this.matter.world.remove(block); // Remove from Matter world
                 this.blocks.splice(index, 1); // Remove from the blocks array
-
-                const id = this.juggledObjects.indexOf(block);
-                if (id > -1) {
-                    // player gets 0.5% juice for each bounceCounter in the block
-                    this.player.SupremeJuice = Math.min(
-                        100,
-                        this.player.SupremeJuice + block.bounceCount * 0.5
-                    );
-                    this.juggledObjects.splice(id, 1);
-                }
-
                 block.destroy(); // Destroy the block
 
                 // Give player Supreme Juice for blocks falling off
@@ -449,7 +443,11 @@ export class GameScene extends Scene {
 
         // remove enemies that have fallen off-screen
         this.enemies.forEach((enemy, index) => {
-            if (enemy.y > this.scale.height + 20) {
+            if (
+                enemy.y > this.scale.height + 20 ||
+                enemy.x < -50 ||
+                enemy.x > this.scale.width + 50
+            ) {
                 const screenCenterX = this.scale.width / 2;
                 if (enemy.x < screenCenterX) {
                     this.balanceMeter = Math.max(
@@ -462,11 +460,7 @@ export class GameScene extends Scene {
                         this.balanceMeter + decisionFactor
                     );
                 }
-                const juggledIndex = this.juggledObjects.indexOf(enemy);
-                if (juggledIndex > -1) {
-                    this.juggledObjects.splice(juggledIndex, 1);
-                }
-                this.enemies.splice(index, 1); // Remove from the enemies array
+
                 enemy.destroy(); // Destroy the enemy
 
                 // Give player Supreme Juice for enemies falling off

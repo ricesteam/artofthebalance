@@ -114,6 +114,17 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
     destroy() {
         if (!this.scene) return;
 
+        const id = this.scene.juggledObjects.indexOf(this);
+        if (id > -1) {
+            this.scene.juggledObjects.splice(id, 1);
+        }
+
+        // player gets 0.5% juice for each bounceCounter in the block
+        this.scene.player.SupremeJuice = Math.min(
+            100,
+            this.scene.player.SupremeJuice + this.bounceCount * 0.5
+        );
+
         this.glowTween.stop();
         this.glowTween.destroy();
         this.scene.tweens.killTweensOf(this.glowTween);

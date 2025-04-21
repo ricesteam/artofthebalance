@@ -18,12 +18,12 @@ export class Hud extends Phaser.GameObjects.Container {
         // Timer Text
         this.timerText = this.scene.add
             .text(this.scene.scale.width / 2, this.barY - 5, '5:00', {
-                fontSize: '32px',
+                fontSize: 24,
                 fill: '#ffffff',
                 fontFamily: 'retro',
                 align: 'center',
                 stroke: '#000000',
-                strokeThickness: 8,
+                strokeThickness: 6,
             })
             .setOrigin(0.5, 0);
         this.timerText.setScrollFactor(0);

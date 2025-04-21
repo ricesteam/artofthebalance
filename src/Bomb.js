@@ -72,17 +72,19 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.explosionRadius
         );
 
-        this.scene.add.particles(this.x, this.y, 'meatbomb', {
-            speed: { min: -200, max: 200 },
-            angle: { min: 0, max: 360 },
-            scale: { start: 0.5, end: 0 },
-            alpha: { start: 1, end: 0 }, // add some alpha
-            lifespan: 500,
-            gravityY: 0,
-            quantity: 20,
-            tint: [0x6e2727, 0xfb6b1d, 0xfbff86], // use brown, yellow, and orange tints instead
-            stopAfter: 100, // Stop emitting after 20 particles
-        });
+        this.scene.add
+            .particles(this.x, this.y, 'meatbomb', {
+                speed: { min: -200, max: 200 },
+                angle: { min: 0, max: 360 },
+                scale: { start: 0.5, end: 0 },
+                alpha: { start: 1, end: 0 }, // add some alpha
+                lifespan: 500,
+                gravityY: 0,
+                quantity: 20,
+                tint: [0x6e2727, 0xfb6b1d, 0xfbff86], // use brown, yellow, and orange tints instead
+                stopAfter: 100, // Stop emitting after 20 particles
+            })
+            .setDepth(6);
 
         // Use the explosion sprite animation
         const explosionSprite = this.scene.add.sprite(
@@ -90,6 +92,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             this.y,
             'explosion'
         );
+        explosionSprite.setDepth(6);
         explosionSprite.setScale(this.explosionRadius / 32); // Scale based on desired radius (explosion sprite is 48x48, radius 24)
         explosionSprite.play('explosion');
 

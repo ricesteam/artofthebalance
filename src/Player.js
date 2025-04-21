@@ -196,6 +196,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.bombAttack.cooldown * 0.95
         );
         this.bombAttack.explosionRadius *= 1.05;
+        this.bombAttackDuration *= 1.05;
     }
 
     upgradeBlackholeAttack() {
@@ -209,6 +210,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             6,
             Math.floor(this.blackholeAttack.count * 1.1)
         );
+        this.blackholeAttackDuration *= 1.05;
     }
 
     // Method to add an attack to the inventory (push onto the stack)
@@ -405,6 +407,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
             const healthToRestore = this.SupremeJuice / 6;
             this.hp = Math.min(100, this.hp + healthToRestore);
+
+            // increase mass
+            this.setMass(this.body.mass * 1.01);
 
             if (this.SupremeJuice >= 100) {
                 this.triggerSupremeAttack();
