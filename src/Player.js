@@ -201,7 +201,10 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         );
         this.blackholeAttack.blackholeRadius *= 1.1;
 
-        // increase the blackholeattack.count by 10% rounded down ai!
+        // increase the blackholeattack.count by 10% rounded down
+        this.blackholeAttack.count = Math.floor(
+            this.blackholeAttack.count * 1.1
+        );
     }
 
     // Method to add an attack to the inventory (push onto the stack)
@@ -268,7 +271,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             const healthToRestore = this.SupremeJuice / 2;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
-            if (this.SupremeJuice >= 0) {
+            if (this.SupremeJuice >= 75) {
                 this.addAttack(this.blackholeAttack);
                 this.scene.time.delayedCall(
                     this.blackholeAttackDuration,
