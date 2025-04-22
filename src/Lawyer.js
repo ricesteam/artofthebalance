@@ -253,8 +253,8 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         const projectile = new Document(this.scene, projectileX, projectileY);
         projectile.setVelocity(velocityX, velocityY);
 
-        // this seems off, maybe base it off the target direction ai!
-        const angle = Math.atan2(velocityY, velocityX);
+        // Calculate the angle based on the direction towards the target
+        const angle = Math.atan2(adjustedDirectionY, adjustedDirectionX);
         projectile.setRotation(angle);
     }
 
