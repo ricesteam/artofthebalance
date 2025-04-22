@@ -75,6 +75,7 @@ export class Preloader extends Scene {
         this.load.image('meatbomb', 'meatbomb.png');
         this.load.image('bursteffect', 'bursteffect.png');
         this.load.image('document', 'document.png');
+        this.load.image('vance', 'vance.png');
 
         // big head
         this.load.spritesheet('head', 'head.png', {

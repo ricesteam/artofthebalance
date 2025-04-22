@@ -327,6 +327,7 @@ export class GameScene extends Scene {
         });
         this.thankyouSound = this.sound.add('thankyou', {
             maxInstances: 1,
+            volume: 1.5,
         });
         this.firedSound = this.sound.add('fired', { volume: 0.5 });
         this.byeSound = this.sound.add('bye', { volume: 0.5 });
