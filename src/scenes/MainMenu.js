@@ -32,6 +32,8 @@ export class MainMenu extends Scene {
             ease: 'sine.inout',
         });
 
+        title.postFX.addShine(0.8, 0.3, 7);
+
         // const fx = this.clouds.preFX.addColorMatrix();
 
         // const tween = this.tweens.addCounter({
@@ -45,10 +47,12 @@ export class MainMenu extends Scene {
         // });
 
         const start = this.add
-            .text(width / 2, height - 120, 'Press TAX to Begin', {
+            .text(width / 2, height - 50, 'Press TAX to Begin', {
                 fontFamily: 'notjam',
-                fontSize: '32px',
+                fontSize: 24,
                 color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 4,
             })
             .setOrigin(0.5);
 
