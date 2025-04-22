@@ -193,7 +193,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         );
         this.scene.jumpSound.play();
 
-        if (Math.random() < 0.5) {
+        if (Math.random() < 0.4) {
             this.throwProjectile();
         }
 

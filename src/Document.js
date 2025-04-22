@@ -38,6 +38,8 @@ export class Document extends Phaser.Physics.Matter.Sprite {
             callback: this.destroy,
             callbackScope: this,
         });
+
+        this.setOnCollideWith(this.scene.player.body, this.handCollisions);
     }
 
     // You can add an update method if needed for specific document behavior
@@ -47,6 +49,12 @@ export class Document extends Phaser.Physics.Matter.Sprite {
     //         this.destroy();
     //     }
     // }
+
+    handCollisions(player) {
+        if (player.gameObject) {
+            player.gameObject.takeDamage(0.5);
+        }
+    }
 
     destroy() {
         if (!this.active) return;
