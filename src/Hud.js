@@ -371,24 +371,12 @@ export class Hud extends Phaser.GameObjects.Container {
         this.SupremeJuiceBar.clear();
         this.SupremeJuiceBar.fillStyle(barColor);
 
-        // remove the tween! ai!
-        this.scene.tweens.add({
-            targets: this.SupremeJuiceBar,
-            width: targetBarWidth,
-            duration: 200, // Adjust duration as needed
-            ease: 'Linear', // Or any other easing function
-            onUpdate: (tween) => {
-                // Redraw the Supreme Juice bar with the current tweened width
-                this.SupremeJuiceBar.clear();
-                this.SupremeJuiceBar.fillStyle(barColor);
-                this.SupremeJuiceBar.fillRect(
-                    this.SupremeJuiceBarX,
-                    this.SupremeJuiceBarY,
-                    tween.getValue(), // Use the tweened value for the width
-                    this.SupremeJuiceBarHeight
-                );
-            },
-        });
+        this.SupremeJuiceBar.fillRect(
+            this.SupremeJuiceBarX,
+            this.SupremeJuiceBarY,
+            targetBarWidth,
+            this.SupremeJuiceBarHeight
+        );
     }
 
     updateBalanceMeter() {
