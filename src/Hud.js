@@ -284,6 +284,15 @@ export class Hud extends Phaser.GameObjects.Container {
             .setOrigin(0.5, 1); // Align to the center and bottom
         this.supremeJuiceText.setScrollFactor(0);
         this.add(this.supremeJuiceText);
+
+        // this.scene.tweens.add({
+        //     targets: [this.SupremeJuiceBar, this.SupremeJuiceBackground],
+        //     scale: 1.1,
+        //     duration: 200,
+        //     yoyo: true,
+
+        //     repeat: -1,
+        // });
     }
 
     updateHealthBar() {
@@ -301,6 +310,8 @@ export class Hud extends Phaser.GameObjects.Container {
         // Clear the current health bar graphic and redraw it
         this.healthBar.clear();
         this.healthBar.fillStyle(0xff0000);
+
+        // can this be tweened? ai!
         this.healthBar.fillRect(
             healthBarX,
             healthBarY,
@@ -386,16 +397,6 @@ export class Hud extends Phaser.GameObjects.Container {
         );
 
         if (thresholdHit !== null) {
-            this.scene.tweens.add({
-                targets: this.SupremeJuiceBar,
-                scaleX: 1.1, // Scale horizontally
-                scaleY: 1.1, // Scale vertically slightly
-                duration: 200,
-                yoyo: true,
-                onComplete: () => {
-                    this.SupremeJuiceBar.setScale(1); // Reset scale after tween
-                },
-            });
         }
     }
 
