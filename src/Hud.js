@@ -86,6 +86,14 @@ export class Hud extends Phaser.GameObjects.Container {
         this.add(this.juggleText);
 
         this.createSupremeJuiceBar();
+
+        // State to track if thresholds have been hit for tweening
+        this.supremeJuiceThresholdsHit = {
+            25: false,
+            50: false,
+            75: false,
+        };
+
         this.updateHealthBar();
         this.updateJuggleCount();
         this.updateSupremeJuice();
@@ -299,16 +307,35 @@ export class Hud extends Phaser.GameObjects.Container {
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
         const currentBarHeight = this.SupremeJuiceBarHeight * meterPercentage;
 
-        // when eacg of these thresholds are hit for the first time, tween some effect once. This state should reset after the player consumes the juice ai!
         let barColor;
+        let thresholdHit = null;
+
         if (this.player.SupremeJuice >= 75) {
             barColor = 0x0000ff; // Blue
+            if (!this.supremeJuiceThresholdsHit[75]) {
+                thresholdHit = 75;
+                this.supremeJuiceThresholdsHit[75] = true;
+            }
         } else if (this.player.SupremeJuice >= 50) {
             barColor = 0xffff00; // Yellow
+            if (!this.supremeJuiceThresholdsHit[50]) {
+                thresholdHit = 50;
+                this.supremeJuiceThresholdsHit[50] = true;
+            }
         } else if (this.player.SupremeJuice >= 25) {
             barColor = 0x00ff00; // Green
+            if (!this.supremeJuiceThresholdsHit[25]) {
+                thresholdHit = 25;
+                this.supremeJuiceThresholdsHit[25] = true;
+            }
         } else {
             barColor = 0xa9a9a9; // Slightly lighter gray
+            // Reset thresholds when juice is consumed below the lowest threshold
+            this.supremeJuiceThresholdsHit = {
+                25: false,
+                50: false,
+                75: false,
+            };
         }
 
         // Clear the current Supreme Juice bar graphic and redraw it
@@ -323,6 +350,19 @@ export class Hud extends Phaser.GameObjects.Container {
             this.SupremeJuiceBarWidth,
             currentBarHeight
         );
+
+        if (thresholdHit !== null) {
+            this.scene.tweens.add({
+                targets: this.SupremeJuiceBar,
+                scaleX: 1.2,
+                scaleY: 1.2,
+                duration: 200,
+                yoyo: true,
+                onComplete: () => {
+                    this.SupremeJuiceBar.setScale(1); // Reset scale after tween
+                },
+            });
+        }
     }
 
     updateBalanceMeter() {
