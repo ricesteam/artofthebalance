@@ -72,27 +72,6 @@ export class Hud extends Phaser.GameObjects.Container {
 
         this.createSpectrumMeter();
 
-        this.addPercentText();
-
-        // Position the 'Tariff Slider' text below the spectrum bar
-        this.tariffSliderText = this.scene.add
-            .text(
-                this.spectrumX + this.spectrumWidth / 2, // Center horizontally with the spectrum
-                this.spectrumY + this.spectrumHeight + 5, // Position below the spectrum
-                'Tariff Slider',
-                {
-                    fontSize: 13,
-                    fill: '#ffffff',
-                    fontFamily: 'notjam',
-                    align: 'center',
-                    stroke: '#000000',
-                    strokeThickness: 2,
-                }
-            )
-            .setOrigin(0.5, 0);
-        this.tariffSliderText.setScrollFactor(0);
-        this.add(this.tariffSliderText);
-
         this.juggleText = this.scene.add.text(
             this.barX,
             this.spectrumY + this.spectrumHeight + 10,
@@ -106,6 +85,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.juggleText.setScrollFactor(0);
         this.add(this.juggleText);
 
+        // move the supreme juice code to helper method ai!
         // Supreme Juice Bar
         this.SupremeJuiceBarWidth = 20;
         this.SupremeJuiceBarHeight = 200;
@@ -192,6 +172,27 @@ export class Hud extends Phaser.GameObjects.Container {
         );
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
+
+        // Position the 'Tariff Slider' text below the spectrum bar
+        this.tariffSliderText = this.scene.add
+            .text(
+                this.spectrumX + this.spectrumWidth / 2, // Center horizontally with the spectrum
+                this.spectrumY + this.spectrumHeight + 5, // Position below the spectrum
+                'Tariff Slider',
+                {
+                    fontSize: 13,
+                    fill: '#ffffff',
+                    fontFamily: 'notjam',
+                    align: 'center',
+                    stroke: '#000000',
+                    strokeThickness: 2,
+                }
+            )
+            .setOrigin(0.5, 0);
+        this.tariffSliderText.setScrollFactor(0);
+        this.add(this.tariffSliderText);
+
+        this.addPercentText();
     }
 
     addPercentText() {
