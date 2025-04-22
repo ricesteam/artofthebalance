@@ -191,8 +191,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             },
             { x: this.enemyDirection * 0.06, y: -0.1 }
         );
+        this.playSounds();
 
-        // Throw a projectile at the player
+        // make it 60% chance of throwing ai!
         this.throwProjectile();
 
         // Transition back to seek after a short delay (adjust as needed)
@@ -220,6 +221,10 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Logic for a different jump state
     }
 
+    playSounds() {
+        this.scene.jumpSound.play();
+    }
+
     throwProjectile() {
         if (!this.player) return;
 
@@ -229,7 +234,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Calculate direction towards the player
         const directionX = this.player.x - projectileX;
         const directionY = this.player.y - projectileY;
-        const magnitude = Math.sqrt(directionX * directionX + directionY * directionY);
+        const magnitude = Math.sqrt(
+            directionX * directionX + directionY * directionY
+        );
 
         // Add some randomness to the target position to allow for misses
         const missFactor = Phaser.Math.Between(-50, 50); // Adjust the range for more or less accuracy
@@ -238,17 +245,20 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
 
         const adjustedDirectionX = targetX - projectileX;
         const adjustedDirectionY = targetY - projectileY;
-        const adjustedMagnitude = Math.sqrt(adjustedDirectionX * adjustedDirectionX + adjustedDirectionY * adjustedDirectionY);
+        const adjustedMagnitude = Math.sqrt(
+            adjustedDirectionX * adjustedDirectionX +
+                adjustedDirectionY * adjustedDirectionY
+        );
 
-
-        const velocityX = (adjustedDirectionX / adjustedMagnitude) * this.projectileSpeed;
-        const velocityY = (adjustedDirectionY / adjustedMagnitude) * this.projectileSpeed;
+        const velocityX =
+            (adjustedDirectionX / adjustedMagnitude) * this.projectileSpeed;
+        const velocityY =
+            (adjustedDirectionY / adjustedMagnitude) * this.projectileSpeed;
 
         // Create and launch the projectile
         const projectile = new Document(this.scene, projectileX, projectileY);
         projectile.setVelocity(velocityX, velocityY);
     }
-
 
     takeDamage(damage) {
         this.hp -= damage;
