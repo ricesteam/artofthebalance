@@ -232,8 +232,8 @@ export class Hud extends Phaser.GameObjects.Container {
 
     createSupremeJuiceBar() {
         // Supreme Juice Bar
-        this.SupremeJuiceBarWidth = 200; // Make it horizontal
-        this.SupremeJuiceBarHeight = 20; // Make it horizontal
+        this.SupremeJuiceBarWidth = this.barWidth; // Make it horizontal and same width as health bar
+        this.SupremeJuiceBarHeight = this.barHeight; // Make it horizontal and same height as health bar
         this.SupremeJuiceBarX =
             this.scene.scale.width - this.SupremeJuiceBarWidth - 10; // Position at bottom right
         this.SupremeJuiceBarY = this.scene.scale.height - this.barHeight - 10; // Position at bottom right
@@ -312,8 +312,6 @@ export class Hud extends Phaser.GameObjects.Container {
 
     updateSupremeJuice() {
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
-
-        // make this bar width and height the same as the health bar ai!
         const currentBarWidth = this.SupremeJuiceBarWidth * meterPercentage; // Use width for horizontal bar
 
         let barColor;
