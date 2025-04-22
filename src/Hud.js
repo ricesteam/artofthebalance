@@ -299,7 +299,7 @@ export class Hud extends Phaser.GameObjects.Container {
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
         const currentBarHeight = this.SupremeJuiceBarHeight * meterPercentage;
 
-        // when eacg of these thresholds are hit for the first time, tween some effect once. This state should reset after the player consumes the juice ai
+        // when eacg of these thresholds are hit for the first time, tween some effect once. This state should reset after the player consumes the juice ai!
         let barColor;
         if (this.player.SupremeJuice >= 75) {
             barColor = 0x0000ff; // Blue
