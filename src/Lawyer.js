@@ -189,9 +189,11 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             { x: this.enemyDirection * 0.06, y: -0.1 }
         );
 
+        // the lawyer needs to throw a projectile at the player. She can miss ai!
+
         // Transition back to seek after a short delay (adjust as needed)
         this.scene.time.addEvent({
-            delay: 1000, // Attack duration
+            delay: Phaser.Math.Between(500, 2000), // Attack duration
             callback: () => {
                 this.isAttacking = false;
                 this.stateMachine.transition('seek');
