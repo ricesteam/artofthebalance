@@ -5,6 +5,22 @@ export class MainMenu extends Scene {
         super('MainMenu');
         this.cloudScrollSpeed = 0.2; // Adjust the scroll speed as needed
         this.count = 0;
+
+        this.intrelude =
+            '2050 A.D.\n' +
+            'The age of borders has ended. The West has unified into a single, glorious Hegemony—governed by one leader, chosen not by vote, but by volume.\n\n' +
+            'The Supreme Leader rules with vision, with vanity, and with very large tariffs.\n\n' +
+            'But a crisis brews.\n\n' +
+            'Noodles.\n' +
+            'Cheap. Delicious. Treacherously affordable.\n\n' +
+            'Imported by the metric ton, they have flooded the markets—boiling the economy into a crippling trade deficit.\n\n' +
+            'Economists are gone. The Tariff Council has dissolved into sobbing.\n\n' +
+            'And now… only one man stands between civilization and collapse.\n\n' +
+            'Not a legend.\n' +
+            'Not a myth.\n\n' +
+            'Just one man.\n\n' +
+            'The Supreme Leader.\n\n' +
+            'And today… he must set the tariff.';
     }
 
     create() {
@@ -33,18 +49,6 @@ export class MainMenu extends Scene {
         });
 
         title.postFX.addShine(0.8, 0.3, 7);
-
-        // const fx = this.clouds.preFX.addColorMatrix();
-
-        // const tween = this.tweens.addCounter({
-        //     from: 0,
-        //     to: 360,
-        //     duration: 3000,
-        //     loop: -1,
-        //     onUpdate: () => {
-        //         fx.hue(tween.getValue());
-        //     },
-        // });
 
         const start = this.add
             .text(width / 2, height - 50, 'Press TAX to Begin', {
@@ -92,4 +96,6 @@ export class MainMenu extends Scene {
 
         this.flag.setDirty();
     }
+
+    startIntro() {}
 }

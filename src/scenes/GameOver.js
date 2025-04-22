@@ -144,7 +144,6 @@ export class GameOver extends Scene {
         this.musicTracks = [
             this.sound.add('outro', { maxInstances: 1 }),
             this.sound.add('goldthread', { maxInstances: 1 }),
-            this.sound.add('tariffman', { maxInstances: 1 }),
             this.sound.add('ageoftrump', { maxInstances: 1 }),
             this.sound.add('hegemony', { maxInstances: 1 }),
             this.sound.add('lordoftariffs', { maxInstances: 1 }),

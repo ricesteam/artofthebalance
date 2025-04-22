@@ -329,6 +329,10 @@ export class GameScene extends Scene {
             maxInstances: 3,
             volume: 0.5,
         });
+        this.dropSound = this.sound.add('drop', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
         this.thankyouSound = this.sound.add('thankyou', {
             maxInstances: 1,
             volume: 1.5,
@@ -336,7 +340,7 @@ export class GameScene extends Scene {
 
         this.music = this.sound.add('bgmusic', {
             maxInstances: 1,
-            volume: 0.6,
+            volume: 1.1,
             loop: true,
         });
         this.music.play();
@@ -424,8 +428,6 @@ export class GameScene extends Scene {
         const isEnding = this.player.hp > 0;
         let endingId = null;
 
-        const balance = Math.abs(this.balanceMeter);
-
         if (Math.abs(this.balanceMeter) <= this.winCondition) endingId = 3;
         else if (this.balanceMeter > this.winCondition) endingId = 2;
         else if (this.balanceMeter < -this.winCondition) endingId = 1;
@@ -439,7 +441,7 @@ export class GameScene extends Scene {
                 this.scene.start('GameOver', {
                     balanceMeter: this.balanceMeter,
                     isEnding: isEnding,
-                    endingId: endingId,
+                    endingId: isEnding ? endingId : 0,
                 });
             },
         });
@@ -516,7 +518,7 @@ export class GameScene extends Scene {
                 this.blocks.splice(index, 1); // Remove from the blocks array
                 block.destroy(); // Destroy the block
 
-                this.coinSound.play();
+                this.dropSound.play();
 
                 // Give player Supreme Juice for blocks falling off
                 this.player.SupremeJuice = Math.min(

@@ -107,7 +107,7 @@ export class Preloader extends Scene {
         this.load.audio('jump', 'jump.mp3');
         this.load.audio('kissing', 'kissing.mp3');
         this.load.audio('boing', 'boing.mp3');
-        this.load.audio('punch2', 'punch2.wav');
+        this.load.audio('punch2', 'punch2.mp3');
         this.load.audio('shock', 'shock.mp3');
         this.load.audio('shock2', 'shock2.mp3');
         this.load.audio('squish', 'squish.mp3');
@@ -116,13 +116,13 @@ export class Preloader extends Scene {
         this.load.audio('squish2', 'squish2.mp3');
         this.load.audio('explosion', 'explosion.mp3');
         this.load.audio('coin', 'coin.wav');
+        this.load.audio('drop', 'drop.mp3');
         this.load.audio('thankyou', 'thankyou.mp3');
 
         // music
         this.load.audio('outro', 'outro.mp3');
         this.load.audio('bgmusic', '/music/bgmusic.mp3');
         this.load.audio('goldthread', 'music/GoldThread.mp3');
-        this.load.audio('tariffman', 'music/tariffman.mp3');
         this.load.audio('ageoftrump', 'music/ageoftrump.mp3');
         this.load.audio('hegemony', 'music/hegemony.mp3');
         this.load.audio('lordoftariffs', 'music/lordoftariffs.mp3');
