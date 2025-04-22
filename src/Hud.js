@@ -232,11 +232,11 @@ export class Hud extends Phaser.GameObjects.Container {
 
     createSupremeJuiceBar() {
         // Supreme Juice Bar
-        this.SupremeJuiceBarWidth = 20;
-        this.SupremeJuiceBarHeight = 300;
-        this.SupremeJuiceBarX = 10;
-        this.SupremeJuiceBarY =
-            this.scene.scale.height - this.SupremeJuiceBarHeight - 10; // Position at bottom left
+        this.SupremeJuiceBarWidth = 200; // Make it horizontal
+        this.SupremeJuiceBarHeight = 20; // Make it horizontal
+        this.SupremeJuiceBarX =
+            this.scene.scale.width - this.SupremeJuiceBarWidth - 10; // Position at bottom right
+        this.SupremeJuiceBarY = this.scene.scale.height - this.barHeight - 10; // Position at bottom right
 
         // Create the background of the Supreme Juice bar
         this.SupremeJuiceBackground = this.scene.add.graphics();
@@ -257,12 +257,12 @@ export class Hud extends Phaser.GameObjects.Container {
         this.SupremeJuiceBar.setScrollFactor(0);
         this.add(this.SupremeJuiceBar);
 
-        // Add the "SUPREME JUICE" text vertically
+        // Add the "SUPREME JUICE" text above the bar
         this.supremeJuiceText = this.scene.add
             .text(
-                this.SupremeJuiceBarX + 10, // Position to the right of the bar
-                this.SupremeJuiceBarY / 2 + this.SupremeJuiceBarHeight / 2, // Center vertically with the bar
-                'SUPREME JUICE', // Text with newline for vertical appearance
+                this.SupremeJuiceBarX + this.SupremeJuiceBarWidth / 2, // Center horizontally with the bar
+                this.SupremeJuiceBarY - 5, // Position above the bar
+                'SUPREME JUICE',
                 {
                     fontSize: '14px',
                     fill: '#ffffff',
@@ -270,8 +270,7 @@ export class Hud extends Phaser.GameObjects.Container {
                     align: 'center',
                 }
             )
-            .setOrigin(0, 0.5)
-            .setAngle(90); // Align to the left and center vertically
+            .setOrigin(0.5, 1); // Align to the center and bottom
         this.supremeJuiceText.setScrollFactor(0);
         this.add(this.supremeJuiceText);
     }
@@ -303,10 +302,8 @@ export class Hud extends Phaser.GameObjects.Container {
     }
 
     updateSupremeJuice() {
-        // refactor: relocate this bar to the bottom right of the screen, horizontal ai!
-
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
-        const currentBarHeight = this.SupremeJuiceBarHeight * meterPercentage;
+        const currentBarWidth = this.SupremeJuiceBarWidth * meterPercentage; // Use width for horizontal bar
 
         let barColor;
         let thresholdHit = null;
@@ -342,21 +339,19 @@ export class Hud extends Phaser.GameObjects.Container {
         // Clear the current Supreme Juice bar graphic and redraw it
         this.SupremeJuiceBar.clear();
         this.SupremeJuiceBar.fillStyle(barColor);
-        // Draw from the bottom up
+        // Draw from the left to the right
         this.SupremeJuiceBar.fillRect(
             this.SupremeJuiceBarX,
-            this.SupremeJuiceBarY +
-                this.SupremeJuiceBarHeight -
-                currentBarHeight,
-            this.SupremeJuiceBarWidth,
-            currentBarHeight
+            this.SupremeJuiceBarY,
+            currentBarWidth,
+            this.SupremeJuiceBarHeight
         );
 
         if (thresholdHit !== null) {
             this.scene.tweens.add({
                 targets: this.SupremeJuiceBar,
-                scaleX: 1.2,
-                scaleY: 1.2,
+                scaleX: 1.1, // Scale horizontally
+                scaleY: 1.1, // Scale vertically slightly
                 duration: 200,
                 yoyo: true,
                 onComplete: () => {
