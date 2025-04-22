@@ -288,7 +288,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.scene.bg.tint = 0x111111;
 
         this.scene.spawner.blockSpawnTimer.paused = true;
-this.scene.spawner.enemySpawnTimer.paused = true;
+        this.scene.spawner.enemySpawnTimer.paused = true;
 
         this.scene.tweens.add({
             targets: this.scene,
@@ -426,6 +426,7 @@ this.scene.spawner.enemySpawnTimer.paused = true;
             if (this.SupremeJuice >= 25) {
                 this.scene.thankyouSound.play();
 
+                // correction: bottom-right screen. Also make the image on an angle ai!
                 const vanceImage = this.scene.add.image(
                     -100, // Start off-screen to the left
                     this.scene.scale.height - 50, // Position near the bottom
