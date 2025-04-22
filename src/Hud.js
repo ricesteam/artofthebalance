@@ -87,6 +87,25 @@ export class Hud extends Phaser.GameObjects.Container {
 
         this.createSupremeJuiceBar();
 
+        // Add the "SUPREME JUICE" text vertically
+        this.supremeJuiceText = this.scene.add
+            .text(
+                this.SupremeJuiceBarX + this.SupremeJuiceBarWidth + 5, // Position to the right of the bar
+                this.SupremeJuiceBarY + this.SupremeJuiceBarHeight / 2, // Center vertically with the bar
+                'SUPREME\nJUICE', // Text with newline for vertical appearance
+                {
+                    fontSize: '14px',
+                    fill: '#ffffff',
+                    fontFamily: 'notjam',
+                    align: 'left',
+                    wordWrap: { width: this.SupremeJuiceBarWidth + 10 }, // Wrap text if needed
+                }
+            )
+            .setOrigin(0, 0.5); // Align to the left and center vertically
+        this.supremeJuiceText.setScrollFactor(0);
+        this.add(this.supremeJuiceText);
+
+
         this.updateHealthBar();
         this.updateJuggleCount();
         this.updateSupremeJuice();
@@ -305,8 +324,6 @@ export class Hud extends Phaser.GameObjects.Container {
             this.SupremeJuiceBarWidth,
             currentBarHeight
         );
-
-        // add text, vertical orientation, on top of the supremejuicebar, 'SUPREME JUICE' ai!
     }
 
     updateBalanceMeter() {
