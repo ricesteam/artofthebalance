@@ -216,7 +216,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
     // Method to add an attack to the inventory (push onto the stack)
     addAttack(attack) {
         this.inventory.push(attack);
-        console.log('Attack added to inventory:', attack.name);
     }
 
     // refactor: treat this.inventory as a fifo queue, protecting index 0
@@ -224,7 +223,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         if (this.inventory.length > 0) {
             // Use shift() to remove from the beginning (FIFO)
             const removedAttack = this.inventory.shift();
-            console.log('Attack removed from inventory:', removedAttack.name);
             return removedAttack;
         }
     }
@@ -405,13 +403,14 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         }
 
         if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
-            const healthToRestore = this.SupremeJuice / 6;
+            const healthToRestore = this.SupremeJuice / 5;
             this.hp = Math.min(100, this.hp + healthToRestore);
 
             // increase mass
             this.setMass(this.body.mass * 1.01);
 
             if (this.SupremeJuice >= 100) {
+                this.hp = Math.min(100, this.hp + healthToRestore * 2);
                 this.triggerSupremeAttack();
                 this.upgradeBlackholeAttack();
                 this.upgradeBombAttack();

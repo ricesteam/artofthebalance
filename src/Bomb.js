@@ -107,11 +107,12 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
     }
 
     destroy() {
-        if (!this.scene) return;
+        if (!this.scene || !this.active) return;
 
-        this.scene.plugins
-            .get('rexShockwavePipeline')
-            .remove(this.scene.cameras.main);
+        if (this.scene.cameras.main)
+            this.scene.plugins
+                .get('rexShockwavePipeline')
+                .remove(this.scene.cameras.main);
 
         this.victims.forEach((body) => {
             if (

@@ -101,14 +101,14 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
     bounce() {
         this.bounceCount++;
         this.glowTween.play();
-        this.scene.tweens.add({
-            targets: this,
-            scaleX: '*=1.2', // Scale up by 10%
-            scaleY: '*=1.2', // Scale up by 10%
-            duration: 200, // Duration of the scale effect
-            yoyo: true, // Scale back down
-            ease: 'Bounce.easeOut', // Use bounce easing
-        });
+        // this.scene.tweens.add({
+        //     targets: this,
+        //     scaleX: '*=1.2', // Scale up by 10%
+        //     scaleY: '*=1.2', // Scale up by 10%
+        //     duration: 200, // Duration of the scale effect
+        //     yoyo: true, // Scale back down
+        //     ease: 'Bounce.easeOut', // Use bounce easing
+        // });
     }
 
     destroy() {

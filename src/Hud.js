@@ -94,13 +94,6 @@ export class Hud extends Phaser.GameObjects.Container {
 
         this.createSupremeJuiceBar();
 
-        // State to track if thresholds have been hit for tweening
-        this.supremeJuiceThresholdsHit = {
-            25: false,
-            50: false,
-            75: false,
-        };
-
         // Store the previous total bounces to detect changes
         this.previousTotalBounces = 0;
 

@@ -78,7 +78,8 @@ export class GameOver extends Scene {
         this.balanceMeter = data.balanceMeter;
         this.isEnding = data.isEnding ?? false;
         this.endingId = data.endingId ?? 1;
-        this.mainText = this.endingId === 3 ? 'Victory' : 'Game Over';
+        this.mainText =
+            this.isEnding && this.endingId === 3 ? 'Victory' : 'Game Over';
     }
 
     create() {
