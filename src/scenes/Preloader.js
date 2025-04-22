@@ -85,8 +85,7 @@ export class Preloader extends Scene {
         this.load.image('leftiris', 'leftiris.png');
         this.load.image('rightiris', 'rightiris.png');
 
-        this.load.font('retro', 'PixeloidMono.ttf');
-        this.load.font('retrobold', 'PixeloidSans-Bold.ttf');
+        this.load.font('notjam', 'NotJamOldStyle11.ttf');
 
         this.loadSounds();
     }

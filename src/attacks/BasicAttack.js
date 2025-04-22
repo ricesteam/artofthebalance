@@ -58,7 +58,7 @@ export class BasicAttack {
             .text(attackX, attackY, randomWord, {
                 fontSize: 18,
                 fill: '#ffffff',
-                fontFamily: 'retro',
+                fontFamily: 'notjam',
                 align: 'center',
                 stroke: '#000000',
                 strokeThickness: 2,
@@ -80,7 +80,7 @@ export class BasicAttack {
 
         attackText.setPosition(
             player.x + rotatedOffset.x,
-            player.y + rotatedOffset.y - 30
+            player.y + rotatedOffset.y - 20
         );
 
         // Set the rotation of the text to match the platform angle

@@ -63,7 +63,6 @@ export class GameOver extends Scene {
                     'Glory to the Supreme Leader',
             },
         ];
-        this.outroMusicPlayed = false; // Flag to track if outro music has been played
     }
 
     init(data) {
@@ -122,7 +121,7 @@ export class GameOver extends Scene {
 
         const gameOver = this.add
             .text(width / 2, height / 2, this.mainText, {
-                fontFamily: 'retrobold',
+                fontFamily: 'notjam',
                 fontSize: 64,
                 color: '#ffffff',
                 stroke: '#000000',
@@ -149,18 +148,15 @@ export class GameOver extends Scene {
 
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
-            if (!this.outroMusicPlayed) {
-                this.sound.play('outro');
-                this.outroMusicPlayed = true;
-            }
+            this.sound.play('outro');
             const endingText = this.add
                 .text(
                     width / 2,
                     height + 50,
                     this.endings[this.endingId].text,
                     {
-                        fontFamily: 'retro',
-                        fontSize: 24,
+                        fontFamily: 'notjam',
+                        fontSize: 22,
                         fill: '#ffffff',
                         align: 'center',
                         //stroke: '#000000',
@@ -196,8 +192,8 @@ export class GameOver extends Scene {
                 height + 50,
                 'This game was NOT written by AI.\n\n\n\n\n\n\n\nCode By AI\nArt by AI\nMusic by AI\nStory by AI',
                 {
-                    fontFamily: 'retro',
-                    fontSize: 24,
+                    fontFamily: 'notjam',
+                    fontSize: 22,
                     fill: '#ffffff',
                     align: 'center',
                     wordWrap: { width: width - margin }, // Wrap text within the screen width
@@ -222,8 +218,8 @@ export class GameOver extends Scene {
         const margin = 200;
         this.add
             .text(width / 2, height / 2, '"Thanks for playing"', {
-                fontFamily: 'retro',
-                fontSize: 24,
+                fontFamily: 'notjam',
+                fontSize: 22,
                 fill: '#ffffff',
                 align: 'center',
                 wordWrap: { width: width - margin },

@@ -46,7 +46,7 @@ export class MainMenu extends Scene {
 
         const start = this.add
             .text(width / 2, height - 120, 'Press TAX to Begin', {
-                fontFamily: 'retrobold',
+                fontFamily: 'notjam',
                 fontSize: '32px',
                 color: '#ffffff',
             })
@@ -64,7 +64,7 @@ export class MainMenu extends Scene {
 
         this.input.once('pointerdown', () => {
             this.sound.stopAll();
-            this.scene.start('GameScene');
+            this.scene.start('GameScene', { isEnding: true });
         });
 
         const camera = this.cameras.main;

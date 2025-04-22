@@ -20,7 +20,7 @@ export class Hud extends Phaser.GameObjects.Container {
             .text(this.scene.scale.width / 2, this.barY - 5, '5:00', {
                 fontSize: 24,
                 fill: '#ffffff',
-                fontFamily: 'retro',
+                fontFamily: 'notjam',
                 align: 'center',
                 stroke: '#000000',
                 strokeThickness: 6,
@@ -62,7 +62,7 @@ export class Hud extends Phaser.GameObjects.Container {
                 {
                     fontSize: '18px',
                     fill: '#ffffff',
-                    fontFamily: 'retro',
+                    fontFamily: 'notjam',
                     align: 'center',
                 }
             )
@@ -134,7 +134,7 @@ export class Hud extends Phaser.GameObjects.Container {
             {
                 fontSize: '18px',
                 fill: '#ffffff',
-                fontFamily: 'retro',
+                fontFamily: 'notjam',
             }
         );
         this.juggleText.setScrollFactor(0);
