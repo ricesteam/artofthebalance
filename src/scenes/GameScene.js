@@ -200,8 +200,12 @@ export class GameScene extends Scene {
 
         this.anims.create({
             key: 'stand',
-            frames: [{ key: 'player', frame: 8 }],
-            frameRate: 20,
+            frames: this.anims.generateFrameNumbers('player', {
+                start: 17,
+                end: 22,
+            }),
+            frameRate: 10,
+            repeat: -1,
         });
 
         this.anims.create({

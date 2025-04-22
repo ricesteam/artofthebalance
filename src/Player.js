@@ -406,7 +406,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.anims.play('walk', true);
             this.flipX = false; // Do not flip the sprite for right movement
         } else {
-            this.anims.play('stand');
+            this.anims.play('stand', true);
         }
 
         if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
