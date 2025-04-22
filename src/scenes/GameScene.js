@@ -321,6 +321,11 @@ export class GameScene extends Scene {
             maxInstances: 3,
             volume: 0.5,
         });
+        this.firedSound = this.sound.add('fired', { volume: 0.5 });
+        this.byeSound = this.sound.add('bye', { volume: 0.5 });
+        this.fakenewsSound = this.sound.add('fakenews', { volume: 0.5 });
+        this.richSound = this.sound.add('rich', { volume: 0.5 });
+        this.stupidSound = this.sound.add('stupid', { volume: 0.5 });
     }
 
     handleCollisions() {
@@ -394,8 +399,9 @@ export class GameScene extends Scene {
             }
         );
 
-        // randomly play once a sound from the soundKey list ai!
         const soundKey = ['fired', 'bye', 'fakenews', 'rich', 'stupid'];
+        const randomSound = Phaser.Utils.Array.GetRandom(soundKey);
+        this.sound.play(randomSound);
     }
 
     gameOver() {
