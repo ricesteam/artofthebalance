@@ -165,7 +165,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.chevron = this.scene.add.graphics();
         this.chevron.fillStyle(0xffffff); // White color for the chevron
         this.chevron.beginPath();
-        this.chevron.moveTo(0, 0);
+        this.chevron.moveTo(0, -6);
         this.chevron.lineTo(10, 10);
         this.chevron.lineTo(-10, 10);
         this.chevron.closePath();
