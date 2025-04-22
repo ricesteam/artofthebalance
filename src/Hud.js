@@ -86,26 +86,6 @@ export class Hud extends Phaser.GameObjects.Container {
         this.add(this.juggleText);
 
         this.createSupremeJuiceBar();
-
-        // Add the "SUPREME JUICE" text vertically
-        this.supremeJuiceText = this.scene.add
-            .text(
-                this.SupremeJuiceBarX + this.SupremeJuiceBarWidth + 5, // Position to the right of the bar
-                this.SupremeJuiceBarY + this.SupremeJuiceBarHeight / 2, // Center vertically with the bar
-                'SUPREME\nJUICE', // Text with newline for vertical appearance
-                {
-                    fontSize: '14px',
-                    fill: '#ffffff',
-                    fontFamily: 'notjam',
-                    align: 'left',
-                    wordWrap: { width: this.SupremeJuiceBarWidth + 10 }, // Wrap text if needed
-                }
-            )
-            .setOrigin(0, 0.5); // Align to the left and center vertically
-        this.supremeJuiceText.setScrollFactor(0);
-        this.add(this.supremeJuiceText);
-
-
         this.updateHealthBar();
         this.updateJuggleCount();
         this.updateSupremeJuice();
@@ -173,7 +153,7 @@ export class Hud extends Phaser.GameObjects.Container {
             .text(
                 this.spectrumX + this.spectrumWidth / 2, // Center horizontally with the spectrum
                 this.spectrumY + this.spectrumHeight + 5, // Position below the spectrum
-                'Tariff Slider',
+                'TARIFF SLIDER',
                 {
                     fontSize: 13,
                     fill: '#ffffff',
@@ -245,7 +225,7 @@ export class Hud extends Phaser.GameObjects.Container {
     createSupremeJuiceBar() {
         // Supreme Juice Bar
         this.SupremeJuiceBarWidth = 20;
-        this.SupremeJuiceBarHeight = 200;
+        this.SupremeJuiceBarHeight = 300;
         this.SupremeJuiceBarX = 10;
         this.SupremeJuiceBarY =
             this.scene.scale.height - this.SupremeJuiceBarHeight - 10; // Position at bottom left
@@ -264,9 +244,28 @@ export class Hud extends Phaser.GameObjects.Container {
 
         // Create the Supreme Juice bar itself
         this.SupremeJuiceBar = this.scene.add.graphics();
+
         // Initial draw will be handled by updateSupremeJuice
         this.SupremeJuiceBar.setScrollFactor(0);
         this.add(this.SupremeJuiceBar);
+
+        // Add the "SUPREME JUICE" text vertically
+        this.supremeJuiceText = this.scene.add
+            .text(
+                this.SupremeJuiceBarX + 10, // Position to the right of the bar
+                this.SupremeJuiceBarY / 2 + this.SupremeJuiceBarHeight / 2, // Center vertically with the bar
+                'SUPREME JUICE', // Text with newline for vertical appearance
+                {
+                    fontSize: '14px',
+                    fill: '#ffffff',
+                    fontFamily: 'notjam',
+                    align: 'center',
+                }
+            )
+            .setOrigin(0, 0.5)
+            .setAngle(90); // Align to the left and center vertically
+        this.supremeJuiceText.setScrollFactor(0);
+        this.add(this.supremeJuiceText);
     }
 
     updateHealthBar() {
@@ -307,6 +306,7 @@ export class Hud extends Phaser.GameObjects.Container {
         } else if (this.player.SupremeJuice >= 50) {
             barColor = 0xffff00; // Yellow
         } else if (this.player.SupremeJuice >= 25) {
+            // when it becomes green, tween an effect, scale, and yoyo back ai!
             barColor = 0x00ff00; // Green
         } else {
             barColor = 0xa9a9a9; // Slightly lighter gray
