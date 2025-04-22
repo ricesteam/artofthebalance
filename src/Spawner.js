@@ -50,8 +50,7 @@ export class Spawner {
         const randomNumber = Math.random();
         let enemy;
 
-        // make the lawyer spawn less often ai!
-        if (randomNumber < 0.5) {
+        if (randomNumber < 0.75) { // Increased the threshold for spawning Enemy
             enemy = new Enemy(this.scene, x, y);
         } else {
             enemy = new Lawyer(this.scene, x, y);
