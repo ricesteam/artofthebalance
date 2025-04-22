@@ -335,7 +335,7 @@ export class Hud extends Phaser.GameObjects.Container {
             });
         }
 
-        this.juggleText.setText(`JUGGLE COMBO ${totalBounces}`);
+        this.juggleText.setText(`JugCombo ${totalBounces}`);
         this.previousTotalBounces = totalBounces; // Update the previous count
     }
 
