@@ -253,7 +253,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         const projectile = new Document(this.scene, projectileX, projectileY);
         projectile.setVelocity(velocityX, velocityY);
 
-        // Calculate the angle based on the direction towards the target
+        // this doesn't work, do we have to convert it to radians? ai!
         const angle = Math.atan2(adjustedDirectionY, adjustedDirectionX);
         projectile.setRotation(angle);
     }
