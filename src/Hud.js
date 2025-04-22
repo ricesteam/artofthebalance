@@ -146,6 +146,9 @@ export class Hud extends Phaser.GameObjects.Container {
         this.spectrumBackground.setScrollFactor(0);
         this.add(this.spectrumBackground);
 
+        this.addPercentText();
+
+        // let's also add a cheveron under this text ai!
         this.balanceIndicator = this.scene.add
             .text(0, 0, 'TAX', {
                 fontSize: '16px',
@@ -153,13 +156,11 @@ export class Hud extends Phaser.GameObjects.Container {
                 fontFamily: 'notjam',
                 align: 'center',
                 stroke: '#000000',
-                strokeThickness: 2,
+                strokeThickness: 4,
             })
             .setOrigin(0.5); // Center the text
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
-
-        this.addPercentText();
     }
 
     addPercentText() {
