@@ -327,16 +327,12 @@ export class Hud extends Phaser.GameObjects.Container {
 
         // Check if the total bounces have increased
         if (totalBounces > this.previousTotalBounces) {
-            // Tween the scale of the juggleText
+            // I want the scale to steadly be bigger based on totalBounces ai!
             this.scene.tweens.add({
                 targets: this.juggleText,
-                scaleX: 1.2,
-                scaleY: 1.2,
+                scale: 1.2,
                 duration: 100,
                 yoyo: true,
-                onComplete: () => {
-                    this.juggleText.setScale(1); // Reset scale after tween
-                },
             });
         }
 
