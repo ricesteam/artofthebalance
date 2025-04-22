@@ -311,7 +311,6 @@ export class Hud extends Phaser.GameObjects.Container {
         this.healthBar.clear();
         this.healthBar.fillStyle(0xff0000);
 
-        // can this be tweened? ai!
         this.healthBar.fillRect(
             healthBarX,
             healthBarY,
@@ -388,7 +387,8 @@ export class Hud extends Phaser.GameObjects.Container {
         // Clear the current Supreme Juice bar graphic and redraw it
         this.SupremeJuiceBar.clear();
         this.SupremeJuiceBar.fillStyle(barColor);
-        // Draw from the left to the right
+
+        // tween this using this.tweens.addCounter ai!
         this.SupremeJuiceBar.fillRect(
             this.SupremeJuiceBarX,
             this.SupremeJuiceBarY,
