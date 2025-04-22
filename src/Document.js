@@ -20,7 +20,7 @@ export class Document extends Phaser.Physics.Matter.Sprite {
         this.setMass(0.1); // Make it light
         this.setFrictionAir(0); // No air resistance
         this.setBounce(0); // No bounce
-        this.setCollisionCategory(this.scene.CATEGORY_ENEMY_document); // Define a new collision category for enemy documents
+        this.setCollisionCategory(this.scene.CATEGORY_ENEMY_PROJECTILE); // Define a new collision category for enemy documents
         this.setCollidesWith([
             this.scene.CATEGORY_PLAYER,
             this.scene.CATEGORY_BLOCK,
