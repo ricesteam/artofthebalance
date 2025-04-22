@@ -146,17 +146,16 @@ export class Hud extends Phaser.GameObjects.Container {
         this.spectrumBackground.setScrollFactor(0);
         this.add(this.spectrumBackground);
 
-        // Instead of using graphic for the indicator, use text, 'TAX' ai!
-        this.balanceIndicator = this.scene.add.graphics();
-        this.balanceIndicator.fillStyle(0xffffff); // White indicator
-        this.indicatorWidth = 5;
-        this.indicatorHeight = this.spectrumHeight + 5; // Slightly taller than the spectrum
-        this.balanceIndicator.fillRect(
-            -this.indicatorWidth / 2, // Draw relative to the indicator's origin (which will be centered)
-            -(this.indicatorHeight - this.spectrumHeight) / 2, // Center vertically relative to the spectrum
-            this.indicatorWidth,
-            this.indicatorHeight
-        );
+        this.balanceIndicator = this.scene.add
+            .text(0, 0, 'TAX', {
+                fontSize: '16px',
+                fill: '#ffffff',
+                fontFamily: 'notjam',
+                align: 'center',
+                stroke: '#000000',
+                strokeThickness: 2,
+            })
+            .setOrigin(0.5); // Center the text
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
 
@@ -353,7 +352,7 @@ export class Hud extends Phaser.GameObjects.Container {
             this.spectrumX + normalizedBalance * this.spectrumWidth;
 
         this.balanceIndicator.x = indicatorPositionX;
-        this.balanceIndicator.y = this.spectrumY + this.spectrumHeight / 2 - 5; // Position vertically in the middle of the spectrum
+        this.balanceIndicator.y = this.spectrumY + this.spectrumHeight / 2; // Position vertically in the middle of the spectrum
     }
 
     updateTimer() {
