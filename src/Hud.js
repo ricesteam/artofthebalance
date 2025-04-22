@@ -355,6 +355,7 @@ export class Hud extends Phaser.GameObjects.Container {
 
         let barColor;
 
+        // when it is 100, make it purple ai!
         if (this.player.SupremeJuice >= 75) {
             barColor = 0x0000ff; // Blue
         } else if (this.player.SupremeJuice >= 50) {
