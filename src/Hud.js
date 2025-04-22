@@ -70,7 +70,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.hpText.setScrollFactor(0);
         this.add(this.hpText);
 
-        // Add the text 'Tariff Slider' centered below the health bar
+        // no, position it below the spectrum bar ai!
         this.tariffSliderText = this.scene.add
             .text(
                 this.barX + this.barWidth / 2,
@@ -86,7 +86,6 @@ export class Hud extends Phaser.GameObjects.Container {
             .setOrigin(0.5, 0);
         this.tariffSliderText.setScrollFactor(0);
         this.add(this.tariffSliderText);
-
 
         this.spectrumWidth = this.scene.scale.width - this.barX * 2; // Make the spectrum stretch across the screen with margins
         this.spectrumHeight = this.barHeight;
