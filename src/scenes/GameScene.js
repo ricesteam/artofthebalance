@@ -122,6 +122,7 @@ export class GameScene extends Scene {
 
         this.createStopBlocks(levelOffset);
         this.createAnimations();
+        this.createSounds();
 
         // Create the player
         this.player = new Player(this, width / 2, 100);
@@ -265,6 +266,15 @@ export class GameScene extends Scene {
             }),
             frameRate: 20,
         });
+    }
+
+    createSounds() {
+        this.explosionSound = this.sound.add('boom', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
+
+        // create the rest of my sounds ai!
     }
 
     handleCollisions() {
