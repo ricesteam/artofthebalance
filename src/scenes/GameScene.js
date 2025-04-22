@@ -29,6 +29,7 @@ export class GameScene extends Scene {
         this.blackholes = [];
         this.juggleThreshold = 5;
         this.juggledObjects = []; // Array to keep track of currently juggled objects
+        this.winCondition = 40;
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
@@ -329,11 +330,12 @@ export class GameScene extends Scene {
             maxInstances: 1,
             volume: 1.5,
         });
-        this.firedSound = this.sound.add('fired', { volume: 0.5 });
-        this.byeSound = this.sound.add('bye', { volume: 0.5 });
-        this.fakenewsSound = this.sound.add('fakenews', { volume: 0.5 });
-        this.richSound = this.sound.add('rich', { volume: 0.5 });
-        this.stupidSound = this.sound.add('stupid', { volume: 0.5 });
+
+        this.goldThreadMusic = this.sound.add('goldthread', {
+            maxInstances: 1,
+        });
+
+        this.goldThreadMusic.play();
     }
 
     handleCollisions() {
@@ -413,15 +415,16 @@ export class GameScene extends Scene {
     }
 
     gameOver() {
+        this.sound.stopAll();
         const pixelated = this.cameras.main.postFX.addPixelate(-1);
         const isEnding = this.player.hp > 0;
         let endingId = null;
 
         const balance = Math.abs(this.balanceMeter);
 
-        if (Math.abs(this.balanceMeter) <= 20) endingId = 3;
-        else if (this.balanceMeter > 20) endingId = 2;
-        else if (this.balanceMeter < -20) endingId = 1;
+        if (Math.abs(this.balanceMeter) <= this.winCondition) endingId = 3;
+        else if (this.balanceMeter > this.winCondition) endingId = 2;
+        else if (this.balanceMeter < -this.winCondition) endingId = 1;
 
         this.add.tween({
             targets: pixelated,

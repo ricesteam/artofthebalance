@@ -120,6 +120,7 @@ export class Preloader extends Scene {
 
         // music
         this.load.audio('outro', 'outro.mp3');
+        this.load.audio('goldthread', 'music/GoldThread.mp3');
     }
 
     create() {
