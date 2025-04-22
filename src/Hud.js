@@ -351,54 +351,42 @@ export class Hud extends Phaser.GameObjects.Container {
 
     updateSupremeJuice() {
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
-        const currentBarWidth = this.SupremeJuiceBarWidth * meterPercentage; // Use width for horizontal bar
+        const targetBarWidth = this.SupremeJuiceBarWidth * meterPercentage; // Use width for horizontal bar
 
-        // remove this threshold stuff, it doesn't work ai!
         let barColor;
-        let thresholdHit = null;
 
         if (this.player.SupremeJuice >= 75) {
             barColor = 0x0000ff; // Blue
-            if (!this.supremeJuiceThresholdsHit[75]) {
-                thresholdHit = 75;
-                this.supremeJuiceThresholdsHit[75] = true;
-            }
         } else if (this.player.SupremeJuice >= 50) {
             barColor = 0xffff00; // Yellow
-            if (!this.supremeJuiceThresholdsHit[50]) {
-                thresholdHit = 50;
-                this.supremeJuiceThresholdsHit[50] = true;
-            }
         } else if (this.player.SupremeJuice >= 25) {
             barColor = 0x00ff00; // Green
-            if (!this.supremeJuiceThresholdsHit[25]) {
-                thresholdHit = 25;
-                this.supremeJuiceThresholdsHit[25] = true;
-            }
         } else {
             barColor = 0xa9a9a9; // Slightly lighter gray
-            // Reset thresholds when juice is consumed below the lowest threshold
-            this.supremeJuiceThresholdsHit = {
-                25: false,
-                50: false,
-                75: false,
-            };
         }
 
-        // Clear the current Supreme Juice bar graphic and redraw it
+        // Clear the current Supreme Juice bar graphic
         this.SupremeJuiceBar.clear();
         this.SupremeJuiceBar.fillStyle(barColor);
 
-        // tween this using this.tweens.addCounter ai!
-        this.SupremeJuiceBar.fillRect(
-            this.SupremeJuiceBarX,
-            this.SupremeJuiceBarY,
-            currentBarWidth,
-            this.SupremeJuiceBarHeight
-        );
-
-        if (thresholdHit !== null) {
-        }
+        // Tween the width of the Supreme Juice bar
+        this.scene.tweens.add({
+            targets: this.SupremeJuiceBar,
+            width: targetBarWidth,
+            duration: 200, // Adjust duration as needed
+            ease: 'Linear', // Or any other easing function
+            onUpdate: (tween) => {
+                // Redraw the Supreme Juice bar with the current tweened width
+                this.SupremeJuiceBar.clear();
+                this.SupremeJuiceBar.fillStyle(barColor);
+                this.SupremeJuiceBar.fillRect(
+                    this.SupremeJuiceBarX,
+                    this.SupremeJuiceBarY,
+                    tween.getValue(), // Use the tweened value for the width
+                    this.SupremeJuiceBarHeight
+                );
+            },
+        });
     }
 
     updateBalanceMeter() {
