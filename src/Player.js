@@ -66,7 +66,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             //outlineColor: 0xd5e04b,
             outlineColor: 0xffffff,
             quality: 0.1,
-            name: 'rexOutlinePostFx',
+            name: 'rexOutlinePipeline',
         };
 
         this.outlinePipeline = scene.plugins
@@ -400,6 +400,42 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         });
     }
 
+    showVanceImage() {
+        this.scene.thankyouSound.play();
+
+        const vanceImage = this.scene.add.image(
+            this.scene.scale.width + 100, // Start off-screen to the right
+            this.scene.scale.height - 120, // Position near the bottom
+            'vance' // Assuming 'vance' is the key for the image
+        );
+        vanceImage.setOrigin(0, 0); // Set origin to bottom-right
+        vanceImage.setScale(0.6); // Adjust scale as needed
+        vanceImage.setDepth(1000); // Ensure it's on top
+        vanceImage.setAngle(15); // Set an initial angle
+
+        this.scene.tweens.add({
+            targets: vanceImage,
+            x: this.scene.scale.width - 150, // Move to a position on-screen
+            angle: -15, // Rotate to a different angle
+            duration: 500, // Duration of the tween
+            ease: 'Sine.easeOut',
+            onComplete: () => {
+                this.scene.time.delayedCall(1000, () => {
+                    this.scene.tweens.add({
+                        targets: vanceImage,
+                        x: this.scene.scale.width + 100, // Move back off-screen to the right
+                        angle: 15, // Rotate back to the initial angle
+                        duration: 500,
+                        ease: 'Sine.easeIn',
+                        onComplete: () => {
+                            vanceImage.destroy(); // Destroy the image after it's off-screen
+                        },
+                    });
+                });
+            },
+        });
+    }
+
     update(cursors) {
         // Player movement
         if (cursors.left.isDown) {
@@ -424,40 +460,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.setMass(this.body.mass * 1.01);
 
             if (this.SupremeJuice >= 25 && this.SupremeJuice < 100) {
-                // move this to a helper method ai!
-                this.scene.thankyouSound.play();
-
-                const vanceImage = this.scene.add.image(
-                    this.scene.scale.width + 100, // Start off-screen to the right
-                    this.scene.scale.height - 120, // Position near the bottom
-                    'vance' // Assuming 'vance' is the key for the image
-                );
-                vanceImage.setOrigin(0, 0); // Set origin to bottom-right
-                vanceImage.setScale(0.6); // Adjust scale as needed
-                vanceImage.setDepth(1000); // Ensure it's on top
-                vanceImage.setAngle(15); // Set an initial angle
-
-                this.scene.tweens.add({
-                    targets: vanceImage,
-                    x: this.scene.scale.width - 150, // Move to a position on-screen
-                    angle: -15, // Rotate to a different angle
-                    duration: 500, // Duration of the tween
-                    ease: 'Sine.easeOut',
-                    onComplete: () => {
-                        this.scene.time.delayedCall(1000, () => {
-                            this.scene.tweens.add({
-                                targets: vanceImage,
-                                x: this.scene.scale.width + 100, // Move back off-screen to the right
-                                angle: 15, // Rotate back to the initial angle
-                                duration: 500,
-                                ease: 'Sine.easeIn',
-                                onComplete: () => {
-                                    vanceImage.destroy(); // Destroy the image after it's off-screen
-                                },
-                            });
-                        });
-                    },
-                });
+                this.showVanceImage();
             }
 
             if (this.SupremeJuice >= 100) {
