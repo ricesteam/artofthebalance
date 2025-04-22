@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { StateMachine } from './StateMachine';
 import { Explosion } from './Explosion';
-import { Projectile } from './Projectile'; // Import the Projectile class
+import { Document } from './Document'; // Import the Document class
 
 export class Lawyer extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -245,7 +245,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         const velocityY = (adjustedDirectionY / adjustedMagnitude) * this.projectileSpeed;
 
         // Create and launch the projectile
-        const projectile = new Projectile(this.scene, projectileX, projectileY);
+        const projectile = new Document(this.scene, projectileX, projectileY);
         projectile.setVelocity(velocityX, velocityY);
     }
 
