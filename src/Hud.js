@@ -100,6 +100,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.updateBalanceMeter();
     }
 
+    // swap this bar's location with the timer ai!
     createSpectrumMeter() {
         this.spectrumWidth = this.scene.scale.width - this.barX * 2; // Make the spectrum stretch across the screen with margins
         this.spectrumHeight = this.barHeight;
