@@ -237,8 +237,6 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         const targetX = this.player.x + missFactor;
         const targetY = this.player.y + missFactor;
 
-        // rotate the document based on initial direction ai!
-
         const adjustedDirectionX = targetX - projectileX;
         const adjustedDirectionY = targetY - projectileY;
         const adjustedMagnitude = Math.sqrt(
@@ -254,6 +252,10 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Create and launch the projectile
         const projectile = new Document(this.scene, projectileX, projectileY);
         projectile.setVelocity(velocityX, velocityY);
+
+        // Calculate the angle based on the velocity
+        const angle = Math.atan2(velocityY, velocityX);
+        projectile.setRotation(angle);
     }
 
     takeDamage(damage) {
@@ -300,7 +302,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.scene.enemies.splice(id, 1);
         const juggledIndex = this.scene.juggledObjects.indexOf(this);
         if (juggledIndex > -1) {
-            this.scene.juggledObjects.splice(juggledIndex, 1);
+            this.scene.juggledObjects.splice(jgledIndex, 1);
         }
 
         // this.glowTween.stop();
