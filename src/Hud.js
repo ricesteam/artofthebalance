@@ -15,20 +15,6 @@ export class Hud extends Phaser.GameObjects.Container {
         this.barX = 10;
         this.barY = 10;
 
-        // Timer Text
-        this.timerText = this.scene.add
-            .text(this.scene.scale.width / 2, this.barY - 5, '5:00', {
-                fontSize: 24,
-                fill: '#ffffff',
-                fontFamily: 'notjam',
-                align: 'center',
-                stroke: '#000000',
-                strokeThickness: 6,
-            })
-            .setOrigin(0.5, 0);
-        this.timerText.setScrollFactor(0);
-        this.add(this.timerText);
-
         // Create the background of the health bar
         this.healthBarBackground = this.scene.add.graphics();
         this.healthBarBackground.fillStyle(0x808080); // Grey background
@@ -72,14 +58,35 @@ export class Hud extends Phaser.GameObjects.Container {
 
         this.createSpectrumMeter();
 
+        // Timer Text
+        this.timerText = this.scene.add
+            .text(
+                this.scene.scale.width / 2,
+                this.spectrumHeight + 10,
+                '5:00',
+                {
+                    fontSize: 24,
+                    fill: '#ffffff',
+                    fontFamily: 'notjam',
+                    align: 'center',
+                    stroke: '#000000',
+                    strokeThickness: 6,
+                }
+            )
+            .setOrigin(0.5, 0);
+        this.timerText.setScrollFactor(0);
+        this.add(this.timerText);
+
         this.juggleText = this.scene.add.text(
             this.barX,
             this.spectrumY + this.spectrumHeight + 10,
             `Juggling: ${this.scene.juggledObjects.length}`,
             {
-                fontSize: '18px',
+                fontSize: 12,
                 fill: '#ffffff',
                 fontFamily: 'notjam',
+                stroke: '#000000',
+                strokeThickness: 2,
             }
         );
         this.juggleText.setScrollFactor(0);
@@ -158,23 +165,23 @@ export class Hud extends Phaser.GameObjects.Container {
         this.add(this.balanceIndicator);
 
         // Position the 'Tariff Slider' text below the spectrum bar
-        this.tariffSliderText = this.scene.add
-            .text(
-                this.spectrumX + this.spectrumWidth / 2, // Center horizontally with the spectrum
-                this.spectrumY + this.spectrumHeight + 5, // Position below the spectrum
-                'TARIFF SLIDER',
-                {
-                    fontSize: 13,
-                    fill: '#ffffff',
-                    fontFamily: 'notjam',
-                    align: 'center',
-                    stroke: '#000000',
-                    strokeThickness: 2,
-                }
-            )
-            .setOrigin(0.5, 0);
-        this.tariffSliderText.setScrollFactor(0);
-        this.add(this.tariffSliderText);
+        // this.tariffSliderText = this.scene.add
+        //     .text(
+        //         this.spectrumX + this.spectrumWidth / 2, // Center horizontally with the spectrum
+        //         this.spectrumY + this.spectrumHeight / 2, // Position below the spectrum
+        //         'TARIFF SLIDER',
+        //         {
+        //             fontSize: 12,
+        //             fill: '#ffffff',
+        //             fontFamily: 'notjam',
+        //             align: 'center',
+        //             stroke: '#000000',
+        //             strokeThickness: 2,
+        //         }
+        //     )
+        //     .setOrigin(0.5, 0);
+        // this.tariffSliderText.setScrollFactor(0);
+        // this.add(this.tariffSliderText);
 
         this.addPercentText();
     }
@@ -197,7 +204,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.zeroPercentText.setScrollFactor(0);
         this.add(this.zeroPercentText);
 
-        // add the text 100% at the center of the bar
+        // // add the text 100% at the center of the bar
         this.hundredPercentText = this.scene.add
             .text(
                 this.spectrumX + this.spectrumWidth / 2 + 20, // Position at the end of the spectrum
@@ -227,7 +234,7 @@ export class Hud extends Phaser.GameObjects.Container {
                 }
             )
             .setOrigin(1, 0.5); // Align to the right and center vertically
-        this.hundredPercentText.setScrollFactor(0);
+        this.thousand.setScrollFactor(0);
         this.add(this.thousand);
     }
 
@@ -262,10 +269,10 @@ export class Hud extends Phaser.GameObjects.Container {
         this.supremeJuiceText = this.scene.add
             .text(
                 this.SupremeJuiceBarX + this.SupremeJuiceBarWidth / 2, // Center horizontally with the bar
-                this.SupremeJuiceBarY - 5, // Position above the bar
+                this.SupremeJuiceBarY + 18, // Position above the bar
                 'SUPREME JUICE',
                 {
-                    fontSize: '14px',
+                    fontSize: 12,
                     fill: '#ffffff',
                     fontFamily: 'notjam',
                     align: 'center',
