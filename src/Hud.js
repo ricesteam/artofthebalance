@@ -85,31 +85,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.juggleText.setScrollFactor(0);
         this.add(this.juggleText);
 
-        // move the supreme juice code to helper method ai!
-        // Supreme Juice Bar
-        this.SupremeJuiceBarWidth = 20;
-        this.SupremeJuiceBarHeight = 200;
-        this.SupremeJuiceBarX = 10;
-        this.SupremeJuiceBarY =
-            this.scene.scale.height - this.SupremeJuiceBarHeight - 10; // Position at bottom left
-
-        // Create the background of the Supreme Juice bar
-        this.SupremeJuiceBackground = this.scene.add.graphics();
-        this.SupremeJuiceBackground.fillStyle(0x808080); // Grey background
-        this.SupremeJuiceBackground.fillRect(
-            this.SupremeJuiceBarX,
-            this.SupremeJuiceBarY,
-            this.SupremeJuiceBarWidth,
-            this.SupremeJuiceBarHeight
-        );
-        this.SupremeJuiceBackground.setScrollFactor(0);
-        this.add(this.SupremeJuiceBackground);
-
-        // Create the Supreme Juice bar itself
-        this.SupremeJuiceBar = this.scene.add.graphics();
-        // Initial draw will be handled by updateSupremeJuice
-        this.SupremeJuiceBar.setScrollFactor(0);
-        this.add(this.SupremeJuiceBar);
+        this.createSupremeJuiceBar();
 
         this.updateHealthBar();
         this.updateJuggleCount();
@@ -245,6 +221,33 @@ export class Hud extends Phaser.GameObjects.Container {
             .setOrigin(1, 0.5); // Align to the right and center vertically
         this.hundredPercentText.setScrollFactor(0);
         this.add(this.thousand);
+    }
+
+    createSupremeJuiceBar() {
+        // Supreme Juice Bar
+        this.SupremeJuiceBarWidth = 20;
+        this.SupremeJuiceBarHeight = 200;
+        this.SupremeJuiceBarX = 10;
+        this.SupremeJuiceBarY =
+            this.scene.scale.height - this.SupremeJuiceBarHeight - 10; // Position at bottom left
+
+        // Create the background of the Supreme Juice bar
+        this.SupremeJuiceBackground = this.scene.add.graphics();
+        this.SupremeJuiceBackground.fillStyle(0x808080); // Grey background
+        this.SupremeJuiceBackground.fillRect(
+            this.SupremeJuiceBarX,
+            this.SupremeJuiceBarY,
+            this.SupremeJuiceBarWidth,
+            this.SupremeJuiceBarHeight
+        );
+        this.SupremeJuiceBackground.setScrollFactor(0);
+        this.add(this.SupremeJuiceBackground);
+
+        // Create the Supreme Juice bar itself
+        this.SupremeJuiceBar = this.scene.add.graphics();
+        // Initial draw will be handled by updateSupremeJuice
+        this.SupremeJuiceBar.setScrollFactor(0);
+        this.add(this.SupremeJuiceBar);
     }
 
     updateHealthBar() {
