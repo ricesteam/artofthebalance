@@ -161,7 +161,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
 
-        // Create the chevron graphic
+        // move the chevron slightly higher ai!
         this.chevron = this.scene.add.graphics();
         this.chevron.fillStyle(0xffffff); // White color for the chevron
         this.chevron.beginPath();
