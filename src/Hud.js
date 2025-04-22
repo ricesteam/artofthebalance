@@ -125,23 +125,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
 
-        // move this to a helper method ai!
-        // Add the text '0%' on the spectrum bar itself
-        this.zeroPercentText = this.scene.add
-            .text(
-                this.spectrumX + 2, // Position at the start of the spectrum
-                this.spectrumY + this.spectrumHeight / 2, // Center vertically on the spectrum
-                '0%',
-                {
-                    fontSize: '12px',
-                    fill: '#ffffff',
-                    fontFamily: 'notjam',
-                    align: 'left',
-                }
-            )
-            .setOrigin(0, 0.5); // Align to the left and center vertically
-        this.zeroPercentText.setScrollFactor(0);
-        this.add(this.zeroPercentText);
+        this.addZeroPercentText();
 
         // Position the 'Tariff Slider' text below the spectrum bar
         this.tariffSliderText = this.scene.add
@@ -209,6 +193,25 @@ export class Hud extends Phaser.GameObjects.Container {
         this.updateJuggleCount();
         this.updateSupremeJuice();
         this.updateBalanceMeter(); // Initial update for the balance meter
+    }
+
+    addZeroPercentText() {
+        // Add the text '0%' on the spectrum bar itself
+        this.zeroPercentText = this.scene.add
+            .text(
+                this.spectrumX + 2, // Position at the start of the spectrum
+                this.spectrumY + this.spectrumHeight / 2, // Center vertically on the spectrum
+                '0%',
+                {
+                    fontSize: '12px',
+                    fill: '#ffffff',
+                    fontFamily: 'notjam',
+                    align: 'left',
+                }
+            )
+            .setOrigin(0, 0.5); // Align to the left and center vertically
+        this.zeroPercentText.setScrollFactor(0);
+        this.add(this.zeroPercentText);
     }
 
     updateHealthBar() {
