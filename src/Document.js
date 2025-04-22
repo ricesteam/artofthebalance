@@ -6,8 +6,9 @@ export class Document extends Phaser.Physics.Matter.Sprite {
             // Assuming you have a 'document' sprite key
             label: 'document',
             shape: {
-                type: 'circle', // Or 'rectangle' depending on your sprite
-                radius: 5, // Adjust size as needed
+                type: 'rectangle', // Or 'rectangle' depending on your sprite
+                width: 12,
+                height: 12,
             },
             isSensor: true,
         });
@@ -27,7 +28,7 @@ export class Document extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_BLOCK,
             //this.scene.CATEGORY_PLATFORM,
         ]); // Collide with player, blocks, and platforms
-        this.setScale(1); // Adjust scale as needed
+        this.setScale(2); // Adjust scale as needed
         this.setDepth(50); // Adjust depth as needed
         this.name = 'document';
 
