@@ -80,9 +80,9 @@ export class Hud extends Phaser.GameObjects.Container {
         this.juggleText = this.scene.add.text(
             this.barX,
             this.spectrumY + this.spectrumHeight + 10,
-            `Juggling: ${this.scene.juggledObjects.length}`,
+            '',
             {
-                fontSize: 12,
+                fontSize: 16,
                 fill: '#ffffff',
                 fontFamily: 'notjam',
                 stroke: '#000000',
@@ -312,10 +312,12 @@ export class Hud extends Phaser.GameObjects.Container {
     }
 
     updateJuggleCount() {
-        const totalBounces = this.scene.juggledObjects.reduce((sum, obj) => sum + obj.bounceCount, 0);
-        this.juggleText.setText(
-            `Juggling: ${this.scene.juggledObjects.length} (Bounces: ${totalBounces})`
+        // tween a scale effect each time this increases ai!
+        const totalBounces = this.scene.juggledObjects.reduce(
+            (sum, obj) => sum + obj.bounceCount,
+            0
         );
+        this.juggleText.setText(`JUGGLE COMBO ${totalBounces}`);
     }
 
     updateSupremeJuice() {
