@@ -285,7 +285,7 @@ export class GameScene extends Scene {
             maxInstances: 3,
             volume: 0.5,
         });
-        this.punchSound = this.sound.add('punch', {
+        this.boingSound = this.sound.add('boing', {
             maxInstances: 3,
             volume: 0.5,
         });

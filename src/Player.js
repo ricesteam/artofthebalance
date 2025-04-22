@@ -131,6 +131,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                             this.scene.juggledObjects.push(otherGameObject);
                         }
 
+                        this.scene.boingSound.play();
+
                         // lets mix in the player's velocity
                         const bounceVelocityX =
                             this.body.velocity.x *
@@ -300,6 +302,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         //head.glowTween.seek(0);
         head.glowTween.play();
 
+        this.scene.platform.visible = false;
+
         this.scene.tweens.add({
             targets: head,
             x: this.scene.scale.width / 2,
@@ -326,31 +330,29 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     });
 
                     // After the attack, tween the head back to its original position
-                    this.scene.time.delayedCall(
-                        2000, // Wait for the blackhole duration
-                        () => {
-                            this.scene.matter.world.engine.timing.timeScale = 1;
-                            this.scene.scrollSpeedX = origscrollSpeedX;
-                            this.scene.scrollSpeedY = origscrollSpeedY;
-                            this.scene.bg.tint = 0xdddddd;
+                    this.scene.time.delayedCall(2000, () => {
+                        this.scene.matter.world.engine.timing.timeScale = 1;
+                        this.scene.scrollSpeedX = origscrollSpeedX;
+                        this.scene.scrollSpeedY = origscrollSpeedY;
+                        this.scene.bg.tint = 0xdddddd;
 
-                            this.scene.spawner.blockSpawnTimer.paused = false;
-                            this.scene.spawner.enemySpawnTimer.paused = false;
+                        this.scene.spawner.blockSpawnTimer.paused = false;
+                        this.scene.spawner.enemySpawnTimer.paused = false;
+                        this.scene.platform.visible = true;
 
-                            this.scene.tweens.add({
-                                targets: head,
-                                x: this.originalHeadPosition.x,
-                                y: this.originalHeadPosition.y,
-                                duration: 1000, // Duration of the float back down
-                                ease: 'sine.inout',
-                                onComplete: () => {
-                                    //emitter.destroy();
-                                    head.baldImage.setFrame(4);
-                                    head.tween.resume(); // Resume the wobbly tween
-                                },
-                            });
-                        }
-                    );
+                        this.scene.tweens.add({
+                            targets: head,
+                            x: this.originalHeadPosition.x,
+                            y: this.originalHeadPosition.y,
+                            duration: 1000, // Duration of the float back down
+                            ease: 'sine.inout',
+                            onComplete: () => {
+                                //emitter.destroy();
+                                head.baldImage.setFrame(4);
+                                head.tween.resume(); // Resume the wobbly tween
+                            },
+                        });
+                    });
                 });
             },
         });

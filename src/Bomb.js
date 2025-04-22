@@ -11,7 +11,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
                 radius: 16,
                 // maxSides: 25
             },
-            friction: 0.1,
+            friction: 0.5,
             frictionStatic: 0.5,
             frictionAir: 0.01,
             collisionFilter: {
@@ -23,8 +23,8 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
         this.matter = scene.matter;
         scene.add.existing(this);
 
-        this.setMass(2);
-        this.setBounce(1);
+        this.setMass(4);
+        this.setBounce(2);
         this.setDepth(5);
 
         this.explosionRadius = explosionRadius ?? 64; // Radius of the explosion

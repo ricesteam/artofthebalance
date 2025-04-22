@@ -204,6 +204,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
         // Play attack animation if available, or just stop movement
         this.anims.play('enemyAttack');
 
+        this.scene.kissingSound.play();
         this.scene.player.takeDamage(1);
 
         // Transition back to seek after a short delay (adjust as needed)
@@ -312,21 +313,24 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     }
 
     bounce() {
-        if (!this.active || !this.canBeJuggled) return;
+        if (!this.active) return;
         this.bounceCount++;
 
         if (this.bounceCount >= this.scene.juggleThreshold) {
-            this.canBeJuggled = false;
             this.glowTween.play();
 
-            this.triggerJuggledExplosion();
+            if (this.canBeJuggled) {
+                this.triggerJuggledExplosion();
+                this.canBeJuggled = false;
+            }
         }
     }
 
     triggerJuggledExplosion() {
         this.scene.time.delayedCall(Phaser.Math.Between(1000, 3000), () => {
             if (!this.active) return;
-            const explosion = new Explosion(
+            this.scene.boomSound2.play();
+            new Explosion(
                 this.scene,
                 this.x,
                 this.y,

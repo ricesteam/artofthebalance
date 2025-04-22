@@ -100,7 +100,7 @@ export class Preloader extends Scene {
         this.load.audio('boom2', 'boom2.mp3');
         this.load.audio('jump', 'jump.mp3');
         this.load.audio('kissing', 'kissing.mp3');
-        this.load.audio('punch', 'punch.mp3');
+        this.load.audio('boing', 'boing.mp3');
         this.load.audio('punch2', 'punch2.wav');
         this.load.audio('shock', 'shock.mp3');
         this.load.audio('shock2', 'shock2.mp3');
