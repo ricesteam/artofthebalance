@@ -90,7 +90,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.updateHealthBar();
         this.updateJuggleCount();
         this.updateSupremeJuice();
-        this.updateBalanceMeter(); // Initial update for the balance meter
+        this.updateBalanceMeter();
     }
 
     createSpectrumMeter() {
@@ -305,6 +305,8 @@ export class Hud extends Phaser.GameObjects.Container {
             this.SupremeJuiceBarWidth,
             currentBarHeight
         );
+
+        // add text, vertical orientation, on top of the supremejuicebar, 'SUPREME JUICE' ai!
     }
 
     updateBalanceMeter() {
