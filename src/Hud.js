@@ -70,7 +70,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.hpText.setScrollFactor(0);
         this.add(this.hpText);
 
-        // at the bottom of the bar, center, the text 'Tariff Slider' ai!
+        // at the bottom of the bar, center, the text 'Tariff Slider'
         this.spectrumWidth = this.scene.scale.width - this.barX * 2; // Make the spectrum stretch across the screen with margins
         this.spectrumHeight = this.barHeight;
         this.spectrumX = this.barX; // Start from the left margin
