@@ -70,61 +70,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.hpText.setScrollFactor(0);
         this.add(this.hpText);
 
-        // move all the spectrum code to a helper method ai!
-        this.spectrumWidth = this.scene.scale.width - this.barX * 2; // Make the spectrum stretch across the screen with margins
-        this.spectrumHeight = this.barHeight;
-        this.spectrumX = this.barX; // Start from the left margin
-        this.spectrumY = this.barY + this.barHeight + 10; // Position below the health bar
-
-        // Create the spectrum background using multiple colored rectangles
-        this.spectrumBackground = this.scene.add.graphics();
-        const numberOfSegments = 100; // Number of colored segments
-        const segmentWidth = this.spectrumWidth / numberOfSegments;
-
-        for (let i = 0; i < numberOfSegments; i++) {
-            let color;
-            const progress = i / (numberOfSegments - 1); // Normalized progress from 0 to 1
-
-            if (progress < 0.5) {
-                // Transition from blue (at 0) to green (at 0.5)
-                const transitionProgress = progress / 0.5; // Normalize to 0-1 for this segment
-                const r = Phaser.Math.Linear(0x00, 0x00, transitionProgress);
-                const g = Phaser.Math.Linear(0x00, 0xff, transitionProgress);
-                const b = Phaser.Math.Linear(0xff, 0x00, transitionProgress);
-                color = Phaser.Display.Color.GetColor(r, g, b);
-            } else {
-                // Transition from green (at 0.5) to red (at 1)
-                const transitionProgress = (progress - 0.5) / 0.5; // Normalize to 0-1 for this segment
-                const r = Phaser.Math.Linear(0x00, 0xff, transitionProgress);
-                const g = Phaser.Math.Linear(0xff, 0x00, transitionProgress);
-                const b = Phaser.Math.Linear(0x00, 0x00, transitionProgress);
-                color = Phaser.Display.Color.GetColor(r, g, b);
-            }
-
-            this.spectrumBackground.fillStyle(color);
-            this.spectrumBackground.fillRect(
-                this.spectrumX + i * segmentWidth,
-                this.spectrumY,
-                segmentWidth,
-                this.spectrumHeight
-            );
-        }
-        this.spectrumBackground.setScrollFactor(0);
-        this.add(this.spectrumBackground);
-
-        // Create the indicator for the balance meter
-        this.balanceIndicator = this.scene.add.graphics();
-        this.balanceIndicator.fillStyle(0xffffff); // White indicator
-        this.indicatorWidth = 5;
-        this.indicatorHeight = this.spectrumHeight + 5; // Slightly taller than the spectrum
-        this.balanceIndicator.fillRect(
-            -this.indicatorWidth / 2, // Draw relative to the indicator's origin (which will be centered)
-            -(this.indicatorHeight - this.spectrumHeight) / 2, // Center vertically relative to the spectrum
-            this.indicatorWidth,
-            this.indicatorHeight
-        );
-        this.balanceIndicator.setScrollFactor(0);
-        this.add(this.balanceIndicator);
+        this.createSpectrumMeter();
 
         this.addPercentText();
 
@@ -189,6 +135,63 @@ export class Hud extends Phaser.GameObjects.Container {
         this.updateJuggleCount();
         this.updateSupremeJuice();
         this.updateBalanceMeter(); // Initial update for the balance meter
+    }
+
+    createSpectrumMeter() {
+        this.spectrumWidth = this.scene.scale.width - this.barX * 2; // Make the spectrum stretch across the screen with margins
+        this.spectrumHeight = this.barHeight;
+        this.spectrumX = this.barX; // Start from the left margin
+        this.spectrumY = this.barY + this.barHeight + 10; // Position below the health bar
+
+        // Create the spectrum background using multiple colored rectangles
+        this.spectrumBackground = this.scene.add.graphics();
+        const numberOfSegments = 100; // Number of colored segments
+        const segmentWidth = this.spectrumWidth / numberOfSegments;
+
+        for (let i = 0; i < numberOfSegments; i++) {
+            let color;
+            const progress = i / (numberOfSegments - 1); // Normalized progress from 0 to 1
+
+            if (progress < 0.5) {
+                // Transition from blue (at 0) to green (at 0.5)
+                const transitionProgress = progress / 0.5; // Normalize to 0-1 for this segment
+                const r = Phaser.Math.Linear(0x00, 0x00, transitionProgress);
+                const g = Phaser.Math.Linear(0x00, 0xff, transitionProgress);
+                const b = Phaser.Math.Linear(0xff, 0x00, transitionProgress);
+                color = Phaser.Display.Color.GetColor(r, g, b);
+            } else {
+                // Transition from green (at 0.5) to red (at 1)
+                const transitionProgress = (progress - 0.5) / 0.5; // Normalize to 0-1 for this segment
+                const r = Phaser.Math.Linear(0x00, 0xff, transitionProgress);
+                const g = Phaser.Math.Linear(0xff, 0x00, transitionProgress);
+                const b = Phaser.Math.Linear(0x00, 0x00, transitionProgress);
+                color = Phaser.Display.Color.GetColor(r, g, b);
+            }
+
+            this.spectrumBackground.fillStyle(color);
+            this.spectrumBackground.fillRect(
+                this.spectrumX + i * segmentWidth,
+                this.spectrumY,
+                segmentWidth,
+                this.spectrumHeight
+            );
+        }
+        this.spectrumBackground.setScrollFactor(0);
+        this.add(this.spectrumBackground);
+
+        // Create the indicator for the balance meter
+        this.balanceIndicator = this.scene.add.graphics();
+        this.balanceIndicator.fillStyle(0xffffff); // White indicator
+        this.indicatorWidth = 5;
+        this.indicatorHeight = this.spectrumHeight + 5; // Slightly taller than the spectrum
+        this.balanceIndicator.fillRect(
+            -this.indicatorWidth / 2, // Draw relative to the indicator's origin (which will be centered)
+            -(this.indicatorHeight - this.spectrumHeight) / 2, // Center vertically relative to the spectrum
+            this.indicatorWidth,
+            this.indicatorHeight
+        );
+        this.balanceIndicator.setScrollFactor(0);
+        this.add(this.balanceIndicator);
     }
 
     addPercentText() {
