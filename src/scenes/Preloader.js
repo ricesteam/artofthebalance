@@ -120,7 +120,13 @@ export class Preloader extends Scene {
 
         // music
         this.load.audio('outro', 'outro.mp3');
+        this.load.audio('bgmusic', '/music/bgmusic.mp3');
         this.load.audio('goldthread', 'music/GoldThread.mp3');
+        this.load.audio('tariffman', 'music/tariffman.mp3');
+        this.load.audio('ageoftrump', 'music/ageoftrump.mp3');
+        this.load.audio('hegemony', 'music/hegemony.mp3');
+        this.load.audio('lordoftariffs', 'music/lordoftariffs.mp3');
+        this.load.audio('onehand', 'music/onehand.mp3');
     }
 
     create() {

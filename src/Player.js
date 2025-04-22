@@ -35,7 +35,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.anims.play('stand');
 
-        this.headSensor = this.scene.matter.add.circle(this.x, this.y, 15, {
+        this.headSensor = this.scene.matter.add.circle(this.x, this.y, 13, {
             isSensor: true,
             ignoreGravity: true,
             label: 'headSensor',
@@ -98,7 +98,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.originalHeadPosition = { x: 0, y: 0 };
 
         //this.postFX.addShine(0.7, 0.2, 5);
-        this.pixelFx = this.preFX.addPixelate(-1);
+        // this.pixelFx = this.postFX.addPixelate(-1);
     }
 
     handleCollision(event) {
@@ -519,7 +519,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.scene.tweens.add({
             targets: this,
             tint: 0xff0000, // Flash red
-            duration: 100, // Quick duration
+            duration: 200, // Quick duration
             yoyo: true, // Go back to original tint
             repeat: 0, // No repeat
             onComplete: (tween) => {
@@ -529,17 +529,19 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             },
         });
 
-        this.scene.tweens.add({
-            targets: this.pixelFx,
-            amount: 5, // Pixelate fully
-            duration: 100, // Quick duration
-            yoyo: true, // Go back to original state
-            repeat: 0, // No repeat
-            onComplete: (tween) => {
-                this.pixelFx.amount = -1; // Reset to original state
-                tween.stop();
-                tween.destroy();
-            },
-        });
+        if (this.pixelFx) {
+            this.scene.tweens.add({
+                targets: this.pixelFx,
+                amount: 5, // Pixelate fully
+                duration: 100, // Quick duration
+                yoyo: true, // Go back to original state
+                repeat: 0, // No repeat
+                onComplete: (tween) => {
+                    this.pixelFx.amount = -1; // Reset to original state
+                    tween.stop();
+                    tween.destroy();
+                },
+            });
+        }
     }
 }

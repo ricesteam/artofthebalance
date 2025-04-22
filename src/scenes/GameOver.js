@@ -140,6 +140,37 @@ export class GameOver extends Scene {
             this.sound.stopAll();
             this.scene.start('MainMenu');
         });
+
+        this.musicTracks = [
+            this.sound.add('outro', { maxInstances: 1 }),
+            this.sound.add('goldthread', { maxInstances: 1 }),
+            this.sound.add('tariffman', { maxInstances: 1 }),
+            this.sound.add('ageoftrump', { maxInstances: 1 }),
+            this.sound.add('hegemony', { maxInstances: 1 }),
+            this.sound.add('lordoftariffs', { maxInstances: 1 }),
+            this.sound.add('onehand', { maxInstances: 1 }),
+        ];
+    }
+
+    playRandomMusic() {
+        if (this.currentMusic && this.currentMusic.isPlaying) {
+            this.currentMusic.stop();
+        }
+
+        const availableTracks = this.musicTracks.filter(
+            (track) => !track.isPlaying
+        );
+
+        if (availableTracks.length === 0) {
+            // All tracks are playing or there are no tracks
+            return;
+        }
+
+        this.currentMusic = Phaser.Utils.Array.GetRandom(availableTracks);
+        this.currentMusic.play();
+
+        // Set up a listener to play the next random track when the current one finishes
+        this.currentMusic.once('complete', this.playRandomMusic, this);
     }
 
     playEnding(gameOver) {
@@ -149,7 +180,7 @@ export class GameOver extends Scene {
 
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
-            this.sound.play('outro');
+            this.playRandomMusic();
             const endingText = this.add
                 .text(
                     width / 2,
