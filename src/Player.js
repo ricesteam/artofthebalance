@@ -423,7 +423,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             // increase mass
             this.setMass(this.body.mass * 1.01);
 
-            if (this.SupremeJuice >= 25) this.scene.thankyouSound.play();
+            if (this.SupremeJuice >= 25) {
+                this.scene.thankyouSound.play();
+
+                // I want the image of vance to appear in the bottom left of the screen, then offscreen. Use tween. ai!
+            }
 
             if (this.SupremeJuice >= 100) {
                 this.scene.shockSound2.play();
