@@ -426,26 +426,28 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             if (this.SupremeJuice >= 25) {
                 this.scene.thankyouSound.play();
 
-                // correction: bottom-right screen. Also make the image on an angle ai!
                 const vanceImage = this.scene.add.image(
-                    -100, // Start off-screen to the left
+                    this.scene.scale.width + 100, // Start off-screen to the right
                     this.scene.scale.height - 50, // Position near the bottom
                     'vance' // Assuming 'vance' is the key for the image
                 );
-                vanceImage.setOrigin(0, 1); // Set origin to bottom-left
+                vanceImage.setOrigin(1, 1); // Set origin to bottom-right
                 vanceImage.setScale(0.5); // Adjust scale as needed
                 vanceImage.setDepth(1000); // Ensure it's on top
+                vanceImage.setAngle(15); // Set an initial angle
 
                 this.scene.tweens.add({
                     targets: vanceImage,
-                    x: 50, // Move to a position on-screen
+                    x: this.scene.scale.width - 50, // Move to a position on-screen
+                    angle: -15, // Rotate to a different angle
                     duration: 500, // Duration of the tween
                     ease: 'Sine.easeOut',
                     onComplete: () => {
                         this.scene.time.delayedCall(1000, () => {
                             this.scene.tweens.add({
                                 targets: vanceImage,
-                                x: -100, // Move back off-screen to the left
+                                x: this.scene.scale.width + 100, // Move back off-screen to the right
+                                angle: 15, // Rotate back to the initial angle
                                 duration: 500,
                                 ease: 'Sine.easeIn',
                                 onComplete: () => {
