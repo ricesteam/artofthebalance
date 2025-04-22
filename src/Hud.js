@@ -276,21 +276,30 @@ export class Hud extends Phaser.GameObjects.Container {
     }
 
     updateHealthBar() {
-        // refactor: relocate to the bottom left screen ai!
+        // Relocate health bar to bottom left
+        const healthBarX = 10;
+        const healthBarY = this.scene.scale.height - this.barHeight - 10;
+
         const healthPercentage = this.player.hp / 100; // Assuming max HP is 100
         const currentBarWidth = this.barWidth * healthPercentage;
+
+        // Update background position
+        this.healthBarBackground.x = healthBarX - this.barX; // Adjust for container's origin
+        this.healthBarBackground.y = healthBarY - this.barY; // Adjust for container's origin
 
         // Clear the current health bar graphic and redraw it
         this.healthBar.clear();
         this.healthBar.fillStyle(0xff0000);
         this.healthBar.fillRect(
-            this.barX,
-            this.barY,
+            healthBarX,
+            healthBarY,
             currentBarWidth,
             this.barHeight
         );
 
-        // Update the HP text
+        // Update the HP text position
+        this.hpText.x = healthBarX + this.barWidth / 2;
+        this.hpText.y = healthBarY + this.barHeight / 2;
         this.hpText.setText(`${Math.round(this.player.hp)}`);
     }
 
