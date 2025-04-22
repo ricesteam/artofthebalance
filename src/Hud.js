@@ -70,23 +70,6 @@ export class Hud extends Phaser.GameObjects.Container {
         this.hpText.setScrollFactor(0);
         this.add(this.hpText);
 
-        // no, position it below the spectrum bar ai!
-        this.tariffSliderText = this.scene.add
-            .text(
-                this.barX + this.barWidth / 2,
-                this.barY + this.barHeight + 5, // Position below the health bar
-                'Tariff Slider',
-                {
-                    fontSize: '14px',
-                    fill: '#ffffff',
-                    fontFamily: 'notjam',
-                    align: 'center',
-                }
-            )
-            .setOrigin(0.5, 0);
-        this.tariffSliderText.setScrollFactor(0);
-        this.add(this.tariffSliderText);
-
         this.spectrumWidth = this.scene.scale.width - this.barX * 2; // Make the spectrum stretch across the screen with margins
         this.spectrumHeight = this.barHeight;
         this.spectrumX = this.barX; // Start from the left margin
@@ -142,10 +125,27 @@ export class Hud extends Phaser.GameObjects.Container {
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
 
+        // Position the 'Tariff Slider' text below the spectrum bar
+        this.tariffSliderText = this.scene.add
+            .text(
+                this.spectrumX + this.spectrumWidth / 2, // Center horizontally with the spectrum
+                this.spectrumY + this.spectrumHeight + 5, // Position below the spectrum
+                'Tariff Slider',
+                {
+                    fontSize: '14px',
+                    fill: '#ffffff',
+                    fontFamily: 'notjam',
+                    align: 'center',
+                }
+            )
+            .setOrigin(0.5, 0);
+        this.tariffSliderText.setScrollFactor(0);
+        this.add(this.tariffSliderText);
+
         // Add text for juggling count
         this.juggleText = this.scene.add.text(
             this.barX,
-            this.spectrumY + this.spectrumHeight + 10, // Position below the spectrum
+            this.spectrumY + this.spectrumHeight + 10 + this.tariffSliderText.height + 5, // Position below the spectrum and tariff text
             `Juggling: ${this.scene.juggledObjects.length}`,
             {
                 fontSize: '18px',
