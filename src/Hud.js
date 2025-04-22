@@ -276,7 +276,7 @@ export class Hud extends Phaser.GameObjects.Container {
     }
 
     updateHealthBar() {
-        // Calculate the width of the health bar based on current HP
+        // refactor: relocate to the bottom left screen ai!
         const healthPercentage = this.player.hp / 100; // Assuming max HP is 100
         const currentBarWidth = this.barWidth * healthPercentage;
 
