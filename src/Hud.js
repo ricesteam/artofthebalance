@@ -329,7 +329,7 @@ export class Hud extends Phaser.GameObjects.Container {
         } else if (this.player.SupremeJuice >= 25) {
             barColor = 0x00ff00; // Green
         } else {
-            barColor = 0xa9a9a9; // Slightly lighter gray
+            barColor = 0xffffff; // Slightly lighter gray
         }
 
         // Clear the current Supreme Juice bar graphic

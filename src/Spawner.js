@@ -50,11 +50,11 @@ export class Spawner {
         const randomNumber = Math.random();
         let enemy;
 
-        //if (randomNumber < 0.5) {
-        enemy = new Enemy(this.scene, x, y);
-        //} else {
-        //    enemy = new Lawyer(this.scene, x, y);
-        //}
+        if (randomNumber < 0.5) {
+            enemy = new Enemy(this.scene, x, y);
+        } else {
+            enemy = new Lawyer(this.scene, x, y);
+        }
 
         this.scene.enemies.push(enemy);
     }

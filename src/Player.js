@@ -308,7 +308,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     // get all bodies from matter.world instead and filterby body.label === "maga"
                     this.scene.matter.world.getAllBodies().forEach((body) => {
                         if (
-                            body.label === 'maga' &&
+                            body.label === 'enemy' &&
                             !body.isSensor &&
                             body.gameObject &&
                             typeof body.gameObject.triggerJuggledExplosion ===
@@ -424,6 +424,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     this
                 );
                 this.upgradeBlackholeAttack();
+                this.hp = Math.min(100, this.hp + healthToRestore);
             } else if (this.SupremeJuice >= 50) {
                 this.addAttack(this.bombAttack);
                 this.scene.time.delayedCall(
@@ -433,6 +434,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     this
                 );
                 this.upgradeBombAttack();
+                this.hp = Math.min(100, this.hp + healthToRestore * 0.5);
             } else if (this.SupremeJuice >= 25) {
                 this.upgradeBasicAttack();
             }

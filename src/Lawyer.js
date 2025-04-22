@@ -1,10 +1,11 @@
 import Phaser from 'phaser';
 import { StateMachine } from './StateMachine';
+import { Explosion } from './Explosion';
 
 export class Lawyer extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
         super(scene.matter.world, x, y, 'lawyer', 0, {
-            label: 'lawyer',
+            label: 'enemy',
             shape: {
                 type: 'rectangle',
                 width: 16,
@@ -15,6 +16,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.world = scene.matter.world;
         this.matter = scene.matter;
         this.active = true;
+        this.bounceCount = 0;
 
         scene.add.existing(this);
         this.scene = scene;
@@ -49,6 +51,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         ]); // Collide with blocks, player, and attack
         this.setScale(2);
         this.setRotation(0);
+        this.setDepth(6);
         this.name = 'lawyer';
 
         this.flipX = false;
@@ -112,7 +115,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             this.isInAir = true;
         }
 
-        this.stateMachine.step();
+        if (!this.isMarkedForDeath) this.stateMachine.step();
     }
 
     // State Methods
@@ -219,8 +222,65 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     die() {
+        if (!this.active) return;
+        this.isMarkedForDeath = true;
+        this.stateMachine.transition('idle');
+        this.scene.add
+            .particles(this.x, this.y, 'blood', {
+                speed: { min: -200, max: 200 },
+                angle: { min: 0, max: 360 },
+                scale: { start: 0.5, end: 0 },
+                lifespan: 500,
+                gravityY: 300,
+                quantity: 20,
+                tint: [0xff0000, 0x8b0000],
+                stopAfter: 100,
+            })
+            .setDepth(10);
+
+        this.setSensor(true); // Turn into a sensor
+
+        this.scene.time.delayedCall(500, () => {
+            if (!this.active || !this.body) return;
+
+            this.flipY = true; // Flip vertically to appear as if falling
+            this.setVelocityY(Phaser.Math.Between(2, 5)); // Give it a slight downward velocity
+            this.setAngularVelocity(Phaser.Math.FloatBetween(-0.1, 0.1)); // Add some rotation
+        });
+    }
+
+    destroy() {
+        if (!this.active) return;
         const id = this.scene.enemies.indexOf(this);
         this.scene.enemies.splice(id, 1);
+        const juggledIndex = this.scene.juggledObjects.indexOf(this);
+        if (juggledIndex > -1) {
+            this.scene.juggledObjects.splice(juggledIndex, 1);
+        }
+
+        // this.glowTween.stop();
+        // this.glowTween.destroy();
+        // this.scene.tweens.killTweensOf(this.glowTween);
+        // this.glowTween = null;
+
+        // this.postFxPlugin.remove(this.body.gameObject);
+        // this.postFxPlugin.stop();
+        // this.postFxPlugin.destroy();
+
         super.destroy();
+    }
+
+    triggerJuggledExplosion() {
+        this.scene.time.delayedCall(Phaser.Math.Between(1000, 3000), () => {
+            if (!this.active) return;
+            new Explosion(
+                this.scene,
+                this.x,
+                this.y,
+                100 // Explosion radius
+            );
+
+            this.die(); // Destroy the enemy after the explosion
+        });
     }
 }
