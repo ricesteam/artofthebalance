@@ -312,6 +312,8 @@ export class Hud extends Phaser.GameObjects.Container {
 
     updateSupremeJuice() {
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
+
+        // make this bar width and height the same as the health bar ai!
         const currentBarWidth = this.SupremeJuiceBarWidth * meterPercentage; // Use width for horizontal bar
 
         let barColor;
