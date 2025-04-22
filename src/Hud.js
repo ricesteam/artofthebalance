@@ -312,9 +312,9 @@ export class Hud extends Phaser.GameObjects.Container {
     }
 
     updateJuggleCount() {
-        // refactor: change it include each juggledObjects bounceCount ai!
+        const totalBounces = this.scene.juggledObjects.reduce((sum, obj) => sum + obj.bounceCount, 0);
         this.juggleText.setText(
-            `Juggling: ${this.scene.juggledObjects.length}`
+            `Juggling: ${this.scene.juggledObjects.length} (Bounces: ${totalBounces})`
         );
     }
 
