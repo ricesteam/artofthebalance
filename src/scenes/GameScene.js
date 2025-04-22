@@ -321,6 +321,13 @@ export class GameScene extends Scene {
             maxInstances: 3,
             volume: 0.5,
         });
+        this.coinSound = this.sound.add('coin', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
+        this.thankyouSound = this.sound.add('thankyou', {
+            maxInstances: 1,
+        });
         this.firedSound = this.sound.add('fired', { volume: 0.5 });
         this.byeSound = this.sound.add('bye', { volume: 0.5 });
         this.fakenewsSound = this.sound.add('fakenews', { volume: 0.5 });
@@ -401,7 +408,7 @@ export class GameScene extends Scene {
 
         const soundKey = ['fired', 'bye', 'fakenews', 'rich', 'stupid'];
         const randomSound = Phaser.Utils.Array.GetRandom(soundKey);
-        this.sound.play(randomSound);
+        this.sound.play(randomSound, { maxInstances: 1, volume: 0.5 });
     }
 
     gameOver() {
@@ -500,6 +507,8 @@ export class GameScene extends Scene {
                 this.matter.world.remove(block); // Remove from Matter world
                 this.blocks.splice(index, 1); // Remove from the blocks array
                 block.destroy(); // Destroy the block
+
+                this.coinSound.play();
 
                 // Give player Supreme Juice for blocks falling off
                 this.player.SupremeJuice = Math.min(

@@ -264,8 +264,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
     }
 
     triggerSupremeAttack() {
+        if (!this.scene || !this.active) return;
+
         const head = this.scene.head;
         head.tween.pause();
+        this.scene.clock.paused = true;
 
         this.startLightshow();
 
@@ -339,6 +342,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                         this.scene.spawner.blockSpawnTimer.paused = false;
                         this.scene.spawner.enemySpawnTimer.paused = false;
                         this.scene.platform.visible = true;
+
+                        this.scene.clock.paused = false;
 
                         this.scene.tweens.add({
                             targets: head,
@@ -418,9 +423,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             // increase mass
             this.setMass(this.body.mass * 1.01);
 
+            if (this.SupremeJuice >= 25) this.scene.thankyouSound.play();
+
             if (this.SupremeJuice >= 100) {
                 this.scene.shockSound2.play();
-                this.hp = Math.min(100, this.hp + healthToRestore * 2);
+                this.hp = Math.min(100, this.hp + healthToRestore * 1.2);
                 this.triggerSupremeAttack();
                 this.upgradeBlackholeAttack();
                 this.upgradeBombAttack();
@@ -434,7 +441,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     this
                 );
                 this.upgradeBlackholeAttack();
-                this.hp = Math.min(100, this.hp + healthToRestore);
             } else if (this.SupremeJuice >= 50) {
                 this.addAttack(this.bombAttack);
                 this.scene.time.delayedCall(
@@ -444,7 +450,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     this
                 );
                 this.upgradeBombAttack();
-                this.hp = Math.min(100, this.hp + healthToRestore * 0.5);
             } else if (this.SupremeJuice >= 25) {
                 this.upgradeBasicAttack();
             }

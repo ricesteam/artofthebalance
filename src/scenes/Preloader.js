@@ -96,6 +96,11 @@ export class Preloader extends Scene {
         // load sound
         this.load.audio('china', 'TrumpChina-low.wav');
         this.load.audio('fired', 'fired.mp3');
+        this.load.audio('bye', 'byebye.mp3');
+        this.load.audio('fakenews', 'fakenews.mp3');
+        this.load.audio('rich', 'rich.mp3');
+        this.load.audio('stupid', 'stupid.mp3');
+
         this.load.audio('boom', 'boom.mp3');
         this.load.audio('boom2', 'boom2.mp3');
         this.load.audio('jump', 'jump.mp3');
@@ -109,6 +114,8 @@ export class Preloader extends Scene {
         this.load.audio('paper', 'paper.mp3');
         this.load.audio('squish2', 'squish2.mp3');
         this.load.audio('explosion', 'explosion.mp3');
+        this.load.audio('coin', 'coin.wav');
+        this.load.audio('thankyou', 'thankyou.mp3');
 
         // music
         this.load.audio('outro', 'outro.mp3');
