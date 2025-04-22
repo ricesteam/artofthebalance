@@ -193,8 +193,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         );
         this.playSounds();
 
-        // make it 60% chance of throwing ai!
-        this.throwProjectile();
+        if (Math.random() < 0.6) {
+            this.throwProjectile();
+        }
 
         // Transition back to seek after a short delay (adjust as needed)
         this.scene.time.addEvent({
