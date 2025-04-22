@@ -148,7 +148,6 @@ export class Hud extends Phaser.GameObjects.Container {
 
         this.addPercentText();
 
-        // let's also add a cheveron under this text ai!
         this.balanceIndicator = this.scene.add
             .text(0, 0, 'TAX', {
                 fontSize: '16px',
@@ -161,6 +160,18 @@ export class Hud extends Phaser.GameObjects.Container {
             .setOrigin(0.5); // Center the text
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
+
+        // Create the chevron graphic
+        this.chevron = this.scene.add.graphics();
+        this.chevron.fillStyle(0xffffff); // White color for the chevron
+        this.chevron.beginPath();
+        this.chevron.moveTo(0, 0);
+        this.chevron.lineTo(10, 10);
+        this.chevron.lineTo(-10, 10);
+        this.chevron.closePath();
+        this.chevron.fill();
+        this.chevron.setScrollFactor(0);
+        this.add(this.chevron);
     }
 
     addPercentText() {
@@ -354,6 +365,10 @@ export class Hud extends Phaser.GameObjects.Container {
 
         this.balanceIndicator.x = indicatorPositionX;
         this.balanceIndicator.y = this.spectrumY + this.spectrumHeight / 2; // Position vertically in the middle of the spectrum
+
+        // Position the chevron below the text indicator
+        this.chevron.x = indicatorPositionX;
+        this.chevron.y = this.spectrumY + this.spectrumHeight / 2 + 15; // Adjust the offset as needed
     }
 
     updateTimer() {
