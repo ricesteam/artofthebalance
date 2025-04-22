@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { StateMachine } from './StateMachine';
 import { Explosion } from './Explosion';
+import { Projectile } from './Projectile'; // Import the Projectile class
 
 export class Lawyer extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y) {
@@ -35,6 +36,8 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.isInAir = true;
         this.groundThreshold = 0.01; // Threshold for considering the enemy on the ground
         this.isAttacking = false;
+        this.projectileSpeed = 5; // Speed of the projectile
+        this.projectileOffset = { x: 0, y: -10 }; // Offset for projectile spawn
 
         this.setMass(this.enemyMass);
         this.setFriction(1);
@@ -189,7 +192,8 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             { x: this.enemyDirection * 0.06, y: -0.1 }
         );
 
-        // the lawyer needs to throw a projectile at the player. She can miss ai!
+        // Throw a projectile at the player
+        this.throwProjectile();
 
         // Transition back to seek after a short delay (adjust as needed)
         this.scene.time.addEvent({
@@ -215,6 +219,36 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     jumpState() {
         // Logic for a different jump state
     }
+
+    throwProjectile() {
+        if (!this.player) return;
+
+        const projectileX = this.x + this.projectileOffset.x;
+        const projectileY = this.y + this.projectileOffset.y;
+
+        // Calculate direction towards the player
+        const directionX = this.player.x - projectileX;
+        const directionY = this.player.y - projectileY;
+        const magnitude = Math.sqrt(directionX * directionX + directionY * directionY);
+
+        // Add some randomness to the target position to allow for misses
+        const missFactor = Phaser.Math.Between(-50, 50); // Adjust the range for more or less accuracy
+        const targetX = this.player.x + missFactor;
+        const targetY = this.player.y + missFactor;
+
+        const adjustedDirectionX = targetX - projectileX;
+        const adjustedDirectionY = targetY - projectileY;
+        const adjustedMagnitude = Math.sqrt(adjustedDirectionX * adjustedDirectionX + adjustedDirectionY * adjustedDirectionY);
+
+
+        const velocityX = (adjustedDirectionX / adjustedMagnitude) * this.projectileSpeed;
+        const velocityY = (adjustedDirectionY / adjustedMagnitude) * this.projectileSpeed;
+
+        // Create and launch the projectile
+        const projectile = new Projectile(this.scene, projectileX, projectileY);
+        projectile.setVelocity(velocityX, velocityY);
+    }
+
 
     takeDamage(damage) {
         this.hp -= damage;
