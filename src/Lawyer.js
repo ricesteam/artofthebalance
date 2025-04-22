@@ -193,7 +193,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         );
         this.scene.jumpSound.play();
 
-        if (Math.random() < 0.4) {
+        if (Math.random() < 0.5) {
             this.throwProjectile();
         }
 
@@ -236,6 +236,8 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         const missFactor = Phaser.Math.Between(-50, 50); // Adjust the range for more or less accuracy
         const targetX = this.player.x + missFactor;
         const targetY = this.player.y + missFactor;
+
+        // rotate the document based on initial direction ai!
 
         const adjustedDirectionX = targetX - projectileX;
         const adjustedDirectionY = targetY - projectileY;
@@ -281,7 +283,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.setSensor(true); // Turn into a sensor
 
         this.scene.squishSound.play();
-        this.scene.boomSound2.play();
+        this.scene.boomSound.play();
 
         this.scene.time.delayedCall(500, () => {
             if (!this.active || !this.body) return;
