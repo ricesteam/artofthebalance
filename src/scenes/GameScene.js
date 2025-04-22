@@ -41,6 +41,7 @@ export class GameScene extends Scene {
         this.CATEGORY_ATTACK = 0x0004;
         this.CATEGORY_ENEMY = 0x0008; // New category for enemies
         this.CATEGORY_PLATFORM = 0x0016;
+        this.CATEGORY_ENEMY_PROJECTILE = 0x0032; // New category for enemy projectiles
 
         this.balanceMeter = 0; // Balance meter stat
 
@@ -273,8 +274,15 @@ export class GameScene extends Scene {
             maxInstances: 3,
             volume: 0.5,
         });
-
-        // create the rest of my sounds ai!
+        this.jumpSound = this.sound.add('jump', { volume: 0.5 });
+        this.attackSound = this.sound.add('attack', { volume: 0.5 });
+        this.hitSound = this.sound.add('hit', { volume: 0.5 });
+        this.pickupSound = this.sound.add('pickup', { volume: 0.5 });
+        this.gameOverSound = this.sound.add('gameover', { volume: 0.5 });
+        this.winSound = this.sound.add('win', { volume: 0.5 });
+        this.loseSound = this.sound.add('lose', { volume: 0.5 });
+        this.music = this.sound.add('music', { loop: true, volume: 0.5 });
+        this.music.play();
     }
 
     handleCollisions() {
