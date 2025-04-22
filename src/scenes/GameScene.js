@@ -293,6 +293,8 @@ export class GameScene extends Scene {
             this.player.player.destroy();
             this.player = null;
         }
+
+        this.balanceMeter = 0;
     }
 
     spawnPlayer(init = true) {

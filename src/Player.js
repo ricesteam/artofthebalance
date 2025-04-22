@@ -188,6 +188,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             50,
             this.basicAttack.cooldown * 0.95
         ); // Decrease by 5%, capped at 50
+        this.basicAttack.maxCapacity *= 1.05;
     }
 
     upgradeBombAttack() {
@@ -211,6 +212,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             Math.floor(this.blackholeAttack.count * 1.1)
         );
         this.blackholeAttackDuration *= 1.05;
+        this.blackholeAttack.maxCapacity *= 1.01;
     }
 
     // Method to add an attack to the inventory (push onto the stack)

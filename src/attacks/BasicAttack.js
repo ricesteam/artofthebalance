@@ -116,6 +116,7 @@ export class BasicAttack {
 
             // Check if the other object is already a victim or if we've reached max capacity
             if (
+                !otherBody.isSensor &&
                 otherGameObject &&
                 attackArea.victims.length < attackArea.maxCapacity && // Use attackArea's victims and maxCapacity
                 !attackArea.victims.includes(otherBody)
