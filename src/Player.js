@@ -288,7 +288,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.scene.bg.tint = 0x111111;
 
         this.scene.spawner.blockSpawnTimer.paused = true;
-        this.scene.spawner.enemySpawnTimer.paused = true;
+this.scene.spawner.enemySpawnTimer.paused = true;
 
         this.scene.tweens.add({
             targets: this.scene,
@@ -426,7 +426,34 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             if (this.SupremeJuice >= 25) {
                 this.scene.thankyouSound.play();
 
-                // I want the image of vance to appear in the bottom left of the screen, then offscreen. Use tween. ai!
+                const vanceImage = this.scene.add.image(
+                    -100, // Start off-screen to the left
+                    this.scene.scale.height - 50, // Position near the bottom
+                    'vance' // Assuming 'vance' is the key for the image
+                );
+                vanceImage.setOrigin(0, 1); // Set origin to bottom-left
+                vanceImage.setScale(0.5); // Adjust scale as needed
+                vanceImage.setDepth(1000); // Ensure it's on top
+
+                this.scene.tweens.add({
+                    targets: vanceImage,
+                    x: 50, // Move to a position on-screen
+                    duration: 500, // Duration of the tween
+                    ease: 'Sine.easeOut',
+                    onComplete: () => {
+                        this.scene.time.delayedCall(1000, () => {
+                            this.scene.tweens.add({
+                                targets: vanceImage,
+                                x: -100, // Move back off-screen to the left
+                                duration: 500,
+                                ease: 'Sine.easeIn',
+                                onComplete: () => {
+                                    vanceImage.destroy(); // Destroy the image after it's off-screen
+                                },
+                            });
+                        });
+                    },
+                });
             }
 
             if (this.SupremeJuice >= 100) {
