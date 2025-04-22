@@ -146,7 +146,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.spectrumBackground.setScrollFactor(0);
         this.add(this.spectrumBackground);
 
-        // Create the indicator for the balance meter
+        // Instead of using graphic for the indicator, use text, 'TAX' ai!
         this.balanceIndicator = this.scene.add.graphics();
         this.balanceIndicator.fillStyle(0xffffff); // White indicator
         this.indicatorWidth = 5;
