@@ -76,6 +76,7 @@ export class Blackhole extends Phaser.Physics.Matter.Sprite {
             this.matter.world.removeConstraint(constraint);
         });
 
+        this.scene.boomSound2.play();
         new Explosion(this.scene, this.x, this.y, this.blackholeRadius);
 
         const id = this.scene.blackholes.indexOf(this);

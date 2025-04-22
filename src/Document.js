@@ -9,6 +9,7 @@ export class Document extends Phaser.Physics.Matter.Sprite {
                 type: 'circle', // Or 'rectangle' depending on your sprite
                 radius: 5, // Adjust size as needed
             },
+            isSensor: true,
         });
         this.scene = scene;
         this.world = scene.matter.world;
@@ -24,10 +25,10 @@ export class Document extends Phaser.Physics.Matter.Sprite {
         this.setCollidesWith([
             this.scene.CATEGORY_PLAYER,
             this.scene.CATEGORY_BLOCK,
-            this.scene.CATEGORY_PLATFORM,
+            //this.scene.CATEGORY_PLATFORM,
         ]); // Collide with player, blocks, and platforms
         this.setScale(1); // Adjust scale as needed
-        this.setDepth(5); // Adjust depth as needed
+        this.setDepth(50); // Adjust depth as needed
         this.name = 'document';
 
         // Add a timer to destroy the document after a certain time to prevent memory leaks

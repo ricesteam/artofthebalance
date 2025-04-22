@@ -43,6 +43,8 @@ export class BasicAttack {
             return;
         }
 
+        this.playSounds();
+
         this.lastUsedTime = this.scene.time.now;
 
         // Get the platform's angle in radians
@@ -166,5 +168,9 @@ export class BasicAttack {
             attackText.destroy();
             // The victims array attached to attackArea will be garbage collected with attackArea
         });
+    }
+
+    playSounds() {
+        this.scene.punchSound2.play();
     }
 }

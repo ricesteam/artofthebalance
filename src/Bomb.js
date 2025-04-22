@@ -86,6 +86,9 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
             })
             .setDepth(6);
 
+        this.scene.explosionSound.play();
+        this.scene.squishSound2.play();
+
         // Use the explosion sprite animation
         const explosionSprite = this.scene.add.sprite(
             this.x,

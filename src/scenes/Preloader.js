@@ -95,7 +95,21 @@ export class Preloader extends Scene {
         // load sound
         this.load.audio('china', 'TrumpChina-low.wav');
         this.load.audio('fired', 'fired.mp3');
+        this.load.audio('boom', 'boom.mp3');
+        this.load.audio('boom2', 'boom2.mp3');
+        this.load.audio('jump', 'jump.mp3');
+        this.load.audio('kissing', 'kissing.mp3');
+        this.load.audio('punch', 'punch.mp3');
+        this.load.audio('punch2', 'punch2.wav');
+        this.load.audio('shock', 'shock.mp3');
+        this.load.audio('shock2', 'shock2.mp3');
+        this.load.audio('squish', 'squish.mp3');
+        this.load.audio('throw', 'throw.mp3');
+        this.load.audio('paper', 'paper.mp3');
+        this.load.audio('squish2', 'squish2.mp3');
+        this.load.audio('explosion', 'explosion.mp3');
 
+        // music
         this.load.audio('outro', 'outro.mp3');
     }
 

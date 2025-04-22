@@ -22,6 +22,8 @@ export class BlackholeAttack {
 
         const num = Math.min(4, Math.floor(this.count));
 
+        this.scene.shockSound.play();
+
         // create a blackhole for each this.count
         for (let i = 0; i < num; i++) {
             const margin = 100; // Margin from the screen edges

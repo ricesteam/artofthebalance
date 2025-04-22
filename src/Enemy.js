@@ -256,6 +256,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
             .setDepth(10);
 
         this.setSensor(true); // Turn into a sensor
+        this.scene.squishSound.play();
 
         this.scene.time.delayedCall(500, () => {
             if (!this.active || !this.body) return;

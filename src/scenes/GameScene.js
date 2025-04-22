@@ -1,13 +1,8 @@
 import { Scene } from 'phaser';
 import { Player } from '../Player';
 import { Spawner } from '../Spawner';
-import { Blackhole } from '../Blackhole';
-import { Bomb } from '../Bomb';
 import { Head } from '../Head';
-import { BasicAttack } from '../attacks/BasicAttack'; // Import the BasicAttack class
 import { Hud } from '../Hud'; // Import the Hud class
-import { Noodles } from '../Noodles'; // Import the Noodles class
-import { Explosion } from '../Explosion'; // Import the Explosion class
 
 export class GameScene extends Scene {
     constructor() {
@@ -270,19 +265,58 @@ export class GameScene extends Scene {
     }
 
     createSounds() {
-        this.explosionSound = this.sound.add('boom', {
+        this.boomSound = this.sound.add('boom', {
             maxInstances: 3,
             volume: 0.5,
         });
-        this.jumpSound = this.sound.add('jump', { volume: 0.5 });
-        this.attackSound = this.sound.add('attack', { volume: 0.5 });
-        this.hitSound = this.sound.add('hit', { volume: 0.5 });
-        this.pickupSound = this.sound.add('pickup', { volume: 0.5 });
-        this.gameOverSound = this.sound.add('gameover', { volume: 0.5 });
-        this.winSound = this.sound.add('win', { volume: 0.5 });
-        this.loseSound = this.sound.add('lose', { volume: 0.5 });
-        this.music = this.sound.add('music', { loop: true, volume: 0.5 });
-        this.music.play();
+        this.boomSound2 = this.sound.add('boom2', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
+        this.jumpSound = this.sound.add('jump', {
+            maxInstances: 3,
+            volume: 0.2,
+        });
+        this.kissingSound = this.sound.add('kissing', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
+        this.punchSound = this.sound.add('punch', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
+        this.punchSound2 = this.sound.add('punch2', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
+        this.shockSound = this.sound.add('shock', {
+            maxInstances: 1,
+            volume: 0.5,
+        });
+        this.shockSound2 = this.sound.add('shock2', {
+            maxInstances: 1,
+            volume: 0.5,
+        });
+        this.squishSound = this.sound.add('squish', {
+            maxInstances: 1,
+            volume: 0.5,
+        });
+        this.paperSound = this.sound.add('paper', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
+        this.throwSound = this.sound.add('throw', {
+            maxInstances: 3,
+            volume: 0.3,
+        });
+        this.squishSound2 = this.sound.add('squish2', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
+        this.explosionSound = this.sound.add('explosion', {
+            maxInstances: 3,
+            volume: 0.5,
+        });
     }
 
     handleCollisions() {

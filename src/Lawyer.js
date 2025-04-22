@@ -191,9 +191,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             },
             { x: this.enemyDirection * 0.06, y: -0.1 }
         );
-        this.playSounds();
+        this.scene.jumpSound.play();
 
-        if (Math.random() < 0.6) {
+        if (Math.random() < 0.4) {
             this.throwProjectile();
         }
 
@@ -222,22 +222,15 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Logic for a different jump state
     }
 
-    playSounds() {
-        this.scene.jumpSound.play();
-    }
+    playSounds() {}
 
     throwProjectile() {
         if (!this.player) return;
 
+        this.scene.throwSound.play();
+
         const projectileX = this.x + this.projectileOffset.x;
         const projectileY = this.y + this.projectileOffset.y;
-
-        // Calculate direction towards the player
-        const directionX = this.player.x - projectileX;
-        const directionY = this.player.y - projectileY;
-        const magnitude = Math.sqrt(
-            directionX * directionX + directionY * directionY
-        );
 
         // Add some randomness to the target position to allow for misses
         const missFactor = Phaser.Math.Between(-50, 50); // Adjust the range for more or less accuracy
@@ -286,6 +279,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             .setDepth(10);
 
         this.setSensor(true); // Turn into a sensor
+
+        this.scene.squishSound.play();
+        this.scene.boomSound2.play();
 
         this.scene.time.delayedCall(500, () => {
             if (!this.active || !this.body) return;

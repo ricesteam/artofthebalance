@@ -116,7 +116,12 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
             if (bodyA === this.headSensor || bodyB === this.headSensor) {
                 const otherBody = bodyA === this.headSensor ? bodyB : bodyA;
-                if (otherBody !== this.body && !otherBody.isSensor) {
+                if (
+                    otherBody !== this.body &&
+                    !otherBody.isSensor &&
+                    otherBody.collisionFilter !==
+                        this.scene.CATEGORY_ENEMY_PROJECTILE
+                ) {
                     const otherGameObject = otherBody.gameObject;
                     if (otherGameObject && otherGameObject.active) {
                         // Add the object to the juggledObjects array if it's not already there
@@ -412,6 +417,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             this.setMass(this.body.mass * 1.01);
 
             if (this.SupremeJuice >= 100) {
+                this.scene.shockSound2.play();
                 this.hp = Math.min(100, this.hp + healthToRestore * 2);
                 this.triggerSupremeAttack();
                 this.upgradeBlackholeAttack();
