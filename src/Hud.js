@@ -213,7 +213,22 @@ export class Hud extends Phaser.GameObjects.Container {
         this.zeroPercentText.setScrollFactor(0);
         this.add(this.zeroPercentText);
 
-        // add the text 100% at the center of the bar ai!
+        // add the text 100% at the center of the bar
+        this.hundredPercentText = this.scene.add
+            .text(
+                this.spectrumX + this.spectrumWidth - 2, // Position at the end of the spectrum
+                this.spectrumY + this.spectrumHeight / 2, // Center vertically on the spectrum
+                '100%',
+                {
+                    fontSize: '12px',
+                    fill: '#ffffff',
+                    fontFamily: 'notjam',
+                    align: 'right',
+                }
+            )
+            .setOrigin(1, 0.5); // Align to the right and center vertically
+        this.hundredPercentText.setScrollFactor(0);
+        this.add(this.hundredPercentText);
     }
 
     updateHealthBar() {
