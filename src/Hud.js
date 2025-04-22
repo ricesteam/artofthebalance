@@ -125,7 +125,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
 
-        this.addZeroPercentText();
+        this.addPercentText();
 
         // Position the 'Tariff Slider' text below the spectrum bar
         this.tariffSliderText = this.scene.add
@@ -195,7 +195,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.updateBalanceMeter(); // Initial update for the balance meter
     }
 
-    addZeroPercentText() {
+    addPercentText() {
         // Add the text '0%' on the spectrum bar itself
         this.zeroPercentText = this.scene.add
             .text(
@@ -212,6 +212,8 @@ export class Hud extends Phaser.GameObjects.Container {
             .setOrigin(0, 0.5); // Align to the left and center vertically
         this.zeroPercentText.setScrollFactor(0);
         this.add(this.zeroPercentText);
+
+        // add the text 100% at the center of the bar ai!
     }
 
     updateHealthBar() {
