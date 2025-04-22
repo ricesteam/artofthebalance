@@ -37,7 +37,7 @@ export class Bomb extends Phaser.Physics.Matter.Sprite {
 
         var outlineconfig = {
             thickness: 3,
-            outlineColor: 0x6e2727,
+            outlineColor: 0xa24b6f,
             quality: 0.2,
             name: 'rexOutlinePostFx',
         };
