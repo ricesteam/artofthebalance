@@ -160,25 +160,6 @@ export class Hud extends Phaser.GameObjects.Container {
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
 
-        // Position the 'Tariff Slider' text below the spectrum bar
-        // this.tariffSliderText = this.scene.add
-        //     .text(
-        //         this.spectrumX + this.spectrumWidth / 2, // Center horizontally with the spectrum
-        //         this.spectrumY + this.spectrumHeight / 2, // Position below the spectrum
-        //         'TARIFF SLIDER',
-        //         {
-        //             fontSize: 12,
-        //             fill: '#ffffff',
-        //             fontFamily: 'notjam',
-        //             align: 'center',
-        //             stroke: '#000000',
-        //             strokeThickness: 2,
-        //         }
-        //     )
-        //     .setOrigin(0.5, 0);
-        // this.tariffSliderText.setScrollFactor(0);
-        // this.add(this.tariffSliderText);
-
         this.addPercentText();
     }
 
@@ -279,15 +260,6 @@ export class Hud extends Phaser.GameObjects.Container {
             .setOrigin(0.5, 1); // Align to the center and bottom
         this.supremeJuiceText.setScrollFactor(0);
         this.add(this.supremeJuiceText);
-
-        // this.scene.tweens.add({
-        //     targets: [this.SupremeJuiceBar, this.SupremeJuiceBackground],
-        //     scale: 1.1,
-        //     duration: 200,
-        //     yoyo: true,
-
-        //     repeat: -1,
-        // });
     }
 
     updateHealthBar() {
@@ -327,12 +299,14 @@ export class Hud extends Phaser.GameObjects.Container {
 
         // Check if the total bounces have increased
         if (totalBounces > this.previousTotalBounces) {
-            // I want the scale to steadly be bigger based on totalBounces ai!
             this.scene.tweens.add({
                 targets: this.juggleText,
-                scale: 1.2,
+                scale: 1 + totalBounces * 0.1, // Scale increases by 1% for each bounce
                 duration: 100,
                 yoyo: true,
+                onComplete: () => {
+                    this.juggleText.setScale(1);
+                },
             });
         }
 
