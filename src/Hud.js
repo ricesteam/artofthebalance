@@ -70,6 +70,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.hpText.setScrollFactor(0);
         this.add(this.hpText);
 
+        // move all the spectrum code to a helper method ai!
         this.spectrumWidth = this.scene.scale.width - this.barX * 2; // Make the spectrum stretch across the screen with margins
         this.spectrumHeight = this.barHeight;
         this.spectrumX = this.barX; // Start from the left margin
@@ -146,14 +147,9 @@ export class Hud extends Phaser.GameObjects.Container {
         this.tariffSliderText.setScrollFactor(0);
         this.add(this.tariffSliderText);
 
-        // Add text for juggling count
         this.juggleText = this.scene.add.text(
             this.barX,
-            this.spectrumY +
-                this.spectrumHeight +
-                10 +
-                this.tariffSliderText.height +
-                5, // Position below the spectrum and tariff text
+            this.spectrumY + this.spectrumHeight + 10,
             `Juggling: ${this.scene.juggledObjects.length}`,
             {
                 fontSize: '18px',
@@ -216,9 +212,25 @@ export class Hud extends Phaser.GameObjects.Container {
         // add the text 100% at the center of the bar
         this.hundredPercentText = this.scene.add
             .text(
-                this.spectrumX + this.spectrumWidth - 2, // Position at the end of the spectrum
+                this.spectrumX + this.spectrumWidth / 2 + 20, // Position at the end of the spectrum
                 this.spectrumY + this.spectrumHeight / 2, // Center vertically on the spectrum
                 '100%',
+                {
+                    fontSize: '12px',
+                    fill: '#ffffff',
+                    fontFamily: 'notjam',
+                    align: 'center',
+                }
+            )
+            .setOrigin(1, 0.5); // Align to the right and center vertically
+        this.hundredPercentText.setScrollFactor(0);
+        this.add(this.hundredPercentText);
+
+        this.thousand = this.scene.add
+            .text(
+                this.spectrumX + this.spectrumWidth - 2, // Position at the end of the spectrum
+                this.spectrumY + this.spectrumHeight / 2, // Center vertically on the spectrum
+                '1000%',
                 {
                     fontSize: '12px',
                     fill: '#ffffff',
@@ -228,7 +240,7 @@ export class Hud extends Phaser.GameObjects.Container {
             )
             .setOrigin(1, 0.5); // Align to the right and center vertically
         this.hundredPercentText.setScrollFactor(0);
-        this.add(this.hundredPercentText);
+        this.add(this.thousand);
     }
 
     updateHealthBar() {
