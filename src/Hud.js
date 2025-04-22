@@ -125,6 +125,8 @@ export class Hud extends Phaser.GameObjects.Container {
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
 
+        // on the spectrum bar itself, the text '0%' ai!
+
         // Position the 'Tariff Slider' text below the spectrum bar
         this.tariffSliderText = this.scene.add
             .text(
@@ -132,10 +134,12 @@ export class Hud extends Phaser.GameObjects.Container {
                 this.spectrumY + this.spectrumHeight + 5, // Position below the spectrum
                 'Tariff Slider',
                 {
-                    fontSize: '14px',
+                    fontSize: 13,
                     fill: '#ffffff',
                     fontFamily: 'notjam',
                     align: 'center',
+                    stroke: '#000000',
+                    strokeThickness: 2,
                 }
             )
             .setOrigin(0.5, 0);
@@ -145,7 +149,7 @@ export class Hud extends Phaser.GameObjects.Container {
         // Add text for juggling count
         this.juggleText = this.scene.add.text(
             this.barX,
-            this.spectrumY + this.spectrumHeight + 10 + this.tariffSliderText.height + 5, // Position below the spectrum and tariff text
+            this.spectrumY + this.spectrumHeight + 10, // Position below the spectrum and tariff text
             `Juggling: ${this.scene.juggledObjects.length}`,
             {
                 fontSize: '18px',
