@@ -353,6 +353,7 @@ export class Hud extends Phaser.GameObjects.Container {
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
         const currentBarWidth = this.SupremeJuiceBarWidth * meterPercentage; // Use width for horizontal bar
 
+        // remove this threshold stuff, it doesn't work ai!
         let barColor;
         let thresholdHit = null;
 
