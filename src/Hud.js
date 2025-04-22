@@ -371,7 +371,7 @@ export class Hud extends Phaser.GameObjects.Container {
         this.SupremeJuiceBar.clear();
         this.SupremeJuiceBar.fillStyle(barColor);
 
-        // Tween the width of the Supreme Juice bar
+        // remove the tween! ai!
         this.scene.tweens.add({
             targets: this.SupremeJuiceBar,
             width: targetBarWidth,
