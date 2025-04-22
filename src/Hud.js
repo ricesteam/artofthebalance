@@ -101,6 +101,9 @@ export class Hud extends Phaser.GameObjects.Container {
             75: false,
         };
 
+        // Store the previous total bounces to detect changes
+        this.previousTotalBounces = 0;
+
         this.updateHealthBar();
         this.updateJuggleCount();
         this.updateSupremeJuice();
@@ -312,12 +315,28 @@ export class Hud extends Phaser.GameObjects.Container {
     }
 
     updateJuggleCount() {
-        // tween a scale effect each time this increases ai!
         const totalBounces = this.scene.juggledObjects.reduce(
             (sum, obj) => sum + obj.bounceCount,
             0
         );
+
+        // Check if the total bounces have increased
+        if (totalBounces > this.previousTotalBounces) {
+            // Tween the scale of the juggleText
+            this.scene.tweens.add({
+                targets: this.juggleText,
+                scaleX: 1.2,
+                scaleY: 1.2,
+                duration: 100,
+                yoyo: true,
+                onComplete: () => {
+                    this.juggleText.setScale(1); // Reset scale after tween
+                },
+            });
+        }
+
         this.juggleText.setText(`JUGGLE COMBO ${totalBounces}`);
+        this.previousTotalBounces = totalBounces; // Update the previous count
     }
 
     updateSupremeJuice() {
