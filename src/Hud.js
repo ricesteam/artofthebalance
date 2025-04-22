@@ -303,7 +303,8 @@ export class Hud extends Phaser.GameObjects.Container {
     }
 
     updateSupremeJuice() {
-        // Calculate the height of the Supreme Juice bar based on current Supreme Juice value
+        // refactor: relocate this bar to the bottom right of the screen, horizontal ai!
+
         const meterPercentage = this.player.SupremeJuice / 100; // Assuming max meter is 100
         const currentBarHeight = this.SupremeJuiceBarHeight * meterPercentage;
 
