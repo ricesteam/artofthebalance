@@ -261,6 +261,8 @@ export class Hud extends Phaser.GameObjects.Container {
         this.SupremeJuiceBar.setScrollFactor(0);
         this.add(this.SupremeJuiceBar);
 
+        this.SupremeJuiceBar.postFX.addShine(1, 0.2, 5);
+
         // Add the "SUPREME JUICE" text above the bar
         this.supremeJuiceText = this.scene.add
             .text(
