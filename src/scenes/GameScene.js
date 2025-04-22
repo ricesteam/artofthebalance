@@ -394,7 +394,8 @@ export class GameScene extends Scene {
             }
         );
 
-        // The emitter will automatically stop and be garbage collected after its duration/stopAfter
+        // randomly play once a sound from the soundKey list ai!
+        const soundKey = ['fired', 'bye', 'fakenews', 'rich', 'stupid'];
     }
 
     gameOver() {
