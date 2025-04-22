@@ -161,11 +161,10 @@ export class Hud extends Phaser.GameObjects.Container {
         this.balanceIndicator.setScrollFactor(0);
         this.add(this.balanceIndicator);
 
-        // move the chevron slightly higher ai!
         this.chevron = this.scene.add.graphics();
         this.chevron.fillStyle(0xffffff); // White color for the chevron
         this.chevron.beginPath();
-        this.chevron.moveTo(0, -6);
+        this.chevron.moveTo(-5, -5);
         this.chevron.lineTo(10, 10);
         this.chevron.lineTo(-10, 10);
         this.chevron.closePath();
@@ -364,11 +363,11 @@ export class Hud extends Phaser.GameObjects.Container {
             this.spectrumX + normalizedBalance * this.spectrumWidth;
 
         this.balanceIndicator.x = indicatorPositionX;
-        this.balanceIndicator.y = this.spectrumY + this.spectrumHeight / 2; // Position vertically in the middle of the spectrum
+        this.balanceIndicator.y = this.spectrumY + this.spectrumHeight / 2 - 10; // Position vertically in the middle of the spectrum
 
         // Position the chevron below the text indicator
         this.chevron.x = indicatorPositionX;
-        this.chevron.y = this.spectrumY + this.spectrumHeight / 2 + 15; // Adjust the offset as needed
+        this.chevron.y = this.spectrumY + this.spectrumHeight / 2 + 5; // Adjust the offset as needed
     }
 
     updateTimer() {
