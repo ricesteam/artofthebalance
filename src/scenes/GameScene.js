@@ -331,11 +331,17 @@ export class GameScene extends Scene {
             volume: 1.5,
         });
 
+        // how do i randomly select one music track to play, when it's over play the next random one? ai!
         this.goldThreadMusic = this.sound.add('goldthread', {
             maxInstances: 1,
         });
-
-        this.goldThreadMusic.play();
+        this.bgMusic = this.sound.add('bgmusic', {
+            maxInstances: 1,
+            volume: 0.7,
+        });
+        this.tariffmanMusic = this.sound.add('tariffman', {
+            maxInstances: 1,
+        });
     }
 
     handleCollisions() {
