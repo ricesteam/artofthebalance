@@ -14,7 +14,7 @@ export class Spawner {
 
         this.initialBlockSpawnDelay = 2000; // Initial delay in milliseconds
         this.initialEnemySpawnDelay = 2000; // Initial delay in milliseconds
-        this.minSpawnDelay = 800; // Minimum delay in milliseconds
+        this.minSpawnDelay = 500; // Minimum delay in milliseconds
 
         // Add a timer to spawn blocks periodically
         this.blockSpawnTimer = this.scene.time.addEvent({

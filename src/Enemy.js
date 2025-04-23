@@ -19,7 +19,7 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
 
         scene.add.existing(this);
         this.scene = scene;
-        this.enemyMass = 1;
+        this.enemyMass = 2;
         this.acceleration = 0.05;
         this.maxSpeed = 1;
         this.enemyDirection = -1; // Start moving left

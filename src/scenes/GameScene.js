@@ -381,6 +381,8 @@ export class GameScene extends Scene {
     }
 
     clearScene() {
+        this.sound.stopAll();
+
         // Clear existing blocks
         this.blocks.forEach((block) => {
             this.matter.world.remove(block);

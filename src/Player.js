@@ -13,7 +13,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
         this.scene = scene;
         this.world = scene.matter.world;
         this.acceleration = 0.004;
-        this.maxSpeed = 3;
+        this.maxSpeed = 2;
         this.minSlideSpeed = 1;
         this.playerDirection = 1;
         this.isGrounded = false; // Track if the player is on the ground
