@@ -119,7 +119,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             this.scene.juggledObjects.splice(id, 1);
         }
 
-        // player gets 0.5% juice for each bounceCounter in the block
+        // the player should get more supremejuice the higher the bounceCount ai!
         this.scene.player.SupremeJuice = Math.min(
             100,
             this.scene.player.SupremeJuice + this.bounceCount * 0.5
