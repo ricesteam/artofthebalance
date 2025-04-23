@@ -7,6 +7,8 @@ export class MainMenu extends Scene {
         this.cloudScrollSpeed = 0.2; // Adjust the scroll speed as needed
         this.count = 0;
 
+        this.canSkipIntro = false;
+
         this.intrelude =
             '2050 A.D.\n' +
             'The age of borders has ended. The West has unified into a single, glorious Hegemony—governed by one leader, chosen not by vote, but by volume.\n\n' +
@@ -72,6 +74,7 @@ export class MainMenu extends Scene {
 
         this.input.once('pointerdown', () => {
             this.sound.stopAll();
+            this.canSkipIntro = true;
             this.startIntro();
             //this.scene.start('GameScene', { isEnding: true });
         });
@@ -80,17 +83,6 @@ export class MainMenu extends Scene {
         camera.postFX.addVignette(0.5, 0.5, 1.7, 1);
 
         this.outro = this.sound.add('outro', { maxInstances: 1 });
-
-        // Define the 'talking' animation here
-        this.anims.create({
-            key: 'talking',
-            frames: this.anims.generateFrameNumbers('bald', {
-                start: 1,
-                end: 2,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
     }
 
     update() {
@@ -109,6 +101,8 @@ export class MainMenu extends Scene {
         }
 
         this.flag.setDirty();
+
+        // if player pressed E, call endscene() ai!
     }
 
     startIntro() {
@@ -152,11 +146,19 @@ export class MainMenu extends Scene {
                 this.head.closeEyes();
                 this.head.baldImage.setFrame(0);
 
+                this.noodle = this.add.image(
+                    width / 2 + 30,
+                    this.head.y + 100,
+                    'noodle'
+                );
+                this.noodle.setDepth(2);
+                this.noodle.setOrigin(0, 0);
+
                 // Tween to scroll the intro text upwards
                 this.tweens.add({
-                    targets: [introText, this.head],
+                    targets: [introText, this.head, this.noodle],
                     y: `-=${height + introText.height + 50}`, // Scroll up until off-screen
-                    duration: 50, // Adjust duration for scrolling speed
+                    duration: 1000, // Adjust duration for scrolling speed
                     ease: 'Linear',
                     onComplete: () => {
                         introText.destroy();
@@ -175,33 +177,38 @@ export class MainMenu extends Scene {
                 });
             },
         });
+
+        this.add
+            .text(width - 130, height - 20, "Press 'E' to skip.", {
+                fontFamily: 'notjam',
+                fontSize: 11,
+                fill: '#ffffff',
+                align: 'left',
+            })
+            .setDepth(20);
     }
 
     slurpNoodles() {
         const width = this.scale.width;
         const height = this.scale.height;
-        this.noodle = this.add.image(width / 2 + 30, height - 130, 'noodle');
-        this.noodle.setDepth(2);
-        this.noodle.setOrigin(0, 0);
-        this.sound.play('slurp');
 
+        this.sound.play('slurp');
         this.tweens.add({
             targets: this.noodle,
             scaleY: 0, // Shrink on the y-axis
             duration: 1000, // Adjust duration as needed
             ease: 'Linear',
             onComplete: () => {
-                this.noodle.destroy(); // Destroy the noodle after slurping
+                this.noodle.destroy();
                 this.head.openEyes();
                 this.head.startBlinking();
                 this.talking();
-                //this.scene.start('GameScene'); // Start the game scene after the noodle is slurped
             },
         });
     }
 
     talking() {
-        const margin = 300;
+        const margin = 280;
         const width = this.scale.width;
         const height = this.scale.height;
 
@@ -232,9 +239,11 @@ export class MainMenu extends Scene {
                 charIndex++;
 
                 if (charIndex === fullText.length) {
+                    this.head.baldImage.anims.stop();
                     // Start the game scene after the typing is complete
                     this.time.delayedCall(1000, () => {
                         this.balding();
+                        textObject.destroy();
                     });
                 }
             },
@@ -243,6 +252,36 @@ export class MainMenu extends Scene {
     }
 
     balding() {
-        this.scene.start('GameScene');
+        const height = this.scale.height;
+
+        this.tweens.add({
+            targets: this.head,
+            y: height,
+            duration: 500,
+            ease: 'back.easeout',
+            delay: 500,
+            onComplete: () => {
+                this.head.baldImage.anims.play('balding');
+                this.time.delayedCall(1000, () => {
+                    this.endscene();
+                });
+            },
+        });
+    }
+
+    endscene() {
+        this.head.baldImage.anims.stop();
+        this.head.baldImage.setFrame(4);
+        const pixelated = this.cameras.main.postFX.addPixelate(-1);
+        this.add.tween({
+            targets: pixelated,
+            duration: 700,
+            amount: 40,
+            onComplete: () => {
+                this.head.destroy();
+                this.cameras.main.fadeOut(100);
+                this.scene.start('GameScene');
+            },
+        });
     }
 }
