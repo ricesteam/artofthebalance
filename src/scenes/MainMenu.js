@@ -174,6 +174,15 @@ export class MainMenu extends Scene {
         this.noodle = this.add.image(width / 2, height / 2, 'noodle');
         this.noodle.setDepth(2);
 
-        // add a tween that shrinks the noodle on the y-axis so it looks like it is being slurped at the top ai!
+        this.tweens.add({
+            targets: this.noodle,
+            scaleY: 0, // Shrink on the y-axis
+            duration: 1000, // Adjust duration as needed
+            ease: 'Linear',
+            onComplete: () => {
+                this.noodle.destroy(); // Destroy the noodle after slurping
+                this.scene.start('GameScene'); // Start the game scene after the noodle is slurped
+            },
+        });
     }
 }
