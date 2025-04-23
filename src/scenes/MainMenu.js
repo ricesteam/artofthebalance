@@ -195,31 +195,33 @@ export class MainMenu extends Scene {
         const height = this.scale.height;
 
         const textObject = this.add.text(
-            margin,
+            200,
             height - 50,
             '', // Start with empty text
             {
                 fontFamily: 'notjam',
                 fontSize: 22,
                 fill: '#ffffff',
-                align: 'left',
+                align: 'center',
                 stroke: '#000000',
                 strokeThickness: 4,
                 wordWrap: { width: width - margin },
             }
         );
 
-        const fullText = 'Let me think about it. 5 mintues...';
+        const fullText = 'Let me think about it...';
         let charIndex = 0;
 
         this.time.addEvent({
-            delay: 50, // Delay between characters (adjust for typing speed)
+            delay: Phaser.Math.Between(25, 100),
             repeat: fullText.length - 1,
             callback: () => {
                 textObject.text += fullText[charIndex];
                 charIndex++;
             },
             callbackScope: this,
+
+            // this doesn't work. in the callback, if charIndex == fullText.length then it is complete ai!
             onComplete: () => {
                 // Start the game scene after the typing is complete
                 this.time.delayedCall(1000, () => {
