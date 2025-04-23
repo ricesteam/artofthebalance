@@ -83,6 +83,17 @@ export class MainMenu extends Scene {
         camera.postFX.addVignette(0.5, 0.5, 1.7, 1);
 
         this.outro = this.sound.add('outro', { maxInstances: 1 });
+
+        // Define the 'talking' animation here
+        this.anims.create({
+            key: 'talking',
+            frames: this.anims.generateFrameNumbers('bald', {
+                start: 1,
+                end: 2,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
     }
 
     update() {
@@ -102,7 +113,9 @@ export class MainMenu extends Scene {
 
         this.flag.setDirty();
 
-        // if player pressed E, call endscene() ai!
+        if (this.canSkipIntro && this.input.keyboard.addKey('E').isDown) {
+            this.endscene();
+        }
     }
 
     startIntro() {
