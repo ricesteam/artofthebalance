@@ -149,17 +149,15 @@ export class MainMenu extends Scene {
                     ease: 'Linear',
                     onComplete: () => {
                         introText.destroy();
-                        this.slurpNoodles();
 
                         // fadeout the outro music using tween, then stop the music
                         this.tweens.add({
                             targets: this.outro,
                             volume: 0,
-                            duration: 500,
+                            duration: 200,
                             onComplete: () => {
                                 this.sound.stopAll();
-
-                                //his.scene.start('GameScene'); // Start the game scene after intro
+                                this.slurpNoodles();
                             },
                         });
                     },
@@ -171,8 +169,10 @@ export class MainMenu extends Scene {
     slurpNoodles() {
         const width = this.scale.width;
         const height = this.scale.height;
-        this.noodle = this.add.image(width / 2, height / 2, 'noodle');
+        this.noodle = this.add.image(width / 2 + 30, height - 130, 'noodle');
         this.noodle.setDepth(2);
+        this.noodle.setOrigin(0, 0);
+        this.sound.play('slurp');
 
         this.tweens.add({
             targets: this.noodle,
@@ -181,8 +181,33 @@ export class MainMenu extends Scene {
             ease: 'Linear',
             onComplete: () => {
                 this.noodle.destroy(); // Destroy the noodle after slurping
-                this.scene.start('GameScene'); // Start the game scene after the noodle is slurped
+                this.head.openEyes();
+                this.head.startBlinking();
+                this.talking();
+                //this.scene.start('GameScene'); // Start the game scene after the noodle is slurped
             },
         });
+    }
+
+    talking() {
+        const margin = 200;
+        const width = this.scale.width;
+        const height = this.scale.height;
+
+        // how do I make this appear as if its typing, like rpg message boxes? ai!
+        this.add.text(
+            margin,
+            height - 50,
+            'Let me think about it. 5 mintues...',
+            {
+                fontFamily: 'notjam',
+                fontSize: 22,
+                fill: '#ffffff',
+                align: 'left',
+                stroke: '#000000',
+                strokeThickness: 4,
+                wordWrap: { width: width - margin },
+            }
+        );
     }
 }
