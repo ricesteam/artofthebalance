@@ -47,6 +47,19 @@ export class GameScene extends Scene {
         this.currentMusic = null;
     }
 
+    init() {
+        this.cameras.main.fadeIn(100);
+        const fxCamera = this.cameras.main.postFX.addPixelate(40);
+        this.add.tween({
+            targets: fxCamera,
+            duration: 700,
+            amount: -1,
+            onComplete: () => {
+                this.cameras.main.postFX.remove(fxCamera);
+            },
+        });
+    }
+
     create() {
         const width = this.scale.width;
         const height = this.scale.height;

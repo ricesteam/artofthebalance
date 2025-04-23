@@ -83,17 +83,6 @@ export class MainMenu extends Scene {
         camera.postFX.addVignette(0.5, 0.5, 1.7, 1);
 
         this.outro = this.sound.add('outro', { maxInstances: 1 });
-
-        // Define the 'talking' animation here
-        this.anims.create({
-            key: 'talking',
-            frames: this.anims.generateFrameNumbers('bald', {
-                start: 1,
-                end: 2,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
     }
 
     update() {
@@ -171,7 +160,7 @@ export class MainMenu extends Scene {
                 this.tweens.add({
                     targets: [introText, this.head, this.noodle],
                     y: `-=${height + introText.height + 50}`, // Scroll up until off-screen
-                    duration: 1000, // Adjust duration for scrolling speed
+                    duration: 50000, // Adjust duration for scrolling speed
                     ease: 'Linear',
                     onComplete: () => {
                         introText.destroy();
@@ -276,6 +265,9 @@ export class MainMenu extends Scene {
             onComplete: () => {
                 this.head.baldImage.anims.play('balding');
                 this.time.delayedCall(1000, () => {
+                    this.head.baldImage.anims.stop();
+                    this.head.baldImage.setFrame(4);
+                    this.head.destroy();
                     this.endscene();
                 });
             },
@@ -283,15 +275,13 @@ export class MainMenu extends Scene {
     }
 
     endscene() {
-        this.head.baldImage.anims.stop();
-        this.head.baldImage.setFrame(4);
         const pixelated = this.cameras.main.postFX.addPixelate(-1);
         this.add.tween({
             targets: pixelated,
             duration: 700,
             amount: 40,
             onComplete: () => {
-                this.head.destroy();
+                this.sound.stopAll();
                 this.cameras.main.fadeOut(100);
                 this.scene.start('GameScene');
             },
