@@ -97,5 +97,7 @@ export class MainMenu extends Scene {
         this.flag.setDirty();
     }
 
-    startIntro() {}
+    startIntro() {
+        // after the player press start, the intro beings here. First scroll up the title and the start text. Then scroll the string in this.intrelude. ai!
+    }
 }
