@@ -211,6 +211,7 @@ export class MainMenu extends Scene {
 
         const fullText = 'Let me think about it...';
         let charIndex = 0;
+        this.anims.play('talking');
 
         this.time.addEvent({
             delay: Phaser.Math.Between(25, 100),
@@ -218,8 +219,6 @@ export class MainMenu extends Scene {
             callback: () => {
                 textObject.text += fullText[charIndex];
                 charIndex++;
-
-                // I want to flip between frames 1 and 2 in this.head.baldImage. ai!
 
                 if (charIndex === fullText.length) {
                     // Start the game scene after the typing is complete
