@@ -74,17 +74,7 @@ export class GameScene extends Scene {
         // Clear existing blocks and enemies
         this.clearScene();
 
-        // move the background stuff to helper method ai!
-        this.add.image(0, 0, 'background2').setOrigin(0, 0);
-
-        // Add the background image
-        this.bg = this.add.tileSprite(0, 0, width, height, 'background2');
-        this.bg.setOrigin(0, 0);
-        this.bg.setScrollFactor(0);
-        this.bg.setTint(0xdddddd); // Tint the background to make it darker
-
-        this.bg.postFX.addDisplacement('distort', -0.5, -0.5);
-        const fx = this.bg.postFX.addPixelate(2);
+        this.createBackground();
 
         // Create the Head instance
         this.head = new Head(this, width / 2, height);
@@ -180,6 +170,22 @@ export class GameScene extends Scene {
             callbackScope: this,
             loop: false,
         });
+    }
+
+    createBackground() {
+        const width = this.scale.width;
+        const height = this.scale.height;
+
+        this.add.image(0, 0, 'background2').setOrigin(0, 0);
+
+        // Add the background image
+        this.bg = this.add.tileSprite(0, 0, width, height, 'background2');
+        this.bg.setOrigin(0, 0);
+        this.bg.setScrollFactor(0);
+        this.bg.setTint(0xdddddd); // Tint the background to make it darker
+
+        this.bg.postFX.addDisplacement('distort', -0.5, -0.5);
+        const fx = this.bg.postFX.addPixelate(2);
     }
 
     createStopBlocks(levelOffset) {
