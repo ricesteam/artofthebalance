@@ -539,12 +539,6 @@ export class GameScene extends Scene {
                 block.destroy(); // Destroy the block
 
                 this.dropSound.play();
-
-                // Give player Supreme Juice for blocks falling off
-                this.player.SupremeJuice = Math.min(
-                    100,
-                    this.player.SupremeJuice + 0.1
-                );
             }
         });
 
@@ -573,7 +567,7 @@ export class GameScene extends Scene {
                 // Give player Supreme Juice for enemies falling off
                 this.player.SupremeJuice = Math.min(
                     100,
-                    this.player.SupremeJuice + 0.1
+                    this.player.SupremeJuice + 0.2
                 );
             }
         });

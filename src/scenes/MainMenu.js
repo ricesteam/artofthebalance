@@ -9,20 +9,21 @@ export class MainMenu extends Scene {
 
         this.canSkipIntro = false;
 
-        this.intrelude =
+        this.interlude =
+            'Based on true events from the FUTURE.\n\n' +
             '2050 A.D.\n' +
             'The age of borders has ended. The West has unified into a single, glorious Hegemony—governed by one leader, chosen not by vote, but by volume.\n\n' +
             'A crisis boils.\n\n' +
-            'Imported noodles flood the markets, plunging the economy into a devastating trade deficit.\n\n' +
+            'Imported NOODLES flood the markets, plunging the economy into a devastating trade deficit. A DEFICIT!\n\n' +
             'Chaos looms. Hope dissolves.\n\n' +
             'Only one man can save the nation.\n' +
             'Not a legend.\n' +
             'Not a myth.\n\n' +
-            'Just one man.\n\n' +
+            'Just one guy.\n\n' +
             'The Supreme Leader.\n\n' +
-            '[So I ran out of time and mental energy, but there was supposed to be several epic, badass, montages of the supreme leader training Karate in the wilderness, fighting bears barehanded, and dirnking lava--that sort of stuff. Anyways, use your imagination. Don`t you guys not have imaginations???]\n\n' +
-            '[CUT TO: First Minisiter Vance.\n\n' +
-            '"Supreme Leader. We have a crisis. What do we do?!"]\n\n';
+            '(So I ran out of time and mental energy, but there was supposed to be several epic, BADASS montages of the supreme leader training Karate in the wilderness, fighting bears barehanded, and drinking lava--that sort of stuff. Anyways, use your imagination. Don`t you guys not have imaginations???)\n\n' +
+            'CUT-TO First Minister Vance:\n\n' +
+            '"Supreme Leader! We have a NOODLE crisis!\n\nWhat shall we do?!"\n\n';
     }
 
     init() {
@@ -136,7 +137,7 @@ export class MainMenu extends Scene {
 
                 // Add the intro text
                 const introText = this.add
-                    .text(width / 2, height + 50, this.intrelude, {
+                    .text(width / 2, height + 50, this.interlude, {
                         fontFamily: 'notjam',
                         fontSize: 22,
                         fill: '#ffffff',
