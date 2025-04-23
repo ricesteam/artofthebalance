@@ -72,7 +72,8 @@ export class MainMenu extends Scene {
 
         this.input.once('pointerdown', () => {
             this.sound.stopAll();
-            this.scene.start('GameScene', { isEnding: true });
+            this.startIntro();
+            //this.scene.start('GameScene', { isEnding: true });
         });
 
         const camera = this.cameras.main;
@@ -98,6 +99,44 @@ export class MainMenu extends Scene {
     }
 
     startIntro() {
-        // after the player press start, the intro beings here. First scroll up the title and the start text. Then scroll the string in this.intrelude. ai!
+        const width = this.scale.width;
+        const height = this.scale.height;
+        const margin = 100;
+
+        // Tween to scroll up the title and start text
+        this.tweens.add({
+            targets: [this.title, this.start],
+            y: `-=${height / 2}`, // Scroll up by half the screen height
+            alpha: 0, // Fade out
+            duration: 1000,
+            ease: 'Sine.easeIn',
+            onComplete: () => {
+                this.title.destroy();
+                this.start.destroy();
+
+                // Add the intro text
+                const introText = this.add
+                    .text(width / 2, height + 50, this.intrelude, {
+                        fontFamily: 'notjam',
+                        fontSize: 22,
+                        fill: '#ffffff',
+                        align: 'center',
+                        wordWrap: { width: width - margin },
+                    })
+                    .setOrigin(0.5, 0); // Align to the top-center
+
+                // Tween to scroll the intro text upwards
+                this.tweens.add({
+                    targets: introText,
+                    y: `-=${height + introText.height + 50}`, // Scroll up until off-screen
+                    duration: 30000, // Adjust duration for scrolling speed
+                    ease: 'Linear',
+                    onComplete: () => {
+                        introText.destroy();
+                        this.scene.start('GameScene'); // Start the game scene after intro
+                    },
+                });
+            },
+        });
     }
 }
