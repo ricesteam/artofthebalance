@@ -20,6 +20,7 @@ const config = {
     height: 480,
     backgroundColor: '#222222',
     pixelArt: true,
+    renderer: Phaser.WEBGL_MULTI,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,

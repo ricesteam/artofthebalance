@@ -12,7 +12,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.scene = scene;
         this.world = scene.matter.world;
-        this.acceleration = 0.002;
+        this.acceleration = 0.004;
         this.maxSpeed = 3;
         this.minSlideSpeed = 1;
         this.playerDirection = 1;
@@ -22,7 +22,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.setRectangle(16, 32);
         this.setMass(1);
-        this.setFriction(0.2);
+        this.setFriction(0.5);
         this.setFrictionStatic(0.2);
         this.setFrictionAir(0);
         this.setBounce(0.5);

@@ -118,14 +118,16 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
         if (id > -1) {
             this.scene.juggledObjects.splice(id, 1);
         }
-
-        // if bounceCount is 0, use value of 1 ai!
-        const juiceGain = Math.pow(this.bounceCount, 1.5) * 0.1; // Adjust the exponent and multiplier as needed
+       
+        let juiceGain = 0.5;
+        if (this.bounceCount > 0) {
+            juiceGain = Math.pow(this.bounceCount, 1.5) * 0.1;
+        }
         this.scene.player.SupremeJuice = Math.min(
             100,
             this.scene.player.SupremeJuice + juiceGain
         );
-
+        
         this.glowTween.stop();
         this.glowTween.destroy();
         this.scene.tweens.killTweensOf(this.glowTween);

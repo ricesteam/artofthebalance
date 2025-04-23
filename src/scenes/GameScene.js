@@ -29,7 +29,7 @@ export class GameScene extends Scene {
         this.blackholes = [];
         this.juggleThreshold = 5;
         this.juggledObjects = []; // Array to keep track of currently juggled objects
-        this.winCondition = 40;
+        this.winCondition = 20;
 
         // Collision categories
         this.CATEGORY_PLAYER = 0x0001;
