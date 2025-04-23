@@ -137,7 +137,15 @@ export class MainMenu extends Scene {
                     onComplete: () => {
                         introText.destroy();
 
-                        // fadeout the outro music using tween, then stop the music ai!
+                        // fadeout the outro music using tween, then stop the music
+                        this.tweens.add({
+                            targets: this.outro,
+                            volume: 0,
+                            duration: 1000,
+                            onComplete: () => {
+                                this.outro.stop();
+                            },
+                        });
 
                         this.scene.start('GameScene'); // Start the game scene after intro
                     },
