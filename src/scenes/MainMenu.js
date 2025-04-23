@@ -190,12 +190,12 @@ export class MainMenu extends Scene {
     }
 
     talking() {
-        const margin = 200;
+        const margin = 300;
         const width = this.scale.width;
         const height = this.scale.height;
 
         const textObject = this.add.text(
-            200,
+            margin,
             height - 50,
             '', // Start with empty text
             {
@@ -218,16 +218,19 @@ export class MainMenu extends Scene {
             callback: () => {
                 textObject.text += fullText[charIndex];
                 charIndex++;
+
+                // I want to flip between frames 1 and 2 in this.head.baldImage. ai!
+
+                if (charIndex === fullText.length) {
+                    // Start the game scene after the typing is complete
+                    this.time.delayedCall(1000, () => {
+                        this.balding();
+                    });
+                }
             },
             callbackScope: this,
-
-            // this doesn't work. in the callback, if charIndex == fullText.length then it is complete ai!
-            onComplete: () => {
-                // Start the game scene after the typing is complete
-                this.time.delayedCall(1000, () => {
-                    this.scene.start('GameScene');
-                });
-            },
         });
     }
+
+    balding() {}
 }
