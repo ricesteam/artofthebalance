@@ -80,6 +80,17 @@ export class MainMenu extends Scene {
         camera.postFX.addVignette(0.5, 0.5, 1.7, 1);
 
         this.outro = this.sound.add('outro', { maxInstances: 1 });
+
+        // Define the 'talking' animation here
+        this.anims.create({
+            key: 'talking',
+            frames: this.anims.generateFrameNumbers('bald', {
+                start: 1,
+                end: 2,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
     }
 
     update() {
@@ -211,7 +222,7 @@ export class MainMenu extends Scene {
 
         const fullText = 'Let me think about it...';
         let charIndex = 0;
-        this.anims.play('talking');
+        this.head.baldImage.anims.play('talking');
 
         this.time.addEvent({
             delay: Phaser.Math.Between(25, 100),
@@ -231,5 +242,7 @@ export class MainMenu extends Scene {
         });
     }
 
-    balding() {}
+    balding() {
+        this.scene.start('GameScene');
+    }
 }
