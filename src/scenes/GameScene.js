@@ -74,6 +74,7 @@ export class GameScene extends Scene {
         // Clear existing blocks and enemies
         this.clearScene();
 
+        // move the background stuff to helper method ai!
         this.add.image(0, 0, 'background2').setOrigin(0, 0);
 
         // Add the background image
@@ -355,7 +356,7 @@ export class GameScene extends Scene {
         });
         this.thankyouSound = this.sound.add('thankyou', {
             maxInstances: 1,
-            volume: 1.5,
+            volume: 3,
         });
 
         this.music = this.sound.add('bgmusic', {
