@@ -58,6 +58,13 @@ export class GameScene extends Scene {
                 this.cameras.main.postFX.remove(fxCamera);
             },
         });
+
+        this.plugins.get('rexCrtPipeline').add(this.cameras.main, {
+            warpX: 0.05,
+            warpY: 0.05,
+            scanLineStrength: 0.05,
+            scanLineWidth: 1024,
+        });
     }
 
     create() {

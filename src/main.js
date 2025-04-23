@@ -7,6 +7,7 @@ import OutlinePipelinePlugin from 'phaser3-rex-plugins/plugins/outlinepipeline-p
 import SwirlPipelinePlugin from 'phaser3-rex-plugins/plugins/swirlpipeline-plugin.js';
 import ShockwavePipelinePlugin from 'phaser3-rex-plugins/plugins/shockwavepipeline-plugin.js';
 import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilterpipeline-plugin.js';
+import CrtPipelinePlugin from 'phaser3-rex-plugins/plugins/crtpipeline-plugin.js';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -51,6 +52,11 @@ const config = {
             {
                 key: 'rexGlowFilterPipeline',
                 plugin: GlowFilterPipelinePlugin,
+                start: true,
+            },
+            {
+                key: 'rexCrtPipeline',
+                plugin: CrtPipelinePlugin,
                 start: true,
             },
         ],

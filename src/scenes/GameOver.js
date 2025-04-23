@@ -74,6 +74,13 @@ export class GameOver extends Scene {
             amount: -1,
         });
 
+        this.plugins.get('rexCrtPipeline').add(this.cameras.main, {
+            warpX: 0.05,
+            warpY: 0.05,
+            scanLineStrength: 0.05,
+            scanLineWidth: 1024,
+        });
+
         // Access the data passed from the previous scene
         this.balanceMeter = data.balanceMeter;
         this.isEnding = data.isEnding ?? false;

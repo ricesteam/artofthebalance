@@ -25,6 +25,15 @@ export class MainMenu extends Scene {
             '"Supreme Leader. We have a crisis. What do we do?!"]\n\n';
     }
 
+    init() {
+        this.plugins.get('rexCrtPipeline').add(this.cameras.main, {
+            warpX: 0.05,
+            warpY: 0.05,
+            scanLineStrength: 0.05,
+            scanLineWidth: 1024,
+        });
+    }
+
     create() {
         const width = this.scale.width;
         const height = this.scale.height;
