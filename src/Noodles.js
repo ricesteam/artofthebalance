@@ -119,7 +119,7 @@ export class Noodles extends Phaser.Physics.Matter.Sprite {
             this.scene.juggledObjects.splice(id, 1);
         }
 
-        // the player should get more supremejuice the higher the bounceCount, exponential
+        // if bounceCount is 0, use value of 1 ai!
         const juiceGain = Math.pow(this.bounceCount, 1.5) * 0.1; // Adjust the exponent and multiplier as needed
         this.scene.player.SupremeJuice = Math.min(
             100,
