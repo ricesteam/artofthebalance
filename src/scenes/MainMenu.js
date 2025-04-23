@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import { Head } from '../Head';
 
 export class MainMenu extends Scene {
     constructor() {
@@ -77,6 +78,8 @@ export class MainMenu extends Scene {
 
         const camera = this.cameras.main;
         camera.postFX.addVignette(0.5, 0.5, 1.7, 1);
+
+        this.outro = this.sound.add('outro', { maxInstances: 1 });
     }
 
     update() {
@@ -102,7 +105,7 @@ export class MainMenu extends Scene {
         const height = this.scale.height;
         const margin = 200;
 
-        this.outro = this.sound.play('outro');
+        this.outro.play();
 
         // Tween to scroll up the title and start text
         this.tweens.add({
@@ -128,11 +131,21 @@ export class MainMenu extends Scene {
                     })
                     .setOrigin(0.5, 0); // Align to the top-center
 
+                this.head = new Head(
+                    this,
+                    width / 2,
+                    height + introText.height + 300
+                );
+                this.head.setDepth(0);
+                this.head.tween.stop();
+                this.head.closeEyes();
+                this.head.baldImage.setFrame(0);
+
                 // Tween to scroll the intro text upwards
                 this.tweens.add({
-                    targets: introText,
+                    targets: [introText, this.head],
                     y: `-=${height + introText.height + 50}`, // Scroll up until off-screen
-                    duration: 50000, // Adjust duration for scrolling speed
+                    duration: 500, // Adjust duration for scrolling speed
                     ease: 'Linear',
                     onComplete: () => {
                         introText.destroy();
@@ -141,16 +154,18 @@ export class MainMenu extends Scene {
                         this.tweens.add({
                             targets: this.outro,
                             volume: 0,
-                            duration: 1000,
+                            duration: 500,
                             onComplete: () => {
-                                this.outro.stop();
+                                this.sound.stopAll();
+
+                                //his.scene.start('GameScene'); // Start the game scene after intro
                             },
                         });
-
-                        this.scene.start('GameScene'); // Start the game scene after intro
                     },
                 });
             },
         });
     }
+
+    slurpNoodles() {}
 }
