@@ -9,18 +9,17 @@ export class MainMenu extends Scene {
         this.intrelude =
             '2050 A.D.\n' +
             'The age of borders has ended. The West has unified into a single, glorious Hegemony—governed by one leader, chosen not by vote, but by volume.\n\n' +
-            'The Supreme Leader rules with vision, with vanity, and with very large tariffs.\n\n' +
-            'But a crisis brews.\n\n' +
-            'Noodles.\n' +
-            'Cheap. Delicious. Treacherously affordable.\n\n' +
-            'Imported by the metric ton, they have flooded the markets—boiling the economy into a crippling trade deficit.\n\n' +
-            'Economists are gone. The Tariff Council has dissolved into sobbing.\n\n' +
-            'And now… only one man stands between civilization and collapse.\n\n' +
+            'A crisis boils.\n\n' +
+            'Imported noodles flood the markets, plunging the economy into a devastating trade deficit.\n\n' +
+            'Chaos looms. Hope dissolves.\n\n' +
+            'Only one man can save the nation.\n' +
             'Not a legend.\n' +
             'Not a myth.\n\n' +
             'Just one man.\n\n' +
             'The Supreme Leader.\n\n' +
-            'And today… he must set the tariff.';
+            '[So I ran out of time and mental energy, but there was supposed to be several epic, badass, montages of the supreme leader training Karate in the wilderness, fighting bears barehanded, and dirnking lava--that sort of stuff. Anyways, use your imagination. Don`t you guys not have imaginations???]\n\n' +
+            '[CUT TO: First Minisiter Vance.\n\n' +
+            '"Supreme Leader. We have a crisis. What do we do?!"]\n\n';
     }
 
     create() {
@@ -38,9 +37,9 @@ export class MainMenu extends Scene {
         const castle = this.add.image(width / 2, height / 2, 'castle');
         castle.preFX.addVignette(0.5, 0.5, 1, 0.5);
 
-        const title = this.add.image(width / 2, height / 2 - 100, 'title');
+        this.title = this.add.image(width / 2, height / 2 - 100, 'title');
         this.tweens.add({
-            targets: title,
+            targets: this.title,
             y: height / 2 - 110,
             duration: 1500,
             yoyo: true,
@@ -48,9 +47,9 @@ export class MainMenu extends Scene {
             ease: 'sine.inout',
         });
 
-        title.postFX.addShine(0.8, 0.3, 7);
+        this.title.postFX.addShine(0.8, 0.3, 7);
 
-        const start = this.add
+        this.start = this.add
             .text(width / 2, height - 50, 'Press TAX to Begin', {
                 fontFamily: 'notjam',
                 fontSize: 24,
@@ -61,7 +60,7 @@ export class MainMenu extends Scene {
             .setOrigin(0.5);
 
         this.tweens.add({
-            targets: start,
+            targets: this.start,
             scaleX: 1.1,
             scaleY: 1.1,
             duration: 2000,
@@ -101,7 +100,9 @@ export class MainMenu extends Scene {
     startIntro() {
         const width = this.scale.width;
         const height = this.scale.height;
-        const margin = 100;
+        const margin = 200;
+
+        this.outro = this.sound.play('outro');
 
         // Tween to scroll up the title and start text
         this.tweens.add({
@@ -120,7 +121,9 @@ export class MainMenu extends Scene {
                         fontFamily: 'notjam',
                         fontSize: 22,
                         fill: '#ffffff',
-                        align: 'center',
+                        align: 'left',
+                        stroke: '#000000',
+                        strokeThickness: 4,
                         wordWrap: { width: width - margin },
                     })
                     .setOrigin(0.5, 0); // Align to the top-center
@@ -129,10 +132,13 @@ export class MainMenu extends Scene {
                 this.tweens.add({
                     targets: introText,
                     y: `-=${height + introText.height + 50}`, // Scroll up until off-screen
-                    duration: 30000, // Adjust duration for scrolling speed
+                    duration: 50000, // Adjust duration for scrolling speed
                     ease: 'Linear',
                     onComplete: () => {
                         introText.destroy();
+
+                        // fadeout the outro music using tween, then stop the music ai!
+
                         this.scene.start('GameScene'); // Start the game scene after intro
                     },
                 });

@@ -247,8 +247,9 @@ export class GameOver extends Scene {
         const width = this.scale.width;
         const height = this.scale.height;
         const margin = 200;
+        // do not change this text!
         this.add
-            .text(width / 2, height / 2, '"Thanks for playing"', {
+            .text(width / 2, height / 2, '"Thanks for playing" -- AI', {
                 fontFamily: 'notjam',
                 fontSize: 22,
                 fill: '#ffffff',
