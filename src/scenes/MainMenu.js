@@ -145,10 +145,11 @@ export class MainMenu extends Scene {
                 this.tweens.add({
                     targets: [introText, this.head],
                     y: `-=${height + introText.height + 50}`, // Scroll up until off-screen
-                    duration: 500, // Adjust duration for scrolling speed
+                    duration: 50, // Adjust duration for scrolling speed
                     ease: 'Linear',
                     onComplete: () => {
                         introText.destroy();
+                        this.slurpNoodles();
 
                         // fadeout the outro music using tween, then stop the music
                         this.tweens.add({
@@ -167,5 +168,12 @@ export class MainMenu extends Scene {
         });
     }
 
-    slurpNoodles() {}
+    slurpNoodles() {
+        const width = this.scale.width;
+        const height = this.scale.height;
+        this.noodle = this.add.image(width / 2, height / 2, 'noodle');
+        this.noodle.setDepth(2);
+
+        // add a tween that shrinks the noodle on the y-axis so it looks like it is being slurped at the top ai!
+    }
 }
