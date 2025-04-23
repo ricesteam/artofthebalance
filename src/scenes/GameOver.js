@@ -53,7 +53,7 @@ export class GameOver extends Scene {
                     'Trade slowed, but didn’t collapse. Noodles became rare, but not mythical.\n\n' +
                     'Citizens lined up for rationed bowls with tears in their eyes and pride in their hearts.\n\n' +
                     '“We suffer… correctly,” one weeping patriot declared.\n\n' +
-                    'The economy stabilized. Approval ratings soared.\n' +
+                    'The economy stabilized. Approval ratings soared.\n\n' +
                     'Foreign leaders wept and applauded simultaneously.\n\n' +
                     'The Wall flexed. The skies cleared.\n\n' +
                     'For the first time in decades, the Supreme Leader nodded.\n\n' +

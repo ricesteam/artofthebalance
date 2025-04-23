@@ -194,11 +194,10 @@ export class MainMenu extends Scene {
         const width = this.scale.width;
         const height = this.scale.height;
 
-        // how do I make this appear as if its typing, like rpg message boxes? ai!
-        this.add.text(
+        const textObject = this.add.text(
             margin,
             height - 50,
-            'Let me think about it. 5 mintues...',
+            '', // Start with empty text
             {
                 fontFamily: 'notjam',
                 fontSize: 22,
@@ -209,5 +208,24 @@ export class MainMenu extends Scene {
                 wordWrap: { width: width - margin },
             }
         );
+
+        const fullText = 'Let me think about it. 5 mintues...';
+        let charIndex = 0;
+
+        this.time.addEvent({
+            delay: 50, // Delay between characters (adjust for typing speed)
+            repeat: fullText.length - 1,
+            callback: () => {
+                textObject.text += fullText[charIndex];
+                charIndex++;
+            },
+            callbackScope: this,
+            onComplete: () => {
+                // Start the game scene after the typing is complete
+                this.time.delayedCall(1000, () => {
+                    this.scene.start('GameScene');
+                });
+            },
+        });
     }
 }
