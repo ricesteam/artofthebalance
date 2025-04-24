@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { StateMachine } from './StateMachine';
 import { BaseEnemy } from './BaseEnemy'; // Import the BaseEnemy class
-import { LibroidProjectile } from './LibroidProjectile'; // Import the projectile class
+import { CancelCannon } from './CancelCannon'; // Import the projectile class
 
 export class Libroid extends BaseEnemy {
     constructor(scene, x, y) {
@@ -172,10 +172,13 @@ export class Libroid extends BaseEnemy {
         this.setVelocityX(0);
         this.anims.play('libroidAttack'); // Assuming an attack animation exists
 
-        // make the libroid fire a projectile, kind of like a heat seeking missile!
-        const projectile = new LibroidProjectile(this.scene, this.x, this.y, this.player);
-        this.scene.enemyProjectiles.add(projectile);
-
+        // make a new class CancelCannon ai!
+        const cancel = new CancelCannon(
+            this.scene,
+            this.x,
+            this.y,
+            this.player
+        );
 
         this.scene.time.addEvent({
             delay: 700, // Attack duration
