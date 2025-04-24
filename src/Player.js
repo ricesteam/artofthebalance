@@ -203,7 +203,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             500,
             this.bombAttack.cooldown * 0.95
         );
-        this.bombAttack.explosionRadius *= 1.1;
+        this.bombAttack.explosionRadius *= 1.05;
         this.bombAttackDuration *= 1.05;
     }
 
