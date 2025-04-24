@@ -15,7 +15,6 @@ export class BaseEnemy extends Phaser.Physics.Matter.Sprite {
         this.ignorePlatformRotation = false;
         this.player = null; // Reference to the player
         this.isInAir = true;
-        this.groundThreshold = 0.01; // Threshold for considering the enemy on the ground
 
         scene.add.existing(this);
 
@@ -42,12 +41,9 @@ export class BaseEnemy extends Phaser.Physics.Matter.Sprite {
             this
         );
 
-        var outlineconfig = {
-            thickness: 2,
-            outlineColor: 0xae2334,
-            quality: 0.1,
-            name: 'rexOutlinePostFx',
-        };
+        this.setOnCollideWith(this.scene.platform, () => {
+            this.isInAir = false;
+        });
 
         this.outlinePipeline = scene.plugins.get('rexOutlinePipeline');
     }
@@ -63,13 +59,6 @@ export class BaseEnemy extends Phaser.Physics.Matter.Sprite {
 
         if (!this.ignorePlatformRotation) {
             this.rotation = this.scene.platform.rotation;
-        }
-
-        if (Math.abs(this.body.velocity.y) < this.groundThreshold) {
-            this.isInAir = false;
-            this.setVelocityY(0);
-        } else {
-            this.isInAir = true;
         }
 
         if (!this.isMarkedForDeath && this.stateMachine) {
