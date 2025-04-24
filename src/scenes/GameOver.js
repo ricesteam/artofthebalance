@@ -211,23 +211,25 @@ export class GameOver extends Scene {
                 )
                 .setOrigin(0.5, 0); // Align to the top-center
 
-            //how do I use the image 'lawyer'? ai!
             const lawyer = this.add.image(
-                margin,
-                endingText.height + 50,
-                lawyer
+                width / 2, // Center the image horizontally
+                endingText.y + endingText.height + 50, // Position below the text
+                'lawyer' // Use the string key 'lawyer'
             );
+            lawyer.setOrigin(0.5, 0); // Align to the top-center of the image
+            lawyer.setScale(0.5); // Adjust scale as needed
 
             // Tween to scroll the text and head upwards
             this.tweens.add({
-                targets: [endingText, gameOver, this.head, lawyer], // Include the head in the tween
-                y: `-=${height + endingText.height + 50}`, // Scroll up until both are off-screen
+                targets: [endingText, gameOver, this.head, lawyer], // Include the head and lawyer in the tween
+                y: `-=${height + endingText.height + lawyer.displayHeight + 100}`, // Scroll up until both are off-screen, accounting for lawyer height
                 duration: 10000, // Adjust duration for scrolling speed
                 ease: 'Linear',
                 onComplete: () => {
                     endingText.destroy();
                     gameOver.destroy();
                     this.head.destroy();
+                    lawyer.destroy();
                     //this.playOutro2();
                 },
             });
