@@ -213,14 +213,14 @@ export class GameOver extends Scene {
                 )
                 .setOrigin(0.5, 0); // Align to the top-center
 
-            // lets use sprite instead so I can play the lawyerWalk animations ai!
-            const lawyer = this.add.image(
-                margin, // Center the image horizontally
+            const lawyer = this.add.sprite(
+                width / 2, // Center the sprite horizontally
                 endingText.y + endingText.height + 100, // Position below the text
                 'lawyer' // Use the string key 'lawyer'
             );
-            //lawyer.setOrigin(0.5, 0); // Align to the top-center of the image
+            lawyer.setOrigin(0.5, 0); // Align to the top-center of the sprite
             lawyer.setScale(5); // Adjust scale as needed
+            lawyer.play('lawyerWalk'); // Play the lawyerWalk animation
 
             // Tween to scroll the text and head upwards
             this.tweens.add({
