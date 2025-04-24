@@ -8,6 +8,7 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
 
         // Add the projectile to the scene
         this.scene.add.existing(this);
+        this.scene.matter.add.existing(this); // Ensure the body is added to the Matter world
 
         // Configure physics
         this.setCircle(8); // Assuming a circular shape for the projectile
@@ -17,8 +18,7 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         this.setIgnoreGravity(false); // Projectile IS affected by gravity for artillery
         this.setDepth(50); // Adjust depth as needed
 
-        // let's try with applyForce intead of setVelocity, also angle was not used ai!
-        // Set initial velocity for an artillery trajectory
+        // Set initial force for an artillery trajectory
         const angle = Phaser.Math.Angle.Between(
             this.x,
             this.y,
@@ -32,12 +32,12 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
             this.target.y
         );
 
-        // Calculate initial velocity for an arc
+        // Calculate initial force for an arc
         // This is a simplified calculation and might need tuning based on desired arc height and distance
-        const initialVelocityX = (this.target.x - this.x) * 0.01; // Adjust multiplier for horizontal speed
-        const initialVelocityY = -distance * 0.05; // Adjust multiplier for arc height (negative for upwards)
+        const initialForceX = (this.target.x - this.x) * 0.0005; // Adjust multiplier for horizontal force
+        const initialForceY = -distance * 0.001; // Adjust multiplier for arc height (negative for upwards)
 
-        this.setVelocity(initialVelocityX, initialVelocityY);
+        this.applyForce({ x: initialForceX, y: initialForceY });
 
         // Add collision handling (example: destroy on collision with player)
         this.setOnCollideWith([this.target.body, scene.platform], () => {
