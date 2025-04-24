@@ -17,13 +17,6 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         this.setIgnoreGravity(false); // Projectile IS affected by gravity for artillery
         this.setDepth(50); // Adjust depth as needed
 
-        // this angle is not used anywhere ai!
-        const angle = Phaser.Math.Angle.Between(
-            this.x,
-            this.y,
-            this.target.x,
-            this.target.y
-        );
         const distance = Phaser.Math.Distance.Between(
             this.x,
             this.y,
@@ -33,11 +26,10 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
 
         // Calculate initial force for an arc
         // This is a simplified calculation and might need tuning based on desired arc height and distance
-        const initialForceX = (this.target.x - this.x) * 0.0005; // Adjust multiplier for horizontal force
-        const initialForceY = -distance * 0.001; // Adjust multiplier for arc height (negative for upwards)
+        const initialVelocityX = (this.target.x - this.x) * 0.005; // Adjust multiplier for horizontal force
+        const initialVelocityY = -distance * 0.01; // Adjust multiplier for arc height (negative for upwards)
 
-        // let's use setVelocity instead ai!
-        this.applyForce({ x: initialForceX, y: initialForceY });
+        this.setVelocity(initialVelocityX, initialVelocityY);
 
         // Add collision handling (example: destroy on collision with player)
         this.setOnCollideWith([this.target.body, scene.platform], () => {
