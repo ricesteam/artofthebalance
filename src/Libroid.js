@@ -20,7 +20,7 @@ export class Libroid extends BaseEnemy {
         this.enemyDirection = 1; // Start moving right
         this.startPosition = x; // Initial x position
         this.hp = 2; // Initial health points
-        this.attackRange = 200; // Distance to start attacking
+        this.attackRange = 150; // Distance to start attacking
         this.canBeJuggled = true; // Libroids can be juggled
 
         this.setMass(this.enemyMass);
@@ -135,7 +135,7 @@ export class Libroid extends BaseEnemy {
         if (!this.player || this.isMarkedForDeath) return;
 
         // Randomly transition to idle
-        if (Phaser.Math.Between(0, 300) === 0) {
+        if (Phaser.Math.Between(0, 100) === 0) {
             this.stateMachine.transition('idle');
         }
 
@@ -146,7 +146,10 @@ export class Libroid extends BaseEnemy {
             this.player.y
         );
 
-        if (distanceToPlayer <= this.attackRange) {
+        if (
+            distanceToPlayer <=
+            Phaser.Math.Between(this.attackRange - 50, this.attackRange + 50)
+        ) {
             this.stateMachine.transition('attack');
             return;
         }

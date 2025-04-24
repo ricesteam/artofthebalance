@@ -235,7 +235,7 @@ export class Preloader extends Scene {
                 start: 9,
                 end: 10,
             }),
-            frameRate: 10,
+            frameRate: 2,
             repeat: -1,
         });
 
