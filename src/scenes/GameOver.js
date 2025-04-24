@@ -189,7 +189,9 @@ export class GameOver extends Scene {
             '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n' +
             'This game was NOT written by AI.' +
             '\n\n\n\n\n\n\n\n' +
-            'Code By AI\nArt by AI\nMusic by AI\nStory by AI';
+            'Code By AI\nArt by AI\nMusic by AI\nStory by AI' +
+            '\n\n\n\n\n\n\n\n' +
+            'Starring';
 
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
@@ -211,18 +213,21 @@ export class GameOver extends Scene {
                 )
                 .setOrigin(0.5, 0); // Align to the top-center
 
+            // lets use sprite instead so I can play the lawyerWalk animations ai!
             const lawyer = this.add.image(
-                width / 2, // Center the image horizontally
-                endingText.y + endingText.height + 50, // Position below the text
+                margin, // Center the image horizontally
+                endingText.y + endingText.height + 100, // Position below the text
                 'lawyer' // Use the string key 'lawyer'
             );
-            lawyer.setOrigin(0.5, 0); // Align to the top-center of the image
-            lawyer.setScale(0.5); // Adjust scale as needed
+            //lawyer.setOrigin(0.5, 0); // Align to the top-center of the image
+            lawyer.setScale(5); // Adjust scale as needed
 
             // Tween to scroll the text and head upwards
             this.tweens.add({
                 targets: [endingText, gameOver, this.head, lawyer], // Include the head and lawyer in the tween
-                y: `-=${height + endingText.height + lawyer.displayHeight + 100}`, // Scroll up until both are off-screen, accounting for lawyer height
+                y: `-=${
+                    height + endingText.height + lawyer.displayHeight + 100
+                }`, // Scroll up until both are off-screen, accounting for lawyer height
                 duration: 10000, // Adjust duration for scrolling speed
                 ease: 'Linear',
                 onComplete: () => {
