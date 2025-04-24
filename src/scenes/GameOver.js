@@ -185,6 +185,12 @@ export class GameOver extends Scene {
         const height = this.scale.height;
         const margin = 200;
 
+        const disclaimerText =
+            '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n' +
+            'This game was NOT written by AI.' +
+            '\n\n\n\n\n\n\n\n' +
+            'Code By AI\nArt by AI\nMusic by AI\nStory by AI';
+
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
             this.playRandomMusic();
@@ -192,7 +198,7 @@ export class GameOver extends Scene {
                 .text(
                     width / 2,
                     height + 50,
-                    this.endings[this.endingId].text,
+                    this.endings[this.endingId].text + disclaimerText,
                     {
                         fontFamily: 'notjam',
                         fontSize: 22,
@@ -205,27 +211,35 @@ export class GameOver extends Scene {
                 )
                 .setOrigin(0.5, 0); // Align to the top-center
 
+            //how do I use the image 'lawyer'? ai!
+            const lawyer = this.add.image(
+                margin,
+                endingText.height + 50,
+                lawyer
+            );
+
             // Tween to scroll the text and head upwards
             this.tweens.add({
-                targets: [endingText, gameOver, this.head], // Include the head in the tween
+                targets: [endingText, gameOver, this.head, lawyer], // Include the head in the tween
                 y: `-=${height + endingText.height + 50}`, // Scroll up until both are off-screen
-                duration: 50000, // Adjust duration for scrolling speed
+                duration: 10000, // Adjust duration for scrolling speed
                 ease: 'Linear',
                 onComplete: () => {
                     endingText.destroy();
                     gameOver.destroy();
                     this.head.destroy();
-                    this.playOutro2();
+                    //this.playOutro2();
                 },
             });
         });
     }
 
+    // do not change this
     playOutro2() {
         const width = this.scale.width;
         const height = this.scale.height;
         const margin = 200;
-        this.add
+        const endingText = this.add
             .text(
                 width / 2,
                 height + 50,
