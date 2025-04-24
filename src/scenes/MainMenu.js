@@ -170,7 +170,7 @@ export class MainMenu extends Scene {
                 this.tweens.add({
                     targets: [introText, this.head, this.noodle],
                     y: `-=${height + introText.height + 50}`, // Scroll up until off-screen
-                    duration: 50000, // Adjust duration for scrolling speed
+                    duration: 70000, // Adjust duration for scrolling speed
                     ease: 'Linear',
                     onComplete: () => {
                         introText.destroy();
@@ -179,7 +179,7 @@ export class MainMenu extends Scene {
                         this.tweens.add({
                             targets: this.outro,
                             volume: 0,
-                            duration: 200,
+                            duration: 500,
                             onComplete: () => {
                                 this.sound.stopAll();
                                 this.slurpNoodles();

@@ -300,7 +300,7 @@ export class GameOver extends Scene {
                     player.displayHeight +
                     50
                 }`,
-                duration: 50000, // Adjust duration for scrolling speed
+                duration: 80000, // Adjust duration for scrolling speed
                 ease: 'Linear',
                 onComplete: () => {
                     endingText.destroy();
