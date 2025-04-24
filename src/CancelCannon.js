@@ -23,11 +23,15 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_PLATFORM,
         ]); // Collide with player, blocks, and platforms
 
-        // how do I calculate the angle so it looks like the projectile is arcing? ai!
-        // Calculate initial force for an arc
+        // Calculate initial velocity for an arc
         // This is a simplified calculation and might need tuning based on desired arc height and distance
-        const initialVelocityX = (this.target.x - this.x) * 0.01; // Adjust multiplier for horizontal force
-        const initialVelocityY = -6; // Adjust multiplier for arc height (negative for upwards)
+        const angle = Phaser.Math.Angle.Between(this.x, this.y, this.target.x, this.target.y);
+        const distance = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y);
+        const initialSpeed = distance * 0.1; // Adjust multiplier for speed based on distance
+
+        // A simple way to add an arc is to increase the vertical velocity relative to the horizontal
+        const initialVelocityX = Math.cos(angle) * initialSpeed;
+        const initialVelocityY = Math.sin(angle) * initialSpeed - Math.abs(distance * 0.05); // Subtract a value to give it an upward push
 
         this.setVelocity(initialVelocityX, initialVelocityY);
 
