@@ -185,13 +185,15 @@ export class GameOver extends Scene {
         const height = this.scale.height;
         const margin = 200;
 
+        // do not change this text
         const disclaimerText =
             '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n' +
             'This game was NOT written by AI.' +
             '\n\n\n\n\n\n\n\n' +
             'Code By AI\nArt by AI\nMusic by AI\nStory by AI' +
             '\n\n\n\n\n\n\n\n' +
-            'Starring';
+            'Starring' +
+            '\n\n';
 
         // Add a delayed call to start scrolling the text
         this.time.delayedCall(2000, () => {
@@ -213,66 +215,104 @@ export class GameOver extends Scene {
                 )
                 .setOrigin(0.5, 0); // Align to the top-center
 
-            const lawyer = this.add.sprite(
-                width / 2, // Center the sprite horizontally
-                endingText.y + endingText.height + 100, // Position below the text
-                'lawyer' // Use the string key 'lawyer'
+            const npcTextConfig = {
+                fontFamily: 'notjam',
+                fontSize: 22,
+                fill: '#ffffff',
+            };
+            const maga = this.add.sprite(
+                margin,
+                endingText.y + endingText.height + 100,
+                'maga'
             );
-            lawyer.setOrigin(0.5, 0); // Align to the top-center of the sprite
-            lawyer.setScale(5); // Adjust scale as needed
+            const magaText = this.add.text(
+                margin + 100,
+                endingText.y + endingText.height + 100,
+                'MAGA GUY',
+                npcTextConfig
+            );
+            maga.setScale(4); // Adjust scale as needed
+            maga.play({ key: 'enemyAttack', repeat: -1 });
+
+            const lawyer = this.add.sprite(
+                margin,
+                maga.height + maga.y + 100,
+                'lawyer'
+            );
+            lawyer.setScale(4); // Adjust scale as needed
             lawyer.play('lawyerWalk'); // Play the lawyerWalk animation
+            const lawyerText = this.add.text(
+                margin + 100,
+                maga.height + maga.y + 100,
+                'DEI Lawyer',
+                npcTextConfig
+            );
+
+            const libroid = this.add.sprite(
+                margin,
+                lawyer.height + lawyer.y + 100,
+                'libroid'
+            );
+            libroid.setScale(4);
+            libroid.play('libroidAttack');
+            const libroidText = this.add.text(
+                margin + 100,
+                lawyer.height + lawyer.y + 100,
+                'LIBROID',
+                npcTextConfig
+            );
+
+            const player = this.add.sprite(
+                margin,
+                libroid.height + libroid.y + 100,
+                'player'
+            );
+            player.setScale(4);
+            player.play('stand');
+            const playerText = this.add.text(
+                margin + 100,
+                libroid.height + libroid.y + 80,
+                'SUPREME LEADER',
+                npcTextConfig
+            );
 
             // Tween to scroll the text and head upwards
             this.tweens.add({
-                targets: [endingText, gameOver, this.head, lawyer], // Include the head and lawyer in the tween
+                targets: [
+                    endingText,
+                    gameOver,
+                    this.head,
+                    maga,
+                    magaText,
+                    lawyer,
+                    lawyerText,
+                    libroid,
+                    libroidText,
+                    player,
+                    playerText,
+                ],
                 y: `-=${
-                    height + endingText.height + lawyer.displayHeight + 100
-                }`, // Scroll up until both are off-screen, accounting for lawyer height
-                duration: 10000, // Adjust duration for scrolling speed
+                    height +
+                    endingText.height +
+                    lawyer.displayHeight +
+                    maga.displayHeight +
+                    libroid.displayHeight +
+                    player.displayHeight +
+                    50
+                }`,
+                duration: 50000, // Adjust duration for scrolling speed
                 ease: 'Linear',
                 onComplete: () => {
                     endingText.destroy();
                     gameOver.destroy();
                     this.head.destroy();
-                    lawyer.destroy();
-                    //this.playOutro2();
+                    this.thankyou();
                 },
             });
         });
     }
 
-    // do not change this
-    playOutro2() {
-        const width = this.scale.width;
-        const height = this.scale.height;
-        const margin = 200;
-        const endingText = this.add
-            .text(
-                width / 2,
-                height + 50,
-                'This game was NOT written by AI.\n\n\n\n\n\n\n\nCode By AI\nArt by AI\nMusic by AI\nStory by AI',
-                {
-                    fontFamily: 'notjam',
-                    fontSize: 22,
-                    fill: '#ffffff',
-                    align: 'center',
-                    wordWrap: { width: width - margin }, // Wrap text within the screen width
-                }
-            )
-            .setOrigin(0.5, 0);
-        this.tweens.add({
-            targets: [endingText], // Include the head in the tween
-            y: `-=${height + endingText.height + 50}`, // Scroll up until both are off-screen
-            duration: 30000, // Adjust duration for scrolling speed
-            ease: 'Linear',
-            onComplete: () => {
-                endingText.destroy();
-                this.playOutro3();
-            },
-        });
-    }
-
-    playOutro3() {
+    thankyou() {
         const width = this.scale.width;
         const height = this.scale.height;
         const margin = 200;
