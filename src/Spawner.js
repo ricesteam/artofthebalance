@@ -50,14 +50,16 @@ export class Spawner {
         const randomNumber = Math.random();
         let enemy;
 
-        // adjust this: 10% to spawn libroid, 25% lawyer, and rest, Enemy ai!
-        if (randomNumber < 0.75) {
-            enemy = new Enemy(this.scene, x, y);
-        } else {
+        if (randomNumber < 0.1) {
+            // 10% chance for Libroid
+            enemy = new Libroid(this.scene, x, y);
+        } else if (randomNumber < 0.35) {
+            // 25% chance for Lawyer (0.1 + 0.25 = 0.35)
             enemy = new Lawyer(this.scene, x, y);
+        } else {
+            // Remaining chance for Enemy (0.35 to 1)
+            enemy = new Enemy(this.scene, x, y);
         }
-
-        enemy = new Libroid(this.scene, x, y);
 
         this.scene.enemies.push(enemy);
     }
