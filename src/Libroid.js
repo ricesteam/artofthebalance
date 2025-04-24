@@ -171,8 +171,7 @@ export class Libroid extends BaseEnemy {
         this.setVelocityX(0);
         this.anims.play('libroidAttack'); // Assuming an attack animation exists
 
-        // Implement Libroid's attack logic here
-        // For example, a short-range melee attack or a different projectile
+        // make the libroid fire a projectile, kind of like a heat seeking missile ai!
 
         this.scene.time.addEvent({
             delay: 700, // Attack duration
