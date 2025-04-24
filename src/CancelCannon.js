@@ -25,13 +25,24 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
 
         // Calculate initial velocity for an arc
         // This is a simplified calculation and might need tuning based on desired arc height and distance
-        const angle = Phaser.Math.Angle.Between(this.x, this.y, this.target.x, this.target.y);
-        const distance = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y);
-        const initialSpeed = distance * 0.1; // Adjust multiplier for speed based on distance
+        const angle = Phaser.Math.Angle.Between(
+            this.x,
+            this.y,
+            this.target.x,
+            this.target.y
+        );
+        const distance = Phaser.Math.Distance.Between(
+            this.x,
+            this.y,
+            this.target.x,
+            this.target.y
+        );
+        const initialSpeed = distance * 0.01; // Adjust multiplier for speed based on distance
 
         // A simple way to add an arc is to increase the vertical velocity relative to the horizontal
         const initialVelocityX = Math.cos(angle) * initialSpeed;
-        const initialVelocityY = Math.sin(angle) * initialSpeed - Math.abs(distance * 0.05); // Subtract a value to give it an upward push
+        const initialVelocityY =
+            Math.sin(angle) * initialSpeed - Math.abs(distance * 0.05); // Subtract a value to give it an upward push
 
         this.setVelocity(initialVelocityX, initialVelocityY);
 
@@ -52,5 +63,12 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         super.preUpdate(time, delta);
 
         // No homing needed for artillery trajectory, gravity handles the fall
+    }
+
+    // how do I get matterjs to call this update? ai!
+    update() {
+        if (!this.active) return;
+        const arc = Math.atan2(this.body.velocity.x, this.body.velocity.y);
+        this.setAngle(arc);
     }
 }
