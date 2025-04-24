@@ -1,11 +1,13 @@
 import Phaser from 'phaser';
 import { StateMachine } from './StateMachine';
-import { Explosion } from './Explosion';
 import { Document } from './Document'; // Import the Document class
+import { BaseEnemy } from './BaseEnemy'; // Import the BaseEnemy class
 
-export class Lawyer extends Phaser.Physics.Matter.Sprite {
+export class Lawyer extends BaseEnemy {
+    // Extend BaseEnemy
     constructor(scene, x, y) {
-        super(scene.matter.world, x, y, 'lawyer', 0, {
+        super(scene, x, y, 'lawyer', 0, {
+            // Pass parameters to BaseEnemy constructor
             label: 'enemy',
             shape: {
                 type: 'rectangle',
@@ -13,14 +15,8 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
                 height: 32,
             },
         });
-        this.scene = scene;
-        this.world = scene.matter.world;
-        this.matter = scene.matter;
-        this.active = true;
-        this.bounceCount = 0;
 
-        scene.add.existing(this);
-        this.scene = scene;
+        this.name = 'lawyer';
         this.enemyMass = 1;
         this.acceleration = 0.05;
         this.maxSpeed = 2;
@@ -28,34 +24,20 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         this.range = 150; // Distance the enemy will walk in each direction
         this.startPosition = x; // Initial x position
         this.hp = 3; // Initial health points
-        this.ignorePlatformRotation = false;
-        this.player = null; // Reference to the player
         this.attackRange = 150; // Distance to start attacking
         this.backingOff = false; // Flag to indicate if the enemy is backing off
         this.backingOffDistance = 75; // Distance to back off to
-        this.isInAir = true;
-        this.groundThreshold = 0.01; // Threshold for considering the enemy on the ground
         this.isAttacking = false;
         this.projectileSpeed = 5; // Speed of the projectile
         this.projectileOffset = { x: 0, y: -10 }; // Offset for projectile spawn
+        this.canBeJuggled = false; // Lawyers cannot be juggled
 
         this.setMass(this.enemyMass);
         this.setFriction(1);
         this.setFrictionStatic(1);
-        this.setFixedRotation();
         this.setBounce(0.5);
-        this.setCollisionCategory(this.scene.CATEGORY_ENEMY); // Set enemy collision category
-        this.setCollisionGroup(-1); // Ensure enemies don't collide with each other
-        this.setCollidesWith([
-            this.scene.CATEGORY_BLOCK,
-            this.scene.CATEGORY_PLAYER,
-            this.scene.CATEGORY_ATTACK,
-            this.scene.CATEGORY_PLATFORM,
-        ]); // Collide with blocks, player, and attack
         this.setScale(2);
         this.setRotation(0);
-        this.setDepth(6);
-        this.name = 'lawyer';
 
         this.flipX = false;
 
@@ -66,12 +48,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
             name: 'rexOutlinePostFx',
         };
 
-        this.outlinePipeline = scene.plugins
-            .get('rexOutlinePipeline')
-            .add(this.body.gameObject, outlineconfig);
-
-        // Find the player
-        this.findPlayer();
+        this.outlinePipeline.add(this.body.gameObject, outlineconfig);
 
         // State Machine
         this.stateMachine = new StateMachine(
@@ -98,32 +75,9 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         ); // Pass the lawyer instance as a state argument
     }
 
-    findPlayer() {
-        this.player = this.scene.player;
-    }
-
-    update() {
-        if (!this.active) {
-            console.log('active is false');
-            return;
-        }
-
-        //if (!this.ignorePlatformRotation)
-        this.rotation = this.scene.platform.rotation;
-
-        if (Math.abs(this.body.velocity.y) < this.groundThreshold) {
-            this.isInAir = false;
-            this.setVelocityY(0);
-        } else {
-            this.isInAir = true;
-        }
-
-        if (!this.isMarkedForDeath) this.stateMachine.step();
-    }
-
-    // State Methods
+    // State Methods (kept as they are specific to Lawyer)
     enterIdle() {
-        if (!this.active) return;
+        if (!this.active || this.isMarkedForDeath) return;
         this.setVelocityX(0);
         this.anims.play('lawyerIdle');
         this.scene.time.addEvent({
@@ -142,12 +96,12 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     enterSeek() {
-        if (!this.active) return;
+        if (!this.active || this.isMarkedForDeath) return;
         this.anims.play('lawyerWalk');
     }
 
     seekState() {
-        if (!this.player) this.findPlayer();
+        if (!this.player || this.isMarkedForDeath) return;
 
         const distanceToPlayer = Phaser.Math.Distance.Between(
             this.x,
@@ -176,7 +130,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     enterAttack() {
-        if (!this.active) return;
+        if (!this.active || this.isMarkedForDeath) return;
         this.isAttacking = true;
         this.setVelocityX(0);
         this.anims.play('lawyerJump');
@@ -214,7 +168,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     }
 
     enterJump() {
-        if (!this.active) return;
+        if (!this.active || this.isMarkedForDeath) return;
         // This state might be used for a different type of jump if needed
     }
 
@@ -225,7 +179,7 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
     playSounds() {}
 
     throwProjectile() {
-        if (!this.player) return;
+        if (!this.player || this.isMarkedForDeath) return;
 
         this.scene.throwSound.play();
 
@@ -256,78 +210,5 @@ export class Lawyer extends Phaser.Physics.Matter.Sprite {
         // Calculate the angle based on the direction towards the target and convert to radians
         const angle = Math.atan2(adjustedDirectionY, adjustedDirectionX);
         projectile.setRotation(angle);
-    }
-
-    takeDamage(damage) {
-        this.hp -= damage;
-        if (this.hp <= 0) {
-            this.die();
-        }
-    }
-
-    die() {
-        if (!this.active) return;
-        this.isMarkedForDeath = true;
-        this.stateMachine.transition('idle');
-        this.scene.add
-            .particles(this.x, this.y, 'blood', {
-                speed: { min: -200, max: 200 },
-                angle: { min: 0, max: 360 },
-                scale: { start: 0.5, end: 0 },
-                lifespan: 500,
-                gravityY: 300,
-                quantity: 20,
-                tint: [0xff0000, 0x8b0000],
-                stopAfter: 100,
-            })
-            .setDepth(10);
-
-        this.setSensor(true); // Turn into a sensor
-
-        this.scene.squishSound.play();
-        this.scene.boomSound.play();
-
-        this.scene.time.delayedCall(500, () => {
-            if (!this.active || !this.body) return;
-
-            this.flipY = true; // Flip vertically to appear as if falling
-            this.setVelocityY(Phaser.Math.Between(2, 5)); // Give it a slight downward velocity
-            this.setAngularVelocity(Phaser.Math.FloatBetween(-0.1, 0.1)); // Add some rotation
-        });
-    }
-
-    destroy() {
-        if (!this.active) return;
-        const id = this.scene.enemies.indexOf(this);
-        this.scene.enemies.splice(id, 1);
-        const juggledIndex = this.scene.juggledObjects.indexOf(this);
-        if (juggledIndex > -1) {
-            this.scene.juggledObjects.splice(juggledIndex, 1);
-        }
-
-        // this.glowTween.stop();
-        // this.glowTween.destroy();
-        // this.scene.tweens.killTweensOf(this.glowTween);
-        // this.glowTween = null;
-
-        // this.postFxPlugin.remove(this.body.gameObject);
-        // this.postFxPlugin.stop();
-        // this.postFxPlugin.destroy();
-
-        super.destroy();
-    }
-
-    triggerJuggledExplosion() {
-        this.scene.time.delayedCall(Phaser.Math.Between(1000, 3000), () => {
-            if (!this.active) return;
-            new Explosion(
-                this.scene,
-                this.x,
-                this.y,
-                100 // Explosion radius
-            );
-
-            this.die(); // Destroy the enemy after the explosion
-        });
     }
 }

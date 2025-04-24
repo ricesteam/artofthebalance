@@ -319,16 +319,13 @@ export class Player extends Phaser.Physics.Matter.Sprite {
                     head.baldImage.setFrame(3);
                     this.scene.sound.play('china');
 
-                    // get all bodies from matter.world instead and filterby body.label === "maga"
-                    this.scene.matter.world.getAllBodies().forEach((body) => {
+                    this.scene.enemies.forEach((enemy) => {
                         if (
-                            body.label === 'enemy' &&
-                            !body.isSensor &&
-                            body.gameObject &&
-                            typeof body.gameObject.triggerJuggledExplosion ===
-                                'function'
+                            enemy.active &&
+                            !enemy.body.isSensor &&
+                            typeof enemy.triggerJuggledExplosion === 'function'
                         ) {
-                            body.gameObject.triggerJuggledExplosion();
+                            enemy.triggerJuggledExplosion();
                         }
                     });
 

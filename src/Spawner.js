@@ -1,4 +1,3 @@
-import { Junk } from './Junk';
 import { Enemy } from './Enemy';
 import { Lawyer } from './Lawyer';
 import { Noodles } from './Noodles'; // Import the Noodles class
