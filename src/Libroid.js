@@ -172,7 +172,6 @@ export class Libroid extends BaseEnemy {
         this.setVelocityX(0);
         this.anims.play('libroidAttack'); // Assuming an attack animation exists
 
-        // make a new class CancelCannon ai!
         const cancel = new CancelCannon(
             this.scene,
             this.x,
