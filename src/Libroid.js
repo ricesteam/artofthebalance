@@ -35,7 +35,7 @@ export class Libroid extends BaseEnemy {
 
         var outlineconfig = {
             thickness: 2,
-            outlineColor: 0x00ff00, // Green outline
+            outlineColor: 0xafbb9e,
             quality: 0.1,
             name: 'rexOutlinePostFx',
         };
@@ -46,6 +46,8 @@ export class Libroid extends BaseEnemy {
         const glowFx = this.postFxPlugin.add(this.body.gameObject, {
             inintensity: 0,
         });
+
+        this.postFX.addShine(2, 0.2, 5);
 
         this.glowTween = this.scene.tweens.add({
             targets: glowFx,

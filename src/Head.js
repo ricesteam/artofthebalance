@@ -70,26 +70,6 @@ export class Head extends Phaser.GameObjects.Container {
             tween.pause();
             tween.seek(0);
         });
-
-        this.scene.anims.create({
-            key: 'talking',
-            frames: this.scene.anims.generateFrameNumbers('head', {
-                start: 1,
-                end: 2,
-            }),
-            frameRate: 8,
-            repeat: -1,
-        });
-
-        this.scene.anims.create({
-            key: 'balding',
-            frames: this.scene.anims.generateFrameNumbers('head', {
-                start: 2,
-                end: 3,
-            }),
-            frameRate: 8,
-            repeat: -1,
-        });
     }
 
     startBlinking() {

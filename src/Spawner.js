@@ -1,6 +1,7 @@
 import { Enemy } from './Enemy';
 import { Lawyer } from './Lawyer';
-import { Noodles } from './Noodles'; // Import the Noodles class
+import { Noodles } from './Noodles';
+import { Libroid } from './Libroid';
 
 export class Spawner {
     constructor(scene) {
@@ -49,11 +50,13 @@ export class Spawner {
         const randomNumber = Math.random();
         let enemy;
 
-        if (randomNumber < 0.75) {
-            enemy = new Enemy(this.scene, x, y);
-        } else {
-            enemy = new Lawyer(this.scene, x, y);
-        }
+        // if (randomNumber < 0.75) {
+        //     enemy = new Enemy(this.scene, x, y);
+        // } else {
+        //     enemy = new Lawyer(this.scene, x, y);
+        // }
+
+        enemy = new Libroid(this.scene, x, y);
 
         this.scene.enemies.push(enemy);
     }

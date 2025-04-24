@@ -132,7 +132,6 @@ export class GameScene extends Scene {
         );
 
         this.createStopBlocks(levelOffset);
-        this.createAnimations();
         this.createSounds();
 
         // Create the player
@@ -215,88 +214,6 @@ export class GameScene extends Scene {
                 ignoreGravity: true,
             }
         );
-    }
-
-    createAnimations() {
-        // Create animations
-        this.anims.create({
-            key: 'walk',
-            frames: this.anims.generateFrameNumbers('player', {
-                start: 0,
-                end: 7,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-
-        this.anims.create({
-            key: 'stand',
-            frames: this.anims.generateFrameNumbers('player', {
-                start: 17,
-                end: 22,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-
-        this.anims.create({
-            key: 'enemyWalk',
-            frames: this.anims.generateFrameNumbers('maga', {
-                start: 1,
-                end: 8,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-
-        this.anims.create({
-            key: 'enemyIdle',
-            frames: [{ key: 'maga', frame: 0 }],
-            frameRate: 20,
-        });
-
-        this.anims.create({
-            key: 'enemyAttack',
-            frames: this.anims.generateFrameNumbers('maga', {
-                start: 9,
-                end: 15,
-            }),
-            frameRate: 20,
-        });
-
-        this.anims.create({
-            key: 'lawyerWalk',
-            frames: this.anims.generateFrameNumbers('lawyer', {
-                start: 1,
-                end: 7,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-
-        this.anims.create({
-            key: 'lawyerIdle',
-            frames: [{ key: 'lawyer', frame: 0 }],
-            frameRate: 20,
-        });
-
-        this.anims.create({
-            key: 'lawyerJump',
-            frames: this.anims.generateFrameNumbers('lawyer', {
-                start: 8,
-                end: 11,
-            }),
-            frameRate: 5,
-        });
-
-        this.anims.create({
-            key: 'explosion',
-            frames: this.anims.generateFrameNumbers('explosion', {
-                start: 0,
-                end: 6,
-            }),
-            frameRate: 20,
-        });
     }
 
     createSounds() {

@@ -52,6 +52,10 @@ export class Preloader extends Scene {
             frameWidth: 64,
             frameHeight: 64,
         });
+        this.load.spritesheet('libroid', 'libroid.png', {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
         this.load.spritesheet('noodles', 'noodles.png', {
             frameWidth: 32,
             frameHeight: 32,
@@ -137,7 +141,137 @@ export class Preloader extends Scene {
         //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
         //  For example, you can define global animations here, so we can use them in other scenes.
 
+        this.createAnimations();
+
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
         this.scene.start('MainMenu');
+    }
+
+    createAnimations() {
+        // Create animations
+        this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNumbers('player', {
+                start: 0,
+                end: 7,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'stand',
+            frames: this.anims.generateFrameNumbers('player', {
+                start: 17,
+                end: 22,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'enemyWalk',
+            frames: this.anims.generateFrameNumbers('maga', {
+                start: 1,
+                end: 8,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'enemyIdle',
+            frames: [{ key: 'maga', frame: 0 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'enemyAttack',
+            frames: this.anims.generateFrameNumbers('maga', {
+                start: 9,
+                end: 15,
+            }),
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'lawyerWalk',
+            frames: this.anims.generateFrameNumbers('lawyer', {
+                start: 1,
+                end: 7,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'lawyerIdle',
+            frames: [{ key: 'lawyer', frame: 0 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'lawyerJump',
+            frames: this.anims.generateFrameNumbers('lawyer', {
+                start: 8,
+                end: 11,
+            }),
+            frameRate: 5,
+        });
+
+        this.anims.create({
+            key: 'libroidWalk',
+            frames: this.anims.generateFrameNumbers('libroid', {
+                start: 1,
+                end: 8,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'libroidAttack',
+            frames: this.anims.generateFrameNumbers('libroid', {
+                start: 9,
+                end: 10,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'libroidIdle',
+            frames: [{ key: 'libroid', frame: 0 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'explosion',
+            frames: this.anims.generateFrameNumbers('explosion', {
+                start: 0,
+                end: 6,
+            }),
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'talking',
+            frames: this.anims.generateFrameNumbers('head', {
+                start: 1,
+                end: 2,
+            }),
+            frameRate: 8,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'balding',
+            frames: this.anims.generateFrameNumbers('head', {
+                start: 2,
+                end: 3,
+            }),
+            frameRate: 8,
+            repeat: -1,
+        });
     }
 }
