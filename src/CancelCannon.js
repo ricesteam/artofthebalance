@@ -8,7 +8,6 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
 
         // Add the projectile to the scene
         this.scene.add.existing(this);
-        this.scene.matter.add.existing(this); // Ensure the body is added to the Matter world
 
         // Configure physics
         this.setCircle(8); // Assuming a circular shape for the projectile
@@ -18,7 +17,7 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         this.setIgnoreGravity(false); // Projectile IS affected by gravity for artillery
         this.setDepth(50); // Adjust depth as needed
 
-        // Set initial force for an artillery trajectory
+        // this angle is not used anywhere ai!
         const angle = Phaser.Math.Angle.Between(
             this.x,
             this.y,
@@ -37,6 +36,7 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         const initialForceX = (this.target.x - this.x) * 0.0005; // Adjust multiplier for horizontal force
         const initialForceY = -distance * 0.001; // Adjust multiplier for arc height (negative for upwards)
 
+        // let's use setVelocity instead ai!
         this.applyForce({ x: initialForceX, y: initialForceY });
 
         // Add collision handling (example: destroy on collision with player)
