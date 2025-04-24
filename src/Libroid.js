@@ -69,11 +69,14 @@ export class Libroid extends BaseEnemy {
             yoyo: true,
         });
 
-        // I need a new state for when the Libroid just spawned, like init state, where he doesn't do anything until he lands on the platform, which he then goes into Idle state ai!
         // State Machine
         this.stateMachine = new StateMachine(
-            'seek',
+            'init', // Start in the new 'init' state
             {
+                init: {
+                    enter: this.enterInit.bind(this),
+                    execute: this.initState.bind(this),
+                },
                 idle: {
                     enter: this.enterIdle.bind(this),
                     execute: this.idleState.bind(this),
@@ -89,6 +92,21 @@ export class Libroid extends BaseEnemy {
             },
             [this]
         );
+    }
+
+    // New Init State Methods
+    enterInit() {
+        if (!this.active || this.isMarkedForDeath) return;
+        this.setVelocityX(0);
+        this.anims.play('libroidIdle'); // Or a specific falling animation if available
+        this.setIgnoreGravity(false); // Ensure gravity is applied
+    }
+
+    initState() {
+        // Wait until the enemy is on the ground before transitioning to idle
+        if (!this.isInAir) {
+            this.stateMachine.transition('idle');
+        }
     }
 
     // State Methods
