@@ -11,7 +11,7 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
 
         // Configure physics
         this.setCircle(8); // Assuming a circular shape for the projectile
-        this.setMass(3);
+        this.setMass(10);
         this.setFrictionAir(0); // No air friction
         this.setBounce(0); // No bounce
         this.setIgnoreGravity(false); // Projectile IS affected by gravity for artillery
@@ -26,9 +26,10 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
 
         // Calculate initial force for an arc
         // This is a simplified calculation and might need tuning based on desired arc height and distance
-        const initialVelocityX = (this.target.x - this.x) * 0.005; // Adjust multiplier for horizontal force
-        const initialVelocityY = -distance * 0.01; // Adjust multiplier for arc height (negative for upwards)
+        const initialVelocityX = (this.target.x - this.x) * 0.01; // Adjust multiplier for horizontal force
+        const initialVelocityY = -distance * 0.05; // Adjust multiplier for arc height (negative for upwards)
 
+        // can we apply force from the back-corner position? ai!
         this.setVelocity(initialVelocityX, initialVelocityY);
 
         // Add collision handling (example: destroy on collision with player)
