@@ -182,6 +182,7 @@ export class Lawyer extends BaseEnemy {
         if (!this.player || this.isMarkedForDeath) return;
 
         this.scene.throwSound.play();
+        this.scene.servedSound.play();
 
         const projectileX = this.x + this.projectileOffset.x;
         const projectileY = this.y + this.projectileOffset.y;

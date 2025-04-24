@@ -81,6 +81,7 @@ export class Preloader extends Scene {
         this.load.image('document', 'document.png');
         this.load.image('vance', 'vance.png');
         this.load.image('noodle', 'noodle.png');
+        this.load.image('cancel', 'cancel.png');
 
         // big head
         this.load.spritesheet('head', 'head.png', {
@@ -126,6 +127,9 @@ export class Preloader extends Scene {
         this.load.audio('slurp', 'slurp.mp3');
         this.load.audio('gameover', 'gameover.mp3');
         this.load.audio('fart', 'fart.mp3');
+        this.load.audio('cancel', 'cancel.mp3');
+        this.load.audio('served', 'served.mp3');
+        this.load.audio('victory', 'victory.mp3');
 
         // music
         this.load.audio('outro', 'outro.mp3');

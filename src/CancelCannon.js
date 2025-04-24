@@ -10,13 +10,14 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         this.scene.add.existing(this);
 
         // Configure physics
-        this.setRectangle(55, 12); // Assuming a circular shape for the projectile
+        this.setRectangle(55, 16); // Assuming a circular shape for the projectile
         this.setMass(1);
         this.setFrictionAir(0); // No air friction
         this.setBounce(0); // No bounce
         this.setIgnoreGravity(false); // Projectile IS affected by gravity for artillery
         this.setDepth(50); // Adjust depth as needed
         this.setSensor(true);
+        //this.setScale(0, 2);
 
         this.setCollidesWith([
             this.scene.CATEGORY_PLAYER,
@@ -47,15 +48,12 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         this.setVelocity(initialVelocityX, initialVelocityY);
 
         // Add collision handling (example: destroy on collision with player)
-        this.setOnCollideWith([this.target.body, scene.platform], () => {
-            this.destroy();
-        });
+        this.setOnCollideWith([this.target.body, scene.platform], (body) => {
+            if (body === this.target.body) {
+                this.target.takeDamage(1);
+            }
 
-        // Destroy the projectile after a certain time
-        this.scene.time.addEvent({
-            delay: 3000, // Destroy after 3 seconds
-            callback: () => this.destroy(),
-            callbackScope: this,
+            this.destroy();
         });
     }
 
@@ -67,5 +65,10 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         // Calculate the angle based on the current velocity for rotation
         const angle = Math.atan2(this.body.velocity.y, this.body.velocity.x);
         this.setRotation(angle);
+    }
+
+    destroy() {
+        if (this.scene) this.scene.boomSound.play();
+        super.destroy();
     }
 }

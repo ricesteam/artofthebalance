@@ -193,5 +193,7 @@ export class Libroid extends BaseEnemy {
             this.y,
             this.player
         );
+
+        this.scene.cancelSound.play();
     }
 }

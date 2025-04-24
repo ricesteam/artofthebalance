@@ -108,6 +108,7 @@ export class GameOver extends Scene {
                 this.sound.play('fired', { maxInstances: 1, volume: 2 });
             });
         } else {
+            this.sound.play('victory', { maxInstances: 1, volume: 0.5 });
             this.head.baldImage.setFrame(1);
         }
 
@@ -225,13 +226,18 @@ export class GameOver extends Scene {
         const height = this.scale.height;
         const margin = 200;
         this.add
-            .text(width / 2, height + 50, 'This game was NOT written by AI.\n\n\n\n\n\n\n\nCode By AI\nArt by AI\nMusic by AI\nStory by AI', {
-                fontFamily: 'notjam',
-                fontSize: 22,
-                fill: '#ffffff',
-                align: 'center',
-                wordWrap: { width: width - margin }, // Wrap text within the screen width
-            })
+            .text(
+                width / 2,
+                height + 50,
+                'This game was NOT written by AI.\n\n\n\n\n\n\n\nCode By AI\nArt by AI\nMusic by AI\nStory by AI',
+                {
+                    fontFamily: 'notjam',
+                    fontSize: 22,
+                    fill: '#ffffff',
+                    align: 'center',
+                    wordWrap: { width: width - margin }, // Wrap text within the screen width
+                }
+            )
             .setOrigin(0.5, 0);
         this.tweens.add({
             targets: [endingText], // Include the head in the tween

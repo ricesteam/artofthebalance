@@ -218,11 +218,11 @@ export class GameScene extends Scene {
 
     createSounds() {
         this.boomSound = this.sound.add('boom', {
-            maxInstances: 3,
+            maxInstances: 6,
             volume: 0.5,
         });
         this.boomSound2 = this.sound.add('boom2', {
-            maxInstances: 3,
+            maxInstances: 4,
             volume: 0.5,
         });
         this.jumpSound = this.sound.add('jump', {
@@ -280,6 +280,13 @@ export class GameScene extends Scene {
         this.thankyouSound = this.sound.add('thankyou', {
             maxInstances: 1,
             volume: 3,
+        });
+        this.cancelSound = this.sound.add('cancel', {
+            maxInstances: 1,
+            volume: 0.4,
+        });
+        this.servedSound = this.sound.add('served', {
+            maxInstances: 1,
         });
 
         this.music = this.sound.add('bgmusic', {

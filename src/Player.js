@@ -203,7 +203,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             500,
             this.bombAttack.cooldown * 0.95
         );
-        this.bombAttack.explosionRadius *= 1.05;
+        this.bombAttack.explosionRadius *= 1.1;
         this.bombAttackDuration *= 1.05;
     }
 
@@ -212,7 +212,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
             1000,
             this.blackholeAttack.cooldown * 0.95
         );
-        this.blackholeAttack.blackholeRadius *= 1.05;
+        this.blackholeAttack.blackholeRadius *= 1.1;
         this.blackholeAttack.maxCapacity *= 1.05;
         this.blackholeAttack.count = Math.min(
             6,
