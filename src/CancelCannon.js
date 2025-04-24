@@ -63,12 +63,9 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         super.preUpdate(time, delta);
 
         // No homing needed for artillery trajectory, gravity handles the fall
-    }
-
-    // how do I get matterjs to call this update? ai!
-    update() {
         if (!this.active) return;
-        const arc = Math.atan2(this.body.velocity.x, this.body.velocity.y);
-        this.setAngle(arc);
+        // Calculate the angle based on the current velocity for rotation
+        const angle = Math.atan2(this.body.velocity.y, this.body.velocity.x);
+        this.setRotation(angle);
     }
 }
