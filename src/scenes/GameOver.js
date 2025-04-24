@@ -94,8 +94,6 @@ export class GameOver extends Scene {
         const width = this.scale.width;
         const height = this.scale.height;
 
-        const margin = 200;
-
         // Create the Head instance
         this.head = new Head(this, width / 2, height / 2);
         this.head.setDepth(0);
@@ -104,8 +102,10 @@ export class GameOver extends Scene {
         if (this.endingId != 3) {
             this.head.eyesGoRound();
             this.head.baldImage.setFrame(5);
+            this.sound.play('gameover', { maxInstances: 1 });
             this.time.delayedCall(1000, () => {
-                this.sound.play('fired');
+                this.sound.play('fart', { maxInstances: 1 });
+                this.sound.play('fired', { maxInstances: 1, volume: 2 });
             });
         } else {
             this.head.baldImage.setFrame(1);

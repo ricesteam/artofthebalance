@@ -86,7 +86,7 @@ export class MainMenu extends Scene {
             this.sound.stopAll();
             this.canSkipIntro = true;
             this.startIntro();
-            //this.scene.start('GameScene', { isEnding: true });
+            // this.scene.start('GameOver', { isEnding: false });
         });
 
         const camera = this.cameras.main;
@@ -277,7 +277,6 @@ export class MainMenu extends Scene {
                 this.time.delayedCall(1000, () => {
                     this.head.baldImage.anims.stop();
                     this.head.baldImage.setFrame(4);
-                    this.head.destroy();
                     this.endscene();
                 });
             },

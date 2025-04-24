@@ -448,7 +448,7 @@ export class GameScene extends Scene {
 
         const soundKey = ['fired', 'bye', 'fakenews', 'rich', 'stupid'];
         const randomSound = Phaser.Utils.Array.GetRandom(soundKey);
-        this.sound.play(randomSound, { maxInstances: 1, volume: 0.5 });
+        this.sound.play(randomSound, { maxInstances: 1, volume: 1.5 });
     }
 
     gameOver() {
