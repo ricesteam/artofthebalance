@@ -32,7 +32,7 @@ export class Spawner {
             loop: true,
         });
 
-        //this.addEnemy();
+        // this.addEnemy();
     }
 
     addBlock() {
@@ -50,11 +50,12 @@ export class Spawner {
         const randomNumber = Math.random();
         let enemy;
 
-        // if (randomNumber < 0.75) {
-        //     enemy = new Enemy(this.scene, x, y);
-        // } else {
-        //     enemy = new Lawyer(this.scene, x, y);
-        // }
+        // adjust this: 10% to spawn libroid, 25% lawyer, and rest, Enemy ai!
+        if (randomNumber < 0.75) {
+            enemy = new Enemy(this.scene, x, y);
+        } else {
+            enemy = new Lawyer(this.scene, x, y);
+        }
 
         enemy = new Libroid(this.scene, x, y);
 
@@ -62,23 +63,21 @@ export class Spawner {
     }
 
     updateSpawnRate() {
-        // Calculate the progress of the game (0 at start, 1 at end)
-        const timeRemaining = this.scene.clock.getRemaining();
-        const gameProgress = 1 - timeRemaining / this.scene.gameDuration;
-
-        // Calculate the new delay, decreasing as the game progresses
-        // Use a non-linear function (e.g., exponential) for a more noticeable increase later
-        const blockDelay = Math.max(
-            this.minSpawnDelay,
-            this.initialBlockSpawnDelay * Math.pow(0.5, gameProgress * 2)
-        );
-        const enemyDelay = Math.max(
-            this.minSpawnDelay,
-            this.initialEnemySpawnDelay * Math.pow(0.5, gameProgress * 2)
-        );
-
-        // Update the timer delays
-        this.blockSpawnTimer.delay = blockDelay;
-        this.enemySpawnTimer.delay = enemyDelay;
+        // // Calculate the progress of the game (0 at start, 1 at end)
+        // const timeRemaining = this.scene.clock.getRemaining();
+        // const gameProgress = 1 - timeRemaining / this.scene.gameDuration;
+        // // Calculate the new delay, decreasing as the game progresses
+        // // Use a non-linear function (e.g., exponential) for a more noticeable increase later
+        // const blockDelay = Math.max(
+        //     this.minSpawnDelay,
+        //     this.initialBlockSpawnDelay * Math.pow(0.5, gameProgress * 2)
+        // );
+        // const enemyDelay = Math.max(
+        //     this.minSpawnDelay,
+        //     this.initialEnemySpawnDelay * Math.pow(0.5, gameProgress * 2)
+        // );
+        // // Update the timer delays
+        // this.blockSpawnTimer.delay = blockDelay;
+        // this.enemySpawnTimer.delay = enemyDelay;
     }
 }
