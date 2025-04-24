@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 // I don't have a sprite for this, what else can I extend? ai!
 export class CancelCannon extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y, target) {
-        super(scene.matter.world, x, y, 'cancelCannon'); // Assuming 'cancelCannon' is the sprite key
+        super(scene.matter.world, x, y, 'cancel'); // Assuming 'cancelCannon' is the sprite key
         this.scene = scene;
         this.target = target;
 
