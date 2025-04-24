@@ -8,23 +8,37 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
 
         // Add the projectile to the scene
         this.scene.add.existing(this);
+        this.scene.matter.add.existing(this); // Ensure the body is added to the Matter world
 
         // Configure physics
         this.setCircle(8); // Assuming a circular shape for the projectile
         this.setMass(0.1);
         this.setFrictionAir(0); // No air friction
         this.setBounce(0); // No bounce
-        this.setIgnoreGravity(true); // Projectile is not affected by gravity
+        this.setIgnoreGravity(false); // Projectile IS affected by gravity for artillery
         this.setDepth(50); // Adjust depth as needed
 
-        // Set initial velocity towards the target
+        // Set initial velocity for an artillery trajectory
         const angle = Phaser.Math.Angle.Between(
             this.x,
             this.y,
             this.target.x,
             this.target.y
         );
-        const speed = 5; // Adjust speed as needed
+        const distance = Phaser.Math.Distance.Between(
+            this.x,
+            this.y,
+            this.target.x,
+            this.target.y
+        );
+
+        // Calculate initial velocity for an arc
+        // This is a simplified calculation and might need tuning based on desired arc height and distance
+        const initialVelocityX = (this.target.x - this.x) * 0.05; // Adjust multiplier for horizontal speed
+        const initialVelocityY = -distance * 0.1; // Adjust multiplier for arc height (negative for upwards)
+
+        this.setVelocity(initialVelocityX, initialVelocityY);
+
 
         // Add collision handling (example: destroy on collision with player)
         this.setOnCollideWith([this.target.body, scene.platform], () => {
@@ -42,24 +56,6 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
 
-        // this needs to launch like an artillery--so up in the air, then fall down on the target ai!
-        if (this.target && this.target.active) {
-            const angle = Phaser.Math.Angle.Between(
-                this.x,
-                this.y,
-                this.target.x,
-                this.target.y
-            );
-            const currentVelocity = new Phaser.Math.Vector2(
-                this.body.velocity.x,
-                this.body.velocity.y
-            );
-            const targetVelocity = new Phaser.Math.Vector2(
-                Math.cos(angle) * 5,
-                Math.sin(angle) * 5
-            ); // Maintain speed
-            const newVelocity = currentVelocity.lerp(targetVelocity, 0.05); // Adjust homing strength (0.05)
-            this.setVelocity(newVelocity.x, newVelocity.y);
-        }
+        // No homing needed for artillery trajectory, gravity handles the fall
     }
 }
