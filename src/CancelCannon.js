@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 
-// I don't have a sprite for this, what else can I extend? ai!
 export class CancelCannon extends Phaser.Physics.Matter.Sprite {
     constructor(scene, x, y, target) {
         super(scene.matter.world, x, y, 'cancel'); // Assuming 'cancelCannon' is the sprite key
@@ -11,7 +10,7 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
         this.scene.add.existing(this);
 
         // Configure physics
-        this.setRectangle(10, 10); // Assuming a circular shape for the projectile
+        this.setRectangle(55, 12); // Assuming a circular shape for the projectile
         this.setMass(1);
         this.setFrictionAir(0); // No air friction
         this.setBounce(0); // No bounce
@@ -24,13 +23,7 @@ export class CancelCannon extends Phaser.Physics.Matter.Sprite {
             this.scene.CATEGORY_PLATFORM,
         ]); // Collide with player, blocks, and platforms
 
-        const distance = Phaser.Math.Distance.Between(
-            this.x,
-            this.y,
-            this.target.x,
-            this.target.y
-        );
-
+        // how do I calculate the angle so it looks like the projectile is arcing? ai!
         // Calculate initial force for an arc
         // This is a simplified calculation and might need tuning based on desired arc height and distance
         const initialVelocityX = (this.target.x - this.x) * 0.01; // Adjust multiplier for horizontal force
