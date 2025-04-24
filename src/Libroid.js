@@ -18,10 +18,9 @@ export class Libroid extends BaseEnemy {
         this.acceleration = 0.08;
         this.maxSpeed = 1.5;
         this.enemyDirection = 1; // Start moving right
-        this.range = 200; // Distance the enemy will walk in each direction
         this.startPosition = x; // Initial x position
         this.hp = 2; // Initial health points
-        this.attackRange = 100; // Distance to start attacking
+        this.attackRange = 400; // Distance to start attacking
         this.canBeJuggled = true; // Libroids can be juggled
 
         this.setMass(this.enemyMass);
@@ -70,6 +69,7 @@ export class Libroid extends BaseEnemy {
             yoyo: true,
         });
 
+        // I need a new state for when the Libroid just spawned, like init state, where he doesn't do anything until he lands on the platform, which he then goes into Idle state ai!
         // State Machine
         this.stateMachine = new StateMachine(
             'seek',
