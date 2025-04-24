@@ -172,13 +172,7 @@ export class Libroid extends BaseEnemy {
         this.setVelocityX(0);
         this.anims.play('libroidAttack'); // Assuming an attack animation exists
 
-        // add a helper method that fires the CancelCannon ai!
-        const cancel = new CancelCannon(
-            this.scene,
-            this.x,
-            this.y,
-            this.player
-        );
+        this.fireCancelCannon();
 
         this.scene.time.addEvent({
             delay: 700, // Attack duration
@@ -190,5 +184,14 @@ export class Libroid extends BaseEnemy {
 
     attackState() {
         // Stay in attack state until the timer transitions back to seek
+    }
+
+    fireCancelCannon() {
+        const cancel = new CancelCannon(
+            this.scene,
+            this.x,
+            this.y,
+            this.player
+        );
     }
 }
