@@ -1,3 +1,11 @@
+# Art of the Balance 
+## Gamedev.js Game Jam 2025
+This is my entry for the game jam. 
+
+"Vibe" coded with Aider and Google Gemini 2.5 Flash. Game is hosted on [itch.io.](https://itch.io/jam/gamedevjs-2025/rate/3496356)
+
+Game engine: Phaser 3.88 with the Vite Template. See below.
+
 # Phaser Vite Template
 
 This is a Phaser 3 project template that uses Vite for bundling. It supports hot-reloading for quick development workflow and includes scripts to generate production-ready builds.
